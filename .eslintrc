@@ -1,0 +1,32 @@
+{
+  "parserOptions": {
+    "ecmaVersion": "6",
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "sourceType": "module"
+  },
+  "env": {
+    "es6": true,
+    "node": true,
+    "browser": true,
+    "mocha": true
+  },
+  "globals": {
+    "ga": false,
+    "mixpanel": false,
+  },
+  "extends": [
+    "airbnb"
+  ],
+  "settings": {
+    "import/resolver": "webpack"
+  },
+  "rules": {
+    "no-console": [2, { "allow": ["info", "warn", "error"] }],
+    "no-unused-vars": [2, { "argsIgnorePattern": "next|reject" }],
+    "arrow-parens": 0,
+    "import/prefer-default-export": 0,
+    "no-shadow": ["error", { "allow": ["res"] }]
+  }
+}

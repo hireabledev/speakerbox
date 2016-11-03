@@ -1,0 +1,7 @@
+{
+  "ignore": [
+    "src/*/client/**",
+    "src/public/**",
+    "src/lib/webpack.stats.json"
+  ]
+}
