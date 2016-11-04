@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+  <head>
+    {% include "common/meta.njk" %}
+    {% if description %}<meta name="description" content="{{ description }}">{% endif %}
+    {% if keywords %}<meta name="keywords" content="{{ keywords }}">{% endif %}
+    {% if author %}<meta name="author" content="{{ author }}">{% endif %}
+    {% if APP_DIR === 'marketing' %}
+      <base href="/">
+    {% else %}
+      <base href="/{{ APP_DIR }}">
+    {% endif %}
+    <title>{% if title %}{{ title }} - {% endif %}Speaker Box</title>
+    {% include "common/styles.njk" %}
+    {% for asset in assets[APP_DIR].css %}
+      <link rel="stylesheet" href="{{ STATIC_URL }}/{{ asset }}">
+    {% endfor %}
+    {% include "common/icons.njk" %}
+    {% block head %}{% endblock %}
+    {% include "common/analytics.njk" %}
+  </head>
+  <body>
+    {% block body %}{% endblock %}
+    {% block footer %}{% include "common/footer.njk" %}{% endblock %}
+    {% include "common/end.njk" %}
+    {% block end %}
+      {% for asset in assets[APP_DIR].js %}
+        <script src="{{ STATIC_URL }}/{{ asset }}"></script>
+      {% endfor %}
+    {% endblock %}
+  </body>
+</html>
