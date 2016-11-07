@@ -9,8 +9,10 @@ const STATIC_URL = process.env.STATIC_URL || '/assets/';
 
 const webpackConfig = {
   entry: {
+    vendor: './src/vendor.jsx',
     dashboard: '~/dashboard/client/index.jsx',
     marketing: '~/marketing/client/index.jsx',
+    sso: '~/sso/client/index.jsx',
   },
   output: {
     filename: '[name].[hash].js',
@@ -36,6 +38,11 @@ const webpackConfig = {
   },
   plugins: [
     new ExtractTextPlugin('[name].[hash].css'),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'common',
+      chunks: ['dashboard', 'marketing', 'sso', 'vendor'],
+      minChunks: Infinity,
+    }),
     function saveWebpackStats() {
       this.plugin('done', stats => {
         stats = stats.toJson();
@@ -55,6 +62,7 @@ const webpackConfig = {
       '~/assets': 'assets',
       '~/dashboard': 'dashboard',
       '~/marketing': 'marketing',
+      '~/sso': 'sso',
     },
     root: [
       __dirname + '/src',

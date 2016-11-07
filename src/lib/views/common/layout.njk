@@ -12,6 +12,12 @@
     {% endif %}
     <title>{% if title %}{{ title }} - {% endif %}Speaker Box</title>
     {% include "common/styles.njk" %}
+    {% for asset in assets.common.css %}
+      <link rel="stylesheet" href="{{ STATIC_URL }}/{{ asset }}">
+    {% endfor %}
+    {% for asset in assets.vendor.css %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}/{{ asset }}">
+    {% endfor %}
     {% for asset in assets[APP_DIR].css %}
       <link rel="stylesheet" href="{{ STATIC_URL }}/{{ asset }}">
     {% endfor %}
@@ -24,6 +30,12 @@
     {% block footer %}{% include "common/footer.njk" %}{% endblock %}
     {% include "common/end.njk" %}
     {% block end %}
+      {% for asset in assets.common.js %}
+        <script src="{{ STATIC_URL }}/{{ asset }}"></script>
+      {% endfor %}
+      {% for asset in assets.vendor.js %}
+        <script src="{{ STATIC_URL }}/{{ asset }}"></script>
+      {% endfor %}
       {% for asset in assets[APP_DIR].js %}
         <script src="{{ STATIC_URL }}/{{ asset }}"></script>
       {% endfor %}

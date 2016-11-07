@@ -5,7 +5,7 @@ import { HOST, GA_ID, MIXPANEL_ID, STATIC_URL } from '../config';
 const LEADING_DOT_REGEXP = /^\./;
 
 export default function templateContextMiddleware(req, res, next) {
-  if (req.method === 'GET' && req.is('text/*')) {
+  if (req.method === 'GET' && (req.is('text/*') || !req.get('content-type'))) {
     /* eslint no-param-reassign: 0 */
     res.locals.HOST = HOST;
 
@@ -17,7 +17,9 @@ export default function templateContextMiddleware(req, res, next) {
       : res.locals.webpackStats;
 
     res.locals.assets = mapValues(webpackStats.assetsByChunkName, asset => (
-      groupBy(asset, filePath => path.extname(filePath).replace(LEADING_DOT_REGEXP, ''))
+      Array.isArray(asset)
+        ? groupBy(asset, filePath => path.extname(filePath).replace(LEADING_DOT_REGEXP, ''))
+        : { js: [asset] }
     ));
 
     res.locals.STATIC_URL = STATIC_URL;
