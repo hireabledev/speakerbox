@@ -13,6 +13,7 @@ import {
   PORT,
   KUE_USER,
   KUE_PWD,
+  SECRET,
   STATIC_URL,
   LETS_ENCRYPT_URL,
   LETS_ENCRYPT_KEY,
@@ -31,6 +32,7 @@ import api from './api';
 import graphql from './graphql';
 import dashboard from './dashboard';
 import marketing from './marketing';
+import sso from './sso';
 
 const app = express();
 
@@ -43,7 +45,7 @@ app.use(morgan('combined'));
 // Request Parsing
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cookieParser());
+app.use(cookieParser(SECRET));
 
 // Middleware
 app.use(compression());
@@ -97,9 +99,10 @@ app.use('/api', api);
 app.use('/dashboard', dashboard);
 app.use('/graphql', graphql);
 app.use('/kue', basicAuth(KUE_USER, KUE_PWD), kue.app);
+app.use('/sso', sso);
 app.use('/', marketing);
 
-const apps = [app, api, dashboard, graphql, marketing];
+const apps = [app, api, dashboard, graphql, marketing, sso];
 
 apps.forEach(application => {
   /* eslint no-param-reassign: 0 */
