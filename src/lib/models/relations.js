@@ -1,21 +1,19 @@
 import User from './user.model';
-import UserLogin from './user-login.model';
-import UserClaim from './user-claim.model';
+import UserAccount from './user-account.model';
+import Post from './post.model';
 
-User.hasMany(UserLogin, {
+User.hasMany(UserAccount, {
   foreignKey: 'userId',
-  as: 'logins',
   onUpdate: 'cascade',
   onDelete: 'cascade',
 });
 
-UserLogin.belongsTo(User);
+UserAccount.belongsTo(User, { foreignKey: 'userId' });
 
-User.hasMany(UserClaim, {
+User.hasMany(Post, {
   foreignKey: 'userId',
-  as: 'claims',
   onUpdate: 'cascade',
   onDelete: 'cascade',
 });
 
-UserClaim.belongsTo(User);
+Post.belongsTo(User, { foreignKey: 'userId' });

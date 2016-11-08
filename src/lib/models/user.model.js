@@ -43,49 +43,11 @@ const User = sequelize.define('User', {
   role:                 {
                           type: Sequelize.STRING,
                           defaultValue: 'user',
+                          allowNull: false,
                           validate: {
                             isIn: [['user', 'admin']],
                           },
                           comment: 'User role.',
-                        },
-  facebookId:           {
-                          type: Sequelize.STRING,
-                          unique: true,
-                          comment: 'Facebook ID.',
-                        },
-  facebookToken:        {
-                          type: Sequelize.STRING,
-                          comment: 'Facebook access token.',
-                        },
-  facebookTokenSecret:  {
-                          type: Sequelize.STRING,
-                          comment: 'Facebook refresh token. (optional)',
-                        },
-  twitterId:            {
-                          type: Sequelize.STRING,
-                          unique: true,
-                          comment: 'Twitter ID.',
-                        },
-  twitterToken:         {
-                          type: Sequelize.STRING,
-                          comment: 'Twitter access token.',
-                        },
-  twitterTokenSecret:   {
-                          type: Sequelize.STRING,
-                          comment: 'Twitter refresh token.',
-                        },
-  linkedinId:           {
-                          type: Sequelize.STRING,
-                          unique: true,
-                          comment: 'LinkedIn ID.',
-                        },
-  linkedinToken:        {
-                          type: Sequelize.STRING,
-                          comment: 'LinkedIn access token.',
-                        },
-  linkedinTokenSecret:  {
-                          type: Sequelize.STRING,
-                          comment: 'Twitter refresh token.',
                         },
 }, {
   name: {

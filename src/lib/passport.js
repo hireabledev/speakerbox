@@ -27,95 +27,117 @@ passport.deserializeUser((id, done) => {
     .catch(done);
 });
 
-passport.use(new FacebookStrategy(
-  {
+function getStrategy({ Strategy, strategyOptions, mapProfileToUser, mapProfileToAccount }) {
+  return new Strategy(
+    {
+      passReqToCallback: true,
+      ...strategyOptions,
+    },
+    (req, accessToken, refreshToken, profile, done) => {
+      const userData = mapProfileToUser(profile);
+      const accountData = {
+        accessToken,
+        refreshToken,
+        ...mapProfileToAccount(profile),
+      };
+
+      const getUser = () => {
+        if (req.user) {
+          return Promise.resolve(req.user);
+        }
+        return req.app.models.User.findOne({
+          include: [{
+            model: req.app.models.UserAccount,
+            where: { id: profile.id },
+          }],
+        });
+      };
+
+      return getUser()
+        .then(user => {
+          if (user) { return user.update(userData).then(() => (user)); }
+          return req.app.models.User.create(userData);
+        })
+        .then(user => (
+          user.getUserAccounts({
+            where: { id: profile.id },
+          })
+            .then(([account]) => {
+              if (account) { return account.update(accountData).then(() => (account)); }
+              return req.app.models.UserAccount.create({
+                ...accountData,
+                userId: user.id,
+              });
+            })
+            .then(() => done(null, user))
+        ))
+        .catch(done);
+    }
+  );
+}
+
+passport.use(getStrategy({
+  Strategy: FacebookStrategy,
+  strategyOptions: {
     clientID: FB_KEY,
     clientSecret: FB_SECRET,
     callbackURL: FB_CB_URL,
     profileFields: ['id', 'displayName', 'photos'],
-    passReqToCallback: true,
   },
-  (req, token, tokenSecret, profile, done) => {
-    const profileData = {
+  mapProfileToUser(profile) {
+    return {
       displayName: profile.displayName,
-      facebookId: profile.id,
-      facebookToken: token,
-      facebookTokenSecret: tokenSecret,
       photoUrl: profile.photos[0].value,
     };
+  },
+  mapProfileToAccount(profile) {
+    return {
+      id: profile.id,
+      type: 'facebook',
+    };
+  },
+}));
 
-    if (req.user) {
-      return req.user.update(profileData)
-        .then(() => done(null, req.user))
-        .catch(done);
-    }
-    return req.app.models.User.findOrCreate({
-      where: { facebookId: profile.id },
-      defaults: profileData,
-    })
-      .spread(user => done(null, user))
-      .catch(done);
-  }
-));
-
-passport.use(new TwitterStrategy(
-  {
+passport.use(getStrategy({
+  Strategy: TwitterStrategy,
+  strategyOptions: {
     consumerKey: TWITTER_KEY,
     consumerSecret: TWITTER_SECRET,
     callbackURL: TWITTER_CB_URL,
     profileFields: ['id', 'email', 'photos'],
-    passReqToCallback: true,
   },
-  (req, token, tokenSecret, profile, done) => {
-    const profileData = {
+  mapProfileToUser(profile) {
+    return {
       displayName: profile.displayName,
-      twitterId: profile.id,
-      twitterToken: token,
-      twitterTokenSecret: tokenSecret,
       photoUrl: profile.image_url_https,
     };
+  },
+  mapProfileToAccount(profile) {
+    return {
+      id: profile.id,
+      type: 'twitter',
+    };
+  },
+}));
 
-    if (req.user) {
-      return req.user.update(profileData)
-        .then(() => done(null, req.user))
-        .catch(done);
-    }
-    return req.app.models.User.findOrCreate({
-      where: { twitterId: profile.id },
-      defaults: profileData,
-    })
-      .spread(user => done(null, user))
-      .catch(done);
-  }
-));
-
-passport.use(new LinkedInStrategy(
-  {
+passport.use(getStrategy({
+  Strategy: LinkedInStrategy,
+  strategyOptions: {
     consumerKey: LINKEDIN_KEY,
     consumerSecret: LINKEDIN_SECRET,
     callbackURL: LINKEDIN_CB_URL,
-    passReqToCallback: true,
   },
-  (req, token, tokenSecret, profile, done) => {
-    const profileData = {
+  mapProfileToUser(profile) {
+    return {
       displayName: profile.displayName,
-      linkedinId: profile.id,
-      linkedinToken: token,
-      linkedinTokenSecret: tokenSecret,
     };
-
-    if (req.user) {
-      return req.user.update(profileData)
-        .then(() => done(null, req.user))
-        .catch(done);
-    }
-    return req.app.models.User.findOrCreate({
-      where: { linkedinId: profile.id },
-      defaults: profileData,
-    })
-      .spread(user => done(null, user))
-      .catch(done);
-  }
-));
+  },
+  mapProfileToAccount(profile) {
+    return {
+      id: profile.id,
+      type: 'linkedin',
+    };
+  },
+}));
 
 export default passport;
