@@ -82,7 +82,7 @@ if (ENV === 'development') {
 } else {
   const webpackStats = require('./lib/webpack.stats.json');
 
-  app.use(STATIC_URL, express.static('public'));
+  app.use(STATIC_URL, express.static(`${__dirname}/public`));
   app.use((req, res, next) => {
     res.locals.webpackStats = webpackStats;
     next();

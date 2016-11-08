@@ -1,10 +1,11 @@
-/* eslint "no-path-concat": 0, "prefer-template": 0, "no-param-reassign": 0 */
+/* eslint "no-param-reassign":, "import/no-extraneous-dependencies": 0 */
 
 const fs = require('fs');
 const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
+const ENV = process.env.NODE_ENV || 'development';
 const STATIC_URL = process.env.STATIC_URL || '/assets/';
 
 const webpackConfig = {
@@ -17,7 +18,7 @@ const webpackConfig = {
   output: {
     filename: '[name].[hash].js',
     publicPath: `${STATIC_URL}`,
-    path: __dirname + '/src/public/',
+    path: `${__dirname}/src/public/`,
     sourceMapFileName: '[file].map',
   },
   module: {
@@ -37,6 +38,11 @@ const webpackConfig = {
     ],
   },
   plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify(ENV),
+      },
+    }),
     new ExtractTextPlugin('[name].[hash].css'),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'common',
@@ -49,7 +55,7 @@ const webpackConfig = {
         delete stats.chunks;
         delete stats.modules;
         fs.writeFileSync(
-          __dirname + '/src/lib/webpack.stats.json',
+          `${__dirname}/src/lib/webpack.stats.json`,
           JSON.stringify(stats, null, 2)
         );
       });
@@ -65,10 +71,10 @@ const webpackConfig = {
       '~/sso': 'sso',
     },
     root: [
-      __dirname + '/src',
+      `${__dirname}/src`,
     ],
   },
-  devtool: process.env.NODE_ENV === 'production' ? 'source-map' : 'eval-cheap-module-source-map',
+  devtool: (ENV === 'production' ? 'source-map' : 'eval-cheap-module-source-map'),
   postcss(/* webpack */) {
     return [
       autoprefixer,
@@ -76,18 +82,10 @@ const webpackConfig = {
   },
   sassLoader: {
     includePaths: [
-      __dirname + '/src',
-      __dirname + '/node_modules',
+      `${__dirname}/src`,
+      `${__dirname}/node_modules`,
     ],
   },
 };
-
-if (process.env.NODE_ENV === 'production') {
-  webpackConfig.plugins.push(new webpack.DefinePlugin({
-    'process.env': {
-      NODE_ENV: JSON.stringify('production'),
-    },
-  }));
-}
 
 module.exports = webpackConfig;

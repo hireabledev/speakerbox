@@ -26,7 +26,7 @@
     {% include "common/analytics.njk" %}
   </head>
   <body>
-    {% block body %}{% endblock %}
+    {% block body %}<div id="root"></div>{% endblock %}
     {% block footer %}{% include "common/footer.njk" %}{% endblock %}
     {% include "common/end.njk" %}
     {% block end %}
