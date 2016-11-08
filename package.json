@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "speaker-box",
+  "name": "speakerbox",
   "version": "1.0.0",
   "description": "Social media management.",
   "main": "src/index.js",
@@ -19,7 +19,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mariusc23/speaker-box.git"
+    "url": "git+https://github.com/mariusc23/speakerbox.git"
   },
   "contributors": [
     "Marius Craciunoiu <marius@uplift.agency>"
@@ -33,9 +33,9 @@
   ],
   "license": "AGPL-3.0",
   "bugs": {
-    "url": "https://github.com/mariusc23/speaker-box/issues"
+    "url": "https://github.com/mariusc23/speakerbox/issues"
   },
-  "homepage": "https://github.com/mariusc23/speaker-box#readme",
+  "homepage": "https://github.com/mariusc23/speakerbox#readme",
   "dependencies": {
     "axios": "^0.14.0",
     "basic-auth-connect": "^1.0.0",
