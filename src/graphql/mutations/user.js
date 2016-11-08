@@ -3,6 +3,7 @@ import { attributeFields } from 'graphql-sequelize';
 import omit from 'lodash/omit';
 import User from '../../lib/models/user.model';
 import userType from '../types/user';
+import { applyMiddleware, authenticated, admin } from '../utils';
 
 export const addUser = {
   type: userType,
@@ -10,9 +11,11 @@ export const addUser = {
     commentToDescription: true,
     exclude: ['id', 'created', 'updated', 'emailConfirmed', 'telConfirmed', 'role'],
   }),
-  resolve(_, args) {
-    return User.create(args);
-  },
+  resolve: applyMiddleware(
+    authenticated,
+    admin,
+    (_, args) => User.create(args)
+  ),
 };
 
 export const editUser = {
@@ -22,15 +25,19 @@ export const editUser = {
     exclude: ['created', 'updated', 'emailConfirmed', 'telConfirmed', 'role'],
     allowNull: true,
   }),
-  resolve(_, args, req) {
-    let userId = req.user.id;
-    if (req.user.isAdmin && args.id) {
-      userId = args.id;
+  resolve: applyMiddleware(
+    authenticated,
+    admin,
+    (_, args, req) => {
+      let userId = req.user.id;
+      if (req.user.isAdmin && args.id) {
+        userId = args.id;
+      }
+      return User
+        .findOneOr404({ where: { id: userId } })
+        .then(user => user.update(omit(args, 'id')));
     }
-    return User
-      .findOneOr404({ where: { id: userId } })
-      .then(user => user.update(omit(args, 'id')));
-  },
+  ),
 };
 
 export const deleteUser = {
@@ -38,13 +45,17 @@ export const deleteUser = {
   args: {
     id: { type: new GraphQLNonNull(GraphQLString) },
   },
-  resolve(_, args, req) {
-    let userId = req.user.id;
-    if (req.user.isAdmin && args.id) {
-      userId = args.id;
+  resolve: applyMiddleware(
+    authenticated,
+    admin,
+    (_, args, req) => {
+      let userId = req.user.id;
+      if (req.user.isAdmin && args.id) {
+        userId = args.id;
+      }
+      return User
+        .findOneOr404({ where: { id: userId } })
+        .then(user => user.destroy());
     }
-    return User
-      .findOneOr404({ where: { id: userId } })
-      .then(user => user.destroy());
-  },
+  ),
 };

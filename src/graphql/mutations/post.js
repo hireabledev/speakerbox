@@ -3,6 +3,7 @@ import { attributeFields } from 'graphql-sequelize';
 import omit from 'lodash/omit';
 import Post from '../../lib/models/post.model';
 import postType from '../types/post';
+import { applyMiddleware, authenticated } from '../utils';
 
 export const addPost = {
   type: postType,
@@ -13,11 +14,14 @@ export const addPost = {
     }),
     userId: { type: GraphQLString },
   },
-  resolve(_, args, req) {
-    const post = Post.build(args);
-    post.setUser(req.user);
-    return post.save();
-  },
+  resolve: applyMiddleware(
+    authenticated,
+    (_, args, req) => {
+      const post = Post.build(args);
+      post.setUser(req.user);
+      return post.save();
+    }
+  ),
 };
 
 export const editPost = {
@@ -27,12 +31,15 @@ export const editPost = {
     exclude: ['created', 'updated'],
     allowNull: true,
   }),
-  resolve(_, args, req) {
-    return Post
-      .scopeForUser(req.user, args.userId, true)
-      .findByIdOr404(args.id)
-      .then(post => post.update(omit(args, 'id')));
-  },
+  resolve: applyMiddleware(
+    authenticated,
+    (_, args, req) => (
+      Post
+        .scopeForUser(req.user, args.userId, true)
+        .findByIdOr404(args.id)
+        .then(post => post.update(omit(args, 'id')))
+    )
+  ),
 };
 
 export const deletePost = {
@@ -40,10 +47,13 @@ export const deletePost = {
   args: {
     id: { type: new GraphQLNonNull(GraphQLString) },
   },
-  resolve(_, args, req) {
-    return Post
-      .scopeForUser(req.user, args.userId, true)
-      .findByIdOr404(args.id)
-      .then(post => post.destroy());
-  },
+  resolve: applyMiddleware(
+    authenticated,
+    (_, args, req) => (
+      Post
+        .scopeForUser(req.user, args.userId, true)
+        .findByIdOr404(args.id)
+        .then(post => post.destroy())
+    )
+  ),
 };
