@@ -9,9 +9,13 @@ User.hasMany(UserLogin, {
   onDelete: 'cascade',
 });
 
+UserLogin.belongsTo(User);
+
 User.hasMany(UserClaim, {
   foreignKey: 'userId',
   as: 'claims',
   onUpdate: 'cascade',
   onDelete: 'cascade',
 });
+
+UserClaim.belongsTo(User);
