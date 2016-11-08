@@ -3,23 +3,26 @@ import {
   GraphQLObjectType,
 } from 'graphql';
 
-import { users, user } from './queries/user';
-import { addUser, editUser, deleteUser } from './mutations/user';
+import './types';
+
+import * as userQueries from './queries/user';
+import * as userMutations from './mutations/user';
+import * as postQueries from './queries/post';
+import * as postMutations from './mutations/post';
 
 const query = new GraphQLObjectType({
   name: 'Query',
   fields: {
-    users,
-    user,
+    ...userQueries,
+    ...postQueries,
   },
 });
 
 const mutation = new GraphQLObjectType({
   name: 'Mutation',
   fields: {
-    addUser,
-    editUser,
-    deleteUser,
+    ...userMutations,
+    ...postMutations,
   },
 });
 

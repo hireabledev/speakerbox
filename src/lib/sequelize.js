@@ -26,7 +26,7 @@ const sequelize = new Sequelize(config.url, {
       user(userId) {
         return {
           include: [{
-            model: this.sequelize.models.user,
+            model: this.sequelize.models.User,
             where: { id: userId },
           }],
         };
@@ -53,22 +53,6 @@ const sequelize = new Sequelize(config.url, {
               throw notFound(`${startCase(this.name)} not found`);
             }
             return item;
-          });
-      },
-
-      findAllAndPaginate(options) {
-        return this.findAll(assign({}, options, { limit: options.limit + 1 }))
-          .then(data => {
-            let more = false;
-
-            if (data.length > options.limit) {
-              more = true;
-            }
-
-            return {
-              more,
-              data: data.slice(0, options.limit),
-            };
           });
       },
 

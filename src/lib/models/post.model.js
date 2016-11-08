@@ -21,18 +21,17 @@ const Post = sequelize.define('Post', {
                         },
   body:                 {
                           type: Sequelize.TEXT,
-                          allowNull: false,
                           comment: 'Post body.',
                         },
   data:                 {
                           type: Sequelize.JSONB,
-                          allowNull: false,
                           defaultValue: '{}',
                           comment: 'Additional post data.',
                         },
   type:                 {
                           type: Sequelize.STRING,
                           defaultValue: 'rss',
+                          allowNull: false,
                           validate: {
                             isIn: [['rss', 'facebook', 'twitter', 'linkedin']],
                           },
