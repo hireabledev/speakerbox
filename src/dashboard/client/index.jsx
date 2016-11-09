@@ -6,6 +6,8 @@ import { syncHistoryWithStore } from 'react-router-redux';
 import configureStore from './store';
 import Root from './containers/root';
 
+import './styles.scss';
+
 const store = configureStore();
 
 const browserHistory = useRouterHistory(createHistory)({
