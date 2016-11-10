@@ -1,15 +1,18 @@
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
-import reducer from '../reducers';
+import configureReducer from '../reducers';
 
-export default function configureStore(preloadedState) {
+export default function configureStore({ client, initialState }) {
   const middleware = [
+    client.middleware(),
     thunk,
   ];
 
   const store = createStore(
-    reducer,
-    preloadedState,
+    configureReducer({
+      apollo: client.reducer(),
+    }),
+    initialState,
     applyMiddleware(...middleware)
   );
 

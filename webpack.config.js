@@ -35,6 +35,11 @@ const webpackConfig = {
       { test: /\.(js|jsx)$/, exclude: /node_modules/, loader: 'babel' },
       { test: /\.json$/, loader: 'json' },
       { test: /\.html$/, loader: 'html' },
+      {
+        test: /\.(graphql|gql)$/,
+        exclude: /node_modules/,
+        loader: 'graphql-tag/loader',
+      },
     ],
   },
   plugins: [

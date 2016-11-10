@@ -1,0 +1,9 @@
+query getPosts($offset: Int = 0, $limit: Int = 10) {
+  posts(offset: $offset, limit: $limit) {
+    id
+    title
+    body
+    type
+    userId
+  }
+}

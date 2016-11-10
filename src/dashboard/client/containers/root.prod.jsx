@@ -1,21 +1,22 @@
 /* eslint "react/forbid-prop-types": 0 */
 
 import React, { PropTypes } from 'react';
-import { Provider } from 'react-redux';
+import { ApolloProvider } from 'react-apollo';
 import { Router } from 'react-router';
 import routes from '../routes';
 
-export default function Root({ store, history }) {
+export default function Root({ store, client, history }) {
   return (
-    <Provider store={store}>
+    <ApolloProvider store={store} client={client}>
       <div>
         <Router history={history} routes={routes} />
       </div>
-    </Provider>
+    </ApolloProvider>
   );
 }
 
 Root.propTypes = {
   store: PropTypes.object.isRequired,
+  client: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
 };
