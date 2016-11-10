@@ -1,8 +1,10 @@
 import React, { PropTypes } from 'react';
+import Sidebar from './sidebar';
 
 export default function App(props) {
   return (
-    <div>
+    <div className="has-sidebar">
+      <Sidebar />
       {props.children}
     </div>
   );

@@ -1,3 +1,6 @@
-html {
-  font-family: 'Roboto', sans-serif;
-}
+@import 'lib/client/styles/variables';
+@import 'lib/client/styles/functions';
+
+@import 'bootstrap-sass/assets/stylesheets/bootstrap';
+
+@import './components/sidebar/sidebar';

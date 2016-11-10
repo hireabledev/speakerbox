@@ -7,7 +7,7 @@ export default class StreamPage extends Component {
 
   render() {
     return (
-      <div>
+      <div className="container-fluid">
         <h1>Stream Page</h1>
       </div>
     );
