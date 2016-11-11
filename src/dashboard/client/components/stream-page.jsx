@@ -24,5 +24,6 @@ StreamPage.propTypes = {
   posts: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string,
   })).isRequired,
+  morePostsAvailable: PropTypes.bool.isRequired,
   loadMorePosts: PropTypes.func.isRequired,
 };

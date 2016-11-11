@@ -29,7 +29,6 @@ import errorHandler from './lib/middleware/error-handler';
 
 // Apps
 import api from './api';
-import graphql from './graphql';
 import dashboard from './dashboard';
 import marketing from './marketing';
 import sso from './sso';
@@ -97,12 +96,11 @@ app.use(templateContext);
 
 app.use('/api', api);
 app.use('/dashboard', dashboard);
-app.use('/graphql', graphql);
 app.use('/kue', basicAuth(KUE_USER, KUE_PWD), kue.app);
 app.use('/sso', sso);
 app.use('/', marketing);
 
-const apps = [app, api, dashboard, graphql, marketing, sso];
+const apps = [app, api, dashboard, marketing, sso];
 
 apps.forEach(application => {
   /* eslint no-param-reassign: 0 */
