@@ -26,8 +26,8 @@ const webpackConfig = {
       {
         test: /\.(css|scss)$/,
         loader: ExtractTextPlugin.extract('style', [
-          'css?sourceMap',
-          'sass?sourceMap',
+          `css?${ENV === 'development' ? 'sourceMap' : 'minimize'}`,
+          `sass?${ENV === 'development' ? 'sourceMap' : 'minimize'}`,
           'postcss',
         ]),
       },

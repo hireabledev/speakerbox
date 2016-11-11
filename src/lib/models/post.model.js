@@ -25,7 +25,7 @@ const Post = sequelize.define('Post', {
                         },
   data:                 {
                           type: Sequelize.JSONB,
-                          defaultValue: '{}',
+                          defaultValue: {},
                           comment: 'Additional post data.',
                         },
   type:                 {

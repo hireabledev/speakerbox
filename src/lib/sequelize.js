@@ -1,6 +1,6 @@
 import os from 'os';
 import Sequelize from 'sequelize';
-import { assign, startCase } from 'lodash';
+import { assign, intersection, startCase } from 'lodash';
 import { notFound } from 'boom';
 import { ENV } from './config';
 
@@ -56,19 +56,19 @@ const sequelize = new Sequelize(config.url, {
           });
       },
 
-      scopeForUser(user, queryUser, defaultScoped) {
-        if (user.isAdmin) {
-          if (queryUser) {
-            if (queryUser === 'all') {
-              return this;
-            }
-            return this.scope({ method: ['user', queryUser] });
-          } else if (defaultScoped === true) {
-            return this.scope({ method: ['user', user.id] });
+      scopeForUser(user, queryUser) {
+        if (user.isAdmin && queryUser) {
+          if (queryUser === 'all') {
+            return this;
           }
-          return this;
+          return this.scope({ method: ['user', queryUser] });
         }
         return this.scope({ method: ['user', user.id] });
+      },
+
+      getValidAttributes(attributes) {
+        const allAttributes = Object.keys(this.attributes);
+        return attributes ? intersection(allAttributes, attributes) : attributes;
       },
 
     },
