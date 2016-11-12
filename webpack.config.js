@@ -10,7 +10,7 @@ const STATIC_URL = process.env.STATIC_URL || '/assets/';
 
 const webpackConfig = {
   entry: {
-    vendor: './src/vendor.jsx',
+    vendor: ['./src/vendor.jsx', 'babel-polyfill', 'whatwg-fetch'],
     dashboard: '~/dashboard/client/index.jsx',
     marketing: '~/marketing/client/index.jsx',
     sso: '~/sso/client/index.jsx',

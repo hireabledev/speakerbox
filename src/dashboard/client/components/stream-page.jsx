@@ -3,18 +3,25 @@ import { Button } from 'react-bootstrap';
 import Post from './post';
 
 export default class StreamPage extends Component {
-  constructor(props) {
-    super(props);
+  // constructor(props) {
+  //   super(props);
+  // }
+
+  componentDidMount() {
+    this.props.fetchPosts();
   }
 
   render() {
-    const posts = this.props.posts || [];
+    const {
+      posts = [],
+      morePosts,
+    } = this.props;
 
     return (
       <div className="container-fluid">
         <h1>Stream Page</h1>
         {posts.map(post => <Post key={post.id} post={post} />)}
-        <Button bsStyle="primary" onClick={this.props.loadMorePosts}>Load More</Button>
+        {morePosts && <Button bsStyle="primary" onClick={this.props.fetchPosts}>Load More</Button>}
       </div>
     );
   }
@@ -24,6 +31,6 @@ StreamPage.propTypes = {
   posts: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string,
   })).isRequired,
-  morePostsAvailable: PropTypes.bool.isRequired,
-  loadMorePosts: PropTypes.func.isRequired,
+  morePosts: PropTypes.bool.isRequired,
+  fetchPosts: PropTypes.func.isRequired,
 };
