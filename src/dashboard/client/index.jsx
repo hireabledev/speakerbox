@@ -8,11 +8,11 @@ import Root from './containers/root';
 
 import './styles.scss';
 
-const store = configureStore();
-
 const browserHistory = useRouterHistory(createHistory)({
   basename: '/dashboard',
 });
+
+const store = configureStore({ history: browserHistory });
 
 const history = syncHistoryWithStore(browserHistory, store);
 
