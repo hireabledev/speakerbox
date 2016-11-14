@@ -28,6 +28,7 @@ const sequelize = new Sequelize(config.url, {
           include: [{
             model: this.sequelize.models.User,
             where: { id: userId },
+            as: 'user',
           }],
         };
       },
