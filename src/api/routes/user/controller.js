@@ -1,3 +1,5 @@
+import { forbidden } from 'boom';
+
 export async function index(req, res, next) {
   const User = req.app.models.User;
   const { limit, skip, where, attributes } = res.locals;
@@ -16,7 +18,8 @@ export async function index(req, res, next) {
 }
 
 export async function show(req) {
-  return await req.app.models.User.findByIdOr404(req.params.id);
+  const id = req.params.id === 'me' ? req.user.id : req.params.id;
+  return await req.app.models.User.findByIdOr404(id);
 }
 
 export async function create(req) {
@@ -24,11 +27,17 @@ export async function create(req) {
 }
 
 export async function update(req) {
+  if (req.user.isAdmin === false && req.user.id !== req.params.id) {
+    throw forbidden('Only admins are allowed to do that');
+  }
   const user = await req.app.models.User.findByIdOr404(req.params.id);
   return user.update(req.body);
 }
 
 export async function remove(req) {
+  if (req.user.isAdmin === false && req.user.id !== req.params.id) {
+    throw forbidden('Only admins are allowed to do that');
+  }
   const user = await req.app.models.User.findByIdOr404(req.params.id);
   return await user.destroy();
 }
