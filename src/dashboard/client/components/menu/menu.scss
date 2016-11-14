@@ -1,6 +1,6 @@
-$sidebar-width: 60px;
+$menu-width: 60px;
 
-.sidebar {
+.menu {
   background: $brand-primary;
   color: tint($brand-primary, 85%);
   position: fixed;
@@ -9,12 +9,12 @@ $sidebar-width: 60px;
   left: 0;
   overflow: hidden;
   transition: 0.4s width ease-in-out;
-  width: $sidebar-width;
+  width: $menu-width;
 
   &:hover {
     width: 320px;
 
-    %sidebar-fadeable {
+    %menu-fadeable {
       opacity: 1;
     }
   }
@@ -28,20 +28,20 @@ $sidebar-width: 60px;
   }
 }
 
-%sidebar-fadeable {
+%menu-fadeable {
   opacity: 0;
   transition: 0.4s opacity ease-in-out;
 }
 
-.sidebar-title {
+.menu-title {
   padding-left: 0.55em;
 }
 
-.sidebar-title-text {
-  @extend %sidebar-fadeable;
+.menu-title-text {
+  @extend %menu-fadeable;
 }
 
-.sidebar-nav-link {
+.menu-nav-link {
   display: block;
   padding: 0.35em 1.2em;
   margin-bottom: 0.5em;
@@ -53,17 +53,17 @@ $sidebar-width: 60px;
   }
 }
 
-.sidebar-nav-icon {
+.menu-nav-icon {
   font-size: 1.5em;
   margin-right: 0.2em;
   vertical-align: middle;
 }
 
-.sidebar-nav-label {
-  @extend %sidebar-fadeable;
+.menu-nav-label {
+  @extend %menu-fadeable;
   vertical-align: middle;
 }
 
-.has-sidebar {
-  padding-left: $sidebar-width;
+.has-menu {
+  padding-left: $menu-width;
 }
