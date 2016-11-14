@@ -2,3 +2,29 @@ $bootstrap-sass-asset-helper: true;
 $font-family-base: 'PT Sans', sans-serif;
 
 $brand-primary: #1dac9a;
+
+
+//=== Inverted navbar
+// Reset inverted navbar basics
+$navbar-inverse-bg:                         #1dac9a;
+$navbar-inverse-color:                      tint($navbar-inverse-bg, 80%);
+$navbar-inverse-border:                     shade($navbar-inverse-bg, 10%);
+
+// Inverted navbar links
+$navbar-inverse-link-color:                 tint($navbar-inverse-bg, 90%);
+$navbar-inverse-link-hover-color:           #fff;
+$navbar-inverse-link-hover-bg:              transparent;
+$navbar-inverse-link-active-color:          $navbar-inverse-link-hover-color;
+$navbar-inverse-link-active-bg:             shade($navbar-inverse-bg, 10%);
+$navbar-inverse-link-disabled-color:        tint($navbar-inverse-bg, 60%);
+$navbar-inverse-link-disabled-bg:           transparent;
+
+// Inverted navbar brand label
+$navbar-inverse-brand-color:                $navbar-inverse-link-color;
+$navbar-inverse-brand-hover-color:          #fff;
+$navbar-inverse-brand-hover-bg:             transparent;
+
+// Inverted navbar toggle
+$navbar-inverse-toggle-hover-bg:            shade($navbar-inverse-bg, 20%);
+$navbar-inverse-toggle-icon-bar-bg:         #fff;
+$navbar-inverse-toggle-border-color:        shade($navbar-inverse-bg, 20%);
