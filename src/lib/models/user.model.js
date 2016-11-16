@@ -51,8 +51,8 @@ const User = sequelize.define('User', {
                         },
 }, {
   name: {
-    singular: 'User',
-    plural: 'Users',
+    singular: 'user',
+    plural: 'users',
   },
   indexes: [
     { fields: ['email'] },

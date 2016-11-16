@@ -1,27 +1,27 @@
 import React, { PropTypes } from 'react';
+import RSSPost from './rss-post';
+import FacebookPost from './facebook-post';
+import TwitterPost from './twitter-post';
+import LinkedInPost from './linkedin-post';
 
-export default function Post({ post }) {
+const postMap = {
+  rss: RSSPost,
+  facebook: FacebookPost,
+  twitter: TwitterPost,
+  linkedin: LinkedInPost,
+};
+
+export default function Post({ children, post, type }) {
+  const InnerPost = postMap[type];
   return (
-    <article className="post">
-      <h1 className="post-title">
-        {post.title}
-      </h1>
-      <p className="post-body">
-        {post.body}
-      </p>
-      <p className="post-type">
-        <span className="sr-only">Post Type:</span>
-        {post.type}
-      </p>
-    </article>
+    <InnerPost post={post}>
+      {children}
+    </InnerPost>
   );
 }
 
 Post.propTypes = {
-  post: PropTypes.shape({
-    id: PropTypes.string,
-    title: PropTypes.string,
-    body: PropTypes.string,
-    type: PropTypes.oneOf(['rss', 'facebook', 'twitter', 'linkedin']),
-  }),
+  children: PropTypes.node,
+  post: PropTypes.object,
+  type: PropTypes.oneOf(['rss', 'facebook', 'twitter', 'linkedin']),
 };

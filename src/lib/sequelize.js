@@ -24,11 +24,31 @@ const sequelize = new Sequelize(config.url, {
     scopes: {
 
       user(userId) {
+        const where = userId ? { where: { id: userId } } : {};
         return {
           include: [{
             model: this.sequelize.models.User,
-            where: { id: userId },
-            as: 'user',
+            ...where,
+          }],
+        };
+      },
+
+      accountUser(userId) {
+        const where = userId ? { where: { userId } } : {};
+        return {
+          include: [{
+            model: this.sequelize.models.Account,
+            ...where,
+          }],
+        };
+      },
+
+      feedUser(userId) {
+        const where = userId ? { where: { userId } } : {};
+        return {
+          include: [{
+            model: this.sequelize.models.RSSFeed,
+            ...where,
           }],
         };
       },
@@ -60,11 +80,31 @@ const sequelize = new Sequelize(config.url, {
       scopeForUser(user, queryUser) {
         if (user.isAdmin && queryUser) {
           if (queryUser === 'all') {
-            return this;
+            return this.scope({ method: 'user' });
           }
           return this.scope({ method: ['user', queryUser] });
         }
         return this.scope({ method: ['user', user.id] });
+      },
+
+      scopeForUserAccounts(user, queryUser) {
+        if (user.isAdmin && queryUser) {
+          if (queryUser === 'all') {
+            return this.scope({ method: 'accountUser' });
+          }
+          return this.scope({ method: ['accountUser', queryUser] });
+        }
+        return this.scope({ method: ['accountUser', user.id] });
+      },
+
+      scopeForUserFeeds(user, queryUser) {
+        if (user.isAdmin && queryUser) {
+          if (queryUser === 'all') {
+            return this.scope({ method: 'feedUser' });
+          }
+          return this.scope({ method: ['feedUser', queryUser] });
+        }
+        return this.scope({ method: ['feedUser', user.id] });
       },
 
       getValidAttributes(attributes) {

@@ -9,7 +9,7 @@ export default function Menu() {
       <Navbar fixedTop inverse collapseOnSelect fluid>
         <Navbar.Header>
           <Navbar.Brand>
-            <Link to="/">SpeakerBox</Link>
+            <Link to="/">Speaker Box</Link>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>

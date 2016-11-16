@@ -1,4 +1,6 @@
 /* eslint "no-param-reassign": 0 */
+import pick from 'lodash/pick';
+import memoize from 'lodash/memoize';
 
 function getValidAttributes(model, attributes) {
 
@@ -32,4 +34,16 @@ export function attributes(req, res, next) {
     res.locals.attributes = req.query.attributes.split(',');
   }
   next();
+}
+
+const getModelAttributes = memoize(Model => Object.keys(Model.attributes));
+
+export function filter(modelName) {
+  return function wrappedFilter(req, res, next) {
+    res.locals.where = {
+      ...res.locals.where,
+      ...pick(req.query, getModelAttributes(req.app.models[modelName])),
+    };
+    next();
+  };
 }

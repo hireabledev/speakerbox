@@ -8,8 +8,8 @@ const Session = sequelize.define('Session', {
   data:    { type: Sequelize.JSONB, allowNull: true },
 }, {
   name: {
-    singular: 'Session',
-    plural: 'Sessions',
+    singular: 'session',
+    plural: 'sessions',
   },
 });
 

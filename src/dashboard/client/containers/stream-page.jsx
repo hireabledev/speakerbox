@@ -3,8 +3,14 @@ import StreamPage from '../components/stream-page';
 import { fetchPosts } from '../actions/posts';
 
 const mapStateToProps = (state) => ({
-  posts: state.posts.posts,
-  morePosts: state.posts.more,
+  facebookPosts: state.facebook.posts,
+  twitterPosts: state.twitter.posts,
+  linkedinPosts: state.linkedin.posts,
+  rssPosts: state.rss.posts,
+  moreFacebookPosts: state.facebook.morePosts,
+  moreTwitterPosts: state.twitter.morePosts,
+  moreLinkedInPosts: state.linkedin.morePosts,
+  moreRSSPosts: state.rss.morePosts,
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -1,14 +1,14 @@
 const initialState = {
   posts: [],
-  more: false,
+  morePosts: false,
 };
 
-export default function postsReducer(state = initialState, action) {
+export default function twitterPostsReducer(state = initialState, action) {
   switch (action.type) {
-    case 'RECEIVE_POSTS':
+    case 'RECEIVE_TWITTER_POSTS':
       return {
         posts: [...state.posts, ...action.payload.posts],
-        more: action.payload.more,
+        morePosts: action.payload.more,
       };
     default:
       return state;

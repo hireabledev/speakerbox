@@ -47,7 +47,7 @@ function getStrategy({ Strategy, strategyOptions, mapProfileToUser, mapProfileTo
         }
         return req.app.models.User.findOne({
           include: [{
-            model: req.app.models.UserAccount,
+            model: req.app.models.Account,
             where: { id: profile.id },
           }],
         });
@@ -59,12 +59,12 @@ function getStrategy({ Strategy, strategyOptions, mapProfileToUser, mapProfileTo
           return req.app.models.User.create(userData);
         })
         .then(user => (
-          user.getUserAccounts({
+          user.getAccounts({
             where: { id: profile.id },
           })
             .then(([account]) => {
               if (account) { return account.update(accountData).then(() => (account)); }
-              return req.app.models.UserAccount.create({
+              return req.app.models.Account.create({
                 ...accountData,
                 userId: user.id,
               });

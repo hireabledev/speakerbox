@@ -2,16 +2,11 @@
 
 import sequelize, { Sequelize } from '../sequelize';
 
-const UserAccount = sequelize.define('UserAccount', {
+const Account = sequelize.define('Account', {
   id:                   {
                           type: Sequelize.STRING,
                           primaryKey: true,
                           comment: 'Account ID.',
-                        },
-  userId:               {
-                          type: Sequelize.UUID,
-                          allowNull: false,
-                          comment: 'User ID.',
                         },
   accessToken:          {
                           type: Sequelize.STRING,
@@ -32,9 +27,9 @@ const UserAccount = sequelize.define('UserAccount', {
                         },
 }, {
   name: {
-    singular: 'UserAccount',
-    plural: 'UserAccounts',
+    singular: 'account',
+    plural: 'accounts',
   },
 });
 
-export default UserAccount;
+export default Account;
