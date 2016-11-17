@@ -6,7 +6,7 @@ export default function App(props) {
   return (
     <div className="has-menu">
       <Menu />
-      <Loading style={{ backgroundColor: '#1dac9a' }} />
+      <Loading style={{ backgroundColor: '#CD7901' }} />
       {props.children}
     </div>
   );

@@ -9,6 +9,11 @@ const TwitterPost = sequelize.define('TwitterPost', {
                           primaryKey: true,
                           comment: 'Twitter post ID.',
                         },
+  url:                  {
+                          type: Sequelize.TEXT,
+                          allowNull: false,
+                          comment: 'Twitter post URL.',
+                        },
   body:                 {
                           type: Sequelize.TEXT,
                           allowNull: false,
@@ -18,6 +23,21 @@ const TwitterPost = sequelize.define('TwitterPost', {
                           type: Sequelize.TEXT,
                           allowNull: false,
                           comment: 'Twitter post date.',
+                        },
+  authorName:           {
+                          type: Sequelize.STRING,
+                          allowNull: false,
+                          comment: 'Twitter post author display name.',
+                        },
+  authorImgUrl:         {
+                          type: Sequelize.TEXT,
+                          allowNull: false,
+                          comment: 'Twitter post author image URL.',
+                        },
+  authorUrl:            {
+                          type: Sequelize.TEXT,
+                          allowNull: false,
+                          comment: 'Twitter post author URL.',
                         },
   data:                 {
                           type: Sequelize.JSONB,

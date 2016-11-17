@@ -1,0 +1,26 @@
+.post {
+  @extend .panel;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.post-body {
+  @extend .panel-body;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+}
+
+.post-container {
+  flex-grow: 1;
+}
+
+.post-content {
+
+}
+
+.post-date {
+  color: $text-muted;
+  margin-left: 1em;
+}

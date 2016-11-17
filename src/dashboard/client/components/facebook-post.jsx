@@ -1,25 +1,44 @@
 import React, { PropTypes } from 'react';
+import DisplayDate from './display-date';
+import PostAuthor from './post-author';
+import PostMeta from './post-meta';
 
 export default function FacebookPost({ post }) {
   return (
     <article className="post">
-      <h1 className="post-id">
-        {post.id}
-      </h1>
-      <p className="post-body">
-        {post.body}
-      </p>
-      <p className="post-date">
-        {post.date}
-      </p>
+      <div className="post-body">
+        <PostAuthor name={post.authorName} url={post.authorUrl} imgUrl={post.authorImgUrl} />
+        <div className="post-container">
+          <p className="post-content">
+            {post.body}
+          </p>
+          <PostMeta>
+            <PostMeta.Primary>
+              {' '}
+            </PostMeta.Primary>
+            <PostMeta.Secondary>
+              <a
+                href={post.url}
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                url
+              </a>
+              <DisplayDate className="post-date" date={post.date} />
+            </PostMeta.Secondary>
+          </PostMeta>
+        </div>
+      </div>
     </article>
   );
 }
 
 FacebookPost.propTypes = {
   post: PropTypes.shape({
-    id: PropTypes.string,
     body: PropTypes.string,
     date: PropTypes.date,
+    authorName: PropTypes.string,
+    authorUrl: PropTypes.string,
+    authorImgUrl: PropTypes.string,
   }),
 };

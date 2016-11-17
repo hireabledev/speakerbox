@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Button } from 'react-bootstrap';
+import Page from './page';
 import Post from './post';
 
 export default class StreamPage extends Component {
@@ -23,15 +24,19 @@ export default class StreamPage extends Component {
       moreRSSPosts,
     } = this.props;
 
-    const posts = facebookPosts.concat(twitterPosts).concat(linkedinPosts).concat(rssPosts);
+    // const posts = facebookPosts.concat(twitterPosts).concat(linkedinPosts).concat(rssPosts);
     const morePosts = moreFacebookPosts || moreTwitterPosts || moreLinkedInPosts || moreRSSPosts;
 
     return (
-      <div className="container-fluid">
-        <h1>Stream Page</h1>
-        {posts.map(post => <Post key={post.id} post={post} type="facebook" />)}
-        {morePosts && <Button bsStyle="primary" onClick={this.props.fetchPosts}>Load More</Button>}
-      </div>
+      <Page bg="light">
+        <div className="container-fluid">
+          {facebookPosts.map(post => <Post key={post.id} post={post} type="facebook" />)}
+          {twitterPosts.map(post => <Post key={post.id} post={post} type="twitter" />)}
+          {linkedinPosts.map(post => <Post key={post.id} post={post} type="linkedin" />)}
+          {rssPosts.map(post => <Post key={post.id} post={post} type="rss" />)}
+          {morePosts && <Button bsStyle="primary" onClick={this.props.fetchPosts}>Load More</Button>}
+        </div>
+      </Page>
     );
   }
 }
