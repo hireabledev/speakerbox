@@ -1,8 +1,9 @@
 import React, { PropTypes } from 'react';
+import cn from 'classnames';
 
-export default function PostMeta({ children }) {
+export default function PostMeta({ children, position }) {
   return (
-    <div className="post-meta">
+    <div className={cn('post-meta', `post-meta-${position}`)}>
       {children}
     </div>
   );
@@ -31,6 +32,14 @@ const propTypes = {
   children: PropTypes.node,
 };
 
-PostMeta.propTypes = propTypes;
+PostMeta.propTypes = {
+  ...propTypes,
+  position: PropTypes.oneOf(['top', 'bottom']),
+};
+
+PostMeta.defaultProps = {
+  position: 'bottom',
+};
+
 PostMetaPrimary.propTypes = propTypes;
 PostMetaSecondary.propTypes = propTypes;

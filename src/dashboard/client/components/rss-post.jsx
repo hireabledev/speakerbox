@@ -7,6 +7,11 @@ export default function RSSPost({ post }) {
     <article className="post">
       <div className="post-body">
         <div className="post-container">
+          <PostMeta position="top">
+            <PostMeta.Primary>
+              <DisplayDate className="post-date" date={post.date} />
+            </PostMeta.Primary>
+          </PostMeta>
           <p className="post-content">
             {post.body}
           </p>
@@ -22,7 +27,6 @@ export default function RSSPost({ post }) {
               >
                 url
               </a>
-              <DisplayDate className="post-date" date={post.date} />
             </PostMeta.Secondary>
           </PostMeta>
         </div>

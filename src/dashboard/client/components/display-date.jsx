@@ -17,7 +17,10 @@ export default function DisplayDate({ className, date, format }) {
 
 DisplayDate.propTypes = {
   className: PropTypes.string,
-  date: PropTypes.instanceOf(Date).isRequired,
+  date: PropTypes.oneOfType([
+    PropTypes.instanceOf(Date),
+    PropTypes.string,
+  ]).isRequired,
   format: PropTypes.string,
 };
 

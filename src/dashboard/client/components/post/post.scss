@@ -8,7 +8,7 @@
   @extend .panel-body;
   display: flex;
   flex-direction: row;
-  align-items: center;
+  // align-items: center;
   width: 100%;
 }
 
@@ -22,5 +22,4 @@
 
 .post-date {
   color: $text-muted;
-  margin-left: 1em;
 }
