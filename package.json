@@ -37,7 +37,6 @@
   },
   "homepage": "https://github.com/mariusc23/speakerbox#readme",
   "dependencies": {
-    "axios": "^0.14.0",
     "babel-polyfill": "^6.16.0",
     "basic-auth-connect": "^1.0.0",
     "body-parser": "^1.15.2",

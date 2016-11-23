@@ -3,6 +3,7 @@ import path from 'path';
 import { worker as debug } from '../lib/debug';
 import sentry from '../lib/sentry';
 import queue from '../lib/queue';
+import { sequelize } from '../lib/models';
 
 sentry.patchGlobal(() => {
   debug.error('FATAL ERROR');
@@ -39,16 +40,21 @@ function safetyWrapJob(fn) {
   };
 }
 
-debug.info('Kue loading jobs...');
+debug.info('Kue loading models...');
 
-globby([
-  path.join(__dirname, '/jobs/*.js'),
-])
-  .then(paths => {
-    /* eslint global-require: 0 */
-    paths.forEach(filePath => {
-      const name = path.basename(filePath, '.js');
-      queue.process(name, 10, safetyWrapJob(require(filePath).default));
-    });
-    debug.info('Kue ready.');
-  });
+sequelize.sync()
+  .then(() => {
+    debug.info('Kue loading jobs...');
+    return globby([
+      path.join(__dirname, '/jobs/*.js'),
+    ])
+      .then(paths => {
+        /* eslint global-require: 0, "import/no-dynamic-require": 0 */
+        paths.forEach(filePath => {
+          const name = path.basename(filePath, '.js');
+          queue.process(name, 10, safetyWrapJob(require(filePath).default));
+        });
+        debug.info('Kue ready.');
+      })
+  })
+  .catch(err => sentry.captureException(err));

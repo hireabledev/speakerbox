@@ -11,11 +11,30 @@ const ScheduledPost = sequelize.define('ScheduledPost', {
                         },
   date:                 {
                           type: Sequelize.DATE,
+                          allowNull: false,
+                          defaultValue: Sequelize.NOW,
                           comment: 'Scheduled post date.',
+                        },
+  action:               {
+                          type: Sequelize.STRING,
+                          allowNull: false,
+                          validate: {
+                            isIn: [[
+                              'TWITTER_RETWEET',
+                              'LINKEDIN_SHARE',
+                            ]],
+                          },
+                          comment: 'Scheduled action.',
+                        },
+  data:                 {
+                          type: Sequelize.JSONB,
+                          allowNull: false,
+                          comment: 'Scheduled action data.',
                         },
   jobId:                {
                           type: Sequelize.STRING,
-                          comment: 'Scheduled post job ID.',
+                          allowNull: false,
+                          comment: 'Kue job ID.',
                         },
 }, {
   name: {

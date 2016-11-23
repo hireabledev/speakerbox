@@ -5,6 +5,7 @@ import RSSPost from './rss-post.model';
 import FacebookPost from './facebook-post.model';
 import TwitterPost from './twitter-post.model';
 import LinkedInPost from './linkedin-post.model';
+import ScheduledPost from './scheduled-post.model';
 
 RSSFeed.hasMany(RSSPost, {
   onUpdate: 'cascade',
@@ -41,3 +42,9 @@ User.hasMany(RSSFeed, {
   onDelete: 'cascade',
 });
 RSSFeed.belongsTo(User);
+
+User.hasMany(ScheduledPost, {
+  onUpdate: 'cascade',
+  onDelete: 'cascade',
+});
+ScheduledPost.belongsTo(User);
