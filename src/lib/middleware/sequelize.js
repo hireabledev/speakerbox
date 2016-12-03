@@ -2,10 +2,6 @@
 import pick from 'lodash/pick';
 import memoize from 'lodash/memoize';
 
-function getValidAttributes(model, attributes) {
-
-}
-
 export function where(req, res, next) {
   res.locals.where = res.locals.where || {};
   next();

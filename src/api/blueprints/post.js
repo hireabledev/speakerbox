@@ -1,3 +1,4 @@
+import kue from 'kue';
 import { enqueue } from '../../lib/queue';
 
 export function indexBlueprint(modelName) {
@@ -59,6 +60,19 @@ export function shareBlueprint(modelName, type, getTitle) {
         include: [req.app.models.Account],
       });
 
+    if (post.shareJobId) {
+      await new Promise((resolve, reject) => {
+        kue.Job.get(post.shareJobId, (err, job) => {
+          if (err) { return reject(err); }
+          return job.remove(err => {
+            /* eslint "no-shadow": 0 */
+            if (err) { return reject(err); }
+            return resolve(job);
+          });
+        });
+      });
+    }
+
     const data = {
       id: post.id,
       accountId: post.accountId,
@@ -71,15 +85,30 @@ export function shareBlueprint(modelName, type, getTitle) {
       data,
     });
 
-    const scheduledPost = await req.app.models.ScheduledPost.build({
-      action: type,
-      jobId: job.id,
-      date: req.body.date || new Date(),
-      data,
+    return await post.update({ shareJobId: job.id });
+  };
+}
+
+export function cancelShareBlueprint(modelName) {
+  return async function share(req) {
+    const Model = req.app.models[modelName];
+    const post = await Model
+      .scopeForUserAccounts(req.user, req.query.user)
+      .findByIdOr404(req.params.id, {
+        include: [req.app.models.Account],
+      });
+
+    await new Promise((resolve, reject) => {
+      kue.Job.get(post.shareJobId, (err, job) => {
+        if (err) { return reject(err); }
+        return job.remove(err => {
+          /* eslint "no-shadow": 0 */
+          if (err) { return reject(err); }
+          return resolve(job);
+        });
+      });
     });
 
-    scheduledPost.setUser(req.user);
-
-    return await scheduledPost.save();
+    return await post.update({ shareJobId: null });
   };
 }

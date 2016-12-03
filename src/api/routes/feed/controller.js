@@ -1,14 +1,14 @@
 export async function index(req, res, next) {
-  const Feed = req.app.models.RSSFeed;
+  const { RSSFeed } = req.app.models;
   const { limit, skip, where, attributes } = res.locals;
 
-  const instances = await Feed
+  const instances = await RSSFeed
     .scopeForUser(req.user, req.query.user)
     .findAll({
       limit: limit + 1,
       offset: skip,
       where,
-      attributes: Feed.getValidAttributes(attributes),
+      attributes: RSSFeed.getValidAttributes(attributes),
     });
 
   return {
@@ -18,30 +18,26 @@ export async function index(req, res, next) {
 }
 
 export async function show(req) {
-  const Feed = req.app.models.RSSFeed;
-  return await Feed
+  return await req.app.models.RSSFeed
     .scopeForUser(req.user, req.query.user)
     .findByIdOr404(req.params.id);
 }
 
 export async function create(req) {
-  const Feed = req.app.models.RSSFeed;
-  const instance = Feed.build(req.body);
+  const instance = req.app.models.RSSFeed.build(req.body);
   instance.setUser(req.user);
   return await instance.save();
 }
 
 export async function update(req) {
-  const Feed = req.app.models.RSSFeed;
-  const instance = await Feed
+  const instance = await req.app.models.RSSFeed
     .scopeForUser(req.user, req.query.user)
     .findByIdOr404(req.params.id);
   return instance.update(req.body);
 }
 
 export async function remove(req) {
-  const Feed = req.app.models.RSSFeed;
-  const instance = await Feed
+  const instance = await req.app.models.RSSFeed
     .scopeForUser(req.user, req.query.user)
     .findByIdOr404(req.params.id);
   return await instance.destroy();

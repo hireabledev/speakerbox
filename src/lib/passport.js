@@ -105,6 +105,7 @@ passport.use(getStrategy({
     consumerSecret: TWITTER_SECRET,
     callbackURL: TWITTER_CB_URL,
     profileFields: ['id', 'email', 'photos'],
+    userAuthorizationURL: 'https://api.twitter.com/oauth/authorize',
   },
   mapProfileToUser(profile) {
     return {

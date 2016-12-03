@@ -55,6 +55,6 @@ sequelize.sync()
           queue.process(name, 10, safetyWrapJob(require(filePath).default));
         });
         debug.info('Kue ready.');
-      })
+      });
   })
   .catch(err => sentry.captureException(err));

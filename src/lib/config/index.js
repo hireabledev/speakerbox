@@ -44,5 +44,7 @@ export const LINKEDIN_KEY = env('LINKEDIN_KEY', null, 'required');
 export const LINKEDIN_SECRET = env('LINKEDIN_SECRET', null, 'required');
 export const LINKEDIN_CB_URL = env('LINKEDIN_CB_URL', `${HOST}/sso/auth/linkedin/callback`);
 
+export const LINKEDIN_API_URL = env('LINKEDIN_API_URL', 'https://api.linkedin.com/v1');
+
 // Email Templates
 export const DEFAULT_EMAIL_TEMPLATE = env('DEFAULT_EMAIL_TEMPLATE', null, 'required');

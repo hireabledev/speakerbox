@@ -19,8 +19,4 @@ app.use('/feeds/posts', rssPost);
 app.use('/feeds', feed);
 app.use('/users', user);
 
-app.get('*', (req, res) => {
-  res.sendStatus(501);
-});
-
 export default app;

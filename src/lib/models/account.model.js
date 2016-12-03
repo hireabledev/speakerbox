@@ -13,9 +13,9 @@ const Account = sequelize.define('Account', {
                           allowNull: false,
                           comment: 'Account access token.',
                         },
-  refreshToken:         {
+  tokenSecret:          {
                           type: Sequelize.STRING,
-                          comment: 'Account refresh token.',
+                          comment: 'Account refresh token/token secret.',
                         },
   type:                 {
                           type: Sequelize.STRING,
