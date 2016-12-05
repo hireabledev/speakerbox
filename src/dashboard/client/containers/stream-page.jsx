@@ -5,7 +5,7 @@ import { fetchPosts } from '../actions/posts';
 const mapStateToProps = (state) => ({
   facebookPosts: state.facebook.posts,
   twitterPosts: state.twitter.posts,
-  linkedinPosts: state.linkedin.posts,
+  linkedInPosts: state.linkedin.posts,
   rssPosts: state.rss.posts,
   moreFacebookPosts: state.facebook.morePosts,
   moreTwitterPosts: state.twitter.morePosts,

@@ -13,7 +13,7 @@ router.get(
   where,
   created,
   attributes,
-  filter('LinkedInPost'),
+  filter('TwitterRetweet'),
   index
 );
 router.get('/:id', show);

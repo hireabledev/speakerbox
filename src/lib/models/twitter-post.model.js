@@ -45,10 +45,6 @@ const TwitterPost = sequelize.define('TwitterPost', {
                           defaultValue: {},
                           comment: 'Additional post data.',
                         },
-  shareJobId:           {
-                          type: Sequelize.STRING,
-                          comment: 'Kue job ID for retweets.',
-                        },
 }, {
   name: {
     singular: 'twitterPost',

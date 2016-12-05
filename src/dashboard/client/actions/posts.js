@@ -32,7 +32,7 @@ export function fetchFacebookPosts() {
   return async (dispatch, getState) => {
     const { facebook } = getState();
     dispatch(showLoading());
-    const res = await fetch(`/api/accounts/facebook/posts?skip=${facebook.posts.length}`, { credentials: 'include' });
+    const res = await fetch(`/api/facebook/posts?skip=${facebook.posts.length}`, { credentials: 'include' });
     dispatch(hideLoading());
     const { data, more } = await res.json();
     dispatch(receiveFacebookPosts({ posts: data, more }));
@@ -44,7 +44,7 @@ export function fetchTwitterPosts() {
   return async (dispatch, getState) => {
     const { twitter } = getState();
     dispatch(showLoading());
-    const res = await fetch(`/api/accounts/twitter/posts?skip=${twitter.posts.length}`, { credentials: 'include' });
+    const res = await fetch(`/api/twitter/posts?skip=${twitter.posts.length}`, { credentials: 'include' });
     dispatch(hideLoading());
     const { data, more } = await res.json();
     dispatch(receiveTwitterPosts({ posts: data, more }));
@@ -56,7 +56,7 @@ export function fetchLinkedInPosts() {
   return async (dispatch, getState) => {
     const { linkedin } = getState();
     dispatch(showLoading());
-    const res = await fetch(`/api/accounts/linkedin/posts?skip=${linkedin.posts.length}`, { credentials: 'include' });
+    const res = await fetch(`/api/linkedin/posts?skip=${linkedin.posts.length}`, { credentials: 'include' });
     dispatch(hideLoading());
     const { data, more } = await res.json();
     dispatch(receiveLinkedInPosts({ posts: data, more }));

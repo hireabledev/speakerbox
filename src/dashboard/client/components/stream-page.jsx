@@ -18,13 +18,13 @@ export default class StreamPage extends Component {
       moreFacebookPosts,
       twitterPosts = [],
       moreTwitterPosts,
-      linkedinPosts = [],
+      linkedInPosts = [],
       moreLinkedInPosts,
       rssPosts = [],
       moreRSSPosts,
     } = this.props;
 
-    // const posts = facebookPosts.concat(twitterPosts).concat(linkedinPosts).concat(rssPosts);
+    // const posts = facebookPosts.concat(twitterPosts).concat(linkedInPosts).concat(rssPosts);
     const morePosts = moreFacebookPosts || moreTwitterPosts || moreLinkedInPosts || moreRSSPosts;
 
     return (
@@ -32,7 +32,7 @@ export default class StreamPage extends Component {
         <div className="container-fluid">
           {facebookPosts.map(post => <Post key={post.id} post={post} type="facebook" />)}
           {twitterPosts.map(post => <Post key={post.id} post={post} type="twitter" />)}
-          {linkedinPosts.map(post => <Post key={post.id} post={post} type="linkedin" />)}
+          {linkedInPosts.map(post => <Post key={post.id} post={post} type="linkedin" />)}
           {rssPosts.map(post => <Post key={post.id} post={post} type="rss" />)}
           {morePosts && <Button bsStyle="primary" onClick={this.props.fetchPosts}>Load More</Button>}
         </div>
@@ -50,7 +50,7 @@ StreamPage.propTypes = {
     id: PropTypes.string,
   })).isRequired,
   moreTwitterPosts: PropTypes.bool.isRequired,
-  linkedinPosts: PropTypes.arrayOf(PropTypes.shape({
+  linkedInPosts: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string,
   })).isRequired,
   moreLinkedInPosts: PropTypes.bool.isRequired,
