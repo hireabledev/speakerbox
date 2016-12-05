@@ -23,12 +23,6 @@ export async function show(req) {
     .findByIdOr404(req.params.id);
 }
 
-export async function create(req) {
-  const instance = req.app.models.Account.build(req.body);
-  instance.setUser(req.user);
-  return await instance.save();
-}
-
 export async function update(req) {
   const instance = await req.app.models.Account
     .scopeForUser(req.user, req.query.user)
