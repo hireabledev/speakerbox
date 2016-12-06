@@ -1,4 +1,5 @@
 import express from 'express';
+import queue, { addJob, removeJob } from '../lib/queue';
 
 // Routes
 import facebookPost from './routes/facebook-post';
@@ -12,6 +13,10 @@ import feed from './routes/feed';
 import user from './routes/user';
 
 const app = express();
+
+app.queue = queue;
+app.addJob = addJob;
+app.removeJob = removeJob;
 
 app.use('/facebook/posts', facebookPost);
 app.use('/twitter/posts', twitterPost);

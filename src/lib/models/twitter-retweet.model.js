@@ -5,6 +5,7 @@ import sequelize, { Sequelize } from '../sequelize';
 const TwitterRetweet = sequelize.define('TwitterRetweet', {
   id:                   {
                           type: Sequelize.STRING,
+                          defaultValue: Sequelize.UUIDV4,
                           allowNull: false,
                           primaryKey: true,
                           comment: 'Twitter retweet ID.',

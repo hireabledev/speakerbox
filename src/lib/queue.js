@@ -6,7 +6,7 @@ const queue = kue.createQueue({
   redis: REDIS_URL,
 });
 
-export function enqueue({ type, title, attempts, delay, priority, data }) {
+export function addJob({ type, title, attempts, delay, priority, data }) {
   return new Promise((resolve, reject) => {
     let q = queue.create(type, { title, data });
 
@@ -22,6 +22,20 @@ export function enqueue({ type, title, attempts, delay, priority, data }) {
       return resolve(q);
     });
   });
+}
+
+export function removeJob(jobId) {
+  return new Promise((resolve, reject) => (
+    kue.Job.get(jobId, (err, job) => {
+      if (err) { return reject(err); }
+      /* eslint-disable no-shadow */
+      return job.remove(err => {
+        if (err) { return reject(err); }
+        return resolve(job);
+      });
+      /* eslint-enable no-shadow */
+    })
+  ));
 }
 
 export default queue;

@@ -2,14 +2,13 @@ import { Account } from '../../lib/models';
 import twitterClient from '../../lib/twitter';
 
 export default async function twitterRetweetProcessor(job, done) {
-  const postId = job.data.data.id;
-  const accountId = job.data.data.accountId;
+  const { postId, accountId } = job.data.data;
 
   try {
     const account = await Account.findById(accountId);
     const twitter = twitterClient({
       token: account.accessToken,
-      tokenSecret: account.refreshToken,
+      tokenSecret: account.tokenSecret,
     });
     const { data } = await twitter.retweet(postId);
     if (data.errors && data.errors.length) {

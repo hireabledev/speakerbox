@@ -33,11 +33,11 @@ function getStrategy({ Strategy, strategyOptions, mapProfileToUser, mapProfileTo
       passReqToCallback: true,
       ...strategyOptions,
     },
-    (req, accessToken, refreshToken, profile, done) => {
+    (req, accessToken, tokenSecret, profile, done) => {
       const userData = mapProfileToUser(profile);
       const accountData = {
         accessToken,
-        refreshToken,
+        tokenSecret,
         ...mapProfileToAccount(profile),
       };
 

@@ -10,7 +10,7 @@ export default async function twitterRetweetProcessor(job, done) {
     const linkedin = linkedinClient({
       token: account.accessToken,
     });
-    await linkedin.share(postId);
+    await linkedin.share(postId, job.data.data);
     return done();
   } catch (err) {
     return done(err);
