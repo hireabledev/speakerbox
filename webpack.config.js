@@ -11,9 +11,9 @@ const STATIC_URL = process.env.STATIC_URL || '/assets/';
 const webpackConfig = {
   entry: {
     vendor: ['./src/vendor.jsx', 'babel-polyfill', 'whatwg-fetch'],
-    dashboard: '~/dashboard/client/index.jsx',
-    marketing: '~/marketing/client/index.jsx',
-    sso: '~/sso/client/index.jsx',
+    dashboard: 'dashboard/client/index.jsx',
+    marketing: 'marketing/client/index.jsx',
+    sso: 'sso/client/index.jsx',
   },
   output: {
     filename: '[name].[hash].js',
@@ -64,11 +64,11 @@ const webpackConfig = {
   resolve: {
     extensions: ['', '.js', '.jsx'],
     alias: {
-      '~/lib': 'lib',
-      '~/assets': 'assets',
-      '~/dashboard': 'dashboard',
-      '~/marketing': 'marketing',
-      '~/sso': 'sso',
+      lib: 'lib',
+      assets: 'assets',
+      dashboard: 'dashboard',
+      marketing: 'marketing',
+      sso: 'sso',
     },
     root: [
       `${__dirname}/src`,

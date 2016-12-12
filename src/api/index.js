@@ -24,8 +24,8 @@ app.use('/twitter/retweets', twitterRetweet);
 app.use('/linkedin/posts', linkedInPost);
 app.use('/linkedin/shares', linkedInShare);
 app.use('/accounts', account);
-app.use('/feeds/posts', rssPost);
-app.use('/feeds', feed);
+app.use('/rss-posts', rssPost);
+app.use('/rss-feeds', feed);
 app.use('/users', user);
 
 export default app;

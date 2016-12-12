@@ -1,8 +1,7 @@
-@import 'bootstrap-sass/assets/stylesheets/bootstrap/variables';
 @import 'lib/client/styles/functions';
 @import 'lib/client/styles/variables';
 
-@import 'bootstrap-sass/assets/stylesheets/bootstrap';
+@import 'bulma/bulma';
 
 @import './components/menu/menu';
 @import './components/page/page';

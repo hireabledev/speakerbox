@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import { Button } from 'react-bootstrap';
 import Page from './page';
 import Post from './post';
 
@@ -34,7 +33,7 @@ export default class StreamPage extends Component {
           {twitterPosts.map(post => <Post key={post.id} post={post} type="twitter" />)}
           {linkedInPosts.map(post => <Post key={post.id} post={post} type="linkedin" />)}
           {rssPosts.map(post => <Post key={post.id} post={post} type="rss" />)}
-          {morePosts && <Button bsStyle="primary" onClick={this.props.fetchPosts}>Load More</Button>}
+          {morePosts && <button onClick={this.props.fetchPosts}>Load More</button>}
         </div>
       </Page>
     );

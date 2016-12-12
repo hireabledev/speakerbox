@@ -24,7 +24,7 @@ export default function getLinkedInClient({ token }) {
       return request('/people/~/shares?format=json', {
         method: 'POST',
         headers,
-        body,
+        body, // TODO: proper field names
       });
     },
   };
