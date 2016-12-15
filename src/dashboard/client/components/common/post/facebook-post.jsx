@@ -1,10 +1,10 @@
 import React, { PropTypes } from 'react';
-import DisplayDate from './display-date';
-import PostAuthor from './post-author';
-import PostAuthorImg from './post-author-img';
-import PostMeta from './post-meta';
+import DisplayDate from '../display-date';
+import PostAuthor from '../post-author';
+import PostAuthorImg from '../post-author-img';
+import PostMeta from '../post-meta';
 
-export default function TwitterPost({ post }) {
+export default function FacebookPost({ post }) {
   return (
     <article className="post">
       <div className="post-body">
@@ -40,7 +40,7 @@ export default function TwitterPost({ post }) {
   );
 }
 
-TwitterPost.propTypes = {
+FacebookPost.propTypes = {
   post: PropTypes.shape({
     body: PropTypes.string,
     date: PropTypes.date,

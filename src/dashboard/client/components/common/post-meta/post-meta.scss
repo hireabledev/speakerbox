@@ -1,0 +1,13 @@
+$post-meta-margin: 0.2em;
+
+.post-meta {
+  color: $grey;
+}
+
+.post-meta-top {
+  margin-bottom: $post-meta-margin;
+}
+
+.post-meta-bottom {
+  margin-top: $post-meta-margin;
+}

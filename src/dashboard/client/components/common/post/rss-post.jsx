@@ -1,19 +1,14 @@
 import React, { PropTypes } from 'react';
-import DisplayDate from './display-date';
-import PostAuthor from './post-author';
-import PostAuthorImg from './post-author-img';
-import PostMeta from './post-meta';
+import DisplayDate from '../display-date';
+import PostMeta from '../post-meta';
 
-export default function LinkedInPost({ post }) {
+export default function RSSPost({ post }) {
   return (
     <article className="post">
       <div className="post-body">
-        <PostAuthorImg name={post.authorName} url={post.authorUrl} imgUrl={post.authorImgUrl} />
         <div className="post-container">
           <PostMeta position="top">
             <PostMeta.Primary>
-              <PostAuthor name={post.authorName} url={post.authorUrl} />
-              {' '}
               <DisplayDate className="post-date" date={post.date} />
             </PostMeta.Primary>
           </PostMeta>
@@ -40,12 +35,9 @@ export default function LinkedInPost({ post }) {
   );
 }
 
-LinkedInPost.propTypes = {
+RSSPost.propTypes = {
   post: PropTypes.shape({
     body: PropTypes.string,
     date: PropTypes.date,
-    authorName: PropTypes.string,
-    authorUrl: PropTypes.string,
-    authorImgUrl: PropTypes.string,
   }),
 };

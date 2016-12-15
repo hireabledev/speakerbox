@@ -1,0 +1,9 @@
+.post-actions {
+  @extend .card-footer;
+}
+
+.post-action {
+  @extend .card-footer-item;
+  // background: none;
+  // border: 0;
+}

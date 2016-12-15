@@ -1,10 +1,11 @@
 import React, { PropTypes } from 'react';
-import DisplayDate from './display-date';
-import PostAuthor from './post-author';
-import PostAuthorImg from './post-author-img';
-import PostMeta from './post-meta';
+import DisplayDate from '../display-date';
+import { PostActions, PostAction } from '../post-actions';
+import PostAuthor from '../post-author';
+import PostAuthorImg from '../post-author-img';
+import PostMeta from '../post-meta';
 
-export default function FacebookPost({ post }) {
+export default function TwitterPost({ post }) {
   return (
     <article className="post">
       <div className="post-body">
@@ -20,7 +21,7 @@ export default function FacebookPost({ post }) {
           <p className="post-content">
             {post.body}
           </p>
-          <PostMeta>
+          {/*<PostMeta>
             <PostMeta.Primary>
               {' '}
             </PostMeta.Primary>
@@ -33,14 +34,18 @@ export default function FacebookPost({ post }) {
                 url
               </a>
             </PostMeta.Secondary>
-          </PostMeta>
+          </PostMeta>*/}
         </div>
       </div>
+      <PostActions>
+        <PostAction>Share Now</PostAction>
+        <PostAction>Share Later</PostAction>
+      </PostActions>
     </article>
   );
 }
 
-FacebookPost.propTypes = {
+TwitterPost.propTypes = {
   post: PropTypes.shape({
     body: PropTypes.string,
     date: PropTypes.date,

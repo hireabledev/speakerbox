@@ -1,8 +1,8 @@
 import React, { PropTypes } from 'react';
-import RSSPost from '../rss-post';
-import FacebookPost from '../facebook-post';
-import TwitterPost from '../twitter-post';
-import LinkedInPost from '../linkedin-post';
+import RSSPost from './rss-post';
+import FacebookPost from './facebook-post';
+import TwitterPost from './twitter-post';
+import LinkedInPost from './linkedin-post';
 
 const postMap = {
   rss: RSSPost,

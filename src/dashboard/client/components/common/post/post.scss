@@ -1,0 +1,27 @@
+.post {
+  @extend .card;
+  @extend .card.is-fullwidth;
+  margin-top: $size-4;
+  margin-bottom: $size-4;
+}
+
+.post-body {
+  @extend .card-content;
+  @extend .media;
+}
+
+.post-body.post-body.post-body {
+  margin-bottom: 0;
+}
+
+.post-author-img-url {
+  @extend .media-left;
+}
+
+.post-container {
+  @extend .media-content
+}
+
+.post-date {
+  display: block;
+}

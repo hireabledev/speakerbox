@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import Loading from 'react-redux-loading-bar';
-import Menu from './menu';
+import Menu from './common/menu';
 
 export default function App(props) {
   return (

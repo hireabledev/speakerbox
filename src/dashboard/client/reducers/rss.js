@@ -1,4 +1,6 @@
 import keyBy from 'lodash/keyBy';
+import mapValues from 'lodash/mapValues';
+import { RECEIVE_RSS_POSTS, RECEIVE_RSS_FEEDS } from '../constants/action-types';
 
 const initialState = {
   posts: [],
@@ -6,12 +8,14 @@ const initialState = {
   morePosts: false,
   feeds: [],
   moreFeeds: false,
+  visibility: {},
 };
 
 export default function rssFeedsReducer(state = initialState, action) {
   switch (action.type) {
-    case 'RECEIVE_RSS_POSTS':
+    case RECEIVE_RSS_POSTS:
       return {
+        ...state,
         posts: [...state.posts, ...action.payload.posts],
         postsById: {
           ...state.postsById,
@@ -19,10 +23,15 @@ export default function rssFeedsReducer(state = initialState, action) {
         },
         morePosts: action.payload.more,
       };
-    case 'RECEIVE_RSS_FEEDS':
+    case RECEIVE_RSS_FEEDS:
       return {
+        ...state,
         feeds: [...state.feeds, ...action.payload.feeds],
         moreFeeds: action.payload.more,
+        visibility: {
+          ...state.visibility,
+          ...mapValues(keyBy(action.payload.feeds, 'id'), () => (true)),
+        },
       };
     default:
       return state;

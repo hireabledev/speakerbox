@@ -1,0 +1,36 @@
+.nav-placeholder {
+  height: $nav-height;
+}
+
+.nav.is-fixed {
+  position: fixed;
+  width: 100%;
+}
+
+.nav {
+  background: $dark-blue;
+}
+
+.nav-item a,
+a.nav-item {
+  color: rgba(255, 255, 255, 0.7);
+
+  &:hover {
+    color: #fff;
+  }
+
+  // Modifiers
+  &.is-active {
+    color: #fff;
+  }
+
+  &.is-tab {
+    &:hover {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.7);
+    }
+    &.is-active {
+      border-bottom: 3px solid rgba(255, 255, 255, 0.7);
+      color: rgba(255, 255, 255, 0.7);
+    }
+  }
+}

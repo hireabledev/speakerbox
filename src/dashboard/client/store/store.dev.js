@@ -9,7 +9,9 @@ export default function configureStore({ initialState, history } = {}) {
   const middleware = [
     thunk,
     routerMiddleware(history),
-    createLogger(),
+    createLogger({
+      collapsed: true,
+    }),
   ];
 
   const store = createStore(

@@ -3,9 +3,13 @@
 
 @import 'bulma/bulma';
 
-@import './components/menu/menu';
-@import './components/page/page';
-@import './components/post/post';
-@import './components/post-author/post-author';
-@import './components/post-author-img/post-author-img';
-@import './components/post-meta/post-meta';
+@import 'lib/client/styles/cards';
+@import 'lib/client/styles/nav';
+
+@import './components/common/menu/menu';
+@import './components/common/page/page';
+@import './components/common/post/post';
+@import './components/common/post-actions/post-actions';
+@import './components/common/post-author/post-author';
+@import './components/common/post-author-img/post-author-img';
+@import './components/common/post-meta/post-meta';
