@@ -1,6 +1,6 @@
 import os from 'os';
 import Sequelize from 'sequelize';
-import { assign, intersection, startCase } from 'lodash';
+import { intersection, startCase } from 'lodash';
 import { notFound } from 'boom';
 import { ENV } from './config';
 

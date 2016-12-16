@@ -86,7 +86,7 @@ export function fetchRSSPosts({ feeds }) {
     const { rss } = getState();
     dispatch(showLoading());
     const feedQueryString = getFeedQueryString(feeds);
-    const res = await fetch(`/api/rss-posts?skip=${rss.posts.length}${feedQueryString}`, { credentials: 'include' });
+    const res = await fetch(`/api/rss/posts?skip=${rss.posts.length}${feedQueryString}`, { credentials: 'include' });
     dispatch(hideLoading());
     const { data, more } = await res.json();
     dispatch(receiveRSSPosts({ posts: data, more }));

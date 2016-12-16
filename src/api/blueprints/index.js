@@ -28,7 +28,7 @@ export function showBlueprint(modelName) {
   };
 }
 
-export async function createBlueprint(modelName) {
+export function createBlueprint(modelName) {
   return async function create(req) {
     const Model = req.app.models[modelName];
     const instance = Model.build(req.body);
