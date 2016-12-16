@@ -94,12 +94,13 @@ export function fetchRSSPosts({ feeds }) {
   };
 }
 
-export function fetchPosts({ facebookAccounts, twitterAccounts, linkedinAccounts, feeds }) {
+export function fetchPosts(options = {}) {
+  const { accounts, feeds } = options;
   return async (dispatch, getState) => (
     await Promise.resolve([
-      fetchFacebookPosts({ accounts: facebookAccounts })(dispatch, getState),
-      fetchTwitterPosts({ accounts: twitterAccounts })(dispatch, getState),
-      fetchLinkedInPosts({ accounts: linkedinAccounts })(dispatch, getState),
+      fetchFacebookPosts({ accounts })(dispatch, getState),
+      fetchTwitterPosts({ accounts })(dispatch, getState),
+      fetchLinkedInPosts({ accounts })(dispatch, getState),
       fetchRSSPosts({ feeds })(dispatch, getState),
     ])
   );

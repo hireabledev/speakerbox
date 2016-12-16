@@ -9,31 +9,15 @@ export default class StreamPage extends Component {
   // }
 
   componentDidMount() {
-    let {
-      facebookAccounts,
-      twitterAccounts,
-      linkedinAccounts,
-      feeds,
-    } = this.props.location.query;
-    if (typeof facebookAccounts === 'string') { facebookAccounts = [facebookAccounts]; }
-    if (typeof twitterAccounts === 'string') { twitterAccounts = [twitterAccounts]; }
-    if (typeof linkedinAccounts === 'string') { linkedinAccounts = [linkedinAccounts]; }
-    if (typeof feeds === 'string') { feeds = [feeds]; }
     Promise.all([
       this.props.fetchAccounts(),
       this.props.fetchFeeds(),
-      this.props.fetchPosts({ facebookAccounts, twitterAccounts, linkedinAccounts, feeds }),
+      this.props.fetchPosts(),
     ]);
   }
 
   render() {
     const {
-      accounts = [],
-      moreAccounts,
-      accountVisibility,
-      feeds = [],
-      moreFeeds,
-      feedVisibility,
       facebookPosts = [],
       moreFacebookPosts,
       twitterPosts = [],
@@ -58,14 +42,7 @@ export default class StreamPage extends Component {
               {morePosts && <button onClick={this.props.fetchPosts}>Load More</button>}
             </div>
             <div className="column is-one-third">
-              <AccountList
-                accounts={accounts}
-                moreAccounts={moreAccounts}
-                accountVisibility={accountVisibility}
-                feeds={feeds}
-                moreFeeds={moreFeeds}
-                feedVisibility={feedVisibility}
-              />
+              <AccountList />
             </div>
           </div>
         </div>
@@ -75,50 +52,20 @@ export default class StreamPage extends Component {
 }
 
 StreamPage.propTypes = {
-  location: PropTypes.shape({
-    query: PropTypes.shape({
-      facebookAccounts: PropTypes.oneOfType([
-        PropTypes.arrayOf(PropTypes.string),
-        PropTypes.string,
-      ]),
-      twitterAccounts: PropTypes.oneOfType([
-        PropTypes.arrayOf(PropTypes.string),
-        PropTypes.string,
-      ]),
-      linkedinAccounts: PropTypes.oneOfType([
-        PropTypes.arrayOf(PropTypes.string),
-        PropTypes.string,
-      ]),
-      feeds: PropTypes.oneOfType([
-        PropTypes.arrayOf(PropTypes.string),
-        PropTypes.string,
-      ]),
-    }).isRequired,
-  }).isRequired,
-  accounts: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string,
-  })).isRequired,
-  moreAccounts: PropTypes.bool.isRequired,
-  accountVisibility: PropTypes.object.isRequired, // eslint-disable-line
-  feeds: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string,
-  })).isRequired,
-  moreFeeds: PropTypes.bool.isRequired,
-  feedVisibility: PropTypes.object.isRequired, // eslint-disable-line
   facebookPosts: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string,
+    id: PropTypes.string, // eslint-disable-line react/no-unused-prop-types
   })).isRequired,
   moreFacebookPosts: PropTypes.bool.isRequired,
   twitterPosts: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string,
+    id: PropTypes.string, // eslint-disable-line react/no-unused-prop-types
   })).isRequired,
   moreTwitterPosts: PropTypes.bool.isRequired,
   linkedInPosts: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string,
+    id: PropTypes.string, // eslint-disable-line react/no-unused-prop-types
   })).isRequired,
   moreLinkedInPosts: PropTypes.bool.isRequired,
   rssPosts: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string,
+    id: PropTypes.string, // eslint-disable-line react/no-unused-prop-types
   })).isRequired,
   moreRSSPosts: PropTypes.bool.isRequired,
   fetchAccounts: PropTypes.func.isRequired,

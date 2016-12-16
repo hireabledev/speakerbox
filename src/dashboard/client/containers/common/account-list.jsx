@@ -1,9 +1,11 @@
 import { connect } from 'react-redux';
 import AccountList from '../../components/common/account-list';
 
-const mapStateToProps = (state) => ({});
-
-const mapDispatchToProps = (dispatch) => ({
+const mapStateToProps = (state) => ({
+  accounts: state.accounts.accounts,
+  accountVisibility: state.accounts.accountVisibility,
+  feeds: state.rss.feeds,
+  feedVisibility: state.rss.feedVisibility,
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(AccountList);
+export default connect(mapStateToProps)(AccountList);

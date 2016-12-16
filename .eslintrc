@@ -27,6 +27,7 @@
     "no-unused-vars": [2, { "argsIgnorePattern": "next|reject" }],
     "arrow-parens": 0,
     "import/prefer-default-export": 0,
-    "no-shadow": ["error", { "allow": ["res"] }]
+    "no-shadow": ["error", { "allow": ["res"] }],
+    "react/forbid-prop-types": 0,
   }
 }

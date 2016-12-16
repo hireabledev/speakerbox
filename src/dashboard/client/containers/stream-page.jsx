@@ -7,10 +7,10 @@ import { fetchPosts } from '../actions/posts';
 const mapStateToProps = (state) => ({
   accounts: state.accounts.accounts,
   moreAccounts: state.accounts.moreAccounts,
-  accountVisibility: state.accounts.visibility,
+  accountVisibility: state.accounts.accountVisibility,
   feeds: state.rss.feeds,
   moreFeeds: state.rss.moreFeeds,
-  feedVisibility: state.rss.visibility,
+  feedVisibility: state.rss.feedVisibility,
   facebookPosts: state.facebook.posts,
   twitterPosts: state.twitter.posts,
   linkedInPosts: state.linkedin.posts,

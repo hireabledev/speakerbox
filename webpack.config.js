@@ -47,7 +47,6 @@ const webpackConfig = {
     new webpack.optimize.CommonsChunkPlugin({
       name: 'common',
       chunks: ['dashboard', 'marketing', 'sso', 'vendor'],
-      minChunks: Infinity,
     }),
     function saveWebpackStats() {
       this.plugin('done', stats => {
@@ -74,7 +73,7 @@ const webpackConfig = {
       `${__dirname}/src`,
     ],
   },
-  devtool: (ENV === 'production' ? 'source-map' : 'eval-cheap-module-source-map'),
+  devtool: (ENV === 'production' ? 'source-map' : 'cheap-source-map'),
   postcss(/* webpack */) {
     return [
       autoprefixer,
