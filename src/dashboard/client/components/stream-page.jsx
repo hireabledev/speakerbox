@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import memoize from 'lodash/memoize';
 import Page from './common/page';
 import Post from './common/post';
 import AccountList from '../containers/common/account-list';
@@ -18,6 +19,8 @@ export default class StreamPage extends Component {
 
   render() {
     const {
+      accountVisibility,
+      feedVisibility,
       facebookPosts = [],
       moreFacebookPosts,
       twitterPosts = [],
@@ -30,15 +33,26 @@ export default class StreamPage extends Component {
 
     const morePosts = moreFacebookPosts || moreTwitterPosts || moreLinkedInPosts || moreRSSPosts;
 
+    const filterByAccount = memoize((post) => (accountVisibility[post.accountId]));
+    const filterByFeed = memoize((post) => (feedVisibility[post.rssFeedId]));
+
     return (
       <Page bg="light">
         <div className="container">
           <div className="columns">
             <div className="column">
-              {facebookPosts.map(post => <Post key={post.id} post={post} type="facebook" />)}
-              {twitterPosts.map(post => <Post key={post.id} post={post} type="twitter" />)}
-              {linkedInPosts.map(post => <Post key={post.id} post={post} type="linkedin" />)}
-              {rssPosts.map(post => <Post key={post.id} post={post} type="rss" />)}
+              {facebookPosts
+                .filter(filterByAccount)
+                .map(post => <Post key={post.id} post={post} type="facebook" />)}
+              {twitterPosts
+                .filter(filterByAccount)
+                .map(post => <Post key={post.id} post={post} type="twitter" />)}
+              {linkedInPosts
+                .filter(filterByAccount)
+                .map(post => <Post key={post.id} post={post} type="linkedin" />)}
+              {rssPosts
+                .filter(filterByFeed)
+                .map(post => <Post key={post.id} post={post} type="rss" />)}
               {morePosts && <button onClick={this.props.fetchPosts}>Load More</button>}
             </div>
             <div className="column is-one-third">
@@ -52,6 +66,8 @@ export default class StreamPage extends Component {
 }
 
 StreamPage.propTypes = {
+  accountVisibility: PropTypes.object,
+  feedVisibility: PropTypes.object,
   facebookPosts: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string, // eslint-disable-line react/no-unused-prop-types
   })).isRequired,
