@@ -23,6 +23,7 @@ export default function accountsReducer(state = initialState, action) {
         },
         moreAccounts: action.payload.more,
         accountVisibility: {
+          ...state.accountVisibility,
           ...mapValues(
             keyBy(action.payload.accounts, 'id'),
             (value, key) => {

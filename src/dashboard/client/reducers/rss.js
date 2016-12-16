@@ -36,6 +36,7 @@ export default function rssFeedsReducer(state = initialState, action) {
         },
         moreFeeds: action.payload.more,
         feedVisibility: {
+          ...state.feedVisibility,
           ...mapValues(
             keyBy(action.payload.feeds, 'id'),
             (value, key) => {
