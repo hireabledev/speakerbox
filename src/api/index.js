@@ -4,6 +4,7 @@ import { scopeToAccountType } from './middleware/account';
 
 // Routes
 import facebookPost from './routes/facebook-post';
+import facebookScheduledPost from './routes/facebook-scheduled-post';
 import twitterPost from './routes/twitter-post';
 import twitterScheduledRetweet from './routes/twitter-scheduled-retweet';
 import twitterScheduledPost from './routes/twitter-scheduled-post';
@@ -22,6 +23,7 @@ app.removeJob = removeJob;
 
 app.use('/facebook/accounts', scopeToAccountType('facebook'), account);
 app.use('/facebook/posts', facebookPost);
+app.use('/facebook/scheduled-posts', facebookScheduledPost);
 
 app.use('/twitter/accounts', scopeToAccountType('twitter'), account);
 app.use('/twitter/posts', twitterPost);
