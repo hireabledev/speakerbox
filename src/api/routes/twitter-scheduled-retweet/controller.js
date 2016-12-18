@@ -1,6 +1,7 @@
 import {
   indexBlueprint,
   showBlueprint,
+  removeScheduledBlueprint,
 } from '../../blueprints/post';
 
 const JOB_TYPE = 'twitter-scheduled-retweet';
@@ -18,7 +19,7 @@ export async function create(req) {
   const date = req.body.date || new Date();
   const job = await req.app.addJob({
     type: JOB_TYPE,
-    title: `Retweet ${post.id}`,
+    title: `Twitter Scheduled Retweet ${post.id}`,
     delay: date,
     data: {
       ...req.body,
@@ -48,7 +49,7 @@ export async function update(req) {
   const oldJob = await req.app.removeJob(retweet.jobId);
   const job = await req.app.addJob({
     type: JOB_TYPE,
-    title: `Retweet ${retweet.twitterPostId}`,
+    title: `Twitter Scheduled Retweet ${retweet.twitterPostId}`,
     delay: date,
     data: {
       ...oldJob.data.data,
@@ -58,21 +59,11 @@ export async function update(req) {
     },
   });
   try {
-    return await retweet.update({
-      ...req.body,
-      date,
-      jobId: job.id,
-    });
+    return await retweet.update({ ...req.body, date, jobId: job.id });
   } catch (err) {
     await req.app.removeJob(job.id);
     throw err;
   }
 }
 
-export async function remove(req) {
-  const retweet = await req.app.models.TwitterScheduledRetweet
-    .scopeForUserAccounts(req.user, req.query.user)
-    .findByIdOr404(req.params.id);
-  await req.app.removeJob(retweet.jobId);
-  return await retweet.destroy();
-}
+export const remove = removeScheduledBlueprint('TwitterScheduledRetweet');
