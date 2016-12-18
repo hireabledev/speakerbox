@@ -2,42 +2,42 @@
 
 import sequelize, { Sequelize } from '../sequelize';
 
-const LinkedInPost = sequelize.define('LinkedInPost', {
+const LinkedinPost = sequelize.define('LinkedinPost', {
   id:                   {
                           type: Sequelize.STRING,
                           allowNull: false,
                           primaryKey: true,
-                          comment: 'LinkedIn post ID.',
+                          comment: 'Linkedin post ID.',
                         },
   url:                  {
                           type: Sequelize.TEXT,
                           allowNull: false,
-                          comment: 'LinkedIn post URL.',
+                          comment: 'Linkedin post URL.',
                         },
   body:                 {
                           type: Sequelize.TEXT,
                           allowNull: false,
-                          comment: 'LinkedIn post body.',
+                          comment: 'Linkedin post body.',
                         },
   date:                 {
                           type: Sequelize.TEXT,
                           allowNull: false,
-                          comment: 'LinkedIn post date.',
+                          comment: 'Linkedin post date.',
                         },
   authorName:           {
                           type: Sequelize.STRING,
                           allowNull: false,
-                          comment: 'LinkedIn post author display name.',
+                          comment: 'Linkedin post author display name.',
                         },
   authorImgUrl:         {
                           type: Sequelize.TEXT,
                           allowNull: false,
-                          comment: 'LinkedIn post author image URL.',
+                          comment: 'Linkedin post author image URL.',
                         },
   authorUrl:            {
                           type: Sequelize.TEXT,
                           allowNull: false,
-                          comment: 'LinkedIn post author URL.',
+                          comment: 'Linkedin post author URL.',
                         },
   data:                 {
                           type: Sequelize.JSONB,
@@ -47,9 +47,9 @@ const LinkedInPost = sequelize.define('LinkedInPost', {
                         },
 }, {
   name: {
-    singular: 'linkedInPost',
-    plural: 'linkedInPosts',
+    singular: 'linkedinPost',
+    plural: 'linkedinPosts',
   },
 });
 
-export default LinkedInPost;
+export default LinkedinPost;

@@ -3,13 +3,13 @@ import {
   showBlueprint,
 } from '../../blueprints/post';
 
-const JOB_TYPE = 'linkedin-share';
+const JOB_TYPE = 'twitter-scheduled-retweet';
 
-export const index = indexBlueprint('LinkedInShare');
-export const show = showBlueprint('LinkedInShare');
+export const index = indexBlueprint('TwitterScheduledRetweet');
+export const show = showBlueprint('TwitterScheduledRetweet');
 
 export async function create(req) {
-  const post = await req.app.models.LinkedInPost
+  const post = await req.app.models.TwitterPost
     .scopeForUserAccounts(req.user, req.query.user)
     .findByIdOr404(req.body.postId);
   const account = await req.app.models.Account
@@ -18,7 +18,7 @@ export async function create(req) {
   const date = req.body.date || new Date();
   const job = await req.app.addJob({
     type: JOB_TYPE,
-    title: `Share on LinkedIn ${post.id}`,
+    title: `Retweet ${post.id}`,
     delay: date,
     data: {
       ...req.body,
@@ -26,14 +26,14 @@ export async function create(req) {
       accountId: account.id,
     },
   });
-  const share = req.app.models.LinkedInShare.build({
+  const retweet = req.app.models.TwitterScheduledRetweet.build({
     date,
     jobId: job.id,
   });
-  share.setLinkedInPost(post);
-  share.setAccount(account);
+  retweet.setTwitterPost(post);
+  retweet.setAccount(account);
   try {
-    return await share.save();
+    return await retweet.save();
   } catch (err) {
     await req.app.removeJob(job.id);
     throw err;
@@ -41,14 +41,14 @@ export async function create(req) {
 }
 
 export async function update(req) {
-  const share = await req.app.models.LinkedInShare
+  const retweet = await req.app.models.TwitterScheduledRetweet
     .scopeForUserAccounts(req.user, req.query.user)
     .findByIdOr404(req.params.id);
-  const oldJob = await req.app.removeJob(share.jobId);
-  const date = req.body.date || share.date;
+  const date = req.body.date || retweet.date;
+  const oldJob = await req.app.removeJob(retweet.jobId);
   const job = await req.app.addJob({
     type: JOB_TYPE,
-    title: `Share on LinkedIn ${share.linkedInPostId}`,
+    title: `Retweet ${retweet.twitterPostId}`,
     delay: date,
     data: {
       ...oldJob.data.data,
@@ -58,7 +58,7 @@ export async function update(req) {
     },
   });
   try {
-    return await share.update({
+    return await retweet.update({
       ...req.body,
       date,
       jobId: job.id,
@@ -70,9 +70,9 @@ export async function update(req) {
 }
 
 export async function remove(req) {
-  const share = await req.app.models.LinkedInShare
+  const retweet = await req.app.models.TwitterScheduledRetweet
     .scopeForUserAccounts(req.user, req.query.user)
     .findByIdOr404(req.params.id);
-  await req.app.removeJob(share.jobId);
-  return await share.destroy();
+  await req.app.removeJob(retweet.jobId);
+  return await retweet.destroy();
 }

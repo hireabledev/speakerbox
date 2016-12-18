@@ -2,19 +2,19 @@
 
 import sequelize, { Sequelize } from '../sequelize';
 
-const TwitterRetweet = sequelize.define('TwitterRetweet', {
+const TwitterScheduledRetweet = sequelize.define('TwitterScheduledRetweet', {
   id:                   {
                           type: Sequelize.STRING,
                           defaultValue: Sequelize.UUIDV4,
                           allowNull: false,
                           primaryKey: true,
-                          comment: 'Twitter retweet ID.',
+                          comment: 'Twitter scheduled retweet ID.',
                         },
   date:                 {
                           type: Sequelize.DATE,
                           allowNull: false,
                           defaultValue: Sequelize.NOW,
-                          comment: 'Twitter retweet date.',
+                          comment: 'Twitter scheduled retweet date.',
                         },
   jobId:                {
                           type: Sequelize.STRING,
@@ -23,9 +23,9 @@ const TwitterRetweet = sequelize.define('TwitterRetweet', {
                         },
 }, {
   name: {
-    singular: 'twitterRetweet',
-    plural: 'twitterRetweets',
+    singular: 'twitterScheduledRetweet',
+    plural: 'twitterScheduledRetweets',
   },
 });
 
-export default TwitterRetweet;
+export default TwitterScheduledRetweet;

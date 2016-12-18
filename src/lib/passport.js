@@ -1,7 +1,7 @@
 import passport from 'passport';
 import { Strategy as FacebookStrategy } from 'passport-facebook';
 import { Strategy as TwitterStrategy } from 'passport-twitter';
-import { Strategy as LinkedInStrategy } from 'passport-linkedin';
+import { Strategy as LinkedinStrategy } from 'passport-linkedin';
 import {
   FB_KEY,
   FB_SECRET,
@@ -122,7 +122,7 @@ passport.use(getStrategy({
 }));
 
 passport.use(getStrategy({
-  Strategy: LinkedInStrategy,
+  Strategy: LinkedinStrategy,
   strategyOptions: {
     consumerKey: LINKEDIN_KEY,
     consumerSecret: LINKEDIN_SECRET,

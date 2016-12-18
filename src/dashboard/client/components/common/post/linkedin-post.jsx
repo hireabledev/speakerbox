@@ -4,7 +4,7 @@ import PostAuthor from '../post-author';
 import PostAuthorImg from '../post-author-img';
 import PostMeta from '../post-meta';
 
-export default function LinkedInPost({ post }) {
+export default function LinkedinPost({ post }) {
   return (
     <article className="post">
       <div className="post-body">
@@ -40,7 +40,7 @@ export default function LinkedInPost({ post }) {
   );
 }
 
-LinkedInPost.propTypes = {
+LinkedinPost.propTypes = {
   post: PropTypes.shape({
     body: PropTypes.string,
     date: PropTypes.date,

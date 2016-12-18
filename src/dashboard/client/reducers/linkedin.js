@@ -7,7 +7,7 @@ const initialState = {
   morePosts: false,
 };
 
-export default function linkedInPostsReducer(state = initialState, action) {
+export default function linkedinPostsReducer(state = initialState, action) {
   switch (action.type) {
     case RECEIVE_LINKEDIN_POSTS:
       return {

@@ -2,39 +2,39 @@
 
 import sequelize, { Sequelize } from '../sequelize';
 
-const LinkedInShare = sequelize.define('LinkedInShare', {
+const LinkedinScheduledPost = sequelize.define('LinkedinScheduledPost', {
   id:                   {
                           type: Sequelize.STRING,
                           defaultValue: Sequelize.UUIDV4,
                           allowNull: false,
                           primaryKey: true,
-                          comment: 'LinkedIn share ID.',
+                          comment: 'Linkedin scheduled post ID.',
                         },
   date:                 {
                           type: Sequelize.DATE,
                           allowNull: false,
                           defaultValue: Sequelize.NOW,
-                          comment: 'LinkedIn share date.',
+                          comment: 'Linkedin scheduled post date.',
                         },
   contentTitle:         {
                           type: Sequelize.STRING,
-                          comment: 'LinkedIn share content title.',
+                          comment: 'Linkedin scheduled post content title.',
                         },
   contentDescription:   {
                           type: Sequelize.STRING,
-                          comment: 'LinkedIn share content description.',
+                          comment: 'Linkedin scheduled post content description.',
                         },
   contentUrl:           {
                           type: Sequelize.STRING,
-                          comment: 'LinkedIn share content submitted URL.',
+                          comment: 'Linkedin scheduled post content submitted URL.',
                         },
   contentImgUrl:        {
                           type: Sequelize.STRING,
-                          comment: 'LinkedIn share content submitted image URL.',
+                          comment: 'Linkedin scheduled post content submitted image URL.',
                         },
   comment:              {
                           type: Sequelize.STRING,
-                          comment: 'LinkedIn share comment.',
+                          comment: 'Linkedin scheduled post comment.',
                         },
   visibility:         {
                           type: Sequelize.STRING,
@@ -43,7 +43,7 @@ const LinkedInShare = sequelize.define('LinkedInShare', {
                           validate: {
                             isIn: [['anyone', 'connections-only']],
                           },
-                          comment: 'LinkedIn share visibility.',
+                          comment: 'Linkedin scheduled post visibility.',
                         },
   jobId:                {
                           type: Sequelize.STRING,
@@ -52,9 +52,9 @@ const LinkedInShare = sequelize.define('LinkedInShare', {
                         },
 }, {
   name: {
-    singular: 'linkedInShare',
-    plural: 'linkedInShares',
+    singular: 'linkedinScheduledPost',
+    plural: 'linkedinScheduledPosts',
   },
 });
 
-export default LinkedInShare;
+export default LinkedinScheduledPost;

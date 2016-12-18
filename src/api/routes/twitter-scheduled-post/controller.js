@@ -3,37 +3,30 @@ import {
   showBlueprint,
 } from '../../blueprints/post';
 
-const JOB_TYPE = 'twitter-retweet';
+const JOB_TYPE = 'twitter-scheduled-post';
 
-export const index = indexBlueprint('TwitterRetweet');
-export const show = showBlueprint('TwitterRetweet');
+export const index = indexBlueprint('TwitterScheduledPost');
+export const show = showBlueprint('TwitterScheduledPost');
 
 export async function create(req) {
-  const post = await req.app.models.TwitterPost
-    .scopeForUserAccounts(req.user, req.query.user)
-    .findByIdOr404(req.body.postId);
   const account = await req.app.models.Account
     .scopeForUser(req.user, req.query.user)
-    .findByIdOr404(post.accountId);
+    .findByIdOr404(req.body.accountId);
   const date = req.body.date || new Date();
+  const post = req.app.models.TwitterScheduledPost.build({ date });
   const job = await req.app.addJob({
     type: JOB_TYPE,
-    title: `Retweet ${post.id}`,
+    title: `Post on Twitter ${post.id}`,
     delay: date,
     data: {
       ...req.body,
-      postId: post.id,
       accountId: account.id,
     },
   });
-  const retweet = req.app.models.TwitterRetweet.build({
-    date,
-    jobId: job.id,
-  });
-  retweet.setTwitterPost(post);
-  retweet.setAccount(account);
+  post.jobId = job.id;
+  post.setAccount(account);
   try {
-    return await retweet.save();
+    return await post.save();
   } catch (err) {
     await req.app.removeJob(job.id);
     throw err;
@@ -41,24 +34,23 @@ export async function create(req) {
 }
 
 export async function update(req) {
-  const retweet = await req.app.models.TwitterRetweet
+  const post = await req.app.models.TwitterScheduledPost
     .scopeForUserAccounts(req.user, req.query.user)
     .findByIdOr404(req.params.id);
-  const oldJob = await req.app.removeJob(retweet.jobId);
-  const date = req.body.date || retweet.date;
+  const date = req.body.date || post.date;
+  const oldJob = await req.app.removeJob(post.jobId);
   const job = await req.app.addJob({
     type: JOB_TYPE,
-    title: `Retweet ${retweet.twitterPostId}`,
+    title: `Post on Twitter ${post.id}`,
     delay: date,
     data: {
       ...oldJob.data.data,
       ...req.body,
-      postId: oldJob.data.data.postId,
       accountId: oldJob.data.data.accountId,
     },
   });
   try {
-    return await retweet.update({
+    return await post.update({
       ...req.body,
       date,
       jobId: job.id,
@@ -70,9 +62,9 @@ export async function update(req) {
 }
 
 export async function remove(req) {
-  const retweet = await req.app.models.TwitterRetweet
+  const share = await req.app.models.TwitterScheduledPost
     .scopeForUserAccounts(req.user, req.query.user)
     .findByIdOr404(req.params.id);
-  await req.app.removeJob(retweet.jobId);
-  return await retweet.destroy();
+  await req.app.removeJob(share.jobId);
+  return await share.destroy();
 }

@@ -25,13 +25,13 @@ export default class StreamPage extends Component {
       moreFacebookPosts,
       twitterPosts = [],
       moreTwitterPosts,
-      linkedInPosts = [],
-      moreLinkedInPosts,
+      linkedinPosts = [],
+      moreLinkedinPosts,
       rssPosts = [],
       moreRSSPosts,
     } = this.props;
 
-    const morePosts = moreFacebookPosts || moreTwitterPosts || moreLinkedInPosts || moreRSSPosts;
+    const morePosts = moreFacebookPosts || moreTwitterPosts || moreLinkedinPosts || moreRSSPosts;
 
     const filterByAccount = memoize((post) => (accountVisibility[post.accountId]));
     const filterByFeed = memoize((post) => (feedVisibility[post.rssFeedId]));
@@ -47,7 +47,7 @@ export default class StreamPage extends Component {
               {twitterPosts
                 .filter(filterByAccount)
                 .map(post => <Post key={post.id} post={post} type="twitter" />)}
-              {linkedInPosts
+              {linkedinPosts
                 .filter(filterByAccount)
                 .map(post => <Post key={post.id} post={post} type="linkedin" />)}
               {rssPosts
@@ -76,10 +76,10 @@ StreamPage.propTypes = {
     id: PropTypes.string, // eslint-disable-line react/no-unused-prop-types
   })).isRequired,
   moreTwitterPosts: PropTypes.bool.isRequired,
-  linkedInPosts: PropTypes.arrayOf(PropTypes.shape({
+  linkedinPosts: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string, // eslint-disable-line react/no-unused-prop-types
   })).isRequired,
-  moreLinkedInPosts: PropTypes.bool.isRequired,
+  moreLinkedinPosts: PropTypes.bool.isRequired,
   rssPosts: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string, // eslint-disable-line react/no-unused-prop-types
   })).isRequired,

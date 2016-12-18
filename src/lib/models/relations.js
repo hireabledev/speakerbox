@@ -8,73 +8,54 @@ import FacebookUpload from './facebook-upload.model';
 import FacebookScheduledPost from './facebook-scheduled-post.model';
 import TwitterPost from './twitter-post.model';
 import TwitterUpload from './twitter-upload.model';
-import TwitterRetweet from './twitter-retweet.model';
+import TwitterScheduledRetweet from './twitter-scheduled-retweet.model';
 import TwitterScheduledPost from './twitter-scheduled-post.model';
-import LinkedInPost from './linkedin-post.model';
-import LinkedInUpload from './linkedin-upload.model';
-import LinkedInShare from './linkedin-share.model';
+import LinkedinPost from './linkedin-post.model';
+import LinkedinUpload from './linkedin-upload.model';
+import LinkedinScheduledPost from './linkedin-scheduled-post.model';
 
 // RSS
-RSSFeed.hasMany(RSSPost, {
-  onUpdate: 'cascade',
-  onDelete: 'cascade',
-});
+RSSFeed.hasMany(RSSPost, { onUpdate: 'cascade', onDelete: 'cascade' });
 RSSPost.belongsTo(RSSFeed);
 
 
 // Facebook
-Account.hasMany(FacebookPost, {
-  onUpdate: 'cascade',
-  onDelete: 'cascade',
-});
+Account.hasMany(FacebookPost, { onUpdate: 'cascade', onDelete: 'cascade' });
 FacebookPost.belongsTo(Account);
 
+Account.hasMany(FacebookScheduledPost, { onUpdate: 'cascade', onDelete: 'cascade' });
+FacebookScheduledPost.belongsTo(Account);
 FacebookScheduledPost.belongsToMany(Upload, { through: FacebookUpload });
+Upload.belongsToMany(FacebookScheduledPost, { through: FacebookUpload });
 
 
 // Twitter
-Account.hasMany(TwitterPost, {
-  onUpdate: 'cascade',
-  onDelete: 'cascade',
-});
+Account.hasMany(TwitterPost, { onUpdate: 'cascade', onDelete: 'cascade' });
 TwitterPost.belongsTo(Account);
 
-Account.hasMany(TwitterRetweet, {
-  onUpdate: 'cascade',
-  onDelete: 'cascade',
-});
-TwitterRetweet.belongsTo(Account);
+Account.hasMany(TwitterScheduledRetweet, { onUpdate: 'cascade', onDelete: 'cascade' });
+TwitterScheduledRetweet.belongsTo(Account);
+TwitterScheduledRetweet.belongsTo(TwitterPost);
 
-TwitterRetweet.belongsTo(TwitterPost);
-
+Account.hasMany(TwitterScheduledPost, { onUpdate: 'cascade', onDelete: 'cascade' });
+TwitterScheduledPost.belongsTo(Account);
 TwitterScheduledPost.belongsToMany(Upload, { through: TwitterUpload });
+Upload.belongsToMany(TwitterScheduledPost, { through: TwitterUpload });
 
 
-// LinkedIn
-Account.hasMany(LinkedInPost, {
-  onUpdate: 'cascade',
-  onDelete: 'cascade',
-});
-LinkedInPost.belongsTo(Account);
+// Linkedin
+Account.hasMany(LinkedinPost, { onUpdate: 'cascade', onDelete: 'cascade' });
+LinkedinPost.belongsTo(Account);
 
-Account.hasMany(LinkedInShare, {
-  onUpdate: 'cascade',
-  onDelete: 'cascade',
-});
-LinkedInShare.belongsTo(Account);
-
-LinkedInShare.belongsToMany(Upload, { through: LinkedInUpload });
+Account.hasMany(LinkedinScheduledPost, { onUpdate: 'cascade', onDelete: 'cascade' });
+LinkedinScheduledPost.belongsTo(Account);
+LinkedinScheduledPost.belongsToMany(Upload, { through: LinkedinUpload });
+Upload.belongsToMany(LinkedinScheduledPost, { through: LinkedinUpload });
 
 
 // User
-User.hasMany(Account, {
-  onUpdate: 'cascade',
-  onDelete: 'cascade',
-});
+User.hasMany(Account, { onUpdate: 'cascade', onDelete: 'cascade' });
 Account.belongsTo(User);
 
-User.hasMany(RSSFeed, {
-  onUpdate: 'cascade',
-  onDelete: 'cascade',
-});
+User.hasMany(RSSFeed, { onUpdate: 'cascade', onDelete: 'cascade' });
 RSSFeed.belongsTo(User);

@@ -2,13 +2,13 @@ import React, { PropTypes } from 'react';
 import RSSPost from './rss-post';
 import FacebookPost from './facebook-post';
 import TwitterPost from './twitter-post';
-import LinkedInPost from './linkedin-post';
+import LinkedinPost from './linkedin-post';
 
 const postMap = {
   rss: RSSPost,
   facebook: FacebookPost,
   twitter: TwitterPost,
-  linkedin: LinkedInPost,
+  linkedin: LinkedinPost,
 };
 
 export default function Post({ children, post, type }) {

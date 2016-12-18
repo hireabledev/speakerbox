@@ -1,7 +1,7 @@
 import { Account } from '../../lib/models';
 import twitterClient from '../../lib/twitter';
 
-export default async function twitterRetweetProcessor(job, done) {
+export default async function twitterScheduledRetweetProcessor(job, done) {
   const { postId, accountId } = job.data.data;
 
   try {

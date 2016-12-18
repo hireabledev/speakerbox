@@ -9,11 +9,11 @@ const mapStateToProps = (state) => ({
   feedVisibility: state.rss.feedVisibility,
   facebookPosts: state.facebook.posts,
   twitterPosts: state.twitter.posts,
-  linkedInPosts: state.linkedin.posts,
+  linkedinPosts: state.linkedin.posts,
   rssPosts: state.rss.posts,
   moreFacebookPosts: state.facebook.morePosts,
   moreTwitterPosts: state.twitter.morePosts,
-  moreLinkedInPosts: state.linkedin.morePosts,
+  moreLinkedinPosts: state.linkedin.morePosts,
   moreRSSPosts: state.rss.morePosts,
 });
 

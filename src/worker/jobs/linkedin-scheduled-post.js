@@ -1,7 +1,7 @@
 import { Account } from '../../lib/models';
 import linkedinClient from '../../lib/linkedin';
 
-export default async function twitterRetweetProcessor(job, done) {
+export default async function linkedinScheduledPostProcessor(job, done) {
   const postId = job.data.data.id;
   const accountId = job.data.data.accountId;
 

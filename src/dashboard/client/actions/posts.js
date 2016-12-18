@@ -28,7 +28,7 @@ export function receiveTwitterPosts({ posts, more }) {
   };
 }
 
-export function receiveLinkedInPosts({ posts, more }) {
+export function receiveLinkedinPosts({ posts, more }) {
   return {
     type: RECEIVE_LINKEDIN_POSTS,
     payload: { posts, more },
@@ -68,7 +68,7 @@ export function fetchTwitterPosts({ accounts }) {
   };
 }
 
-export function fetchLinkedInPosts({ accounts }) {
+export function fetchLinkedinPosts({ accounts }) {
   return async (dispatch, getState) => {
     const { linkedin } = getState();
     dispatch(showLoading());
@@ -76,7 +76,7 @@ export function fetchLinkedInPosts({ accounts }) {
     const res = await fetch(`/api/linkedin/posts?skip=${linkedin.posts.length}${accountQueryString}`, { credentials: 'include' });
     dispatch(hideLoading());
     const { data, more } = await res.json();
-    dispatch(receiveLinkedInPosts({ posts: data, more }));
+    dispatch(receiveLinkedinPosts({ posts: data, more }));
     return { data, more };
   };
 }
@@ -100,7 +100,7 @@ export function fetchPosts(options = {}) {
     await Promise.resolve([
       fetchFacebookPosts({ accounts })(dispatch, getState),
       fetchTwitterPosts({ accounts })(dispatch, getState),
-      fetchLinkedInPosts({ accounts })(dispatch, getState),
+      fetchLinkedinPosts({ accounts })(dispatch, getState),
       fetchRSSPosts({ feeds })(dispatch, getState),
     ])
   );

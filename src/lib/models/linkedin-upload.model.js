@@ -2,12 +2,12 @@
 
 import sequelize from '../sequelize';
 
-const LinkedInUpload = sequelize.define('LinkedInUpload', {
+const LinkedinUpload = sequelize.define('LinkedinUpload', {
 }, {
   name: {
-    singular: 'linkedInUpload',
-    plural: 'linkedInUploads',
+    singular: 'linkedinUpload',
+    plural: 'linkedinUploads',
   },
 });
 
-export default LinkedInUpload;
+export default LinkedinUpload;

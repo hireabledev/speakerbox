@@ -15,7 +15,7 @@ function request(url, options) {
   });
 }
 
-export default function getLinkedInClient({ token }) {
+export default function getLinkedinClient({ token }) {
   const headers = {
     Authorization: `Bearer ${token}`,
   };
