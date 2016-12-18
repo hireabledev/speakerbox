@@ -35,7 +35,6 @@ TwitterPost.belongsTo(Account);
 
 Account.hasMany(TwitterScheduledRetweet, { onUpdate: 'cascade', onDelete: 'cascade' });
 TwitterScheduledRetweet.belongsTo(Account);
-TwitterScheduledRetweet.belongsTo(TwitterPost);
 
 Account.hasMany(TwitterScheduledPost, { onUpdate: 'cascade', onDelete: 'cascade' });
 TwitterScheduledPost.belongsTo(Account);
