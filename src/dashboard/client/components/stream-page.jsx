@@ -56,7 +56,7 @@ export default class StreamPage extends Component {
               {morePosts && <button onClick={this.props.fetchPosts}>Load More</button>}
             </div>
             <div className="column is-one-third">
-              <AccountList />
+              <AccountList pathname={this.props.location.pathname} />
             </div>
           </div>
         </div>
@@ -66,6 +66,9 @@ export default class StreamPage extends Component {
 }
 
 StreamPage.propTypes = {
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+  }).isRequired,
   accountVisibility: PropTypes.object,
   feedVisibility: PropTypes.object,
   facebookPosts: PropTypes.arrayOf(PropTypes.shape({

@@ -6,7 +6,7 @@ import pickBy from 'lodash/pickBy';
 import Link from 'react-router/lib/Link';
 
 function AccountListItem(props) {
-  const { type, id, name, accountVisibility, feedVisibility } = props;
+  const { type, pathname, id, name, accountVisibility, feedVisibility } = props;
   let accounts = { ...accountVisibility };
   let feeds = { ...feedVisibility };
   if (type === 'accounts') {
@@ -23,7 +23,7 @@ function AccountListItem(props) {
     feeds = undefined;
   }
   const to = {
-    pathname: '/stream',
+    pathname,
     query: { accounts, feeds },
   };
   return (
@@ -43,6 +43,7 @@ function AccountListItem(props) {
 
 AccountListItem.propTypes = {
   type: PropTypes.oneOf(['accounts', 'feeds']).isRequired,
+  pathname: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   checked: PropTypes.bool.isRequired,
@@ -52,30 +53,34 @@ AccountListItem.propTypes = {
 
 export default function AccountList(props) {
   const accountsByType = groupBy(props.accounts, 'type');
-  const { feeds, accountVisibility, feedVisibility } = props;
-  return (
-    <aside className="menu" style={{ marginTop: 23 }}>
-      {map(accountsByType, (accounts, type) => (
-        <div key={type}>
-          <div />
-          <p className="menu-label">
-            {type}
-          </p>
-          <ul className="menu-list">
-            {accounts.map(account => (
-              <AccountListItem
-                key={account.id}
-                type="accounts"
-                id={account.id}
-                name={account.id}
-                accountVisibility={accountVisibility}
-                feedVisibility={feedVisibility}
-                checked={!!accountVisibility[account.id]}
-              />
-            ))}
-          </ul>
-        </div>
-      ))}
+  const { feeds, accountVisibility, feedVisibility, showFeeds } = props;
+
+  const accountList = map(accountsByType, (accounts, type) => (
+    <div key={type}>
+      <div />
+      <p className="menu-label">
+        {type}
+      </p>
+      <ul className="menu-list">
+        {accounts.map(account => (
+          <AccountListItem
+            key={account.id}
+            type="accounts"
+            pathname={props.pathname}
+            id={account.id}
+            name={account.id}
+            accountVisibility={accountVisibility}
+            feedVisibility={feedVisibility}
+            checked={!!accountVisibility[account.id]}
+          />
+        ))}
+      </ul>
+    </div>
+  ));
+
+  const feedList = (
+    <div>
+      <div />
       <p className="menu-label">
         Feeds
       </p>
@@ -84,6 +89,7 @@ export default function AccountList(props) {
           <AccountListItem
             key={feed.id}
             type="feeds"
+            pathname={props.pathname}
             id={feed.id}
             name={feed.id}
             accountVisibility={accountVisibility}
@@ -92,11 +98,19 @@ export default function AccountList(props) {
           />
         ))}
       </ul>
+    </div>
+  );
+
+  return (
+    <aside className="menu" style={{ marginTop: 23 }}>
+      {accountList}
+      {(showFeeds && feeds.length !== 0) ? feedList : null}
     </aside>
   );
 }
 
 AccountList.propTypes = {
+  pathname: PropTypes.string.isRequired,
   accounts: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string, // eslint-disable-line react/no-unused-prop-types
   })).isRequired,
@@ -105,9 +119,11 @@ AccountList.propTypes = {
     id: PropTypes.string, // eslint-disable-line react/no-unused-prop-types
   })).isRequired,
   feedVisibility: PropTypes.object,
+  showFeeds: PropTypes.bool,
 };
 
 AccountList.defaultProps = {
   accountVisibility: {},
   feedVisibility: {},
+  showFeeds: true,
 };
