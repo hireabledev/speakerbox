@@ -46,8 +46,9 @@ const webpackConfig = {
     new ExtractTextPlugin('[name].[hash].css'),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'common',
-      chunks: ['dashboard', 'marketing', 'sso', 'vendor'],
+      chunks: ['dashboard', 'marketing', 'sso'],
     }),
+    new webpack.optimize.OccurrenceOrderPlugin(true),
     function saveWebpackStats() {
       this.plugin('done', stats => {
         stats = stats.toJson();
