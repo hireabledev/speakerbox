@@ -3,6 +3,7 @@ import mapValues from 'lodash/mapValues';
 import { LOCATION_CHANGE } from 'react-router-redux';
 import { RECEIVE_RSS_POSTS, RECEIVE_RSS_FEEDS } from '../constants/action-types';
 import { getVisibilityFromQuery } from '../utils';
+import { mergeKeyById } from '../utils/reducers';
 
 const initialState = {
   posts: [],
@@ -20,20 +21,14 @@ export default function rssFeedsReducer(state = initialState, action) {
       return {
         ...state,
         posts: [...state.posts, ...action.payload.posts],
-        postsById: {
-          ...state.postsById,
-          ...keyBy(action.payload.posts, 'id'),
-        },
+        postsById: mergeKeyById(state.postsById, action.payload.posts),
         morePosts: action.payload.more,
       };
     case RECEIVE_RSS_FEEDS:
       return {
         ...state,
         feeds: [...state.feeds, ...action.payload.feeds],
-        feedsById: {
-          ...state.feedsById,
-          ...keyBy(action.payload.feeds, 'id'),
-        },
+        postsById: mergeKeyById(state.feedsById, action.payload.feeds),
         moreFeeds: action.payload.more,
         feedVisibility: {
           ...state.feedVisibility,

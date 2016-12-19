@@ -4,6 +4,9 @@ import {
   RECEIVE_TWITTER_POSTS,
   RECEIVE_LINKEDIN_POSTS,
   RECEIVE_RSS_POSTS,
+  RECEIVE_FACEBOOK_SCHEDULED_POSTS,
+  RECEIVE_TWITTER_SCHEDULED_POSTS,
+  RECEIVE_LINKEDIN_SCHEDULED_POSTS,
 } from '../constants/action-types';
 
 function getAccountQueryString(accounts = []) {
@@ -39,6 +42,27 @@ export function receiveRSSPosts({ posts, more }) {
   return {
     type: RECEIVE_RSS_POSTS,
     payload: { posts, more },
+  };
+}
+
+export function receiveFacebookScheduledPosts({ scheduledPosts, more }) {
+  return {
+    type: RECEIVE_FACEBOOK_SCHEDULED_POSTS,
+    payload: { scheduledPosts, more },
+  };
+}
+
+export function receiveTwitterScheduledPosts({ scheduledPosts, more }) {
+  return {
+    type: RECEIVE_TWITTER_SCHEDULED_POSTS,
+    payload: { scheduledPosts, more },
+  };
+}
+
+export function receiveLinkedinScheduledPosts({ scheduledPosts, more }) {
+  return {
+    type: RECEIVE_LINKEDIN_SCHEDULED_POSTS,
+    payload: { scheduledPosts, more },
   };
 }
 
@@ -102,6 +126,56 @@ export function fetchPosts(options = {}) {
       fetchTwitterPosts({ accounts })(dispatch, getState),
       fetchLinkedinPosts({ accounts })(dispatch, getState),
       fetchRSSPosts({ feeds })(dispatch, getState),
+    ])
+  );
+}
+
+export function fetchFacebookScheduledPosts({ accounts }) {
+  return async (dispatch, getState) => {
+    const { facebook } = getState();
+    dispatch(showLoading());
+    const accountQueryString = getAccountQueryString(accounts);
+    const res = await fetch(`/api/facebook/scheduled-posts?skip=${facebook.scheduledPosts.length}${accountQueryString}`, { credentials: 'include' });
+    dispatch(hideLoading());
+    const { data, more } = await res.json();
+    dispatch(receiveFacebookScheduledPosts({ scheduledPosts: data, more }));
+    return { data, more };
+  };
+}
+
+export function fetchTwitterScheduledPosts({ accounts }) {
+  return async (dispatch, getState) => {
+    const { twitter } = getState();
+    dispatch(showLoading());
+    const accountQueryString = getAccountQueryString(accounts);
+    const res = await fetch(`/api/twitter/scheduled-posts?skip=${twitter.scheduledPosts.length}${accountQueryString}`, { credentials: 'include' });
+    dispatch(hideLoading());
+    const { data, more } = await res.json();
+    dispatch(receiveTwitterScheduledPosts({ scheduledPosts: data, more }));
+    return { data, more };
+  };
+}
+
+export function fetchLinkedinScheduledPosts({ accounts }) {
+  return async (dispatch, getState) => {
+    const { linkedin } = getState();
+    dispatch(showLoading());
+    const accountQueryString = getAccountQueryString(accounts);
+    const res = await fetch(`/api/linkedin/scheduled-posts?skip=${linkedin.scheduledPosts.length}${accountQueryString}`, { credentials: 'include' });
+    dispatch(hideLoading());
+    const { data, more } = await res.json();
+    dispatch(receiveLinkedinScheduledPosts({ scheduledPosts: data, more }));
+    return { data, more };
+  };
+}
+
+export function fetchScheduledPosts(options = {}) {
+  const { accounts } = options;
+  return async (dispatch, getState) => (
+    await Promise.resolve([
+      fetchFacebookScheduledPosts({ accounts })(dispatch, getState),
+      fetchTwitterScheduledPosts({ accounts })(dispatch, getState),
+      fetchLinkedinScheduledPosts({ accounts })(dispatch, getState),
     ])
   );
 }
