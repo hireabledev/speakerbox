@@ -37,29 +37,25 @@ export default class StreamPage extends Component {
     const filterByFeed = memoize((post) => (feedVisibility[post.rssFeedId]));
 
     return (
-      <Page bg="light">
-        <div className="container">
-          <div className="columns">
-            <div className="column">
-              {facebookPosts
-                .filter(filterByAccount)
-                .map(post => <Post key={post.id} post={post} type="facebook" />)}
-              {twitterPosts
-                .filter(filterByAccount)
-                .map(post => <Post key={post.id} post={post} type="twitter" />)}
-              {linkedinPosts
-                .filter(filterByAccount)
-                .map(post => <Post key={post.id} post={post} type="linkedin" />)}
-              {rssPosts
-                .filter(filterByFeed)
-                .map(post => <Post key={post.id} post={post} type="rss" />)}
-              {morePosts && <button onClick={this.props.fetchPosts}>Load More</button>}
-            </div>
-            <div className="column is-one-third">
-              <AccountList pathname={this.props.location.pathname} />
-            </div>
-          </div>
-        </div>
+      <Page
+        bg="light"
+        sidebar={
+          <AccountList pathname={this.props.location.pathname} />
+        }
+      >
+        {facebookPosts
+          .filter(filterByAccount)
+          .map(post => <Post key={post.id} post={post} type="facebook" />)}
+        {twitterPosts
+          .filter(filterByAccount)
+          .map(post => <Post key={post.id} post={post} type="twitter" />)}
+        {linkedinPosts
+          .filter(filterByAccount)
+          .map(post => <Post key={post.id} post={post} type="linkedin" />)}
+        {rssPosts
+          .filter(filterByFeed)
+          .map(post => <Post key={post.id} post={post} type="rss" />)}
+        {morePosts && <button onClick={this.props.fetchPosts}>Load More</button>}
       </Page>
     );
   }

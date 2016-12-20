@@ -1,12 +1,11 @@
 .post {
   @extend .card;
-  @extend .card.is-fullwidth;
-  margin-top: $size-4;
-  margin-bottom: $size-4;
+  margin-top: $spacer-y;
+  margin-bottom: $spacer-y;
 }
 
 .post-body {
-  @extend .card-content;
+  @extend .card-block;
   @extend .media;
 }
 
@@ -19,7 +18,7 @@
 }
 
 .post-container {
-  @extend .media-content
+  @extend .media-body;
 }
 
 .post-date {

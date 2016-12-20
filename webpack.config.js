@@ -63,13 +63,6 @@ const webpackConfig = {
   ],
   resolve: {
     extensions: ['', '.js', '.jsx'],
-    alias: {
-      lib: 'lib',
-      assets: 'assets',
-      dashboard: 'dashboard',
-      marketing: 'marketing',
-      sso: 'sso',
-    },
     root: [
       `${__dirname}/src`,
     ],

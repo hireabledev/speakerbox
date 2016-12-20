@@ -1,4 +1,3 @@
 .post-author-img {
-  @extend .image;
-  @extend .is-48x48;
+  @extend .media-object;
 }

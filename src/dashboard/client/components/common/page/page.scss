@@ -1,0 +1,9 @@
+.page {
+  position: relative;
+}
+
+.page-sidebar {
+  background: $white;
+  min-height: calc(100vh - #{$navbar-height});
+  box-shadow: $shadow-border;
+}

@@ -3,24 +3,24 @@ import MenuLink from './menu-link';
 
 export default function Menu() {
   return (
-    <div className="nav-placeholder">
-      <nav className="nav is-fixed has-shadow">
-        <div className="nav-left">
-          <MenuLink className="nav-item is-brand" to="/">
-            SpeakerBox
-          </MenuLink>
-          <MenuLink className="nav-item" to="/stream">
+    <div className="navbar-placeholder">
+      <nav className="navbar navbar-dark navbar-fixed-top">
+        <MenuLink className="navbar-brand" to="/">
+          SpeakerBox
+        </MenuLink>
+        <div className="nav navbar-nav">
+          <MenuLink className="nav-item nav-link" to="/stream">
             Stream
           </MenuLink>
-          <MenuLink className="nav-item" to="/schedule">
+          <MenuLink className="nav-item nav-link" to="/schedule">
             Schedule
           </MenuLink>
-          <MenuLink className="nav-item" to="/metrics">
+          <MenuLink className="nav-item nav-link" to="/metrics">
             Metrics
           </MenuLink>
         </div>
-        <div className="nav-right nav-menu">
-          <MenuLink className="nav-item" to="/settings">
+        <div className="nav navbar-nav float-xs-right">
+          <MenuLink className="nav-item nav-link" to="/settings">
             Settings
           </MenuLink>
         </div>

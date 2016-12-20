@@ -1,9 +1,9 @@
 .post-actions {
-  @extend .card-footer;
+  @extend .card-block;
 }
 
 .post-action {
-  @extend .card-footer-item;
+  @extend .card-link;
   // background: none;
   // border: 0;
 }

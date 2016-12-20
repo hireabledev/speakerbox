@@ -1,0 +1,17 @@
+.icon-checkbox {
+  .custom-control-indicator {
+    background: transparent;
+    color: $custom-control-indicator-bg;
+    box-shadow: none;
+  }
+
+  .custom-control-input:checked ~ .custom-control-indicator {
+    background: transparent;
+    color: $custom-control-checked-indicator-bg;
+  }
+
+  .custom-control-input:active ~ .custom-control-indicator {
+    background: transparent;
+    color: $custom-control-active-indicator-bg;
+  }
+}

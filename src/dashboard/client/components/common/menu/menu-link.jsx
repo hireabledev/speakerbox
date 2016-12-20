@@ -3,7 +3,7 @@ import Link from 'react-router/lib/Link';
 
 export default function MenuLink(props) {
   return (
-    <Link activeClassName="is-active" {...props}>{props.children}</Link>
+    <Link activeClassName="active" {...props}>{props.children}</Link>
   );
 }
 

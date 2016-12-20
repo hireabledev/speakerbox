@@ -1,11 +1,13 @@
 @import 'lib/client/styles/functions';
 @import 'lib/client/styles/variables';
 
-@import 'bulma/bulma';
+@import 'bootstrap/scss/bootstrap';
 
+@import 'lib/client/styles/base';
 @import 'lib/client/styles/cards';
 @import 'lib/client/styles/nav';
 
+@import './components/common/account-list/account-list';
 @import './components/common/menu/menu';
 @import './components/common/page/page';
 @import './components/common/post/post';
