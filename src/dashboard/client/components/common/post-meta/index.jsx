@@ -3,7 +3,7 @@ import cn from 'classnames';
 
 export default function PostMeta({ children, position }) {
   return (
-    <div className={cn('post-meta', `post-meta-${position}`)}>
+    <div className={cn('sb-post-meta', `post-meta-${position}`)}>
       {children}
     </div>
   );
@@ -11,7 +11,7 @@ export default function PostMeta({ children, position }) {
 
 export function PostMetaPrimary({ children }) {
   return (
-    <div className="post-meta-primary">
+    <div className="sb-post-meta-primary">
       {children}
     </div>
   );
@@ -19,7 +19,7 @@ export function PostMetaPrimary({ children }) {
 
 export function PostMetaSecondary({ children }) {
   return (
-    <div className="post-meta-secondary">
+    <div className="sb-post-meta-secondary">
       {children}
     </div>
   );

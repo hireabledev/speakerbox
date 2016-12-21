@@ -4,15 +4,15 @@ import PostMeta from '../post-meta';
 
 export default function RSSPost({ post }) {
   return (
-    <article className="post">
-      <div className="post-body">
-        <div className="post-container">
+    <article className="sb-post">
+      <div className="sb-post-body">
+        <div className="sb-post-container">
           <PostMeta position="top">
             <PostMeta.Primary>
-              <DisplayDate className="post-date" date={post.date} />
+              <DisplayDate className="sb-post-date" date={post.date} />
             </PostMeta.Primary>
           </PostMeta>
-          <p className="post-content">
+          <p className="sb-post-content">
             {post.body}
           </p>
           <PostMeta>

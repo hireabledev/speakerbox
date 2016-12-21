@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 
 export function PostActions({ children }) {
   return (
-    <div className="post-actions">
+    <div className="sb-post-actions">
       {children}
     </div>
   );
@@ -14,7 +14,7 @@ PostActions.propTypes = {
 
 export function PostAction(props) {
   return (
-    <a className="post-action" role="button" {...props}>
+    <a className="sb-post-action" role="button" {...props}>
       {props.children}
     </a>
   );

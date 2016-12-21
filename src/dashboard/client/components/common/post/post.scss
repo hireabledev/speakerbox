@@ -1,26 +1,27 @@
-.post {
+.sb-post {
   @extend .card;
   margin-top: $spacer-y;
   margin-bottom: $spacer-y;
 }
 
-.post-body {
+.sb-post-body {
   @extend .card-block;
   @extend .media;
 }
 
-.post-body.post-body.post-body {
+.sb-post-body.sb-post-body.sb-post-body {
   margin-bottom: 0;
 }
 
-.post-author-img-url {
+.sb-post-author-img-url {
   @extend .media-left;
+  width: 4rem;
 }
 
-.post-container {
+.sb-post-container {
   @extend .media-body;
 }
 
-.post-date {
+.sb-post-date {
   display: block;
 }

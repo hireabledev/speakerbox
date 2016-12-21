@@ -1,3 +1,23 @@
+@mixin col-escape() {
+  margin-left: -($grid-gutter-width-base / 2);
+  margin-right: -($grid-gutter-width-base / 2);
+}
+
+.col-esc {
+  @include col-escape;
+}
+
+.sb-app-body {
+  position: relative;
+}
+
+.sb-loading {
+  background-color: #CD7901;
+  height: 4px;
+  position: fixed;
+  z-index: $zindex-navbar-fixed;
+}
+
 .icon-checkbox {
   .custom-control-indicator {
     background: transparent;

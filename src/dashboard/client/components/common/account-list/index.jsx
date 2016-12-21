@@ -71,26 +71,26 @@ export default function AccountList(props) {
   }
 
   const accountList = map(accountsByType, (accounts, type) => (
-    <ul key={type} className="sb-al-list">
-      {accounts.map(account => (
-        <AccountListItem
-          key={account.id}
-          type={type === 'feeds' ? 'feeds' : 'accounts'}
-          icon={type === 'feeds' ? 'rss' : `${type}-square`}
-          pathname={pathname}
-          id={account.id}
-          name={account.title || account.id}
-          accountVisibility={accountVisibility}
-          feedVisibility={feedVisibility}
-          checked={isChecked(accountVisibility, feedVisibility, type, account.id)}
-        />
-      ))}
-    </ul>
+    accounts.map(account => (
+      <AccountListItem
+        key={account.id}
+        type={type === 'feeds' ? 'feeds' : 'accounts'}
+        icon={type === 'feeds' ? 'rss' : `${type}-square`}
+        pathname={pathname}
+        id={account.id}
+        name={account.title || account.id}
+        accountVisibility={accountVisibility}
+        feedVisibility={feedVisibility}
+        checked={isChecked(accountVisibility, feedVisibility, type, account.id)}
+      />
+    ))
   ));
 
   return (
     <aside className="sb-al-menu">
-      {accountList}
+      <ul className="sb-al-list">
+        {accountList}
+      </ul>
     </aside>
   );
 }

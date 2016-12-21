@@ -4,10 +4,12 @@ import Menu from './common/menu';
 
 export default function App(props) {
   return (
-    <div className="has-menu">
+    <div className="sb-app">
       <Menu />
-      <Loading style={{ backgroundColor: '#CD7901' }} />
-      {props.children}
+      <Loading className="sb-loading" />
+      <div className="sb-app-body">
+        {props.children}
+      </div>
     </div>
   );
 }

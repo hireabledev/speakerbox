@@ -1,16 +1,21 @@
 .sb-al-menu {
+  @include col-escape;
   margin-top: $spacer-y;
   margin-bottom: $spacer-y;
-}
-
-.sb-al-label {
-  color: $text-muted;
-  font-size: $font-size-sm;
-  margin: 0;
-  text-transform: uppercase;
 }
 
 .sb-al-list {
   list-style: none;
   padding: 0;
+
+  > li {
+    > a {
+      display: block;
+      padding: ($spacer-y / 2) $spacer-x;
+
+      > label {
+        margin: 0;
+      }
+    }
+  }
 }
