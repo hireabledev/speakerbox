@@ -3,6 +3,7 @@
 import sequelize from '../sequelize';
 
 const LinkedinUpload = sequelize.define('LinkedinUpload', {
+  // props added by sequelize
 }, {
   name: {
     singular: 'linkedinUpload',

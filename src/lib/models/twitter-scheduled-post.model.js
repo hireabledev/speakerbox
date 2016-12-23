@@ -5,9 +5,10 @@ import sequelize, { Sequelize } from '../sequelize';
 const TwitterScheduledPost = sequelize.define('TwitterScheduledPost', {
   id:                   {
                           type: Sequelize.STRING,
+                          defaultValue: Sequelize.UUIDV4,
                           allowNull: false,
                           primaryKey: true,
-                          comment: 'Twitter post ID.',
+                          comment: 'Twitter scheduled post ID.',
                         },
   date:                 {
                           type: Sequelize.DATE,
@@ -15,7 +16,7 @@ const TwitterScheduledPost = sequelize.define('TwitterScheduledPost', {
                           defaultValue: Sequelize.NOW,
                           comment: 'Tweet date.',
                         },
-  status:               {
+  body:                 {
                           type: Sequelize.TEXT,
                           allowNull: false,
                           comment: 'Tweet body.',

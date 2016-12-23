@@ -3,6 +3,7 @@
 import sequelize from '../sequelize';
 
 const TwitterUpload = sequelize.define('TwitterUpload', {
+  // props added by sequelize
 }, {
   name: {
     singular: 'twitterUpload',

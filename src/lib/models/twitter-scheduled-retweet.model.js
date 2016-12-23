@@ -5,7 +5,6 @@ import sequelize, { Sequelize } from '../sequelize';
 const TwitterScheduledRetweet = sequelize.define('TwitterScheduledRetweet', {
   id:                   {
                           type: Sequelize.STRING,
-                          defaultValue: Sequelize.UUIDV4,
                           allowNull: false,
                           primaryKey: true,
                           comment: 'Twitter scheduled retweet ID.',

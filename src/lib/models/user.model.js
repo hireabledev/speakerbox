@@ -36,7 +36,7 @@ const User = sequelize.define('User', {
                           allowNull: false,
                           comment: 'User name.',
                         },
-  photoUrl:             {
+  imgUrl:               {
                           type: Sequelize.STRING,
                           comment: 'Link to user image.',
                         },

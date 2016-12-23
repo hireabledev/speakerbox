@@ -5,6 +5,7 @@ import sequelize, { Sequelize } from '../sequelize';
 const FacebookScheduledPost = sequelize.define('FacebookScheduledPost', {
   id:                   {
                           type: Sequelize.STRING,
+                          defaultValue: Sequelize.UUIDV4,
                           allowNull: false,
                           primaryKey: true,
                           comment: 'Facebook post ID.',

@@ -17,7 +17,7 @@ const TwitterPost = sequelize.define('TwitterPost', {
   body:                 {
                           type: Sequelize.TEXT,
                           allowNull: false,
-                          comment: 'Twitter post body.',
+                          comment: 'Twitter post status.',
                         },
   date:                 {
                           type: Sequelize.TEXT,

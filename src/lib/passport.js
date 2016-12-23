@@ -87,7 +87,7 @@ passport.use(getStrategy({
   mapProfileToUser(profile) {
     return {
       displayName: profile.displayName,
-      photoUrl: profile.photos[0].value,
+      imgUrl: profile.photos[0].value,
     };
   },
   mapProfileToAccount(profile) {
@@ -110,7 +110,7 @@ passport.use(getStrategy({
   mapProfileToUser(profile) {
     return {
       displayName: profile.displayName,
-      photoUrl: profile.image_url_https,
+      imgUrl: profile.image_url_https,
     };
   },
   mapProfileToAccount(profile) {

@@ -6,6 +6,7 @@ const RSSFeed = sequelize.define('RSSFeed', {
   id:                   {
                           type: Sequelize.UUID,
                           defaultValue: Sequelize.UUIDV4,
+                          allowNull: false,
                           primaryKey: true,
                           comment: 'Feed ID.',
                         },
