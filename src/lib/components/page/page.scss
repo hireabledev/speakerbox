@@ -1,3 +1,5 @@
+$sb-subnav-bg: $white;
+
 .sb-page {
   display: flex;
   position: relative;
@@ -11,4 +13,9 @@
 
 .sb-page-content {
   flex-grow: 1;
+}
+
+.sb-page-has-padding-y .sb-page-content > .container-fluid {
+  padding-top: $spacer-y;
+  padding-bottom: $spacer-y;
 }

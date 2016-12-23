@@ -19,8 +19,15 @@
   "extends": [
     "airbnb"
   ],
+  "plugins": [
+    "import"
+  ],
   "settings": {
-    "import/resolver": "webpack"
+    "import/resolver": {
+      "webpack": {
+        "config": "webpack.config.js"
+      }
+    }
   },
   "rules": {
     "no-console": [2, { "allow": ["info", "warn", "error"] }],
@@ -29,5 +36,6 @@
     "import/prefer-default-export": 0,
     "no-shadow": ["error", { "allow": ["res"] }],
     "react/forbid-prop-types": 0,
+    "react/no-unused-prop-types": [1, { skipShapeProps: true }]
   }
 }

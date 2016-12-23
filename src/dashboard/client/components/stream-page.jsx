@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import memoize from 'lodash/memoize';
-import Page from './common/page';
-import Post from './common/post';
-import AccountList from '../containers/common/account-list';
+import Page from 'lib/components/page';
+import Post from 'lib/components/post';
+import AccountList from 'lib/containers/account-list';
 
 export default class StreamPage extends Component {
   // constructor(props) {

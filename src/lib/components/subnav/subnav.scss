@@ -1,0 +1,19 @@
+.sb-subnav {
+  background: $sb-subnav-bg;
+  border-bottom: 1px solid $sb-subnav-border;
+  color: $sb-subnav-text;
+  box-shadow: $sb-subnav-shadow;
+
+  a {
+    color: $sb-subnav-link;
+
+    &:hover,
+    &:focus {
+      color: $sb-subnav-link-hover;
+    }
+
+    &.active {
+      color: $sb-subnav-link-active;
+    }
+  }
+}

@@ -7,15 +7,7 @@
   "plugins": [
     "transform-runtime",
     ["module-resolver", {
-      "root": ["./src"],
-      "alias": {
-        "lib": "./lib",
-        "api": "./api",
-        "dashboard": "./dashboard",
-        "marketing": "./marketing",
-        "sso": "./sso",
-        "worker": "./worker"
-      }
+      "root": ["./src"]
     }]
   ]
 }

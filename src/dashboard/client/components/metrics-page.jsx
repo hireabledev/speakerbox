@@ -1,5 +1,5 @@
-import React, { Component, PropTypes } from 'react';
-import Page from './common/page';
+import React, { Component } from 'react';
+import Page from 'lib/components/page';
 
 export default class MetricsPage extends Component {
   componentDidMount() {

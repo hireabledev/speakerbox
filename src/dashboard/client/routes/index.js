@@ -9,7 +9,7 @@ export default {
   childRoutes: [{
     path: '/',
     component: App,
-    indexRoute: { onEnter: (nextState, replace) => replace(stream.path) },
+    indexRoute: { onEnter: (nextState, replace) => replace(schedule.path) },
     childRoutes: [
       stream,
       schedule,

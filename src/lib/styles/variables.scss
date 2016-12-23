@@ -37,3 +37,13 @@ $sb-menu-brand-border: $sb-menu-border;
 $sb-menu-link: $sb-menu-text;
 $sb-menu-link-active: $white;
 $sb-menu-link-hover: $white;
+
+// Subnav
+$sb-subnav-bg: $white;
+$sb-subnav-border: $border;
+$sb-subnav-text: inherit;
+$sb-subnav-shadow: $shadow;
+
+$sb-subnav-link: $sb-subnav-text;
+$sb-subnav-link-active: $brand-primary;
+$sb-subnav-link-hover: $brand-primary;

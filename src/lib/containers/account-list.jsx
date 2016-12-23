@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import AccountList from '../../components/common/account-list';
+import AccountList from '../components/account-list';
 
 const mapStateToProps = (state) => ({
   accounts: state.accounts.accounts,

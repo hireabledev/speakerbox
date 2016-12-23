@@ -1,17 +1,18 @@
-@import 'lib/client/styles/functions';
-@import 'lib/client/styles/variables';
+@import '../../lib/styles/functions';
+@import '../../lib/styles/variables';
 
 @import 'bootstrap/scss/bootstrap';
 
-@import 'lib/client/styles/base';
-@import 'lib/client/styles/cards';
-@import 'lib/client/styles/nav';
+@import '../../lib/styles/base';
+@import '../../lib/styles/cards';
+@import '../../lib/styles/nav';
 
-@import './components/common/account-list/account-list';
-@import './components/common/menu/menu';
-@import './components/common/page/page';
-@import './components/common/post/post';
-@import './components/common/post-actions/post-actions';
-@import './components/common/post-author/post-author';
-@import './components/common/post-author-img/post-author-img';
-@import './components/common/post-meta/post-meta';
+@import '../../lib/components/account-list/account-list';
+@import '../../lib/components/menu/menu';
+@import '../../lib/components/subnav/subnav';
+@import '../../lib/components/page/page';
+@import '../../lib/components/post/post';
+@import '../../lib/components/post-actions/post-actions';
+@import '../../lib/components/post-author/post-author';
+@import '../../lib/components/post-author-img/post-author-img';
+@import '../../lib/components/post-meta/post-meta';

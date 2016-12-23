@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import If from 'lib/client/components/if';
+import If from '../if';
 import MenuLink from './menu-link';
 
 export default function Menu({ children }) {
@@ -9,11 +9,11 @@ export default function Menu({ children }) {
         SpeakerBox
       </MenuLink>
       <div className="sb-menu-list">
-        <MenuLink className="sb-menu-link" to="/stream">
-          Stream
-        </MenuLink>
         <MenuLink className="sb-menu-link" to="/schedule">
           Schedule
+        </MenuLink>
+        <MenuLink className="sb-menu-link" to="/stream">
+          Stream
         </MenuLink>
         <MenuLink className="sb-menu-link" to="/metrics">
           Metrics

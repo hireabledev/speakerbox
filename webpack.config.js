@@ -52,8 +52,8 @@ const webpackConfig = {
     function saveWebpackStats() {
       this.plugin('done', stats => {
         stats = stats.toJson();
-        delete stats.chunks;
-        delete stats.modules;
+        // delete stats.chunks;
+        // delete stats.modules;
         fs.writeFileSync(
           `${__dirname}/src/lib/webpack.stats.json`,
           JSON.stringify(stats, null, 2)
