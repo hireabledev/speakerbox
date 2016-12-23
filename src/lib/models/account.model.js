@@ -25,6 +25,10 @@ const Account = sequelize.define('Account', {
                           },
                           comment: 'Account type.',
                         },
+  imgUrl:               {
+                          type: Sequelize.STRING,
+                          comment: 'Account image URL.',
+                        },
 }, {
   name: {
     singular: 'account',

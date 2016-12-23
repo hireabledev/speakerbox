@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import Page from './common/page';
 
 export default class MetricsPage extends Component {
   componentDidMount() {
@@ -6,10 +7,10 @@ export default class MetricsPage extends Component {
 
   render() {
     return (
-      <div className="container-fluid">
+      <Page bg="light">
         <h1>Metrics</h1>
         <p>TODO</p>
-      </div>
+      </Page>
     );
   }
 }

@@ -39,7 +39,7 @@ export default class StreamPage extends Component {
     return (
       <Page
         bg="light"
-        sidebar={
+        menu={
           <AccountList pathname={this.props.location.pathname} />
         }
       >

@@ -1,12 +1,58 @@
-.navbar-placeholder {
-  height: $navbar-height;
+$sb-menu-spacer-y: $spacer-y * 2 / 3;
+$sb-menu-spacer-x: ($grid-gutter-width-base / 2);
+
+/* nav */.sb-menu {
+  background: $sb-menu-bg;
+  flex-shrink: 0;
+  min-height: 100vh;
+  width: 240px;
+
+  a {
+    color: $sb-menu-link;
+    text-decoration: none;
+
+    &.active {
+      color: $sb-menu-link-active;
+    }
+
+    &:hover {
+      color: $sb-menu-link-hover;
+    }
+  }
+
 }
 
-.navbar .nav-link {
-  padding-top: $navbar-divider-padding-y;
-  padding-bottom: $navbar-divider-padding-y;
+/* a */.sb-menu-link {
+  border-top: 1px solid transparent;
+  border-bottom: 1px solid transparent;
+  display: block;
+  padding: $sb-menu-spacer-y $sb-menu-spacer-x;
+
+  &.active {
+    background: linear-gradient(
+      -90deg,
+      shade($sb-menu-bg, 2%),
+      tint($sb-menu-bg, 2%)
+    );
+    border-color: $sb-menu-border;
+  }
 }
 
-.navbar-dark {
-  background: $brand-primary;
+/* a */.sb-menu-brand {
+  background: $sb-menu-brand-bg;
+  display: block;
+  border-bottom: 2px solid $sb-menu-brand-border;
+  font-size: $font-size-h5;
+  text-align: center;
+  padding: $spacer-y $sb-menu-spacer-x;
+}
+
+.sb-menu-content {
+  color: $sb-menu-text;
+  margin-top: 1.5rem;
+}
+
+.sb-menu .sb-divider {
+  border-top: 1px solid shade($sb-menu-bg, 20%);
+  border-bottom: 1px solid tint($sb-menu-bg, 5%);
 }

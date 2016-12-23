@@ -7,6 +7,7 @@ $font-size-root: 14px;
 
 $black: #333;
 $white: #fff;
+$dark-blue: #2B2F37;
 
 $brand-primary: #1d3d4d;
 
@@ -24,3 +25,15 @@ $navbar-padding-y: .607142857rem;
 $font-family-sans-serif: 'PT Sans', Helvetica, sans-serif;
 
 $input-border-color: $border;
+
+// Menu
+$sb-menu-bg: $dark-blue;
+$sb-menu-border: #252930;
+$sb-menu-text: #B5B5B5;
+
+$sb-menu-brand-bg: tint($sb-menu-bg, 2%);
+$sb-menu-brand-border: $sb-menu-border;
+
+$sb-menu-link: $sb-menu-text;
+$sb-menu-link-active: $white;
+$sb-menu-link-hover: $white;

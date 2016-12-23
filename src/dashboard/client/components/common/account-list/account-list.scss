@@ -1,21 +1,32 @@
 .sb-al-menu {
-  @include col-escape;
   margin-top: $spacer-y;
   margin-bottom: $spacer-y;
 }
 
-.sb-al-list {
+/* ul */.sb-al-list {
+  font-size: $font-size-sm;
   list-style: none;
   padding: 0;
+}
 
-  > li {
-    > a {
-      display: block;
-      padding: ($spacer-y / 2) $spacer-x;
+/* li */.sb-al-item {}
 
-      > label {
-        margin: 0;
-      }
-    }
+/* a */.sb-al-link {
+  display: block;
+  padding: ($spacer-y / 3) $spacer-x;
+
+  > /* label */.custom-checkbox {
+    margin: 0;
   }
+}
+
+/* h */.sb-al-heading {
+  font-size: inherit;
+  padding-left: $spacer-x;
+  padding-right: $spacer-x;
+  margin-bottom: .5rem;
+}
+
+.sb-al-menu .sb-divider {
+  margin-bottom: .5rem;
 }

@@ -1,10 +1,16 @@
 import React, { PropTypes } from 'react';
 import cn from 'classnames';
+import Menu from '../menu';
 
-export default function Page({ children, sidebar, sidebarSecondary, bg }) {
+export default function Page({ children, menu, sidebar, sidebarSecondary, bg }) {
   return (
-    <div className={`sb-page sb-page-bg-${bg}`}>
-      <div className="container-fluid">
+    <div
+      className={cn(`sb-page sb-page-bg-${bg}`, {
+        'sb-page-has-menu': menu,
+      })}
+    >
+      <Menu>{menu}</Menu>
+      <div className="sb-page-content container-fluid">
         <div className="row">
           {sidebar && (
             <div className="sb-page-sidebar col-xs-12 col-md-4 col-lg-3">
@@ -33,6 +39,7 @@ export default function Page({ children, sidebar, sidebarSecondary, bg }) {
 
 Page.propTypes = {
   children: PropTypes.node.isRequired,
+  menu: PropTypes.node,
   sidebar: PropTypes.node,
   sidebarSecondary: PropTypes.node,
   bg: PropTypes.oneOf(['none', 'light']),

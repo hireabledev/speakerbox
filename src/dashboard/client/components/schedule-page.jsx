@@ -33,28 +33,24 @@ export default class StreamPage extends Component {
     const filterByAccount = memoize((post) => (accountVisibility[post.accountId]));
 
     return (
-      <Page bg="light">
-        <div className="container">
-          <div className="columns">
-            <div className="column">
-              {facebookScheduledPosts
-                .filter(filterByAccount)
-                .map(post => <Post key={post.id} post={post} type="facebook" />)}
-              {twitterScheduledPosts
-                .filter(filterByAccount)
-                .map(post => <Post key={post.id} post={post} type="twitter" />)}
-              {linkedinScheduledPosts
-                .filter(filterByAccount)
-                .map(post => <Post key={post.id} post={post} type="linkedin" />)}
-              {moreScheduledPosts && (
-                <button onClick={this.props.fetchScheduledPosts}>Load More</button>
-              )}
-            </div>
-            <div className="column is-one-third">
-              <AccountList pathname={this.props.location.pathname} showFeeds={false} />
-            </div>
-          </div>
-        </div>
+      <Page
+        bg="light"
+        menu={
+          <AccountList pathname={this.props.location.pathname} showFeeds={false} />
+        }
+      >
+        {facebookScheduledPosts
+          .filter(filterByAccount)
+          .map(post => <Post key={post.id} post={post} type="facebook" />)}
+        {twitterScheduledPosts
+          .filter(filterByAccount)
+          .map(post => <Post key={post.id} post={post} type="twitter" />)}
+        {linkedinScheduledPosts
+          .filter(filterByAccount)
+          .map(post => <Post key={post.id} post={post} type="linkedin" />)}
+        {moreScheduledPosts && (
+          <button onClick={this.props.fetchScheduledPosts}>Load More</button>
+        )}
       </Page>
     );
   }

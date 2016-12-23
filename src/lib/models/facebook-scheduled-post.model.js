@@ -13,16 +13,32 @@ const FacebookScheduledPost = sequelize.define('FacebookScheduledPost', {
                           type: Sequelize.DATE,
                           allowNull: false,
                           defaultValue: Sequelize.NOW,
-                          comment: 'Facebook post date.',
+                          comment: 'Post date.',
                         },
   message:              {
                           type: Sequelize.TEXT,
                           allowNull: false,
-                          comment: 'Facebook post message.',
+                          comment: 'Message.',
                         },
   link:                 {
                           type: Sequelize.TEXT,
-                          comment: 'Facebook post link.',
+                          comment: 'Link.',
+                        },
+  linkPicture:          {
+                          type: Sequelize.TEXT,
+                          comment: 'Link picture URL.',
+                        },
+  linkName:             {
+                          type: Sequelize.TEXT,
+                          comment: 'Link name.',
+                        },
+  linkCaption:          {
+                          type: Sequelize.TEXT,
+                          comment: 'Link caption.',
+                        },
+  linkDescription:      {
+                          type: Sequelize.TEXT,
+                          comment: 'Link description.',
                         },
   place:                {
                           type: Sequelize.TEXT,
