@@ -1,8 +1,16 @@
+$sb-subnav-spacer-x: $grid-gutter-width-base / 2;
+
 .sb-subnav {
   background: $sb-subnav-bg;
   border-bottom: 1px solid $sb-subnav-border;
-  color: $sb-subnav-text;
   box-shadow: $sb-subnav-shadow;
+  color: $sb-subnav-text;
+  display: flex;
+  font-size: 0.9em;
+  line-height: 1.5em;
+  padding-left: $sb-subnav-spacer-x;
+  padding-right: $sb-subnav-spacer-x;
+  text-transform: uppercase;
 
   a {
     color: $sb-subnav-link;
@@ -10,10 +18,17 @@
     &:hover,
     &:focus {
       color: $sb-subnav-link-hover;
+      text-decoration: none;
     }
 
     &.active {
       color: $sb-subnav-link-active;
+      box-shadow: 0 3px 0 shade($sb-subnav-border, 10%);
     }
   }
+}
+
+.sb-subnav-link {
+  display: block;
+  padding: rem(18) $sb-subnav-spacer-x;
 }

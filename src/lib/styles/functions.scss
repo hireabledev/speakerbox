@@ -6,6 +6,10 @@
   @return mix(black, $color, $percentage);
 }
 
+@function stripUnit($number) {
+  @return $number / ($number * 0 + 1);
+}
+
 @function em($size, $inherited-size) {
   @return stripUnit($size) / stripUnit($inherited-size) * 1em;
 }

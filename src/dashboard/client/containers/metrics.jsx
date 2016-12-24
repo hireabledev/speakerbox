@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import MetricsPage from '../components/metrics-page';
+import MetricsPage from '../components/metrics';
 
 const mapStateToProps = (state) => ({
 });

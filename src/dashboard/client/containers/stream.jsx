@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import StreamPage from '../components/stream-page';
+import StreamPage from '../components/stream';
 import { fetchAccounts } from '../actions/accounts';
 import { fetchFeeds } from '../actions/feeds';
 import { fetchPosts } from '../actions/posts';

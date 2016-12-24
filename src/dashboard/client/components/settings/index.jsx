@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Page, { PageTitle } from 'lib/components/page';
-import Subnav from 'lib/components/subnav';
+import Subnav, { SubnavLink } from 'lib/components/subnav';
 
 export default class SettingsPage extends Component {
   componentDidMount() {
@@ -13,17 +13,17 @@ export default class SettingsPage extends Component {
         padY
         subnav={
           <Subnav>
-            <a href="#" className="sb-subnav-item">
+            <SubnavLink to="/settings/user">
               User
-            </a>
-            <a href="#" className="sb-subnav-item">
+            </SubnavLink>
+            <SubnavLink to="/settings/accounts">
               Accounts
-            </a>
+            </SubnavLink>
           </Subnav>
         }
       >
         <PageTitle>Settings</PageTitle>
-        <p>TODO</p>
+        {this.props.children}
       </Page>
     );
   }

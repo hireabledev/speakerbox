@@ -35,6 +35,7 @@ export default class StreamPage extends Component {
     return (
       <Page
         bg="light"
+        padY
         menu={
           <AccountList pathname={this.props.location.pathname} showFeeds={false} />
         }

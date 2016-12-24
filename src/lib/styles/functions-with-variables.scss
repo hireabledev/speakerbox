@@ -1,0 +1,3 @@
+@function rem($size) {
+  @return stripUnit($size) / stripUnit($font-size-root) * 1rem;
+}

@@ -13,9 +13,14 @@ $sb-subnav-bg: $white;
 
 .sb-page-content {
   flex-grow: 1;
+
+  > .container-fluid {
+    padding-left: $grid-gutter-width-base;
+    padding-right: $grid-gutter-width-base;
+  }
 }
 
 .sb-page-has-padding-y .sb-page-content > .container-fluid {
-  padding-top: $spacer-y;
-  padding-bottom: $spacer-y;
+  padding-top: $spacer-y * 2;
+  padding-bottom: $spacer-y * 2;
 }

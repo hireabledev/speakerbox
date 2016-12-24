@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import SchedulePage from '../components/schedule-page';
+import SchedulePage from '../components/schedule';
 import { fetchAccounts } from '../actions/accounts';
 import { fetchScheduledPosts } from '../actions/posts';
 
