@@ -5,15 +5,8 @@ import Post from 'lib/components/post';
 import AccountList from 'lib/containers/account-list';
 
 export default class StreamPage extends Component {
-  // constructor(props) {
-  //   super(props);
-  // }
-
   componentDidMount() {
-    Promise.all([
-      this.props.fetchAccounts(),
-      this.props.fetchScheduledPosts(),
-    ]);
+    this.props.fetchScheduledPosts();
   }
 
   render() {
@@ -74,6 +67,5 @@ StreamPage.propTypes = {
     id: PropTypes.string, // eslint-disable-line react/no-unused-prop-types
   })).isRequired,
   moreLinkedinScheduledPosts: PropTypes.bool.isRequired,
-  fetchAccounts: PropTypes.func.isRequired,
   fetchScheduledPosts: PropTypes.func.isRequired,
 };

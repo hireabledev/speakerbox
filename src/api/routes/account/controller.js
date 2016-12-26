@@ -19,36 +19,33 @@ export async function index(req, res, next) {
 }
 
 export async function show(req) {
+  const where = { id: req.params.id };
+  if (req.query.type) {
+    where.type = req.query.type;
+  }
   return await req.app.models.Account
     .scopeForUser(req.user, req.query.user)
-    .findOneOr404({
-      where: {
-        id: req.params.id,
-        type: req.query.type,
-      },
-    });
+    .findOneOr404({ where });
 }
 
 export async function update(req) {
+  const where = { id: req.params.id };
+  if (req.query.type) {
+    where.type = req.query.type;
+  }
   const instance = await req.app.models.Account
     .scopeForUser(req.user, req.query.user)
-    .findOneOr404({
-      where: {
-        id: req.params.id,
-        type: req.query.type,
-      },
-    });
+    .findOneOr404({ where });
   return instance.update(req.body);
 }
 
 export async function remove(req) {
+  const where = { id: req.params.id };
+  if (req.query.type) {
+    where.type = req.query.type;
+  }
   const instance = await req.app.models.Account
     .scopeForUser(req.user, req.query.user)
-    .findOneOr404({
-      where: {
-        id: req.params.id,
-        type: req.query.type,
-      },
-    });
+    .findOneOr404({ where });
   return await instance.destroy();
 }

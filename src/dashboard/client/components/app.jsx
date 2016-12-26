@@ -5,7 +5,11 @@ import Notif from 'lib/components/notification';
 
 export default class App extends Component {
   componentDidMount() {
-    this.props.fetchUser();
+    Promise.all([
+      this.props.fetchUser(),
+      this.props.fetchAccounts(),
+      this.props.fetchFeeds(),
+    ]);
   }
 
   render() {
@@ -27,4 +31,6 @@ export default class App extends Component {
 App.propTypes = {
   children: PropTypes.node,
   fetchUser: PropTypes.func.isRequired,
+  fetchAccounts: PropTypes.func.isRequired,
+  fetchFeeds: PropTypes.func.isRequired,
 };

@@ -10,11 +10,7 @@ export default class StreamPage extends Component {
   // }
 
   componentDidMount() {
-    Promise.all([
-      this.props.fetchAccounts(),
-      this.props.fetchFeeds(),
-      this.props.fetchPosts(),
-    ]);
+    this.props.fetchPosts();
   }
 
   render() {
@@ -84,7 +80,5 @@ StreamPage.propTypes = {
     id: PropTypes.string, // eslint-disable-line react/no-unused-prop-types
   })).isRequired,
   moreRSSPosts: PropTypes.bool.isRequired,
-  fetchAccounts: PropTypes.func.isRequired,
-  fetchFeeds: PropTypes.func.isRequired,
   fetchPosts: PropTypes.func.isRequired,
 };

@@ -15,7 +15,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   fetchScheduledPosts: (options) => dispatch(fetchScheduledPosts(options)),
-  fetchAccounts: () => dispatch(fetchAccounts()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SchedulePage);

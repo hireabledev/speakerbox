@@ -1,7 +1,8 @@
 import keyBy from 'lodash/keyBy';
 import mapValues from 'lodash/mapValues';
+import omit from 'lodash/omit';
 import { LOCATION_CHANGE } from 'react-router-redux';
-import { RECEIVE_ACCOUNTS } from '../constants/action-types';
+import { RECEIVE_ACCOUNTS, RECEIVE_REMOVE_ACCOUNT } from '../constants/action-types';
 import { getVisibilityFromQuery } from '../utils';
 
 const initialState = {
@@ -35,6 +36,12 @@ export default function accountsReducer(state = initialState, action) {
             },
           ),
         },
+      };
+    case RECEIVE_REMOVE_ACCOUNT:
+      return {
+        ...state,
+        accounts: state.accounts.filter(account => account.id !== action.payload.id),
+        accountsById: omit(state.accountsById, action.payload.id),
       };
     case LOCATION_CHANGE:
       return {

@@ -1,4 +1,5 @@
 import { showLoading, hideLoading } from 'react-redux-loading-bar';
+import fetch from 'lib/fetch';
 import { RECEIVE_RSS_FEEDS } from '../constants/action-types';
 
 export function receiveFeeds({ feeds, more }) {

@@ -1,7 +1,5 @@
 import { connect } from 'react-redux';
 import StreamPage from '../components/stream';
-import { fetchAccounts } from '../actions/accounts';
-import { fetchFeeds } from '../actions/feeds';
 import { fetchPosts } from '../actions/posts';
 
 const mapStateToProps = (state) => ({
@@ -19,8 +17,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   fetchPosts: (options) => dispatch(fetchPosts(options)),
-  fetchAccounts: () => dispatch(fetchAccounts()),
-  fetchFeeds: () => dispatch(fetchFeeds()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(StreamPage);
