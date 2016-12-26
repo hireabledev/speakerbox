@@ -1,34 +1,60 @@
 import React, { PropTypes } from 'react';
 import Form, { FormGroup, Label, Input } from 'lib/components/form';
+import { PageTitle } from 'lib/components/page';
 
-function handleSubmit(e) {
-  e.preventDefault();
-  debugger;
+export function SettingsUserForm(props) {
+  return (
+    <form onSubmit={props.handleSubmit}>
+      <FormGroup>
+        <Label htmlFor="displayName">Name</Label>
+        <Input type="text" name="displayName" placeholder="Name" required />
+      </FormGroup>
+      <FormGroup>
+        <Label htmlFor="email">Email Address</Label>
+        <Input type="email" name="email" placeholder="Email Address" required />
+      </FormGroup>
+      <FormGroup>
+        <Label htmlFor="tel">Phone Number</Label>
+        <Input type="tel" name="tel" placeholder="Phone Number" />
+      </FormGroup>
+      <button
+        className="btn btn-primary"
+        disabled={props.pristine || props.submitting}
+        type="submit"
+      >
+          Save
+      </button>
+    </form>
+  );
 }
+
+SettingsUserForm.propTypes = {
+  handleSubmit: PropTypes.func,
+  pristine: PropTypes.bool,
+  submitting: PropTypes.bool,
+};
 
 export default function SettingsUserPage(props) {
   const initialValues = {
     displayName: props.user.displayName,
+    email: props.user.email,
+    tel: props.user.tel,
   };
 
   return (
     <div>
-      <h1>User</h1>
+      <PageTitle>User</PageTitle>
       <Form
         name="settingsUser"
-        onSubmit={handleSubmit}
+        component={SettingsUserForm}
+        onSubmit={values => props.updateUser(props.user.id, values)}
         initialValues={initialValues}
-      >
-        <FormGroup>
-          <Label htmlFor="displayName">Name</Label>
-          <Input type="text" name="displayName" placeholder="Name" />
-        </FormGroup>
-        <button className="btn btn-primary" type="submit">Save</button>
-      </Form>
+      />
     </div>
   );
 }
 
 SettingsUserPage.propTypes = {
   user: PropTypes.object,
+  updateUser: PropTypes.func.isRequired,
 };

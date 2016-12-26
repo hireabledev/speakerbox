@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { PageTitle } from 'lib/components/page';
 
 export default class SettingsAccountsPage extends Component {
   componentDidMount() {
@@ -7,7 +8,7 @@ export default class SettingsAccountsPage extends Component {
   render() {
     return (
       <div>
-        <h1>Accounts</h1>
+        <PageTitle>Accounts</PageTitle>
         {this.props.children}
       </div>
     );

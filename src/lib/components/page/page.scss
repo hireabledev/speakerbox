@@ -24,3 +24,10 @@ $sb-subnav-bg: $white;
   padding-top: $spacer-y * 2;
   padding-bottom: $spacer-y * 2;
 }
+
+.sb-page-title {
+  border-bottom: 2px solid $border;
+  font-size: $font-size-h2;
+  margin-bottom: $spacer-y;
+  padding-bottom: $spacer-y;
+}

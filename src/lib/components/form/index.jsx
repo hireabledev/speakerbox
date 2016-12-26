@@ -1,44 +1,37 @@
 import React, { PropTypes } from 'react';
 import { reduxForm } from 'redux-form';
 
-function Form(props) {
-  return (
-    <form name={props.name} onSubmit={props.onSubmit}>
-      {props.children}
-    </form>
-  );
-}
-
-Form.propTypes = {
-  children: PropTypes.node,
-  onSubmit: PropTypes.func,
-  name: PropTypes.string,
-};
-
-export default function ConnectedForm(props) {
+export default function Form(props) {
   const {
-    onSubmit,
     children,
     name,
+    onSubmit,
+    component,
     ...reduxFormProps
   } = props;
 
   const ReduxForm = reduxForm({
     form: name,
+    enableReinitialize: true,
+    onSubmit,
     ...reduxFormProps,
-  })(Form);
+  })(component);
 
   return (
-    <ReduxForm name={name} onSubmit={onSubmit}>
+    <ReduxForm name={name}>
       {children}
     </ReduxForm>
   );
 }
 
-ConnectedForm.propTypes = {
+Form.propTypes = {
   children: PropTypes.node,
-  onSubmit: PropTypes.func,
   name: PropTypes.string.isRequired,
+  onSubmit: PropTypes.func,
+  component: PropTypes.oneOfType([
+    PropTypes.node,
+    PropTypes.func,
+  ]),
 };
 
 export { default as FormGroup } from './group';

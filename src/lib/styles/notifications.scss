@@ -1,0 +1,68 @@
+.notification__container {
+  max-width: 100%;
+  position: fixed;
+  padding: $grid-gutter-width-base;
+  top: 0;
+  right: 0;
+  width: rem(400px);
+  z-index: $zindex-modal + 20;
+}
+
+.notification {
+  align-items: center;
+  display: flex;
+  margin-bottom: $spacer-y;
+  padding: $spacer-y $spacer-x;
+  position: relative;
+}
+
+.notification--info {
+  background: $brand-info;
+  color: $white;
+}
+
+.notification--success {
+  background: $brand-success;
+  color: $white;
+}
+
+.notification--warning {
+  background: $brand-warning;
+  color: $white;
+}
+
+.notification--danger {
+  background: $brand-danger;
+  color: $white;
+}
+
+.notification__message {
+  flex-grow: 1;
+}
+
+.notification__close {
+  background: none;
+  border: 0;
+  color: inherit;
+  font-size: rem(22px);
+  line-height: 0;
+  padding: 0;
+}
+
+.notification-transition-enter {
+  opacity: 0.01;
+  transition: opacity .2s ease-in;
+}
+
+.notification-transition-enter-active {
+  opacity: 1;
+}
+
+.notification-transition-leave {
+  opacity: 1;
+  transition: opacity .2s ease-in;
+}
+
+.notification-transition-leave-active {
+  opacity: 0.01;
+}

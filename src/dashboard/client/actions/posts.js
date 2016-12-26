@@ -1,4 +1,5 @@
 import { showLoading, hideLoading } from 'react-redux-loading-bar';
+import fetch from 'lib/fetch';
 import {
   RECEIVE_FACEBOOK_POSTS,
   RECEIVE_TWITTER_POSTS,
@@ -71,7 +72,7 @@ export function fetchFacebookPosts({ accounts }) {
     const { facebook } = getState();
     dispatch(showLoading());
     const accountQueryString = getAccountQueryString(accounts);
-    const res = await fetch(`/api/facebook/posts?skip=${facebook.posts.length}${accountQueryString}`, { credentials: 'include' });
+    const res = await fetch(`/api/facebook/posts?skip=${facebook.posts.length}${accountQueryString}`);
     dispatch(hideLoading());
     const { data, more } = await res.json();
     dispatch(receiveFacebookPosts({ posts: data, more }));
@@ -84,7 +85,7 @@ export function fetchTwitterPosts({ accounts }) {
     const { twitter } = getState();
     dispatch(showLoading());
     const accountQueryString = getAccountQueryString(accounts);
-    const res = await fetch(`/api/twitter/posts?skip=${twitter.posts.length}${accountQueryString}`, { credentials: 'include' });
+    const res = await fetch(`/api/twitter/posts?skip=${twitter.posts.length}${accountQueryString}`);
     dispatch(hideLoading());
     const { data, more } = await res.json();
     dispatch(receiveTwitterPosts({ posts: data, more }));
@@ -97,7 +98,7 @@ export function fetchLinkedinPosts({ accounts }) {
     const { linkedin } = getState();
     dispatch(showLoading());
     const accountQueryString = getAccountQueryString(accounts);
-    const res = await fetch(`/api/linkedin/posts?skip=${linkedin.posts.length}${accountQueryString}`, { credentials: 'include' });
+    const res = await fetch(`/api/linkedin/posts?skip=${linkedin.posts.length}${accountQueryString}`);
     dispatch(hideLoading());
     const { data, more } = await res.json();
     dispatch(receiveLinkedinPosts({ posts: data, more }));
@@ -110,7 +111,7 @@ export function fetchRSSPosts({ feeds }) {
     const { rss } = getState();
     dispatch(showLoading());
     const feedQueryString = getFeedQueryString(feeds);
-    const res = await fetch(`/api/rss/posts?skip=${rss.posts.length}${feedQueryString}`, { credentials: 'include' });
+    const res = await fetch(`/api/rss/posts?skip=${rss.posts.length}${feedQueryString}`);
     dispatch(hideLoading());
     const { data, more } = await res.json();
     dispatch(receiveRSSPosts({ posts: data, more }));
@@ -135,7 +136,7 @@ export function fetchFacebookScheduledPosts({ accounts }) {
     const { facebook } = getState();
     dispatch(showLoading());
     const accountQueryString = getAccountQueryString(accounts);
-    const res = await fetch(`/api/facebook/scheduled-posts?skip=${facebook.scheduledPosts.length}${accountQueryString}`, { credentials: 'include' });
+    const res = await fetch(`/api/facebook/scheduled-posts?skip=${facebook.scheduledPosts.length}${accountQueryString}`);
     dispatch(hideLoading());
     const { data, more } = await res.json();
     dispatch(receiveFacebookScheduledPosts({ scheduledPosts: data, more }));
@@ -148,7 +149,7 @@ export function fetchTwitterScheduledPosts({ accounts }) {
     const { twitter } = getState();
     dispatch(showLoading());
     const accountQueryString = getAccountQueryString(accounts);
-    const res = await fetch(`/api/twitter/scheduled-posts?skip=${twitter.scheduledPosts.length}${accountQueryString}`, { credentials: 'include' });
+    const res = await fetch(`/api/twitter/scheduled-posts?skip=${twitter.scheduledPosts.length}${accountQueryString}`);
     dispatch(hideLoading());
     const { data, more } = await res.json();
     dispatch(receiveTwitterScheduledPosts({ scheduledPosts: data, more }));
@@ -161,7 +162,7 @@ export function fetchLinkedinScheduledPosts({ accounts }) {
     const { linkedin } = getState();
     dispatch(showLoading());
     const accountQueryString = getAccountQueryString(accounts);
-    const res = await fetch(`/api/linkedin/scheduled-posts?skip=${linkedin.scheduledPosts.length}${accountQueryString}`, { credentials: 'include' });
+    const res = await fetch(`/api/linkedin/scheduled-posts?skip=${linkedin.scheduledPosts.length}${accountQueryString}`);
     dispatch(hideLoading());
     const { data, more } = await res.json();
     dispatch(receiveLinkedinScheduledPosts({ scheduledPosts: data, more }));

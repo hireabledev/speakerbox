@@ -12,7 +12,7 @@ export function fetchFeeds() {
   return async (dispatch, getState) => {
     const { rss } = getState();
     dispatch(showLoading());
-    const res = await fetch(`/api/rss/feeds?skip=${rss.feeds.length}`, { credentials: 'include' });
+    const res = await fetch(`/api/rss/feeds?skip=${rss.feeds.length}`);
     dispatch(hideLoading());
     const { data, more } = await res.json();
     dispatch(receiveFeeds({ feeds: data, more }));

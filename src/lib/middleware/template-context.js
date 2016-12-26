@@ -16,11 +16,16 @@ export default function templateContextMiddleware(req, res, next) {
       ? res.locals.webpackStats.toJson()
       : res.locals.webpackStats;
 
-    res.locals.assets = mapValues(webpackStats.assetsByChunkName, asset => (
-      Array.isArray(asset)
-        ? groupBy(asset, filePath => path.extname(filePath).replace(LEADING_DOT_REGEXP, ''))
-        : { js: [asset] }
-    ));
+    res.locals.assets = mapValues(webpackStats.assetsByChunkName, chunkAssets => {
+      chunkAssets = Array.isArray(chunkAssets) ? chunkAssets : [chunkAssets];
+      chunkAssets = chunkAssets.filter(assetName => {
+        if (assetName.substr(-4) === '.map') {
+          return true;
+        }
+        return chunkAssets.indexOf(`${assetName}.map`) !== -1;
+      });
+      return groupBy(chunkAssets, filePath => path.extname(filePath).replace(LEADING_DOT_REGEXP, ''));
+    });
 
     res.locals.STATIC_URL = STATIC_URL;
   }
