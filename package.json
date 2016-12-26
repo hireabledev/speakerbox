@@ -86,6 +86,7 @@
     "redux-devtools": "^3.3.1",
     "redux-devtools-dock-monitor": "^1.1.1",
     "redux-devtools-log-monitor": "^1.1.1",
+    "redux-form": "^6.4.1",
     "redux-logger": "^2.7.4",
     "redux-thunk": "^2.1.0",
     "sendgrid": "^4.4.0",

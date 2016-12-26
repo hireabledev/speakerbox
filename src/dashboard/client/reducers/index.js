@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import { routerReducer as routing } from 'react-router-redux';
 import { loadingBarReducer as loadingBar } from 'react-redux-loading-bar';
+import { reducer as form } from 'redux-form';
 import accounts from './accounts';
 import facebook from './facebook';
 import linkedin from './linkedin';
@@ -18,6 +19,7 @@ export default function configureReducer(reducers) {
     linkedin,
     rss,
     user,
+    form,
     ...reducers,
   });
 }

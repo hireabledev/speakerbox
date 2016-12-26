@@ -46,14 +46,14 @@ const webpackConfig = {
     new ExtractTextPlugin('[name].[hash].css'),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'common',
-      chunks: ['dashboard', 'marketing', 'sso'],
+      chunks: ['dashboard', 'marketing', 'sso', 'vendor'],
     }),
     new webpack.optimize.OccurrenceOrderPlugin(true),
     function saveWebpackStats() {
-      this.plugin('done', stats => {
-        stats = stats.toJson();
-        // delete stats.chunks;
-        // delete stats.modules;
+      this.plugin('done', webpackStats => {
+        const stats = webpackStats.toJson();
+        delete stats.chunks;
+        delete stats.modules;
         fs.writeFileSync(
           `${__dirname}/src/lib/webpack.stats.json`,
           JSON.stringify(stats, null, 2)

@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import Page, { PageTitle } from 'lib/components/page';
+import Page from 'lib/components/page';
 import Subnav, { SubnavLink } from 'lib/components/subnav';
 
 export default class SettingsPage extends Component {
@@ -22,7 +22,6 @@ export default class SettingsPage extends Component {
           </Subnav>
         }
       >
-        <PageTitle>Settings</PageTitle>
         {this.props.children}
       </Page>
     );
@@ -31,5 +30,4 @@ export default class SettingsPage extends Component {
 
 SettingsPage.propTypes = {
   children: PropTypes.node,
-  user: PropTypes.object,
 };
