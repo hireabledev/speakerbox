@@ -18,7 +18,7 @@ app.get(
 app.get(
   '/auth/facebook/callback',
   passport.authenticate('facebook', {
-    successRedirect: '/',
+    successRedirect: '/dashboard',
     failureRedirect: '/sso',
   })
 );
@@ -30,7 +30,7 @@ app.get(
 app.get(
   '/auth/twitter/callback',
   passport.authenticate('twitter', {
-    successRedirect: '/',
+    successRedirect: '/dashboard',
     failureRedirect: '/sso',
   })
 );
@@ -42,7 +42,7 @@ app.get(
 app.get(
   '/auth/linkedin/callback',
   passport.authenticate('linkedin', {
-    successRedirect: '/',
+    successRedirect: '/dashboard',
     failureRedirect: '/sso',
   })
 );
