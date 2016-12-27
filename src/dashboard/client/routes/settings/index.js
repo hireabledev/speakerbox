@@ -1,5 +1,6 @@
 import * as user from './user';
 import * as accounts from './accounts';
+import * as feeds from './feeds';
 
 export const path = 'settings';
 
@@ -14,4 +15,5 @@ export const indexRoute = { onEnter: (nextState, replace) => replace(`${path}/${
 export const childRoutes = [
   user,
   accounts,
+  feeds,
 ];

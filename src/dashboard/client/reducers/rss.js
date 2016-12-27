@@ -1,9 +1,15 @@
 import keyBy from 'lodash/keyBy';
 import mapValues from 'lodash/mapValues';
+import omit from 'lodash/omit';
 import { LOCATION_CHANGE } from 'react-router-redux';
-import { RECEIVE_RSS_POSTS, RECEIVE_RSS_FEEDS } from '../constants/action-types';
+import {
+  RECEIVE_RSS_POSTS,
+  RECEIVE_RSS_FEEDS,
+  RECEIVE_RSS_FEED,
+  RECEIVE_REMOVE_RSS_FEED,
+} from '../constants/action-types';
 import { getVisibilityFromQuery } from '../utils';
-import { mergeKeyById } from '../utils/reducers';
+import { mergeKeyById, replaceOrAppendById } from '../utils/reducers';
 
 const initialState = {
   posts: [],
@@ -43,6 +49,21 @@ export default function rssFeedsReducer(state = initialState, action) {
             },
           ),
         },
+      };
+    case RECEIVE_RSS_FEED:
+      return {
+        ...state,
+        feeds: replaceOrAppendById(state.feeds, action.payload),
+        feedsById: {
+          ...state.feedsById,
+          [action.payload.id]: action.payload,
+        },
+      };
+    case RECEIVE_REMOVE_RSS_FEED:
+      return {
+        ...state,
+        feeds: state.feeds.filter(feed => feed.id !== action.payload.id),
+        feedsById: omit(state.feedsById, action.payload.id),
       };
     case LOCATION_CHANGE:
       return {

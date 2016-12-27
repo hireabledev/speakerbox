@@ -49,7 +49,7 @@ export default class SettingsAccountsPage extends Component {
             ))}
           </tbody>
         </table>
-        <a className="btn btn-primary" href="/sso">Add Accounts</a>
+        <a className="btn btn-primary" href="/sso">Add Account</a>
       </div>
     );
   }

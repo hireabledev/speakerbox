@@ -10,15 +10,15 @@ const RSSFeed = sequelize.define('RSSFeed', {
                           primaryKey: true,
                           comment: 'Feed ID.',
                         },
-  title:                {
+  name:                 {
                           type: Sequelize.STRING,
                           allowNull: false,
-                          comment: 'Feed title',
+                          comment: 'Feed name.',
                         },
   url:                  {
                           type: Sequelize.STRING,
                           allowNull: false,
-                          comment: 'Feed URL',
+                          comment: 'Feed URL.',
                         },
 }, {
   name: {

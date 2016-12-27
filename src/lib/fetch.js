@@ -12,5 +12,15 @@ export default function superFetch(url, options = {}) {
     fetchOptions.body = JSON.stringify(options.body);
   }
 
-  return fetch(url, fetchOptions);
+  return fetch(url, fetchOptions)
+    .then(res => {
+      if (res.status >= 200 && res.status < 400) {
+        return res;
+      }
+      const err = {
+        message: `${res.status} ${res.statusText} ${res.url}`,
+        response: res,
+      };
+      throw err;
+    });
 }

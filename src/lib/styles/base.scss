@@ -8,3 +8,12 @@
   position: fixed;
   z-index: $zindex-navbar-fixed;
 }
+
+.table > thead > tr > th:last-child,
+.table > tbody > tr > td:last-child {
+  text-align: right;
+}
+
+.table th {
+  border-top: 0;
+}

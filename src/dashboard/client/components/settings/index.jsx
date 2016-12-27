@@ -19,6 +19,9 @@ export default class SettingsPage extends Component {
             <SubnavLink to="/settings/accounts">
               Accounts
             </SubnavLink>
+            <SubnavLink to="/settings/feeds">
+              Feeds
+            </SubnavLink>
           </Subnav>
         }
       >
