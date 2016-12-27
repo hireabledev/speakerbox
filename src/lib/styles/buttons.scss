@@ -1,0 +1,11 @@
+.btn-facebook {
+  @include button-variant(#fff, $facebook, shade($facebook, 10%));
+}
+
+.btn-twitter {
+  @include button-variant(#fff, $twitter, shade($twitter, 10%));
+}
+
+.btn-linkedin {
+  @include button-variant(#fff, $linkedin, shade($linkedin, 10%));
+}

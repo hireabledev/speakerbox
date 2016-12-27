@@ -2,10 +2,31 @@
 
 {% block body %}
   {{ super() }}
-  <h1>SSO</h1>
-  <a href="/sso/auth/facebook">Facebook</a>
-  <br>
-  <a href="/sso/auth/twitter">Twitter</a>
-  <br>
-  <a href="/sso/auth/linkedin">Linkedin</a>
+  <div class="sb-page sb-page-has-padding-y">
+    <div class="sb-page-content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-xs-12 col-sm-6 col-md-4 offset-sm-3 offset-md-4">
+            <h1 class="sb-page-title text-xs-center">Speaker Box</h1>
+            <div class="card">
+              <div class="card-block">
+                <a class="btn btn-lg btn-block btn-facebook text-xs-left" href="/sso/auth/facebook">
+                  <span class="fa fa-fw fa-facebook" aria-hidden="true"></span>
+                  Facebook
+                </a>
+                <a class="btn btn-lg btn-block btn-twitter text-xs-left" href="/sso/auth/twitter">
+                  <span class="fa fa-fw fa-twitter" aria-hidden="true"></span>
+                  Twitter
+                </a>
+                <a class="btn btn-lg btn-block btn-linkedin text-xs-left" href="/sso/auth/linkedin">
+                  <span class="fa fa-fw fa-linkedin" aria-hidden="true"></span>
+                  Linkedin
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}

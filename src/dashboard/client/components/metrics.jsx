@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Page from 'lib/components/page';
+import Page, { PageTitle } from 'lib/components/page';
 
 export default class MetricsPage extends Component {
   componentDidMount() {
@@ -7,9 +7,9 @@ export default class MetricsPage extends Component {
 
   render() {
     return (
-      <Page bg="light">
-        <h1>Metrics</h1>
-        <p>TODO</p>
+      <Page bg="light" padY>
+        <PageTitle>Metrics</PageTitle>
+        <p>Coming soon!</p>
       </Page>
     );
   }

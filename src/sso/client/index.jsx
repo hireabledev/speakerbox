@@ -1,1 +1,1 @@
-console.log('sso');
+import './styles.scss';
