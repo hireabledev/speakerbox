@@ -1,4 +1,4 @@
-export default function superFetch(url, options = {}) {
+export default async function superFetch(url, options = {}) {
   const fetchOptions = {
     credentials: 'include',
     ...options,
@@ -12,15 +12,18 @@ export default function superFetch(url, options = {}) {
     fetchOptions.body = JSON.stringify(options.body);
   }
 
-  return fetch(url, fetchOptions)
-    .then(res => {
-      if (res.status >= 200 && res.status < 400) {
-        return res;
-      }
-      const err = {
-        message: `${res.status} ${res.statusText} ${res.url}`,
-        response: res,
-      };
-      throw err;
-    });
+  const res = await fetch(url, fetchOptions);
+  const result = { res, body: res.body };
+
+  try {
+    result.body = await res.json();
+  } catch (err) {
+    console.warn(err);
+  }
+
+  if (res.status >= 200 && res.status < 400) {
+    return result;
+  }
+
+  throw result;
 }

@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { PageTitle } from 'lib/components/page';
+import FeedForm from '../../containers/common/feed-form';
 
 function FeedItem({ feed, remove }) {
   return (
@@ -26,9 +27,6 @@ FeedItem.propTypes = {
 };
 
 export default class SettingsFeedsPage extends Component {
-  componentDidMount() {
-  }
-
   render() {
     const { feeds, removeFeed } = this.props;
     return (
@@ -49,6 +47,7 @@ export default class SettingsFeedsPage extends Component {
             ))}
           </tbody>
         </table>
+        <FeedForm />
         {/* <a className="btn btn-primary" href="/sso">Add Feed</a> */}
       </div>
     );

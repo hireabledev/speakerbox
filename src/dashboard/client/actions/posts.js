@@ -1,5 +1,5 @@
-import { showLoading, hideLoading } from 'react-redux-loading-bar';
 import fetch from 'lib/fetch';
+import { notifyError } from './notifications';
 import {
   RECEIVE_FACEBOOK_POSTS,
   RECEIVE_TWITTER_POSTS,
@@ -70,52 +70,64 @@ export function receiveLinkedinScheduledPosts({ scheduledPosts, more }) {
 export function fetchFacebookPosts({ accounts }) {
   return async (dispatch, getState) => {
     const { facebook } = getState();
-    dispatch(showLoading());
     const accountQueryString = getAccountQueryString(accounts);
-    const res = await fetch(`/api/facebook/posts?skip=${facebook.posts.length}${accountQueryString}`);
-    dispatch(hideLoading());
-    const { data, more } = await res.json();
-    dispatch(receiveFacebookPosts({ posts: data, more }));
-    return { data, more };
+    try {
+      const res = await dispatch(fetch(`/api/facebook/posts?skip=${facebook.posts.length}${accountQueryString}`));
+      const { data, more } = res.body;
+      dispatch(receiveFacebookPosts({ posts: data, more }));
+      return res.body;
+    } catch (err) {
+      dispatch(notifyError(err));
+      throw err;
+    }
   };
 }
 
 export function fetchTwitterPosts({ accounts }) {
   return async (dispatch, getState) => {
     const { twitter } = getState();
-    dispatch(showLoading());
     const accountQueryString = getAccountQueryString(accounts);
-    const res = await fetch(`/api/twitter/posts?skip=${twitter.posts.length}${accountQueryString}`);
-    dispatch(hideLoading());
-    const { data, more } = await res.json();
-    dispatch(receiveTwitterPosts({ posts: data, more }));
-    return { data, more };
+    try {
+      const res = await dispatch(fetch(`/api/twitter/posts?skip=${twitter.posts.length}${accountQueryString}`));
+      const { data, more } = res.body;
+      dispatch(receiveTwitterPosts({ posts: data, more }));
+      return res.body;
+    } catch (err) {
+      dispatch(notifyError(err));
+      throw err;
+    }
   };
 }
 
 export function fetchLinkedinPosts({ accounts }) {
   return async (dispatch, getState) => {
     const { linkedin } = getState();
-    dispatch(showLoading());
     const accountQueryString = getAccountQueryString(accounts);
-    const res = await fetch(`/api/linkedin/posts?skip=${linkedin.posts.length}${accountQueryString}`);
-    dispatch(hideLoading());
-    const { data, more } = await res.json();
-    dispatch(receiveLinkedinPosts({ posts: data, more }));
-    return { data, more };
+    try {
+      const res = await dispatch(fetch(`/api/linkedin/posts?skip=${linkedin.posts.length}${accountQueryString}`));
+      const { data, more } = res.body;
+      dispatch(receiveLinkedinPosts({ posts: data, more }));
+      return res.body;
+    } catch (err) {
+      dispatch(notifyError(err));
+      throw err;
+    }
   };
 }
 
 export function fetchRSSPosts({ feeds }) {
   return async (dispatch, getState) => {
     const { rss } = getState();
-    dispatch(showLoading());
     const feedQueryString = getFeedQueryString(feeds);
-    const res = await fetch(`/api/rss/posts?skip=${rss.posts.length}${feedQueryString}`);
-    dispatch(hideLoading());
-    const { data, more } = await res.json();
-    dispatch(receiveRSSPosts({ posts: data, more }));
-    return { data, more };
+    try {
+      const res = await dispatch(fetch(`/api/rss/posts?skip=${rss.posts.length}${feedQueryString}`));
+      const { data, more } = res.body;
+      dispatch(receiveRSSPosts({ posts: data, more }));
+      return res.body;
+    } catch (err) {
+      dispatch(notifyError(err));
+      throw err;
+    }
   };
 }
 
@@ -134,39 +146,48 @@ export function fetchPosts(options = {}) {
 export function fetchFacebookScheduledPosts({ accounts }) {
   return async (dispatch, getState) => {
     const { facebook } = getState();
-    dispatch(showLoading());
     const accountQueryString = getAccountQueryString(accounts);
-    const res = await fetch(`/api/facebook/scheduled-posts?skip=${facebook.scheduledPosts.length}${accountQueryString}`);
-    dispatch(hideLoading());
-    const { data, more } = await res.json();
-    dispatch(receiveFacebookScheduledPosts({ scheduledPosts: data, more }));
-    return { data, more };
+    try {
+      const res = await dispatch(fetch(`/api/facebook/scheduled-posts?skip=${facebook.scheduledPosts.length}${accountQueryString}`));
+      const { data, more } = res.body;
+      dispatch(receiveFacebookScheduledPosts({ scheduledPosts: data, more }));
+      return res.body;
+    } catch (err) {
+      dispatch(notifyError(err));
+      throw err;
+    }
   };
 }
 
 export function fetchTwitterScheduledPosts({ accounts }) {
   return async (dispatch, getState) => {
     const { twitter } = getState();
-    dispatch(showLoading());
     const accountQueryString = getAccountQueryString(accounts);
-    const res = await fetch(`/api/twitter/scheduled-posts?skip=${twitter.scheduledPosts.length}${accountQueryString}`);
-    dispatch(hideLoading());
-    const { data, more } = await res.json();
-    dispatch(receiveTwitterScheduledPosts({ scheduledPosts: data, more }));
-    return { data, more };
+    try {
+      const res = await dispatch(fetch(`/api/twitter/scheduled-posts?skip=${twitter.scheduledPosts.length}${accountQueryString}`));
+      const { data, more } = res.body;
+      dispatch(receiveTwitterScheduledPosts({ scheduledPosts: data, more }));
+      return res.body;
+    } catch (err) {
+      dispatch(notifyError(err));
+      throw err;
+    }
   };
 }
 
 export function fetchLinkedinScheduledPosts({ accounts }) {
   return async (dispatch, getState) => {
     const { linkedin } = getState();
-    dispatch(showLoading());
     const accountQueryString = getAccountQueryString(accounts);
-    const res = await fetch(`/api/linkedin/scheduled-posts?skip=${linkedin.scheduledPosts.length}${accountQueryString}`);
-    dispatch(hideLoading());
-    const { data, more } = await res.json();
-    dispatch(receiveLinkedinScheduledPosts({ scheduledPosts: data, more }));
-    return { data, more };
+    try {
+      const res = await dispatch(fetch(`/api/linkedin/scheduled-posts?skip=${linkedin.scheduledPosts.length}${accountQueryString}`));
+      const { data, more } = res.body;
+      dispatch(receiveLinkedinScheduledPosts({ scheduledPosts: data, more }));
+      return res.body;
+    } catch (err) {
+      dispatch(notifyError(err));
+      throw err;
+    }
   };
 }
 

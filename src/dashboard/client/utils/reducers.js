@@ -14,5 +14,6 @@ export function replaceByIdOrAppend(items, item) {
   if (index === -1) {
     index = newItems.length;
   }
-  return newItems.splice(index, 1, item);
+  newItems.splice(index, 1, item);
+  return newItems;
 }

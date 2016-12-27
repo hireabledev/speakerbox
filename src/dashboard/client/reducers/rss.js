@@ -9,7 +9,7 @@ import {
   RECEIVE_REMOVE_RSS_FEED,
 } from '../constants/action-types';
 import { getVisibilityFromQuery } from '../utils';
-import { mergeKeyById, replaceOrAppendById } from '../utils/reducers';
+import { mergeKeyById, replaceByIdOrAppend } from '../utils/reducers';
 
 const initialState = {
   posts: [],
@@ -53,11 +53,8 @@ export default function rssFeedsReducer(state = initialState, action) {
     case RECEIVE_RSS_FEED:
       return {
         ...state,
-        feeds: replaceOrAppendById(state.feeds, action.payload),
-        feedsById: {
-          ...state.feedsById,
-          [action.payload.id]: action.payload,
-        },
+        feeds: replaceByIdOrAppend(state.feeds, action.payload),
+        feedsById: mergeKeyById(state.feedsById, [action.payload]),
       };
     case RECEIVE_REMOVE_RSS_FEED:
       return {
