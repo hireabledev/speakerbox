@@ -59,10 +59,19 @@ Page.defaultProps = {
   sidebar: null,
 };
 
-export function PageTitle({ children }) {
-  return <h1 className="sb-page-title">{children}</h1>;
+export function PageTitle({ children, flush }) {
+  return (
+    <h1
+      className={cn('sb-page-title', {
+        'sb-page-title-is-flush': flush,
+      })}
+    >
+      {children}
+    </h1>
+  );
 }
 
 PageTitle.propTypes = {
   children: PropTypes.node,
+  flush: PropTypes.bool,
 };

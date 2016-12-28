@@ -6,7 +6,7 @@ export function RawFeedForm(props) {
     <form onSubmit={props.handleSubmit}>
       <FormGroup>
         <Label htmlFor="name">Name</Label>
-        <Input type="text" name="name" placeholder="Name" required />
+        <Input type="text" name="name" placeholder="My Feed" required />
       </FormGroup>
       <FormGroup>
         <Label htmlFor="url">URL</Label>
@@ -19,6 +19,8 @@ export function RawFeedForm(props) {
       >
         Save
       </button>
+      {' '}
+      {props.cancelButton}
     </form>
   );
 }
@@ -27,6 +29,7 @@ RawFeedForm.propTypes = {
   handleSubmit: PropTypes.func,
   pristine: PropTypes.bool,
   submitting: PropTypes.bool,
+  cancelButton: PropTypes.node,
 };
 
 export default function FeedForm(props) {
@@ -34,11 +37,15 @@ export default function FeedForm(props) {
     <Form
       name="feed"
       component={RawFeedForm}
+      cancelButton={props.cancelButton}
       onSubmit={(values, _, form) => {
         const res = props.feed
           ? props.updateFeed(props.feed.id, values)
           : props.addFeed(values);
-        res.then(() => form.reset());
+        res.then(feed => {
+          form.reset();
+          if (props.onSuccess) { props.onSuccess(feed); }
+        });
       }}
       initialValues={props.feed}
     />
@@ -46,6 +53,8 @@ export default function FeedForm(props) {
 }
 
 FeedForm.propTypes = {
+  onSuccess: PropTypes.func, // eslint-disable-line react/no-unused-prop-types
+  cancelButton: PropTypes.node,
   feed: PropTypes.shape({
     id: PropTypes.string.isRequired,
     name: PropTypes.string,

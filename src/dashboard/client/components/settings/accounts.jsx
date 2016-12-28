@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 import { PageTitle } from 'lib/components/page';
 
 function AccountItem({ account, remove }) {
@@ -25,34 +25,29 @@ AccountItem.propTypes = {
   remove: PropTypes.func.isRequired,
 };
 
-export default class SettingsAccountsPage extends Component {
-  componentDidMount() {
-  }
-
-  render() {
-    const { accounts, removeAccount } = this.props;
-    return (
-      <div>
-        <PageTitle>Accounts</PageTitle>
-        <table className="table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Type</th>
-              <th>ID</th>
-              <th><span className="sr-only">Actions</span></th>
-            </tr>
-          </thead>
-          <tbody>
-            {accounts.map(account => (
-              <AccountItem key={account.id} account={account} remove={removeAccount} />
-            ))}
-          </tbody>
-        </table>
-        <a className="btn btn-primary" href="/sso">Add Account</a>
-      </div>
-    );
-  }
+export default function SettingsAccountsPage(props) {
+  const { accounts, removeAccount } = props;
+  return (
+    <div>
+      <PageTitle flush>Accounts</PageTitle>
+      <table className="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>ID</th>
+            <th><span className="sr-only">Actions</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          {accounts.map(account => (
+            <AccountItem key={account.id} account={account} remove={removeAccount} />
+          ))}
+        </tbody>
+      </table>
+      <a className="btn btn-primary" href="/sso">Add Account</a>
+    </div>
+  );
 }
 
 SettingsAccountsPage.propTypes = {

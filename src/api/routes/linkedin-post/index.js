@@ -18,6 +18,7 @@ router.get(
 );
 router.get('/:id', show);
 router.put('/:id', update);
+router.patch('/:id', update);
 router.delete('/:id', remove);
 
 export default router;

@@ -30,8 +30,8 @@ $sb-subnav-bg: $white;
   font-size: $font-size-h2;
   margin-bottom: $spacer-y;
   padding-bottom: $spacer-y;
+}
 
-  + .table {
-    margin-top: -$spacer-y;
-  }
+.sb-page-title-is-flush {
+  margin-bottom: 0;
 }

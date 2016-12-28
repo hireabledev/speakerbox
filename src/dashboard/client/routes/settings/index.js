@@ -10,7 +10,9 @@ export function getComponent(nextState, done) {
   ));
 }
 
-export const indexRoute = { onEnter: (nextState, replace) => replace(`${path}/${user.path}`) };
+export const indexRoute = {
+  onEnter: (nextState, replace) => replace(`${nextState.location.pathname}/${user.path}`),
+};
 
 export const childRoutes = [
   user,

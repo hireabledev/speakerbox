@@ -15,7 +15,7 @@ export function notifySuccess(message) {
 }
 
 export function notifyError(err) {
-  const message = err.message || `${err.status} ${err.statusText}: ${err.url}`;
+  const message = err.message || `${err.res.status} ${err.res.statusText}: ${err.res.url}`;
   return notify({
     message,
     kind: 'danger',
