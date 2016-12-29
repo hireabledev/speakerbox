@@ -6,6 +6,10 @@ import PostFavoriteButton from '../post-favorite-button';
 import PostScheduleButton from '../post-schedule-button';
 import PostViewLink from '../post-view-link';
 
+function getFacebookShareUrl(url) {
+  return `https://www.facebook.com/sharer.php?u=${url}`;
+}
+
 export default function FacebookPost({ post }) {
   return (
     <Post
@@ -13,11 +17,16 @@ export default function FacebookPost({ post }) {
       actions={(
         <PostActions>
           <PostFavoriteButton post={post} />
-          <button className="sb-post-action" type="button">
+          <a
+            className="sb-post-action"
+            href={getFacebookShareUrl(post.url)}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <Icon name="share" label="share" />
             {' '}
             Share Now
-          </button>
+          </a>
           <PostScheduleButton
             onClick={(e) => console.log('TODO')}
           />
