@@ -50,6 +50,9 @@ const TwitterPost = sequelize.define('TwitterPost', {
                           comment: 'Favorited date.',
                         },
 }, {
+  getterMethods: {
+    type() { return 'twitter'; },
+  },
   name: {
     singular: 'twitterPost',
     plural: 'twitterPosts',

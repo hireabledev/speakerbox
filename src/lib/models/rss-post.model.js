@@ -35,6 +35,9 @@ const RSSPost = sequelize.define('RSSPost', {
                           comment: 'Favorited date.',
                         },
 }, {
+  getterMethods: {
+    type() { return 'rss'; },
+  },
   name: {
     singular: 'rssPost',
     plural: 'rssPosts',

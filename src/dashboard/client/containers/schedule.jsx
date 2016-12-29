@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 import SchedulePage from '../components/schedule';
-import { fetchAccounts } from '../actions/accounts';
-import { fetchScheduledPosts } from '../actions/posts';
+import { fetchAllScheduledPosts } from '../actions/posts';
 
 const mapStateToProps = (state) => ({
   accountVisibility: state.accounts.accountVisibility,
@@ -14,7 +13,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchScheduledPosts: (options) => dispatch(fetchScheduledPosts(options)),
+  fetchScheduledPosts: (options) => dispatch(fetchAllScheduledPosts(options)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SchedulePage);

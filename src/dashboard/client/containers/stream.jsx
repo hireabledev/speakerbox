@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import StreamPage from '../components/stream';
-import { fetchPosts } from '../actions/posts';
+import { fetchAllPosts } from '../actions/posts';
 
 const mapStateToProps = (state) => ({
   accountVisibility: state.accounts.accountVisibility,
@@ -16,7 +16,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchPosts: (options) => dispatch(fetchPosts(options)),
+  fetchPosts: (options) => dispatch(fetchAllPosts(options)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(StreamPage);

@@ -50,6 +50,9 @@ const LinkedinPost = sequelize.define('LinkedinPost', {
                           comment: 'Favorited date.',
                         },
 }, {
+  getterMethods: {
+    type() { return 'linkedin'; },
+  },
   name: {
     singular: 'linkedinPost',
     plural: 'linkedinPosts',

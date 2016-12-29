@@ -10,7 +10,6 @@ export default function FacebookPost({ post }) {
   return (
     <Post
       post={post}
-      type="facebook"
       actions={(
         <PostActions>
           <FavoriteButton

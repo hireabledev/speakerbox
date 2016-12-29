@@ -10,7 +10,6 @@ export default function TwitterPost({ post }) {
   return (
     <Post
       post={post}
-      type="twitter"
       actions={(
         <PostActions>
           <FavoriteButton

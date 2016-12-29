@@ -5,7 +5,7 @@ import PostAuthor from './author';
 import PostAuthorImg from './author-img';
 import PostMeta from './meta';
 
-export default function Post({ type, post, actions }) {
+export default function Post({ post, actions }) {
   return (
     <article className="sb-post">
       <div className="sb-post-body">
@@ -27,7 +27,7 @@ export default function Post({ type, post, actions }) {
               </div>
             </PostMeta.Primary>
             <PostMeta.Secondary>
-              <TypeLabel type={type} accountId={post.accountId} feedId={post.feedId} />
+              <TypeLabel type={post.type} accountId={post.accountId} feedId={post.feedId} />
             </PostMeta.Secondary>
           </PostMeta>
           <p className="sb-post-content">
@@ -41,8 +41,8 @@ export default function Post({ type, post, actions }) {
 }
 
 Post.propTypes = {
-  type: PropTypes.oneOf(['facebook', 'twitter', 'linkedin', 'rss']).isRequired,
   post: PropTypes.shape({
+    type: PropTypes.oneOf(['facebook', 'twitter', 'linkedin', 'rss']).isRequired,
     body: PropTypes.string,
     date: PropTypes.date,
     authorName: PropTypes.string,

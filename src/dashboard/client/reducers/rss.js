@@ -4,6 +4,7 @@ import omit from 'lodash/omit';
 import { LOCATION_CHANGE } from 'react-router-redux';
 import {
   RECEIVE_RSS_POSTS,
+  RECEIVE_RSS_POST,
   RECEIVE_RSS_FEEDS,
   RECEIVE_RSS_FEED,
   RECEIVE_REMOVE_RSS_FEED,
@@ -29,6 +30,12 @@ export default function rssFeedsReducer(state = initialState, action) {
         posts: [...state.posts, ...action.payload.posts],
         postsById: mergeKeyById(state.postsById, action.payload.posts),
         morePosts: action.payload.more,
+      };
+    case RECEIVE_RSS_POST:
+      return {
+        ...state,
+        posts: replaceByIdOrAppend(state.posts, action.payload),
+        postsById: mergeKeyById(state.postsById, [action.payload]),
       };
     case RECEIVE_RSS_FEEDS:
       return {

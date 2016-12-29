@@ -53,7 +53,9 @@ export default class StreamPage extends Component {
         {rssPosts
           .filter(filterByFeed)
           .map(post => <Post key={post.id} post={post} type="rss" />)}
-        {morePosts && <button onClick={this.props.fetchPosts}>Load More</button>}
+        {morePosts && (
+          <button className="btn btn-primary" onClick={this.props.fetchPosts}>Load More</button>
+        )}
       </Page>
     );
   }

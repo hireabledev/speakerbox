@@ -10,7 +10,6 @@ export default function RSSPost({ post }) {
   return (
     <Post
       post={post}
-      type="rss"
       actions={(
         <PostActions>
           <FavoriteButton

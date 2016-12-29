@@ -50,6 +50,9 @@ const FacebookPost = sequelize.define('FacebookPost', {
                           comment: 'Favorited date.',
                         },
 }, {
+  getterMethods: {
+    type() { return 'facebook'; },
+  },
   name: {
     singular: 'facebookPost',
     plural: 'facebookPosts',

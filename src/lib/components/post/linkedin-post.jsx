@@ -10,7 +10,6 @@ export default function LinkedInPost({ post }) {
   return (
     <Post
       post={post}
-      type="linkedin"
       actions={(
         <PostActions>
           <FavoriteButton
