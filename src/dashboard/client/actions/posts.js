@@ -47,7 +47,7 @@ export function postActions(type) {
   const updatePost = (id, body) => (
     async dispatch => {
       try {
-        const res = await dispatch(fetch(`/api/facebook/posts/${id}`, { method: 'PATCH', body }));
+        const res = await dispatch(fetch(`/api/${type}/posts/${id}`, { method: 'PATCH', body }));
         const post = res.body;
         dispatch(receivePost(post));
         dispatch(notifySuccess('Updated Post'));
@@ -123,7 +123,7 @@ export function scheduledPostActions(type) {
   const createScheduledPost = (body) => (
     async dispatch => {
       try {
-        const res = await dispatch(fetch('/api/facebook/scheduled-posts', { method: 'POST', body }));
+        const res = await dispatch(fetch(`/api/${type}/scheduled-posts`, { method: 'POST', body }));
         const post = res.body;
         dispatch(receiveScheduledPost(post));
         dispatch(notifySuccess('Scheduled Post'));
@@ -138,7 +138,7 @@ export function scheduledPostActions(type) {
   const updateScheduledPost = (id, body) => (
     async dispatch => {
       try {
-        const res = await dispatch(fetch(`/api/facebook/scheduled-posts/${id}`, { method: 'PATCH', body }));
+        const res = await dispatch(fetch(`/api/${type}/scheduled-posts/${id}`, { method: 'PATCH', body }));
         const post = res.body;
         dispatch(receiveScheduledPost(post));
         dispatch(notifySuccess('Updated Post'));
@@ -153,7 +153,7 @@ export function scheduledPostActions(type) {
   const removeScheduledPost = (id) => (
     async dispatch => {
       try {
-        await dispatch(fetch(`/api/facebook/scheduled-posts/${id}`, { method: 'DELETE' }));
+        await dispatch(fetch(`/api/${type}/scheduled-posts/${id}`, { method: 'DELETE' }));
         dispatch(receiveRemoveScheduledPost(id));
         dispatch(notifySuccess('Removed Post'));
         return { id };

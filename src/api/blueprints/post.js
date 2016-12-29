@@ -13,6 +13,7 @@ export function indexBlueprint(modelName) {
         offset: skip,
         where,
         attributes: Model.getValidAttributes(attributes),
+        order: [['date', 'DESC']],
       });
 
     return {
