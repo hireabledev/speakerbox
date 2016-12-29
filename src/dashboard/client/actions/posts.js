@@ -1,4 +1,5 @@
 import fetch from 'lib/fetch';
+import qs from 'qs';
 import { notifySuccess, notifyError } from './notifications';
 import * as actions from '../constants/action-types';
 
@@ -15,11 +16,19 @@ export function postActions(type) {
     payload: post,
   });
 
-  const fetchPosts = () => (
+  const resetPosts = () => ({
+    type: actions[`RESET_${TYPE}_POSTS`],
+  });
+
+  const fetchPosts = (options = {}) => (
     async (dispatch, getState) => {
       const state = getState()[type];
+      let queryString = '';
+      if (options.query) {
+        queryString = '&' + qs.stringify(options.query);
+      }
       try {
-        const res = await dispatch(fetch(`/api/${type}/posts?skip=${state.posts.length}`));
+        const res = await dispatch(fetch(`/api/${type}/posts?skip=${state.posts.length}${queryString}`));
         const { data, more } = res.body;
         dispatch(receivePosts({ posts: data, more }));
         return res.body;
@@ -66,6 +75,7 @@ export function postActions(type) {
   return {
     receivePosts,
     receivePost,
+    resetPosts,
     fetchPosts,
     fetchPost,
     updatePost,
@@ -193,13 +203,13 @@ export const linkedin = {
 
 export const rss = postActions('rss');
 
-export function fetchAllPosts() {
+export function fetchAllPosts(options) {
   return async (dispatch, getState) => (
     await Promise.resolve([
-      facebook.fetchPosts()(dispatch, getState),
-      twitter.fetchPosts()(dispatch, getState),
-      linkedin.fetchPosts()(dispatch, getState),
-      rss.fetchPosts()(dispatch, getState),
+      facebook.fetchPosts(options)(dispatch, getState),
+      twitter.fetchPosts(options)(dispatch, getState),
+      linkedin.fetchPosts(options)(dispatch, getState),
+      rss.fetchPosts(options)(dispatch, getState),
     ])
   );
 }
@@ -212,4 +222,13 @@ export function fetchAllScheduledPosts() {
       linkedin.fetchScheduledPosts()(dispatch, getState),
     ])
   );
+}
+
+export function resetAllPosts() {
+  return dispatch => {
+    dispatch(facebook.resetPosts());
+    dispatch(twitter.resetPosts());
+    dispatch(linkedin.resetPosts());
+    dispatch(rss.resetPosts());
+  };
 }

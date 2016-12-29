@@ -1,14 +1,36 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import memoize from 'lodash/memoize';
-import { fetchAllPosts } from 'dashboard/client/actions/posts';
+import { fetchAllPosts, resetAllPosts } from 'dashboard/client/actions/posts';
 import Page from 'lib/components/page';
 import Post from './post';
 import AccountList from './account-list';
 
 export class StreamPage extends Component {
+  constructor(props) {
+    super(props);
+    this.fetchPosts = this.fetchPosts.bind(this);
+  }
+
   componentDidMount() {
-    this.props.fetchPosts();
+    this.fetchPosts();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.location.pathname !== this.props.location.pathname) {
+      this.props.resetPosts();
+      this.fetchPosts();
+    }
+  }
+
+  fetchPosts() {
+    const options = {};
+
+    if (this.props.location.pathname === '/favorites') {
+      options.query = { favorited: true };
+    }
+
+    this.props.fetchPosts(options);
   }
 
   render() {
@@ -82,6 +104,7 @@ StreamPage.propTypes = {
   })).isRequired,
   moreRSSPosts: PropTypes.bool.isRequired,
   fetchPosts: PropTypes.func.isRequired,
+  resetPosts: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -99,6 +122,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   fetchPosts: (options) => dispatch(fetchAllPosts(options)),
+  resetPosts: () => dispatch(resetAllPosts()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(StreamPage);

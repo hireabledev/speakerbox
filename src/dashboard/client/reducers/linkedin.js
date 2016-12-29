@@ -2,6 +2,7 @@ import omit from 'lodash/omit';
 import {
   RECEIVE_LINKEDIN_POSTS,
   RECEIVE_LINKEDIN_POST,
+  RESET_LINKEDIN_POSTS,
   RECEIVE_LINKEDIN_SCHEDULED_POSTS,
   RECEIVE_LINKEDIN_SCHEDULED_POST,
   RECEIVE_REMOVE_LINKEDIN_SCHEDULED_POST,
@@ -31,6 +32,12 @@ export default function linkedinPostsReducer(state = initialState, action) {
         ...state,
         posts: replaceByIdOrAppend(state.posts, action.payload),
         postsById: mergeKeyById(state.postsById, [action.payload]),
+      };
+    case RESET_LINKEDIN_POSTS:
+      return {
+        ...state,
+        posts: [],
+        postsById: {},
       };
     case RECEIVE_LINKEDIN_SCHEDULED_POSTS:
       return {

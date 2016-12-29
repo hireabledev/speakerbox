@@ -2,6 +2,7 @@ import omit from 'lodash/omit';
 import {
   RECEIVE_FACEBOOK_POSTS,
   RECEIVE_FACEBOOK_POST,
+  RESET_FACEBOOK_POSTS,
   RECEIVE_FACEBOOK_SCHEDULED_POSTS,
   RECEIVE_FACEBOOK_SCHEDULED_POST,
   RECEIVE_REMOVE_FACEBOOK_SCHEDULED_POST,
@@ -31,6 +32,12 @@ export default function facebookPostsReducer(state = initialState, action) {
         ...state,
         posts: replaceByIdOrAppend(state.posts, action.payload),
         postsById: mergeKeyById(state.postsById, [action.payload]),
+      };
+    case RESET_FACEBOOK_POSTS:
+      return {
+        ...state,
+        posts: [],
+        postsById: {},
       };
     case RECEIVE_FACEBOOK_SCHEDULED_POSTS:
       return {

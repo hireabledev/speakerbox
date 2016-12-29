@@ -33,6 +33,7 @@
     "no-console": [2, { "allow": ["info", "warn", "error"] }],
     "no-unused-vars": [2, { "argsIgnorePattern": "next|reject" }],
     "arrow-parens": 0,
+    "prefer-template": 1,
     "import/prefer-default-export": 0,
     "import/no-named-as-default": 0,
     "no-shadow": ["error", { "allow": ["res"] }],
