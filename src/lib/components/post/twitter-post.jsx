@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import Post from './post';
 import PostActions from './actions';
 import FavoriteButton from './favorite-button';
+import ViewLink from './view-link';
 import PostButton from './post-button';
 import Icon from '../icon';
 
@@ -9,6 +10,7 @@ export default function TwitterPost({ post }) {
   return (
     <Post
       post={post}
+      type="twitter"
       actions={(
         <PostActions>
           <FavoriteButton
@@ -24,11 +26,7 @@ export default function TwitterPost({ post }) {
             onClick={(e) => console.log('TODO')}
           />
           <PostActions.Secondary>
-            <a className="sb-post-action" href={post.url} target="_blank" rel="noopener noreferrer">
-              <Icon name="link" label="link" />
-              {' '}
-              View
-            </a>
+            <ViewLink url={post.url} />
           </PostActions.Secondary>
         </PostActions>
       )}

@@ -34,3 +34,28 @@
 .sb-post-content {
   margin: 0;
 }
+
+.sb-post-type {
+  border-radius: $border-radius;
+  color: #fff;
+  font-size: rem(10px);
+  line-height: 1;
+  text-transform: uppercase;
+  padding: rem(5px) rem(8px);
+}
+
+.sb-post-type-rss {
+  background: $rss;
+}
+
+.sb-post-type-facebook {
+  background: $facebook;
+}
+
+.sb-post-type-twitter {
+  background: $twitter;
+}
+
+.sb-post-type-linkedin {
+  background: $linkedin;
+}

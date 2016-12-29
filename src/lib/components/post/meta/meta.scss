@@ -14,12 +14,13 @@ $sb-post-meta-margin: 0.5em;
   margin-top: $sb-post-meta-margin;
 }
 
-.sb-post-meta-primary,
-.sb-post-meta-secondary {
-  flex-shrink: 1;
+.sb-post-meta-primary {
+  align-items: center;
+  display: flex;
+  flex-grow: 1;
 }
 
-.sb-post-meta-primary:last-of-type {
-  flex-grow: 1;
-  flex-shrink: 0;
+.sb-post-meta-secondary {
+  align-self: flex-start;
+  flex-shrink: 1;
 }
