@@ -45,6 +45,10 @@ const FacebookPost = sequelize.define('FacebookPost', {
                           defaultValue: {},
                           comment: 'Additional post data.',
                         },
+  favorited:            {
+                          type: Sequelize.DATE,
+                          comment: 'Favorited date.',
+                        },
 }, {
   name: {
     singular: 'facebookPost',

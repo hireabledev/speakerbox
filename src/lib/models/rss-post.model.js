@@ -20,7 +20,7 @@ const RSSPost = sequelize.define('RSSPost', {
                           comment: 'RSS post body.',
                         },
   date:                 {
-                          type: Sequelize.TEXT,
+                          type: Sequelize.DATE,
                           allowNull: false,
                           comment: 'RSS post date.',
                         },
@@ -29,6 +29,10 @@ const RSSPost = sequelize.define('RSSPost', {
                           allowNull: false,
                           defaultValue: {},
                           comment: 'Additional post data.',
+                        },
+  favorited:            {
+                          type: Sequelize.DATE,
+                          comment: 'Favorited date.',
                         },
 }, {
   name: {

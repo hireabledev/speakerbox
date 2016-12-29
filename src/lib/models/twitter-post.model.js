@@ -45,6 +45,10 @@ const TwitterPost = sequelize.define('TwitterPost', {
                           defaultValue: {},
                           comment: 'Additional post data.',
                         },
+  favorited:            {
+                          type: Sequelize.DATE,
+                          comment: 'Favorited date.',
+                        },
 }, {
   name: {
     singular: 'twitterPost',

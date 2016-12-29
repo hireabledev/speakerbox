@@ -45,6 +45,10 @@ const LinkedinPost = sequelize.define('LinkedinPost', {
                           defaultValue: {},
                           comment: 'Additional post data.',
                         },
+  favorited:            {
+                          type: Sequelize.DATE,
+                          comment: 'Favorited date.',
+                        },
 }, {
   name: {
     singular: 'linkedinPost',
