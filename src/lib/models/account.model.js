@@ -5,6 +5,7 @@ import sequelize, { Sequelize } from '../sequelize';
 const Account = sequelize.define('Account', {
   id:                   {
                           type: Sequelize.STRING,
+                          allowNull: false,
                           primaryKey: true,
                           comment: 'Account ID.',
                         },

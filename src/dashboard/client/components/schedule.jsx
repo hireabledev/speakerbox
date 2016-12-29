@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import concat from 'lodash/concat';
 import memoize from 'lodash/memoize';
+import Fallback from 'lib/components/fallback';
 import Page from 'lib/components/page';
 import AccountList from './account-list';
 import Post from './post';
@@ -22,6 +24,8 @@ export class StreamPage extends Component {
       moreLinkedinScheduledPosts,
     } = this.props;
 
+    const posts = concat(facebookScheduledPosts, twitterScheduledPosts, linkedinScheduledPosts);
+
     const moreScheduledPosts = moreFacebookScheduledPosts || moreTwitterScheduledPosts
       || moreLinkedinScheduledPosts;
 
@@ -35,6 +39,9 @@ export class StreamPage extends Component {
           <AccountList pathname={this.props.location.pathname} showFeeds={false} />
         }
       >
+        <Fallback if={posts.length === 0}>
+          No scheduled posts. Add one?
+        </Fallback>
         {facebookScheduledPosts
           .filter(filterByAccount)
           .map(post => <Post key={post.id} post={post} type="facebook" />)}

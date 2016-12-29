@@ -42,8 +42,8 @@ export default function twitterPostsReducer(state = initialState, action) {
     case RECEIVE_TWITTER_SCHEDULED_POSTS:
       return {
         ...state,
-        scheduledPosts: [...state.scheduledPosts, ...action.payload.scheduledPosts],
-        scheduledPostsById: mergeKeyById(state.scheduledPostsById, action.payload.scheduledPosts),
+        scheduledPosts: [...state.scheduledPosts, ...action.payload.posts],
+        scheduledPostsById: mergeKeyById(state.scheduledPostsById, action.payload.posts),
         morePosts: action.payload.more,
       };
     case RECEIVE_TWITTER_SCHEDULED_POST:

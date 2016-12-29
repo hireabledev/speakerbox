@@ -1,10 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import concat from 'lodash/concat';
 import memoize from 'lodash/memoize';
-import { fetchAllPosts, resetAllPosts } from 'dashboard/client/actions/posts';
+import Link from 'react-router/lib/Link';
+import Fallback from 'lib/components/fallback';
 import Page from 'lib/components/page';
 import Post from './post';
 import AccountList from './account-list';
+import { fetchAllPosts, resetAllPosts } from '../actions/posts';
 
 export class StreamPage extends Component {
   constructor(props) {
@@ -47,6 +50,7 @@ export class StreamPage extends Component {
       moreRSSPosts,
     } = this.props;
 
+    const posts = concat(facebookPosts, twitterPosts, linkedinPosts, rssPosts);
     const morePosts = moreFacebookPosts || moreTwitterPosts || moreLinkedinPosts || moreRSSPosts;
 
     const filterByAccount = memoize((post) => (accountVisibility[post.accountId]));
@@ -61,6 +65,9 @@ export class StreamPage extends Component {
         }
         sidebarSecondary={<div />}
       >
+        <Fallback if={posts.length === 0}>
+          No posts. <Link to="/settings/accounts">Add an account?</Link>
+        </Fallback>
         {facebookPosts
           .filter(filterByAccount)
           .map(post => <Post key={post.id} post={post} type="facebook" />)}

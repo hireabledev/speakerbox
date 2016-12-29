@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react';
-import Icon from 'lib/components/icon';
 import Post from './post';
 import PostActions from '../post-actions';
 import PostFavoriteButton from '../post-favorite-button';
@@ -13,11 +12,6 @@ export default function LinkedInPost({ post }) {
       actions={(
         <PostActions>
           <PostFavoriteButton post={post} />
-          <button className="sb-post-action" type="button">
-            <Icon name="share" label="share" />
-            {' '}
-            Share
-          </button>
           <PostScheduleButton
             onClick={(e) => console.log('TODO')}
           />
