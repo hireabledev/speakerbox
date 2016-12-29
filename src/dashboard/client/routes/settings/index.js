@@ -5,8 +5,8 @@ import * as feeds from './feeds';
 export const path = 'settings';
 
 export function getComponent(nextState, done) {
-  return require.ensure(['../../containers/settings'], (require) => (
-    done(null, require('../../containers/settings').default)
+  return require.ensure(['../../components/settings'], (require) => (
+    done(null, require('../../components/settings').default)
   ));
 }
 

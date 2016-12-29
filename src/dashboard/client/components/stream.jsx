@@ -1,14 +1,12 @@
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 import memoize from 'lodash/memoize';
+import { fetchAllPosts } from 'dashboard/client/actions/posts';
 import Page from 'lib/components/page';
-import Post from 'lib/components/post';
-import AccountList from 'lib/containers/account-list';
+import Post from './post';
+import AccountList from './account-list';
 
-export default class StreamPage extends Component {
-  // constructor(props) {
-  //   super(props);
-  // }
-
+export class StreamPage extends Component {
   componentDidMount() {
     this.props.fetchPosts();
   }
@@ -85,3 +83,22 @@ StreamPage.propTypes = {
   moreRSSPosts: PropTypes.bool.isRequired,
   fetchPosts: PropTypes.func.isRequired,
 };
+
+const mapStateToProps = (state) => ({
+  accountVisibility: state.accounts.accountVisibility,
+  feedVisibility: state.rss.feedVisibility,
+  facebookPosts: state.facebook.posts,
+  twitterPosts: state.twitter.posts,
+  linkedinPosts: state.linkedin.posts,
+  rssPosts: state.rss.posts,
+  moreFacebookPosts: state.facebook.morePosts,
+  moreTwitterPosts: state.twitter.morePosts,
+  moreLinkedinPosts: state.linkedin.morePosts,
+  moreRSSPosts: state.rss.morePosts,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchPosts: (options) => dispatch(fetchAllPosts(options)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(StreamPage);

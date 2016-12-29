@@ -1,9 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import Loading from 'react-redux-loading-bar';
 import { Notifs } from 'redux-notifications';
+import { connect } from 'react-redux';
 import Notif from 'lib/components/notification';
+import { fetchUser } from '../actions/user';
+import { fetchAccounts } from '../actions/accounts';
+import { fetchFeeds } from '../actions/feeds';
 
-export default class App extends Component {
+export class App extends Component {
   componentDidMount() {
     Promise.all([
       this.props.fetchUser(),
@@ -34,3 +38,15 @@ App.propTypes = {
   fetchAccounts: PropTypes.func.isRequired,
   fetchFeeds: PropTypes.func.isRequired,
 };
+
+const mapStateToProps = (state) => ({
+  user: state.user.user,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchUser: () => dispatch(fetchUser()),
+  fetchAccounts: () => dispatch(fetchAccounts()),
+  fetchFeeds: () => dispatch(fetchFeeds()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

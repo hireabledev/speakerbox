@@ -4,7 +4,7 @@ import { routerMiddleware } from 'react-router-redux';
 import createLogger from 'redux-logger';
 import fetchMiddleware from './middleware/fetch';
 import configureReducer from '../reducers';
-import DevTools from '../containers/root/dev-tools';
+import DevTools from '../components/root/dev-tools';
 
 export default function configureStore({ initialState, history } = {}) {
   const middleware = [

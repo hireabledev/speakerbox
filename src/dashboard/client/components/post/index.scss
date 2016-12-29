@@ -1,0 +1,61 @@
+@import '../post-actions/index';
+@import '../post-author/index';
+@import '../post-author-img/index';
+@import '../post-meta/index';
+
+.sb-post {
+  @extend .card;
+  margin-bottom: $spacer-y;
+}
+
+.sb-post-body {
+  @extend .card-block;
+  @extend .media;
+}
+
+.sb-post-body.sb-post-body.sb-post-body {
+  margin-bottom: 0;
+}
+
+.sb-post-author-img-url {
+  @extend .media-left;
+  width: 4rem;
+}
+
+.sb-post-container {
+  @extend .media-body;
+}
+
+.sb-post-date {
+  display: block;
+  font-size: $font-size-sm;
+}
+
+.sb-post-content {
+  margin: 0;
+}
+
+.sb-post-type {
+  border-radius: $border-radius;
+  color: #fff;
+  font-size: rem(10px);
+  line-height: 1;
+  text-transform: uppercase;
+  padding: rem(5px) rem(8px);
+}
+
+.sb-post-type-rss {
+  background: $rss;
+}
+
+.sb-post-type-facebook {
+  background: $facebook;
+}
+
+.sb-post-type-twitter {
+  background: $twitter;
+}
+
+.sb-post-type-linkedin {
+  background: $linkedin;
+}

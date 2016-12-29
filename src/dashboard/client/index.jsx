@@ -4,7 +4,7 @@ import { createHistory } from 'history';
 import { useRouterHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import configureStore from './store';
-import Root from './containers/root';
+import Root from './components/root';
 
 import './styles.scss';
 

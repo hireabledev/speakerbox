@@ -1,10 +1,12 @@
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 import memoize from 'lodash/memoize';
 import Page from 'lib/components/page';
-import Post from 'lib/components/post';
-import AccountList from 'lib/containers/account-list';
+import AccountList from './account-list';
+import Post from './post';
+import { fetchAllScheduledPosts } from '../actions/posts';
 
-export default class StreamPage extends Component {
+export class StreamPage extends Component {
   componentDidMount() {
     this.props.fetchScheduledPosts();
   }
@@ -69,3 +71,19 @@ StreamPage.propTypes = {
   moreLinkedinScheduledPosts: PropTypes.bool.isRequired,
   fetchScheduledPosts: PropTypes.func.isRequired,
 };
+
+const mapStateToProps = (state) => ({
+  accountVisibility: state.accounts.accountVisibility,
+  facebookScheduledPosts: state.facebook.scheduledPosts,
+  twitterScheduledPosts: state.twitter.scheduledPosts,
+  linkedinScheduledPosts: state.linkedin.scheduledPosts,
+  moreFacebookScheduledPosts: state.facebook.moreScheduledPosts,
+  moreTwitterScheduledPosts: state.twitter.moreScheduledPosts,
+  moreLinkedinScheduledPosts: state.linkedin.moreScheduledPosts,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchScheduledPosts: (options) => dispatch(fetchAllScheduledPosts(options)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SchedulePage);
