@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import cn from 'classnames';
 import Icon from 'lib/components/icon';
 
-export default function FavoriteButton({ onClick }) {
+export default function PostScheduleButton({ onClick }) {
   return (
     <button
       className={cn('sb-post-action')}
@@ -16,6 +16,6 @@ export default function FavoriteButton({ onClick }) {
   );
 }
 
-FavoriteButton.propTypes = {
+PostScheduleButton.propTypes = {
   onClick: PropTypes.func.isRequired,
 };

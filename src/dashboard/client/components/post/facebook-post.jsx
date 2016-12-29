@@ -12,10 +12,7 @@ export default function FacebookPost({ post }) {
       post={post}
       actions={(
         <PostActions>
-          <PostFavoriteButton
-            favorited={post.favorited}
-            onClick={(e) => console.log('TODO')}
-          />
+          <PostFavoriteButton post={post} />
           <button className="sb-post-action" type="button">
             <Icon name="share" label="share" />
             {' '}
@@ -41,6 +38,6 @@ FacebookPost.propTypes = {
     authorName: PropTypes.string,
     authorUrl: PropTypes.string,
     authorImgUrl: PropTypes.string,
-    favorited: PropTypes.bool,
+    favorited: PropTypes.string,
   }).isRequired,
 };

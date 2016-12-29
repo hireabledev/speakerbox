@@ -11,10 +11,7 @@ export default function RSSPost({ post }) {
       post={post}
       actions={(
         <PostActions>
-          <PostFavoriteButton
-            favorited={post.favorited}
-            onClick={(e) => console.log('TODO')}
-          />
+          <PostFavoriteButton post={post} />
           <PostScheduleButton
             onClick={(e) => console.log('TODO')}
           />
@@ -32,6 +29,6 @@ RSSPost.propTypes = {
     body: PropTypes.string,
     date: PropTypes.date,
     url: PropTypes.string,
-    favorited: PropTypes.bool,
+    favorited: PropTypes.string,
   }).isRequired,
 };

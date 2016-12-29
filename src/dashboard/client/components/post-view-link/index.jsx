@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import Icon from 'lib/components/icon';
 
-export default function ViewLink({ url }) {
+export default function PostViewLink({ url }) {
   return (
     <a className="sb-post-action" href={url}>
       <Icon name="external-link" label="external link" />
@@ -11,6 +11,6 @@ export default function ViewLink({ url }) {
   );
 }
 
-ViewLink.propTypes = {
+PostViewLink.propTypes = {
   url: PropTypes.string.isRequired,
 };

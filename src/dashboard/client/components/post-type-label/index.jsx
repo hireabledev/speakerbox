@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import cn from 'classnames';
 
-export function TypeLabel({ type, accountId, accountsById, feedId, feedsById }) {
+export function PostTypeLabel({ type, accountId, accountsById, feedId, feedsById }) {
   const account = accountsById[accountId];
   const feed = feedsById[feedId];
   return (
@@ -15,7 +15,7 @@ export function TypeLabel({ type, accountId, accountsById, feedId, feedsById }) 
   );
 }
 
-TypeLabel.propTypes = {
+PostTypeLabel.propTypes = {
   type: PropTypes.string.isRequired,
   accountId: PropTypes.string,
   accountsById: PropTypes.object,
@@ -28,4 +28,4 @@ const mapStateToProps = (state) => ({
   feedsById: state.rss.feedsById,
 });
 
-export default connect(mapStateToProps)(TypeLabel);
+export default connect(mapStateToProps)(PostTypeLabel);

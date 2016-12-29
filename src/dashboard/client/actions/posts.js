@@ -59,8 +59,8 @@ export function postActions(type) {
     }
   );
 
-  const favoritePost = (id) => (
-    updatePost(id, { favorited: new Date() })
+  const toggleFavoritePost = (id, favorited) => (
+    updatePost(id, { favorited: favorited ? null : new Date() })
   );
 
   return {
@@ -69,7 +69,7 @@ export function postActions(type) {
     fetchPosts,
     fetchPost,
     updatePost,
-    favoritePost,
+    toggleFavoritePost,
   };
 }
 
