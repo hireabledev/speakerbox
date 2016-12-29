@@ -86,4 +86,4 @@ const mapDispatchToProps = (dispatch) => ({
   fetchScheduledPosts: (options) => dispatch(fetchAllScheduledPosts(options)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SchedulePage);
+export default connect(mapStateToProps, mapDispatchToProps)(StreamPage);

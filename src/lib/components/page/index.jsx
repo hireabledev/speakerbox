@@ -36,7 +36,9 @@ export default function Page({ children, menu, subnav, sidebar, sidebarSecondary
               {children}
             </div>
             <If truthy={sidebarSecondary}>
-              <div className="sb-page-sidebar sb-page-sidebar-secondary col-xs-12 col-md-4 col-lg-3">
+              <div
+                className="sb-page-sidebar sb-page-sidebar-secondary col-xs-12 col-md-4 col-lg-3"
+              >
                 {sidebarSecondary}
               </div>
             </If>
