@@ -9,17 +9,22 @@ export default function Icon(props) {
     },
     props.className
   );
-  return (
-    <span>
-      <span className={className} aria-hidden="true" />
-      <span className="sr-only">{props.label}</span>
-    </span>
-  );
+  const icon = <span className={className} aria-hidden="true" />;
+  const label = <span className="sr-only">{props.label}</span>;
+  if (props.label) {
+    return (
+      <span>
+        {icon}
+        {label}
+      </span>
+    );
+  }
+  return icon;
 }
 
 Icon.propTypes = {
   className: PropTypes.string,
   fixedWidth: PropTypes.bool,
   name: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
 };

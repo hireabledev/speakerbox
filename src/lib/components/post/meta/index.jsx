@@ -3,7 +3,7 @@ import cn from 'classnames';
 
 export default function PostMeta({ children, position }) {
   return (
-    <div className={cn('sb-post-meta', `post-meta-${position}`)}>
+    <div className={cn('sb-post-meta', `sb-post-meta-${position}`)}>
       {children}
     </div>
   );

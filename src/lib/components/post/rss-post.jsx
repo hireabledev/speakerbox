@@ -1,37 +1,33 @@
 import React, { PropTypes } from 'react';
-import DisplayDate from '../display-date';
-import PostMeta from '../post-meta';
+import Post from './post';
+import PostActions from './actions';
+import FavoriteButton from './favorite-button';
+import PostButton from './post-button';
+import Icon from '../icon';
 
 export default function RSSPost({ post }) {
   return (
-    <article className="sb-post">
-      <div className="sb-post-body">
-        <div className="sb-post-container">
-          <PostMeta position="top">
-            <PostMeta.Primary>
-              <DisplayDate className="sb-post-date" date={post.date} />
-            </PostMeta.Primary>
-          </PostMeta>
-          <p className="sb-post-content">
-            {post.body}
-          </p>
-          <PostMeta>
-            <PostMeta.Primary>
+    <Post
+      post={post}
+      actions={(
+        <PostActions>
+          <FavoriteButton
+            favorited={post.favorited}
+            onClick={(e) => console.log('TODO')}
+          />
+          <PostButton
+            onClick={(e) => console.log('TODO')}
+          />
+          <PostActions.Secondary>
+            <a className="sb-post-action" href={post.url} target="_blank" rel="noopener noreferrer">
+              <Icon name="link" label="link" />
               {' '}
-            </PostMeta.Primary>
-            <PostMeta.Secondary>
-              <a
-                href={post.url}
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                url
-              </a>
-            </PostMeta.Secondary>
-          </PostMeta>
-        </div>
-      </div>
-    </article>
+              View
+            </a>
+          </PostActions.Secondary>
+        </PostActions>
+      )}
+    />
   );
 }
 
@@ -39,5 +35,7 @@ RSSPost.propTypes = {
   post: PropTypes.shape({
     body: PropTypes.string,
     date: PropTypes.date,
-  }),
+    url: PropTypes.string,
+    favorited: PropTypes.bool,
+  }).isRequired,
 };

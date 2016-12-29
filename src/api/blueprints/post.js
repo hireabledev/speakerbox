@@ -1,4 +1,5 @@
 import startCase from 'lodash/startCase';
+import omit from 'lodash/omit';
 
 export function indexBlueprint(modelName) {
   return async function index(req, res, next) {
@@ -36,7 +37,7 @@ export function updateBlueprint(modelName) {
     const instance = await Model
       .scopeForUserAccounts(req.user, req.query.user)
       .findByIdOr404(req.params.id);
-    return instance.update(req.body);
+    return instance.update(omit(req.body, ['id', 'created', 'updated']));
   };
 }
 

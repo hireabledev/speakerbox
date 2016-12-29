@@ -12,7 +12,7 @@ import linkedinPost from './routes/linkedin-post';
 import linkedinScheduledPost from './routes/linkedin-scheduled-post';
 import account from './routes/account';
 import rssPost from './routes/rss-post';
-import rssFeed from './routes/feed';
+import rssFeed from './routes/rss-feed';
 import user from './routes/user';
 
 const app = express();

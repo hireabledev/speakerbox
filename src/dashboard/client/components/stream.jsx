@@ -39,6 +39,7 @@ export default class StreamPage extends Component {
         menu={
           <AccountList pathname={this.props.location.pathname} />
         }
+        sidebarSecondary={<div />}
       >
         {facebookPosts
           .filter(filterByAccount)

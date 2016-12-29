@@ -1,3 +1,8 @@
+@import './actions/actions';
+@import './author/author';
+@import './author-img/author-img';
+@import './meta/meta';
+
 .sb-post {
   @extend .card;
   margin-bottom: $spacer-y;
@@ -23,4 +28,9 @@
 
 .sb-post-date {
   display: block;
+  font-size: $font-size-sm;
+}
+
+.sb-post-content {
+  margin: 0;
 }

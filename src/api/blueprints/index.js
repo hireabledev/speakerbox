@@ -1,3 +1,5 @@
+import omit from 'lodash/omit';
+
 export function indexBlueprint(modelName) {
   return async function index(req, res, next) {
     const Model = req.app.models[modelName];
@@ -31,7 +33,7 @@ export function showBlueprint(modelName) {
 export function createBlueprint(modelName) {
   return async function create(req) {
     const Model = req.app.models[modelName];
-    const instance = Model.build(req.body);
+    const instance = Model.build(omit(req.body, ['created', 'updated']));
     instance.setUser(req.user);
     return await instance.save();
   };
@@ -43,7 +45,7 @@ export function updateBlueprint(modelName) {
     const instance = await Model
       .scopeForUser(req.user, req.query.user)
       .findByIdOr404(req.params.id);
-    return instance.update(req.body);
+    return instance.update(omit(req.body, ['id', 'created', 'updated']));
   };
 }
 

@@ -11,7 +11,7 @@ const postMap = {
   linkedin: LinkedinPost,
 };
 
-export default function Post({ children, post, type }) {
+export default function UniversalPost({ children, post, type }) {
   const InnerPost = postMap[type];
   return (
     <InnerPost post={post}>
@@ -20,7 +20,7 @@ export default function Post({ children, post, type }) {
   );
 }
 
-Post.propTypes = {
+UniversalPost.propTypes = {
   children: PropTypes.node,
   post: PropTypes.object,
   type: PropTypes.oneOf(['rss', 'facebook', 'twitter', 'linkedin']),

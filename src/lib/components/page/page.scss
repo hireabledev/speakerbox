@@ -11,6 +11,11 @@ $sb-subnav-bg: $white;
   box-shadow: $shadow-border;
 }
 
+.sb-page-sidebar-secondary {
+  background: none;
+  box-shadow: none;
+}
+
 .sb-page-content {
   flex-grow: 1;
 
@@ -20,9 +25,12 @@ $sb-subnav-bg: $white;
   }
 }
 
-.sb-page-has-padding-y .sb-page-content > .container-fluid {
-  padding-top: $spacer-y * 2;
-  padding-bottom: $spacer-y * 2;
+.sb-page-has-padding-y {
+  .sb-page-body,
+  .sb-page-sidebar {
+    padding-top: $spacer-y * 2;
+    padding-bottom: $spacer-y * 2;
+  }
 }
 
 .sb-page-title {

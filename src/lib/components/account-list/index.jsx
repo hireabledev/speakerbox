@@ -26,7 +26,7 @@ export default function AccountList(props) {
         icon={type === 'feeds' ? 'rss' : `${type}-square`}
         pathname={pathname}
         id={account.id}
-        name={account.title || account.id}
+        name={account.name || account.id}
         accountVisibility={accountVisibility}
         feedVisibility={feedVisibility}
         checked={isChecked(accountVisibility, feedVisibility, type, account.id)}

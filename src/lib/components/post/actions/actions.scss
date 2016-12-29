@@ -1,0 +1,30 @@
+.sb-post-actions {
+  border-top: 1px dotted $border;
+
+}
+
+.sb-post-action {
+  background: none;
+  border: 0;
+  cursor: pointer;
+  color: $link-color;
+  display: inline-block;
+  padding: $card-spacer-y $card-spacer-x;
+  vertical-align: middle;
+
+  &:hover,
+  &:focus,
+  &.active {
+    background-color: shade($card-bg, 2%);
+    color: $link-hover-color;
+    text-decoration: none;
+  }
+
+  + .sb-post-action {
+    border-left: 1px dotted $border;
+  }
+}
+
+.sb-post-actions-secondary {
+  float: right;
+}
