@@ -16,10 +16,10 @@ const TwitterScheduledPost = sequelize.define('TwitterScheduledPost', {
                           defaultValue: Sequelize.NOW,
                           comment: 'Tweet date.',
                         },
-  body:                 {
+  message:              {
                           type: Sequelize.TEXT,
                           allowNull: false,
-                          comment: 'Tweet body.',
+                          comment: 'Tweet message.',
                         },
   jobId:                {
                           type: Sequelize.STRING,
@@ -27,6 +27,9 @@ const TwitterScheduledPost = sequelize.define('TwitterScheduledPost', {
                           comment: 'Kue job ID.',
                         },
 }, {
+  getterMethods: {
+    type() { return 'twitter'; },
+  },
   name: {
     singular: 'twitterScheduledPost',
     plural: 'twitterScheduledPosts',

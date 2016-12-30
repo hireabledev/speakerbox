@@ -3,9 +3,8 @@ import React, { PropTypes } from 'react';
 export default function Label(props, context) {
   return (
     <label
-      id={props.htmlFor + context.formGroupId}
-      htmlFor={props.htmlFor}
       {...props}
+      htmlFor={encodeURIComponent(props.htmlFor + context.formGroupId)}
     />
   );
 }

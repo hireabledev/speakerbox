@@ -51,6 +51,9 @@ const FacebookScheduledPost = sequelize.define('FacebookScheduledPost', {
                           comment: 'Kue job ID.',
                         },
 }, {
+  getterMethods: {
+    type() { return 'facebook'; },
+  },
   name: {
     singular: 'facebookScheduledPost',
     plural: 'facebookScheduledPosts',

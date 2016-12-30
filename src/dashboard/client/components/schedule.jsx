@@ -6,6 +6,7 @@ import Fallback from 'lib/components/fallback';
 import Page from 'lib/components/page';
 import AccountList from './account-list';
 import Post from './post';
+import PostForm from './post-form';
 import { fetchAllScheduledPosts } from '../actions/posts';
 
 export class StreamPage extends Component {
@@ -38,7 +39,10 @@ export class StreamPage extends Component {
         menu={
           <AccountList pathname={this.props.location.pathname} showFeeds={false} />
         }
+        sidebarSecondary={<div />}
       >
+        <PostForm />
+        <br />
         <Fallback if={posts.length === 0}>
           No scheduled posts. Add one?
         </Fallback>

@@ -38,4 +38,5 @@ export { default as FormGroup } from './group';
 export { default as Input } from './input';
 export { default as Textarea } from './textarea';
 export { default as Label } from './label';
+export { default as Datetime } from './datetime';
 export { Select, Option } from './label';

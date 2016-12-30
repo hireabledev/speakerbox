@@ -31,7 +31,7 @@ export default function Post({ post, actions }) {
             </PostMeta.Secondary>
           </PostMeta>
           <p className="sb-post-content">
-            {post.body}
+            {post.body || post.message || post.comment}
           </p>
         </div>
       </div>
@@ -44,6 +44,8 @@ Post.propTypes = {
   post: PropTypes.shape({
     type: PropTypes.oneOf(['facebook', 'twitter', 'linkedin', 'rss']).isRequired,
     body: PropTypes.string,
+    comment: PropTypes.string,
+    message: PropTypes.string,
     date: PropTypes.date,
     authorName: PropTypes.string,
     authorUrl: PropTypes.string,
