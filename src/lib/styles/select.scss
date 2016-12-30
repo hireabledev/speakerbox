@@ -1,0 +1,28 @@
+$select-input-bg: $input-bg;
+$select-input-bg-disabled: $input-bg-disabled;
+
+$select-input-border-width: rem(1px);
+$select-input-border-color: $input-border-color;
+$select-input-border-radius: $input-border-radius;
+$select-input-border-focus: $input-border-focus;
+
+$select-input-height: $input-height;
+$select-padding-vertical: $input-padding-y;
+$select-padding-horizontal: $input-padding-x;
+
+$select-input-placeholder: $input-color-placeholder;
+$select-text-color: $input-color;
+$select-link-hover-color: $input-color-focus;
+
+@import 'react-select/scss/default';
+
+.Select-placeholder,
+.Select-input > input {
+  line-height: $select-input-height - rem(1px);
+}
+
+.Select-account-img {
+  $size: $select-input-height - 2 * $select-padding-vertical;
+  height: $size;
+  width: $size;
+}

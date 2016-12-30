@@ -1,5 +1,17 @@
 .rdt {
   position: relative;
+
+  &::after {
+    content: '\f073';
+    color: $link-color;
+    display: block;
+    font-family: FontAwesome;
+    line-height: $input-line-height;
+    position: absolute;
+    top: $input-padding-y + 0.1;
+    right: $spacer-x;
+    pointer-events: none;
+  }
 }
 
 .rdtPicker {

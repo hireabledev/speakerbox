@@ -21,7 +21,10 @@ export function DatetimePicker(props) {
         }
         return true;
       }}
-      inputProps={inputProps}
+      inputProps={{
+        placeholder: 'Select date and time',
+        ...inputProps,
+      }}
       value={input.value}
       onBlur={input.onBlur}
       onChange={input.onChange}
