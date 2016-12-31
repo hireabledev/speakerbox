@@ -6,7 +6,7 @@ import Datetime from 'react-datetime';
 export function DatetimePicker(props) {
   const {
     input,
-    meta, // eslint-disable-line no-unused-vars
+    meta,
     afterToday,
     ...inputProps
   } = props;
@@ -14,22 +14,27 @@ export function DatetimePicker(props) {
   const now = new Date();
 
   return (
-    <Datetime
-      isValidDate={currentDate => {
-        if (afterToday) {
-          return currentDate.isAfter(now);
-        }
-        return true;
-      }}
-      inputProps={{
-        placeholder: 'Select date and time',
-        ...inputProps,
-      }}
-      value={input.value}
-      onBlur={input.onBlur}
-      onChange={input.onChange}
-      onFocus={input.onFocus}
-    />
+    <div className="form-control-container">
+      <Datetime
+        isValidDate={currentDate => {
+          if (afterToday) {
+            return currentDate.isAfter(now);
+          }
+          return true;
+        }}
+        inputProps={{
+          placeholder: 'Select date and time',
+          ...inputProps,
+        }}
+        value={input.value}
+        onBlur={input.onBlur}
+        onChange={input.onChange}
+        onFocus={input.onFocus}
+      />
+      {meta.error && (
+        <div className="form-control-feedback">{meta.error}</div>
+      )}
+    </div>
   );
 }
 
@@ -40,7 +45,9 @@ DatetimePicker.propTypes = {
     onChange: PropTypes.func,
     onFocus: PropTypes.func,
   }).isRequired,
-  meta: PropTypes.object,
+  meta: PropTypes.shape({
+    error: PropTypes.string,
+  }).isRequired,
   afterToday: PropTypes.bool,
 };
 

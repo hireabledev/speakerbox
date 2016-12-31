@@ -28,25 +28,30 @@ export function AccountPicker(props) {
   const {
     accounts,
     input,
-    meta, // eslint-disable-line no-unused-vars
+    meta,
     ...inputProps
   } = props;
 
   return (
-    <Select
-      placeholder="Select account"
-      {...inputProps}
-      {...input}
-      multi
-      options={accounts}
-      optionComponent={AccountPickerOption}
-      valueKey="id"
-      labelKey="name"
-      onChange={input.onChange}
-      onBlur={() => input.onBlur(input.value)}
-      onFocus={() => input.onFocus(input.value)}
-      value={input.value}
-    />
+    <div className="form-control-container">
+      <Select
+        placeholder="Select account"
+        {...inputProps}
+        {...input}
+        multi
+        options={accounts}
+        optionComponent={AccountPickerOption}
+        valueKey="id"
+        labelKey="name"
+        onChange={input.onChange}
+        onBlur={() => input.onBlur(input.value)}
+        onFocus={() => input.onFocus(input.value)}
+        value={input.value}
+      />
+      {meta.error && (
+        <div className="form-control-feedback">{meta.error}</div>
+      )}
+    </div>
   );
 }
 
@@ -61,7 +66,9 @@ AccountPicker.propTypes = {
     onChange: PropTypes.func,
     onFocus: PropTypes.func,
   }).isRequired,
-  meta: PropTypes.object,
+  meta: PropTypes.shape({
+    error: PropTypes.string,
+  }).isRequired,
   accounts: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string,

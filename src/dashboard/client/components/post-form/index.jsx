@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import some from 'lodash/some';
+import throttle from 'lodash/throttle';
 import Form, { FormGroup, Label, Textarea, Datetime, AccountSelect, ImagePicker } from 'lib/components/form';
 import * as postActions from '../../actions/posts';
 
@@ -46,13 +47,14 @@ RawPostForm.propTypes = {
   cancelButton: PropTypes.node,
 };
 
-function validate(values) {
+const validate = throttle((values) => {
   const errors = {};
-  if (values.message && values.message.length > 140 && some(values.accounts, { type: 'twitter' })) {
-    errors.message = 'Message too long.';
+  const message = values.message;
+  if (message && message.length > 140 && some(values.accounts, { type: 'twitter' })) {
+    errors.message = `Message too long for Twitter account. ${message.length}/140`;
   }
   return errors;
-}
+}, 500);
 
 export class PostForm extends Component {
   constructor(props) {
@@ -79,7 +81,7 @@ export class PostForm extends Component {
             form.reset();
             return results;
           }}
-          initialValues={{ accounts: [] }}
+          initialValues={{ accounts: this.props.accounts }}
           validate={validate}
         />
       </div>
@@ -91,10 +93,15 @@ PostForm.propTypes = {
   onSuccess: PropTypes.func, // eslint-disable-line react/no-unused-prop-types
   cancelButton: PropTypes.node,
   addScheduledPost: PropTypes.func.isRequired,
+  accounts: PropTypes.arrayOf(PropTypes.object),
 };
+
+const mapStateToProps = (state) => ({
+  accounts: state.accounts.accounts,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   addScheduledPost: (type, body) => dispatch(postActions[type].createScheduledPost(body)),
 });
 
-export default connect(null, mapDispatchToProps)(PostForm);
+export default connect(mapStateToProps, mapDispatchToProps)(PostForm);
