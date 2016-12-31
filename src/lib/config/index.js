@@ -20,6 +20,11 @@ export const SENTRY_DSN_PUBLIC = env('SENTRY_DSN_PUBLIC', null);
 export const GA_ID = env('GA_ID');
 export const MIXPANEL_ID = env('MIXPANEL_ID', null);
 
+export const AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID', null, true);
+export const AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY', null, true);
+export const AWS_S3_BUCKET = env('AWS_S3_BUCKET', 'speaker-box');
+export const AWS_REGION = env('AWS_REGION', 'us-west-1');
+
 export const LETS_ENCRYPT_URL = env('LETS_ENCRYPT_URL');
 export const LETS_ENCRYPT_KEY = env('LETS_ENCRYPT_KEY');
 

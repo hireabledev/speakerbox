@@ -57,12 +57,6 @@ export function AccountPicker(props) {
   );
 }
 
-const mapStateToProps = state => ({
-  accounts: state.accounts.accounts,
-});
-
-export const ConnectedAccountPicker = connect(mapStateToProps)(AccountPicker);
-
 AccountPicker.propTypes = {
   id: PropTypes.string,
   className: PropTypes.string,
@@ -83,12 +77,18 @@ AccountPicker.propTypes = {
   })).isRequired,
 };
 
+const mapStateToProps = state => ({
+  accounts: state.accounts.accounts,
+});
+
+export const AccountPickerContainer = connect(mapStateToProps)(AccountPicker);
+
 export default function AccountSelect(props, context) {
   return (
     <Field
       id={encodeURIComponent(props.name + context.formGroupId)}
       className={cn(props.className)}
-      component={ConnectedAccountPicker}
+      component={AccountPickerContainer}
       normalize={values => values.map(value => value.id)}
       {...props}
     />

@@ -40,4 +40,5 @@ export { default as Textarea } from './textarea';
 export { default as Label } from './label';
 export { default as Datetime } from './datetime';
 export { default as AccountSelect } from './accounts';
+export { default as ImagePicker } from './img-picker';
 export { Select, Option } from './label';

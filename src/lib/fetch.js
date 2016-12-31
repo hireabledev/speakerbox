@@ -1,14 +1,17 @@
 export default async function superFetch(url, options = {}) {
+  const contentType = options.body instanceof FormData
+    ? {}
+    : { 'Content-Type': 'application/json' };
   const fetchOptions = {
     credentials: 'include',
     ...options,
     headers: {
-      'Content-Type': 'application/json',
+      ...contentType,
       ...options.headers,
     },
   };
 
-  if (options.body) {
+  if (options.body && fetchOptions.headers['Content-Type'] === 'application/json') {
     fetchOptions.body = JSON.stringify(options.body);
   }
 

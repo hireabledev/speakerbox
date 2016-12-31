@@ -13,6 +13,7 @@ import linkedinScheduledPost from './routes/linkedin-scheduled-post';
 import account from './routes/account';
 import rssPost from './routes/rss-post';
 import rssFeed from './routes/rss-feed';
+import upload from './routes/upload';
 import user from './routes/user';
 
 const app = express();
@@ -38,6 +39,8 @@ app.use('/accounts', account);
 
 app.use('/rss/feeds', rssFeed);
 app.use('/rss/posts', rssPost);
+
+app.use('/uploads', upload);
 
 app.use('/users', user);
 

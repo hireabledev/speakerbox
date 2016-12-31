@@ -58,3 +58,6 @@ Account.belongsTo(User);
 
 User.hasMany(RSSFeed, { onUpdate: 'cascade', onDelete: 'cascade' });
 RSSFeed.belongsTo(User);
+
+User.hasMany(Upload, { onUpdate: 'cascade', onDelete: 'cascade' });
+Upload.belongsTo(User);

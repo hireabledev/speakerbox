@@ -1,0 +1,42 @@
+.sb-img-picker {
+  display: inline-block;
+  overflow: hidden;
+  position: relative;
+  width: auto;
+}
+
+.sb-img-picker-input {
+  opacity: 0;
+  position: absolute;
+  font-size: 1000px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.sb-img-picker-placeholder {
+  color: $input-color-placeholder;
+}
+
+.sb-img-picker-remove {
+  $padding-y: rem(9px);
+  $padding-x: rem(12px);
+  $padding-y-offset: $input-padding-y / 3;
+  $padding-x-offset: $input-padding-x / 3;
+  background: $input-bg;
+  border: 0;
+  border-bottom-left-radius: $border-radius;
+  padding-top: $padding-y - $padding-y-offset;
+  padding-right: $padding-x - $padding-x-offset;
+  padding-bottom: $padding-y - $padding-y-offset;
+  padding-left: $padding-x - $padding-x-offset;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 10;
+}
+
+.sb-img-picker-img {
+  width: 200px;
+}

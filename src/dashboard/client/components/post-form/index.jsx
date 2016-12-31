@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import Form, { FormGroup, Label, Textarea, Datetime, AccountSelect } from 'lib/components/form';
+import Form, { FormGroup, Label, Textarea, Datetime, AccountSelect, ImagePicker } from 'lib/components/form';
 import * as postActions from '../../actions/posts';
 
 const FORM_NAME = 'scheduledPost';
@@ -20,7 +20,10 @@ export function RawPostForm(props) {
         <Label htmlFor="accounts" srOnly>Accounts</Label>
         <AccountSelect name="accounts" required />
       </FormGroup>
-      {/* image upload */}
+      <FormGroup>
+        <Label htmlFor="image" srOnly>Image</Label>
+        <ImagePicker name="image" required />
+      </FormGroup>
       <button
         className="btn btn-primary"
         disabled={props.pristine || props.submitting}
