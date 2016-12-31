@@ -83,9 +83,10 @@ ImagePicker.propTypes = {
 export default function ImageInput(props, context) {
   return (
     <Field
-      id={encodeURIComponent(props.name + context.formGroupId)}
+      id={props.id || context.formGroupId}
       className={cn('form-control', props.className)}
       component={ImagePicker}
+      name={props.name || context.formGroupName}
       {...props}
     />
   );
@@ -94,8 +95,10 @@ export default function ImageInput(props, context) {
 ImageInput.propTypes = {
   className: PropTypes.string,
   name: PropTypes.string,
+  id: PropTypes.string,
 };
 
 ImageInput.contextTypes = {
   formGroupId: PropTypes.string,
+  formGroupName: PropTypes.string,
 };

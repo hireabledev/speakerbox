@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import some from 'lodash/some';
 import Form, { FormGroup, Label, Textarea, Datetime, AccountSelect, ImagePicker } from 'lib/components/form';
 import * as postActions from '../../actions/posts';
 
@@ -7,22 +8,22 @@ const FORM_NAME = 'scheduledPost';
 
 export function RawPostForm(props) {
   return (
-    <form onSubmit={props.handleSubmit}>
-      <FormGroup>
-        <Label htmlFor="message" srOnly>Message</Label>
-        <Textarea name="message" placeholder="What do you want to share?" required />
+    <form name={props.name} onSubmit={props.handleSubmit}>
+      <FormGroup name="message">
+        <Label srOnly>Message</Label>
+        <Textarea placeholder="What do you want to share?" required />
       </FormGroup>
-      <FormGroup>
-        <Label htmlFor="date" srOnly>Date</Label>
-        <Datetime name="date" required afterToday />
+      <FormGroup name="date">
+        <Label srOnly>Date</Label>
+        <Datetime required afterToday />
       </FormGroup>
-      <FormGroup>
-        <Label htmlFor="accounts" srOnly>Accounts</Label>
-        <AccountSelect name="accounts" required />
+      <FormGroup name="accounts">
+        <Label srOnly>Accounts</Label>
+        <AccountSelect required />
       </FormGroup>
-      <FormGroup>
-        <Label htmlFor="imgUrl" srOnly>Image</Label>
-        <ImagePicker name="imgUrl" required />
+      <FormGroup name="imgUrl">
+        <Label srOnly>Image</Label>
+        <ImagePicker required />
       </FormGroup>
       <button
         className="btn btn-primary"
@@ -38,11 +39,20 @@ export function RawPostForm(props) {
 }
 
 RawPostForm.propTypes = {
+  name: PropTypes.string,
   handleSubmit: PropTypes.func,
   pristine: PropTypes.bool,
   submitting: PropTypes.bool,
   cancelButton: PropTypes.node,
 };
+
+function validate(values) {
+  const errors = {};
+  if (values.message && values.message.length > 140 && some(values.accounts, { type: 'twitter' })) {
+    errors.message = 'Message too long.';
+  }
+  return errors;
+}
 
 export class PostForm extends Component {
   constructor(props) {
@@ -70,6 +80,7 @@ export class PostForm extends Component {
             return results;
           }}
           initialValues={{ accounts: [] }}
+          validate={validate}
         />
       </div>
     );
@@ -80,14 +91,10 @@ PostForm.propTypes = {
   onSuccess: PropTypes.func, // eslint-disable-line react/no-unused-prop-types
   cancelButton: PropTypes.node,
   addScheduledPost: PropTypes.func.isRequired,
-  // updateScheduledPost: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
   addScheduledPost: (type, body) => dispatch(postActions[type].createScheduledPost(body)),
-  // updateScheduledPost: (type, id, body) => (
-  //   dispatch(postActions[type].updateScheduledPost(id, body))
-  // ),
 });
 
 export default connect(null, mapDispatchToProps)(PostForm);

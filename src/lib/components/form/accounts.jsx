@@ -78,9 +78,10 @@ export const AccountPickerContainer = connect(mapStateToProps)(AccountPicker);
 export default function AccountSelect(props, context) {
   return (
     <Field
-      id={encodeURIComponent(props.name + context.formGroupId)}
+      id={props.id || context.formGroupId}
       className={cn(props.className)}
       component={AccountPickerContainer}
+      name={props.name || context.formGroupName}
       // normalize={values => values.map(value => value.id)}
       {...props}
     />
@@ -90,8 +91,10 @@ export default function AccountSelect(props, context) {
 AccountSelect.propTypes = {
   className: PropTypes.string,
   name: PropTypes.string,
+  id: PropTypes.string,
 };
 
 AccountSelect.contextTypes = {
   formGroupId: PropTypes.string,
+  formGroupName: PropTypes.string,
 };

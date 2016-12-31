@@ -8,7 +8,7 @@ export default function Label({ srOnly, ...labelProps }, context) {
       className={cn('form-control-label', labelProps.className, {
         'sr-only': srOnly,
       })}
-      htmlFor={encodeURIComponent(labelProps.htmlFor + context.formGroupId)}
+      htmlFor={labelProps.htmlFor || context.formGroupId}
     />
   );
 }

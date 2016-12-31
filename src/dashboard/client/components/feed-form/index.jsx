@@ -6,13 +6,13 @@ import { addFeed, updateFeed } from '../../actions/feeds';
 export function RawFeedForm(props) {
   return (
     <form onSubmit={props.handleSubmit}>
-      <FormGroup>
-        <Label htmlFor="name">Name</Label>
-        <Input type="text" name="name" placeholder="My Feed" required />
+      <FormGroup name="name">
+        <Label>Name</Label>
+        <Input type="text" placeholder="My Feed" required />
       </FormGroup>
-      <FormGroup>
-        <Label htmlFor="url">URL</Label>
-        <Input type="text" name="url" placeholder="https://www.example.com/feed" required />
+      <FormGroup name="url">
+        <Label>URL</Label>
+        <Input type="text" placeholder="https://www.example.com/feed" required />
       </FormGroup>
       <button
         className="btn btn-primary"

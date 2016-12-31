@@ -1,9 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 
 export default class FormGroup extends Component {
-  getChildContext() { // eslint-disable-line class-methods-use-this
+  getChildContext() {
     return {
-      formGroupId: new Date().getTime().toString() + Math.floor(Math.random() * 1000),
+      formGroupId: encodeURIComponent(
+        this.props.name + new Date().getTime().toString() + Math.floor(Math.random() * 1000)
+      ),
+      formGroupName: this.props.name,
     };
   }
 
@@ -18,8 +21,10 @@ export default class FormGroup extends Component {
 
 FormGroup.propTypes = {
   children: PropTypes.node.isRequired,
+  name: PropTypes.string.isRequired,
 };
 
 FormGroup.childContextTypes = {
   formGroupId: PropTypes.string,
+  formGroupName: PropTypes.string,
 };

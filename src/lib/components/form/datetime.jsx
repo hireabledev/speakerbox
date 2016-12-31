@@ -47,9 +47,10 @@ DatetimePicker.propTypes = {
 export default function DatetimeInput(props, context) {
   return (
     <Field
-      id={encodeURIComponent(props.name + context.formGroupId)}
+      id={props.id || context.formGroupId}
       className={cn('form-control', props.className)}
       component={DatetimePicker}
+      name={props.name || context.formGroupName}
       {...props}
     />
   );
@@ -58,8 +59,10 @@ export default function DatetimeInput(props, context) {
 DatetimeInput.propTypes = {
   className: PropTypes.string,
   name: PropTypes.string,
+  id: PropTypes.string,
 };
 
 DatetimeInput.contextTypes = {
   formGroupId: PropTypes.string,
+  formGroupName: PropTypes.string,
 };
