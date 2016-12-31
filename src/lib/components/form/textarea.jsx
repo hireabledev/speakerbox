@@ -1,11 +1,14 @@
 import React, { PropTypes } from 'react';
-import cn from 'classnames';
 import { Field } from 'redux-form';
+import cn from 'classnames';
+import noop from 'lodash/noop';
 
 function TextareaInner(props) {
   const {
     input,
     meta,
+    outerOnFocus,
+    outerOnBlur,
     ...inputProps
   } = props;
   return (
@@ -16,6 +19,16 @@ function TextareaInner(props) {
           'form-control-danger': meta.invalid,
         })}
         {...input}
+        onFocus={(e) => {
+          const result = props.input.onFocus(e);
+          outerOnFocus(e);
+          return result;
+        }}
+        onBlur={(e) => {
+          const result = props.input.onBlur(e);
+          outerOnBlur(e);
+          return result;
+        }}
       />
       {meta.error && (
         <div className="form-control-feedback">{meta.error}</div>
@@ -31,6 +44,13 @@ TextareaInner.propTypes = {
     invalid: PropTypes.bool,
   }).isRequired,
   className: PropTypes.string,
+  outerOnFocus: PropTypes.func,
+  outerOnBlur: PropTypes.func,
+};
+
+TextareaInner.defaultProps = {
+  outerOnFocus: noop,
+  outerOnBlur: noop,
 };
 
 export default function Textarea(props, context) {
@@ -41,6 +61,8 @@ export default function Textarea(props, context) {
       component={TextareaInner}
       name={props.name || context.formGroupName}
       {...props}
+      outerOnFocus={props.onFocus}
+      outerOnBlur={props.onBlur}
     />
   );
 }
@@ -49,6 +71,8 @@ Textarea.propTypes = {
   className: PropTypes.string,
   name: PropTypes.string,
   id: PropTypes.string,
+  onFocus: PropTypes.func,
+  onBlur: PropTypes.func,
 };
 
 Textarea.contextTypes = {

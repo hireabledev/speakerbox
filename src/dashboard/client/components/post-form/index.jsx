@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import cn from 'classnames';
 import some from 'lodash/some';
 import throttle from 'lodash/throttle';
 import Form, { FormGroup, Label, Textarea, Datetime, AccountSelect, ImagePicker } from 'lib/components/form';
@@ -8,33 +9,53 @@ import * as postActions from '../../actions/posts';
 const FORM_NAME = 'scheduledPost';
 
 export function RawPostForm(props) {
+  const resetButton = (
+    <button
+      className="btn btn-secondary"
+      type="button"
+      onClick={() => props.reset()}
+    >
+      Cancel
+    </button>
+  );
   return (
     <form name={props.name} onSubmit={props.handleSubmit}>
       <FormGroup name="message">
         <Label srOnly>Message</Label>
-        <Textarea placeholder="What do you want to share?" required />
+        <Textarea
+          placeholder="What do you want to share?"
+          onFocus={() => props.touch('message')}
+          onBlur={(e) => {
+            if (props.pristine && e.target.value === '') {
+              props.reset();
+            }
+          }}
+          required
+        />
       </FormGroup>
-      <FormGroup name="date">
-        <Label srOnly>Date</Label>
-        <Datetime required afterToday />
-      </FormGroup>
-      <FormGroup name="accounts">
-        <Label srOnly>Accounts</Label>
-        <AccountSelect required />
-      </FormGroup>
-      <FormGroup name="imgUrl">
-        <Label srOnly>Image</Label>
-        <ImagePicker required />
-      </FormGroup>
-      <button
-        className="btn btn-primary"
-        disabled={props.pristine || props.submitting}
-        type="submit"
-      >
-        Save
-      </button>
-      {' '}
-      {props.cancelButton}
+      <div className={cn({ 'hidden-xs-up': props.pristine && props.anyTouched === false })}>
+        <FormGroup name="date">
+          <Label srOnly>Date</Label>
+          <Datetime required afterToday />
+        </FormGroup>
+        <FormGroup name="accounts">
+          <Label srOnly>Accounts</Label>
+          <AccountSelect required />
+        </FormGroup>
+        <FormGroup name="imgUrl">
+          <Label srOnly>Image</Label>
+          <ImagePicker required />
+        </FormGroup>
+        <button
+          className="btn btn-primary"
+          disabled={props.pristine || props.submitting}
+          type="submit"
+        >
+          Save
+        </button>
+        {' '}
+        {props.cancelButton || resetButton}
+      </div>
     </form>
   );
 }
@@ -42,6 +63,9 @@ export function RawPostForm(props) {
 RawPostForm.propTypes = {
   name: PropTypes.string,
   handleSubmit: PropTypes.func,
+  reset: PropTypes.func,
+  touch: PropTypes.func,
+  anyTouched: PropTypes.bool,
   pristine: PropTypes.bool,
   submitting: PropTypes.bool,
   cancelButton: PropTypes.node,
