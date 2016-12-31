@@ -58,14 +58,17 @@ export function createScheduledBlueprint(modelName, jobType) {
     const account = await req.app.models.Account
       .scopeForUser(req.user, req.query.user)
       .findByIdOr404(req.body.accountId);
-    const date = req.body.date || new Date();
-    const instance = Model.build({ date });
+    const body = {
+      ...omit(req.body, ['id', 'created', 'updated']),
+      date: req.body.date || new Date(),
+    };
+    const instance = Model.build(body);
     const job = await req.app.addJob({
       type: jobType,
       title: `${startCase(jobType)} ${instance.id}`,
-      delay: date,
+      delay: body.date,
       data: {
-        ...req.body,
+        ...body,
         accountId: account.id,
       },
     });
@@ -86,20 +89,23 @@ export function updateScheduledBlueprint(modelName, jobType) {
     const instance = await Model
       .scopeForUserAccounts(req.user, req.query.user)
       .findByIdOr404(req.params.id);
-    const date = req.body.date || instance.date;
+    const body = {
+      ...omit(req.body, ['id', 'created', 'updated']),
+      date: req.body.date || instance.date,
+    };
     const oldJob = await req.app.removeJob(instance.jobId);
     const job = await req.app.addJob({
       type: jobType,
       title: `${startCase(jobType)} ${instance.id}`,
-      delay: date,
+      delay: body.date,
       data: {
         ...oldJob.data.data,
-        ...req.body,
+        ...body,
         accountId: oldJob.data.data.accountId,
       },
     });
     try {
-      return await instance.update({ ...req.body, date, jobId: job.id });
+      return await instance.update({ ...body, date: body.date, jobId: job.id });
     } catch (err) {
       await req.app.removeJob(job.id);
       throw err;

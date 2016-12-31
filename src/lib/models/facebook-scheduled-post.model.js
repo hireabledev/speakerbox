@@ -45,6 +45,10 @@ const FacebookScheduledPost = sequelize.define('FacebookScheduledPost', {
                           type: Sequelize.TEXT,
                           comment: 'Facebook place ID.',
                         },
+  imgUrl:               {
+                          type: Sequelize.TEXT,
+                          comment: 'Image URL.',
+                        },
   jobId:                {
                           type: Sequelize.STRING,
                           allowNull: false,

@@ -4,14 +4,11 @@ import Upload from './upload.model';
 import RSSFeed from './rss-feed.model';
 import RSSPost from './rss-post.model';
 import FacebookPost from './facebook-post.model';
-import FacebookUpload from './facebook-upload.model';
 import FacebookScheduledPost from './facebook-scheduled-post.model';
 import TwitterPost from './twitter-post.model';
-import TwitterUpload from './twitter-upload.model';
 import TwitterScheduledRetweet from './twitter-scheduled-retweet.model';
 import TwitterScheduledPost from './twitter-scheduled-post.model';
 import LinkedinPost from './linkedin-post.model';
-import LinkedinUpload from './linkedin-upload.model';
 import LinkedinScheduledPost from './linkedin-scheduled-post.model';
 
 // RSS
@@ -25,8 +22,6 @@ FacebookPost.belongsTo(Account);
 
 Account.hasMany(FacebookScheduledPost, { onUpdate: 'cascade', onDelete: 'cascade' });
 FacebookScheduledPost.belongsTo(Account);
-FacebookScheduledPost.belongsToMany(Upload, { through: FacebookUpload });
-Upload.belongsToMany(FacebookScheduledPost, { through: FacebookUpload });
 
 
 // Twitter
@@ -38,8 +33,6 @@ TwitterScheduledRetweet.belongsTo(Account);
 
 Account.hasMany(TwitterScheduledPost, { onUpdate: 'cascade', onDelete: 'cascade' });
 TwitterScheduledPost.belongsTo(Account);
-TwitterScheduledPost.belongsToMany(Upload, { through: TwitterUpload });
-Upload.belongsToMany(TwitterScheduledPost, { through: TwitterUpload });
 
 
 // Linkedin
@@ -48,8 +41,6 @@ LinkedinPost.belongsTo(Account);
 
 Account.hasMany(LinkedinScheduledPost, { onUpdate: 'cascade', onDelete: 'cascade' });
 LinkedinScheduledPost.belongsTo(Account);
-LinkedinScheduledPost.belongsToMany(Upload, { through: LinkedinUpload });
-Upload.belongsToMany(LinkedinScheduledPost, { through: LinkedinUpload });
 
 
 // User

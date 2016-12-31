@@ -32,7 +32,7 @@ const LinkedinScheduledPost = sequelize.define('LinkedinScheduledPost', {
                           type: Sequelize.STRING,
                           comment: 'Linkedin scheduled post content submitted image URL.',
                         },
-  comment:              {
+  message:              {
                           type: Sequelize.STRING,
                           comment: 'Linkedin scheduled post comment.',
                         },
@@ -44,6 +44,10 @@ const LinkedinScheduledPost = sequelize.define('LinkedinScheduledPost', {
                             isIn: [['anyone', 'connections-only']],
                           },
                           comment: 'Linkedin scheduled post visibility.',
+                        },
+  imgUrl:               {
+                          type: Sequelize.TEXT,
+                          comment: 'Image URL.',
                         },
   jobId:                {
                           type: Sequelize.STRING,

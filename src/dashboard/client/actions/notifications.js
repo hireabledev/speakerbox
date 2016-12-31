@@ -15,7 +15,14 @@ export function notifySuccess(message) {
 }
 
 export function notifyError(err) {
-  const message = err.message || `${err.res.status} ${err.res.statusText}: ${err.res.url}`;
+  let message = err.message;
+  if (!message) {
+    if (err.res && err.body) {
+      message = `${err.body.statusCode} ${err.body.error}: ${err.body.message}`;
+    } else if (err.res) {
+      message = `${err.res.status} ${err.res.statusText}: ${err.res.url}`;
+    }
+  }
   return notify({
     message,
     kind: 'danger',

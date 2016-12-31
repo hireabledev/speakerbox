@@ -4,7 +4,6 @@ import { Field } from 'redux-form';
 import { connect } from 'react-redux';
 import Select from 'react-select';
 import Option from 'react-select/lib/Option';
-import find from 'lodash/find';
 
 function AccountPickerOption(props) {
   return (
@@ -33,12 +32,6 @@ export function AccountPicker(props) {
     ...inputProps
   } = props;
 
-  let value = [];
-
-  if (props.input.value) {
-    value = props.input.value.map(val => find(accounts, { id: val }));
-  }
-
   return (
     <Select
       placeholder="Select account"
@@ -50,9 +43,9 @@ export function AccountPicker(props) {
       valueKey="id"
       labelKey="name"
       onChange={input.onChange}
-      onBlur={() => input.onBlur(value)}
-      onFocus={() => input.onFocus(value)}
-      value={value}
+      onBlur={() => input.onBlur(input.value)}
+      onFocus={() => input.onFocus(input.value)}
+      value={input.value}
     />
   );
 }
@@ -61,10 +54,9 @@ AccountPicker.propTypes = {
   id: PropTypes.string,
   className: PropTypes.string,
   input: PropTypes.shape({
-    value: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.arrayOf(PropTypes.string),
-    ]),
+    value: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.string,
+    })),
     onBlur: PropTypes.func,
     onChange: PropTypes.func,
     onFocus: PropTypes.func,
@@ -89,7 +81,7 @@ export default function AccountSelect(props, context) {
       id={encodeURIComponent(props.name + context.formGroupId)}
       className={cn(props.className)}
       component={AccountPickerContainer}
-      normalize={values => values.map(value => value.id)}
+      // normalize={values => values.map(value => value.id)}
       {...props}
     />
   );

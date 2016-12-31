@@ -5,6 +5,12 @@ import fetch from 'lib/fetch';
 import Icon from 'lib/components/icon';
 
 export class ImagePicker extends Component {
+  componentWillReceiveProps(nextProps) {
+    if (!nextProps.input.value && this.inputElement) {
+      this.inputElement.value = '';
+    }
+  }
+
   render() {
     const {
       input,
@@ -15,7 +21,6 @@ export class ImagePicker extends Component {
     const handleChange = async (e) => {
       const data = new FormData();
       data.append('files', e.target.files[0]);
-      // data.append('title', 'Test title');
 
       const res = await fetch('/api/uploads', { method: 'POST', body: data });
       const upload = res.body;
