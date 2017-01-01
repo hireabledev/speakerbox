@@ -7,8 +7,11 @@
     padding-right: rem(100px);
   }
   .sb-img-picker {
-    border: 1px solid $border;
-    padding: $input-padding-y;
     float: left;
+
+    &.active {
+      border: 1px solid $border;
+      padding: $input-padding-y;
+    }
   }
 }

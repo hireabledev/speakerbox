@@ -35,7 +35,12 @@ export class ImagePicker extends Component {
     const onFocus = input.onFocus || noop;
 
     return (
-      <div {...inputProps} className={cn(inputProps.className, 'sb-img-picker')}>
+      <div
+        {...inputProps}
+        className={cn(inputProps.className, 'sb-img-picker', {
+          active: value,
+        })}
+      >
         {value && (
           <div className="sb-img-picker-body">
             <img className="sb-img-picker-img" src={value} alt="Upload" />
