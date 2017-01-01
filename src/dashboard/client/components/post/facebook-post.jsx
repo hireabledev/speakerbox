@@ -27,9 +27,9 @@ export default function FacebookPost({ post }) {
             {' '}
             Share Now
           </a>
-          <PostScheduleButton
+          {/* <PostScheduleButton
             onClick={(e) => console.log('TODO')}
-          />
+          /> */}
           <PostActions.Secondary>
             <PostViewLink url={post.url} />
           </PostActions.Secondary>

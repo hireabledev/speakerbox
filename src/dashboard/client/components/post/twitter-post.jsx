@@ -13,14 +13,14 @@ export default function TwitterPost({ post }) {
       actions={(
         <PostActions>
           <PostFavoriteButton post={post} />
-          <button className="sb-post-action" type="button">
+          {/* <button className="sb-post-action" type="button">
             <Icon name="retweet" label="retweet" />
             {' '}
             Retweet
           </button>
           <PostScheduleButton
             onClick={(e) => console.log('TODO')}
-          />
+          /> */}
           <PostActions.Secondary>
             <PostViewLink url={post.url} />
           </PostActions.Secondary>
