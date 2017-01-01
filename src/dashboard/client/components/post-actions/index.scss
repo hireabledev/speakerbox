@@ -23,8 +23,27 @@
   + .sb-post-action {
     border-left: 1px dotted $border;
   }
+
+  > .form-control {
+    background: none;
+    border: 0;
+    color: $link-color;
+    padding: rem(2px) 0;
+  }
 }
 
 .sb-post-actions-secondary {
   float: right;
+}
+
+.sb-post-action.rdt {
+  > .form-control {
+    padding-left: $card-spacer-x;
+  }
+
+  &::after {
+    top: rem(13px);
+    left: $card-spacer-x;
+    right: auto;
+  }
 }

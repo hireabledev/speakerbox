@@ -59,3 +59,13 @@
 .sb-post-type-linkedin {
   background: $linkedin;
 }
+
+.sb-post-textarea {
+  background: none;
+  border: 0;
+  color: $body-color;
+  display: block;
+  line-height: inherit;
+  margin: 0;
+  width: 100%;
+}

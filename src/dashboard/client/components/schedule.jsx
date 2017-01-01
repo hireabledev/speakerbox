@@ -5,7 +5,7 @@ import memoize from 'lodash/memoize';
 import Fallback from 'lib/components/fallback';
 import Page from 'lib/components/page';
 import AccountList from './account-list';
-import Post from './post';
+import ScheduledPost from './scheduled-post';
 import PostForm from './post-form';
 import { fetchAllScheduledPosts } from '../actions/posts';
 
@@ -48,13 +48,13 @@ export class StreamPage extends Component {
         </Fallback>
         {facebookScheduledPosts
           .filter(filterByAccount)
-          .map(post => <Post key={post.id} post={post} type="facebook" />)}
+          .map(post => <ScheduledPost key={post.id} post={post} type="facebook" />)}
         {twitterScheduledPosts
           .filter(filterByAccount)
-          .map(post => <Post key={post.id} post={post} type="twitter" />)}
+          .map(post => <ScheduledPost key={post.id} post={post} type="twitter" />)}
         {linkedinScheduledPosts
           .filter(filterByAccount)
-          .map(post => <Post key={post.id} post={post} type="linkedin" />)}
+          .map(post => <ScheduledPost key={post.id} post={post} type="linkedin" />)}
         {moreScheduledPosts && (
           <button onClick={this.props.fetchScheduledPosts}>Load More</button>
         )}

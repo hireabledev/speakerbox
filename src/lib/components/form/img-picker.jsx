@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import cn from 'classnames';
+import noop from 'lodash/noop';
 import { Field } from 'redux-form';
 import fetch from 'lib/fetch';
 import Icon from 'lib/components/icon';
@@ -30,6 +31,9 @@ export class ImagePicker extends Component {
 
     const value = input.value;
 
+    const onBlur = input.onBlur || noop;
+    const onFocus = input.onFocus || noop;
+
     return (
       <div {...inputProps} className={cn(inputProps.className, 'sb-img-picker')}>
         {value && (
@@ -59,8 +63,8 @@ export class ImagePicker extends Component {
           className="sb-img-picker-input"
           type="file"
           onChange={handleChange}
-          onBlur={() => input.onBlur(value)}
-          onFocus={() => input.onFocus(value)}
+          onBlur={() => onBlur(value)}
+          onFocus={() => onFocus(value)}
         />
       </div>
     );

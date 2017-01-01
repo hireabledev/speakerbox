@@ -1,0 +1,14 @@
+.sb-scheduled-post {
+  .sb-post-type {
+    position: absolute;
+    right: $card-spacer-x;
+  }
+  .sb-post-textarea {
+    padding-right: rem(100px);
+  }
+  .sb-img-picker {
+    border: 1px solid $border;
+    padding: $input-padding-y;
+    float: left;
+  }
+}

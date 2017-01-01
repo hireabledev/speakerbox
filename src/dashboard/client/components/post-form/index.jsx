@@ -99,7 +99,7 @@ export class PostForm extends Component {
                 accountId: account.id,
                 message: values.message,
                 date: values.date,
-                imgUrl: values.image,
+                imgUrl: values.imgUrl,
               })
             )));
             form.reset();
