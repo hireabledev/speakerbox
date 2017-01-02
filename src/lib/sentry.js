@@ -2,10 +2,6 @@ import raven from 'raven';
 import { ENV, SENTRY_DSN } from './config';
 import { sentry as debug } from './debug';
 
-if (!SENTRY_DSN) {
-  debug.warn('SENTRY_DSN is undefined.');
-}
-
 const mockSentry = {
   patchGlobal() {},
   captureException(err) { debug.error(err); },

@@ -24,3 +24,4 @@ export const email = init('email');
 export const db = init('db');
 export const sentry = init('sentry');
 export const mixpanel = init('mixpanel');
+export const config = init('config');

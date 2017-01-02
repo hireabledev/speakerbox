@@ -4,7 +4,7 @@ import {
   adminOnly as adminOnlyMiddleware,
 } from '../lib/middleware/access-control';
 
-function patchController(controller) {
+export function patchController(controller) {
   return function patchedController(req, res, next) {
     const result = controller.call(this, req, res, next);
     if (result && result.then) {

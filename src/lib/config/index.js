@@ -1,8 +1,14 @@
+import { config as debug } from '../debug';
+
 function env(str, defaultValue, required) {
   if (required === 'required' && !str) {
     throw new Error(`${str} env variable is required.`);
   }
-  return process.env[str] || defaultValue;
+  const result = process.env[str] || defaultValue;
+  if (result === undefined) {
+    debug.warn(`Optional env variable ${str} is undefined.`);
+  }
+  return result;
 }
 
 export const ENV = env('NODE_ENV', 'development');
