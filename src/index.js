@@ -1,5 +1,6 @@
 /* eslint global-require: 0, 'import/no-extraneous-dependencies': 0 */
 
+import 'isomorphic-fetch';
 import express from 'express';
 import morgan from 'morgan';
 import bodyParser from 'body-parser';

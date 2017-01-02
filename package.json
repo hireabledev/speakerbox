@@ -57,6 +57,7 @@
     "font-awesome": "^4.6.3",
     "globby": "^6.0.0",
     "history": "^2.1.2",
+    "isomorphic-fetch": "^2.2.1",
     "jsonwebtoken": "^7.1.9",
     "kue": "^0.11.1",
     "lodash": "^4.15.0",

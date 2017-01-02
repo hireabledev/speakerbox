@@ -1,8 +1,19 @@
 import Twit from 'twit';
 import { TWITTER_KEY, TWITTER_SECRET } from './config';
 
-function retweet(id) {
-  return this.post('statuses/retweet/:id', { id });
+async function retweet(id) {
+  return await this.post('statuses/retweet/:id', { id });
+}
+
+async function update(message, imgUrl) {
+  const body = { status: message };
+  if (imgUrl) {
+    const res = await fetch(imgUrl);
+    const media = await res.blob();
+    const { data } = await this.post('media/upload', { media });
+    body.media_ids = [data.media_id_string];
+  }
+  return await this.post('statuses/update', body);
 }
 
 export default function getTwitterClient({ token, tokenSecret }) {
@@ -16,6 +27,7 @@ export default function getTwitterClient({ token, tokenSecret }) {
   const client = new Twit(options);
 
   client.retweet = retweet;
+  client.update = update;
 
   return client;
 }
