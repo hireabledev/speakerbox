@@ -28,6 +28,7 @@
   background: $input-bg;
   border: 0;
   border-bottom-left-radius: $border-radius;
+  cursor: pointer;
   padding-top: $padding-y - $padding-y-offset;
   padding-right: $padding-x - $padding-x-offset;
   padding-bottom: $padding-y - $padding-y-offset;
@@ -40,4 +41,8 @@
 
 .sb-img-picker-img {
   width: 200px;
+}
+
+.sb-img-picker:hover .sb-img-picker-placeholder {
+  color: $link-hover-color;
 }

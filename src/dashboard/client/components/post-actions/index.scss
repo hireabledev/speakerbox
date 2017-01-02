@@ -29,6 +29,11 @@
     border: 0;
     color: $link-color;
     padding: rem(2px) 0;
+
+    &:hover,
+    &:focus {
+      color: $link-hover-color;
+    }
   }
 }
 
