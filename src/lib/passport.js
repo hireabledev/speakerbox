@@ -82,7 +82,7 @@ passport.use(getStrategy({
     clientID: FB_KEY,
     clientSecret: FB_SECRET,
     callbackURL: FB_CB_URL,
-    profileFields: ['id', 'displayName', 'photos'],
+    profileFields: ['id', 'displayName', 'photos', 'manage_pages'],
   },
   mapProfileToUser(profile) {
     return {

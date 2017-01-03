@@ -1,16 +1,22 @@
-import { Account } from '../../lib/models';
+import { Account, LinkedinScheduledPost } from '../../lib/models';
 import linkedinClient from '../../lib/linkedin';
 
 export default async function linkedinScheduledPostProcessor(job, done) {
-  const postId = job.data.data.id;
-  const accountId = job.data.data.accountId;
+  const { message, imgUrl, scheduledPostId, accountId } = job.data.data;
 
   try {
     const account = await Account.findById(accountId);
     const linkedin = linkedinClient({
       token: account.accessToken,
     });
-    await linkedin.share(postId, job.data.data);
+    const { body } = await linkedin.share(null, {
+      comment: message,
+      imgUrl,
+    });
+    const scheduledPost = await LinkedinScheduledPost.findById(scheduledPostId);
+    await scheduledPost.update({
+      url: body.updateUrl,
+    });
     return done();
   } catch (err) {
     return done(err);

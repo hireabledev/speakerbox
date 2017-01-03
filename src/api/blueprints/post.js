@@ -1,5 +1,6 @@
 import startCase from 'lodash/startCase';
 import omit from 'lodash/omit';
+import uuid from 'uuid';
 
 export function indexBlueprint(modelName) {
   return async function index(req, res, next) {
@@ -61,6 +62,7 @@ export function createScheduledBlueprint(modelName, jobType) {
     const body = {
       ...omit(req.body, ['id', 'created', 'updated']),
       date: req.body.date || new Date(),
+      id: uuid.v4(),
     };
     const instance = Model.build(body);
     const job = await req.app.addJob({
@@ -69,6 +71,7 @@ export function createScheduledBlueprint(modelName, jobType) {
       delay: body.date,
       data: {
         ...body,
+        scheduledPostId: instance.id,
         accountId: account.id,
       },
     });
@@ -101,6 +104,7 @@ export function updateScheduledBlueprint(modelName, jobType) {
       data: {
         ...oldJob.data.data,
         ...body,
+        scheduledPostId: instance.id,
         accountId: oldJob.data.data.accountId,
       },
     });

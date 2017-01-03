@@ -1,8 +1,8 @@
-import { Account } from '../../lib/models';
+import { Account, TwitterScheduledRetweet } from '../../lib/models';
 import twitterClient from '../../lib/twitter';
 
 export default async function twitterScheduledRetweetProcessor(job, done) {
-  const { postId, accountId } = job.data.data;
+  const { statusId, scheduledPostId, accountId } = job.data.data;
 
   try {
     const account = await Account.findById(accountId);
@@ -10,10 +10,14 @@ export default async function twitterScheduledRetweetProcessor(job, done) {
       token: account.accessToken,
       tokenSecret: account.tokenSecret,
     });
-    const { data } = await twitter.retweet(postId);
+    const { data } = await twitter.retweet(statusId);
     if (data.errors && data.errors.length) {
-      return done(new Error(data.errors.map(err => `${err.message} (${err.code})`).join('\n')));
+      throw new Error(data.errors.map(err => `${err.message} (${err.code})`).join('\n'));
     }
+    const scheduledPost = await TwitterScheduledRetweet.findById(scheduledPostId);
+    await scheduledPost.update({
+      url: `https://twitter.com/${data.user.screen_name}/status/${data.id_str}`,
+    });
     return done();
   } catch (err) {
     return done(err);

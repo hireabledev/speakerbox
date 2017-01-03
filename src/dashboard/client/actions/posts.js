@@ -1,5 +1,4 @@
 import fetch from 'lib/fetch';
-import qs from 'qs';
 import { notifySuccess, notifyError } from './notifications';
 import * as actions from '../constants/action-types';
 
@@ -23,12 +22,13 @@ export function postActions(type) {
   const fetchPosts = (options = {}) => (
     async (dispatch, getState) => {
       const state = getState()[type];
-      let queryString = '';
-      if (options.query) {
-        queryString = '&' + qs.stringify(options.query);
-      }
       try {
-        const res = await dispatch(fetch(`/api/${type}/posts?skip=${state.posts.length}${queryString}`));
+        const res = await dispatch(fetch(`/api/${type}/posts`, {
+          query: {
+            skip: state.posts.length,
+            ...options.query,
+          },
+        }));
         const { data, more } = res.body;
         dispatch(receivePosts({ posts: data, more }));
         return res.body;

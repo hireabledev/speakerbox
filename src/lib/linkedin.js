@@ -1,30 +1,50 @@
+import superFetch from 'lib/fetch';
 import { LINKEDIN_API_URL } from './config';
 
-const defaultHeaders = {
-  'Content-Type': 'application/json',
-  'x-li-format': 'json',
-};
-
-function request(url, options) {
-  return fetch(`${LINKEDIN_API_URL}${url}`, {
+function fetch(url, options) {
+  return superFetch(LINKEDIN_API_URL + url, {
     ...options,
+    credentials: 'omit',
     headers: {
-      ...defaultHeaders,
+      'Content-Type': 'application/json',
+      'x-li-format': 'json',
       ...options.headers,
+    },
+    query: {
+      format: 'json',
+      ...options.query,
     },
   });
 }
 
 export default function getLinkedinClient({ token }) {
-  const headers = {
+  const getHeaders = (headers) => ({
     Authorization: `Bearer ${token}`,
-  };
+    ...headers,
+  });
+
   return {
-    share(id, body) {
-      return request('/people/~/shares?format=json', {
+    share(id, options) {
+      const url = id ? `/companies/${id}/shares` : '/people/~/shares';
+      let content;
+      if (options.contentTitle) {
+        content = {
+          title: options.contentTitle,
+          description: options.contentDescription,
+          'submitted-url': options.contentUrl,
+          'submitted-image-url': options.contentImgUrl,
+        };
+      }
+      return fetch(url, {
         method: 'POST',
-        headers,
-        body, // TODO: proper field names
+        headers: getHeaders(),
+        body: {
+          content,
+          comment: options.message,
+          visibility: {
+            code: options.visibility || 'anyone',
+          },
+        },
       });
     },
   };

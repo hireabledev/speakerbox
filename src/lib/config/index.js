@@ -47,6 +47,8 @@ export const FB_KEY = env('FB_KEY', null, 'required');
 export const FB_SECRET = env('FB_SECRET', null, 'required');
 export const FB_CB_URL = env('FB_CB_URL', `${HOST}/sso/auth/facebook/callback`);
 
+export const FB_API_URL = env('FB_API_URL', 'https://graph.facebook.com/v2.2');
+
 export const TWITTER_KEY = env('TWITTER_KEY', null, 'required');
 export const TWITTER_SECRET = env('TWITTER_SECRET', null, 'required');
 export const TWITTER_CB_URL = env('TWITTER_CB_URL', `${HOST}/sso/auth/twitter/callback`);

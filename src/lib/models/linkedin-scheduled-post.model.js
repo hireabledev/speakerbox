@@ -25,11 +25,11 @@ const LinkedinScheduledPost = sequelize.define('LinkedinScheduledPost', {
                           comment: 'Linkedin scheduled post content description.',
                         },
   contentUrl:           {
-                          type: Sequelize.STRING,
+                          type: Sequelize.TEXT,
                           comment: 'Linkedin scheduled post content submitted URL.',
                         },
   contentImgUrl:        {
-                          type: Sequelize.STRING,
+                          type: Sequelize.TEXT,
                           comment: 'Linkedin scheduled post content submitted image URL.',
                         },
   message:              {
@@ -45,9 +45,9 @@ const LinkedinScheduledPost = sequelize.define('LinkedinScheduledPost', {
                           },
                           comment: 'Linkedin scheduled post visibility.',
                         },
-  imgUrl:               {
+  url:                  {
                           type: Sequelize.TEXT,
-                          comment: 'Image URL.',
+                          comment: 'Linkedin post URL. Set by worker.',
                         },
   jobId:                {
                           type: Sequelize.STRING,
@@ -57,6 +57,10 @@ const LinkedinScheduledPost = sequelize.define('LinkedinScheduledPost', {
 }, {
   getterMethods: {
     type() { return 'linkedin'; },
+    imgUrl() { return this.contentImgUrl; },
+  },
+  setterMethods: {
+    imgUrl(value) { return this.setDataValue('contentImgUrl', value); },
   },
   name: {
     singular: 'linkedinScheduledPost',

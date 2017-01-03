@@ -11,7 +11,7 @@ const TwitterScheduledRetweet = sequelize.define('TwitterScheduledRetweet', {
                           comment: 'Twitter scheduled retweet ID.',
                         },
   statusId:             {
-                          type: Sequelize.INTEGER,
+                          type: Sequelize.STRING,
                           allowNull: false,
                           comment: 'Tweet ID.',
                         },

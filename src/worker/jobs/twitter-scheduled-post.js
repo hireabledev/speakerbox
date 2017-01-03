@@ -1,8 +1,8 @@
-import { Account } from '../../lib/models';
+import { Account, TwitterScheduledPost } from '../../lib/models';
 import twitterClient from '../../lib/twitter';
 
 export default async function twitterScheduledPostProcessor(job, done) {
-  const { message, imgUrl, accountId } = job.data.data;
+  const { message, imgUrl, scheduledPostId, accountId } = job.data.data;
 
   try {
     const account = await Account.findById(accountId);
@@ -12,8 +12,12 @@ export default async function twitterScheduledPostProcessor(job, done) {
     });
     const { data } = await twitter.update(message, imgUrl);
     if (data.errors && data.errors.length) {
-      return done(new Error(data.errors.map(err => `${err.message} (${err.code})`).join('\n')));
+      throw new Error(data.errors.map(err => `${err.message} (${err.code})`).join('\n'));
     }
+    const scheduledPost = await TwitterScheduledPost.findById(scheduledPostId);
+    await scheduledPost.update({
+      url: `https://twitter.com/${data.user.screen_name}/status/${data.id_str}`,
+    });
     return done();
   } catch (err) {
     return done(err);

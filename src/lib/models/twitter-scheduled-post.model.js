@@ -25,6 +25,10 @@ const TwitterScheduledPost = sequelize.define('TwitterScheduledPost', {
                           type: Sequelize.TEXT,
                           comment: 'Image URL.',
                         },
+  url:                  {
+                          type: Sequelize.TEXT,
+                          comment: 'Twitter post URL. Set by worker.',
+                        },
   jobId:                {
                           type: Sequelize.STRING,
                           allowNull: false,

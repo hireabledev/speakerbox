@@ -25,19 +25,19 @@ const FacebookScheduledPost = sequelize.define('FacebookScheduledPost', {
                           type: Sequelize.TEXT,
                           comment: 'Link.',
                         },
-  linkPicture:          {
+  picture:              {
                           type: Sequelize.TEXT,
                           comment: 'Link picture URL.',
                         },
-  linkName:             {
+  name:                 {
                           type: Sequelize.TEXT,
                           comment: 'Link name.',
                         },
-  linkCaption:          {
+  caption:              {
                           type: Sequelize.TEXT,
                           comment: 'Link caption.',
                         },
-  linkDescription:      {
+  description:          {
                           type: Sequelize.TEXT,
                           comment: 'Link description.',
                         },
@@ -48,6 +48,10 @@ const FacebookScheduledPost = sequelize.define('FacebookScheduledPost', {
   imgUrl:               {
                           type: Sequelize.TEXT,
                           comment: 'Image URL.',
+                        },
+  url:                  {
+                          type: Sequelize.TEXT,
+                          comment: 'Facebook post URL. Set by worker.',
                         },
   jobId:                {
                           type: Sequelize.STRING,

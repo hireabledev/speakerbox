@@ -1,3 +1,5 @@
+import qs from 'qs';
+
 export default async function superFetch(url, options = {}) {
   const contentType = options.body instanceof FormData
     ? {}
@@ -13,6 +15,10 @@ export default async function superFetch(url, options = {}) {
 
   if (options.body && fetchOptions.headers['Content-Type'] === 'application/json') {
     fetchOptions.body = JSON.stringify(options.body);
+  }
+
+  if (options.query) {
+    url += `?${qs.stringify(options.query)}`; // eslint-disable-line no-param-reassign
   }
 
   const res = await fetch(url, fetchOptions);
