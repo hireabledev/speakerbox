@@ -1,20 +1,27 @@
 import superFetch from 'lib/fetch';
 import { LINKEDIN_API_URL } from './config';
 
-function fetch(url, options) {
-  return superFetch(LINKEDIN_API_URL + url, {
-    ...options,
-    credentials: 'omit',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-li-format': 'json',
-      ...options.headers,
-    },
-    query: {
-      format: 'json',
-      ...options.query,
-    },
-  });
+async function fetch(url, options) {
+  try {
+    return await superFetch(LINKEDIN_API_URL + url, {
+      ...options,
+      credentials: 'omit',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-li-format': 'json',
+        ...options.headers,
+      },
+      query: {
+        format: 'json',
+        ...options.query,
+      },
+    });
+  } catch (err) {
+    if (err.body) {
+      throw new Error(`${err.body.status} ${err.body.message} (${err.body.errorCode})`);
+    }
+    throw err;
+  }
 }
 
 export default function getLinkedinClient({ token }) {
@@ -24,23 +31,25 @@ export default function getLinkedinClient({ token }) {
   });
 
   return {
-    share(id, options) {
+    async share(id, options) {
       const url = id ? `/companies/${id}/shares` : '/people/~/shares';
-      let content;
-      if (options.contentTitle) {
-        content = {
-          title: options.contentTitle,
-          description: options.contentDescription,
-          'submitted-url': options.contentUrl,
-          'submitted-image-url': options.contentImgUrl,
+      let contentObject = {};
+      if (options.contentTitle && options.contentUrl) {
+        contentObject = {
+          content: {
+            title: options.contentTitle,
+            description: options.contentDescription,
+            'submitted-url': options.contentUrl,
+            'submitted-image-url': options.contentImgUrl,
+          },
         };
       }
-      return fetch(url, {
+      return await fetch(url, {
         method: 'POST',
         headers: getHeaders(),
         body: {
-          content,
-          comment: options.message,
+          ...contentObject,
+          comment: options.comment,
           visibility: {
             code: options.visibility || 'anyone',
           },

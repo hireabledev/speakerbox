@@ -1,7 +1,8 @@
 import passport from 'passport';
 import { Strategy as FacebookStrategy } from 'passport-facebook';
 import { Strategy as TwitterStrategy } from 'passport-twitter';
-import { Strategy as LinkedinStrategy } from 'passport-linkedin';
+import { Strategy as LinkedinStrategy } from 'passport-linkedin-oauth2';
+import { server as debug } from 'lib/debug';
 import {
   FB_KEY,
   FB_SECRET,
@@ -71,7 +72,10 @@ function getStrategy({ Strategy, strategyOptions, mapProfileToUser, mapProfileTo
             })
             .then(() => done(null, user))
         ))
-        .catch(done);
+        .catch(err => {
+          debug.error(err);
+          return done(err);
+        });
     }
   );
 }
@@ -95,6 +99,7 @@ passport.use(getStrategy({
     return {
       id: profile.id,
       name: profile.displayName,
+      imgUrl: profile.photos[0].value,
       type: 'facebook',
     };
   },
@@ -106,19 +111,20 @@ passport.use(getStrategy({
     consumerKey: TWITTER_KEY,
     consumerSecret: TWITTER_SECRET,
     callbackURL: TWITTER_CB_URL,
-    profileFields: ['id', 'email', 'photos'],
+    profileFields: ['id', 'displayName', 'photos'],
     userAuthorizationURL: 'https://api.twitter.com/oauth/authorize',
   },
   mapProfileToUser(profile) {
     return {
       displayName: profile.displayName,
-      imgUrl: profile.image_url_https,
+      imgUrl: profile.photos[0].value,
     };
   },
   mapProfileToAccount(profile) {
     return {
       id: profile.id,
       name: profile.displayName,
+      imgUrl: profile.photos[0].value,
       type: 'twitter',
     };
   },
@@ -127,19 +133,27 @@ passport.use(getStrategy({
 passport.use(getStrategy({
   Strategy: LinkedinStrategy,
   strategyOptions: {
-    consumerKey: LINKEDIN_KEY,
-    consumerSecret: LINKEDIN_SECRET,
+    clientID: LINKEDIN_KEY,
+    clientSecret: LINKEDIN_SECRET,
     callbackURL: LINKEDIN_CB_URL,
+    scope: ['r_basicprofile', 'w_share', 'rw_company_admin'],
+    state: true,
   },
   mapProfileToUser(profile) {
+    debug.info(profile);
+    const additionalProfile = profile._json || {}; // eslint-disable-line no-underscore-dangle
     return {
       displayName: profile.displayName,
+      imgUrl: additionalProfile.pictureUrl,
     };
   },
   mapProfileToAccount(profile) {
+    debug.info(profile);
+    const additionalProfile = profile._json || {}; // eslint-disable-line no-underscore-dangle
     return {
       id: profile.id,
       name: profile.displayName,
+      imgUrl: additionalProfile.pictureUrl,
       type: 'linkedin',
     };
   },

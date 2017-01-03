@@ -1,3 +1,4 @@
+import { kue as debug } from 'lib/debug';
 import { Account, LinkedinScheduledPost } from '../../lib/models';
 import linkedinClient from '../../lib/linkedin';
 
@@ -19,6 +20,7 @@ export default async function linkedinScheduledPostProcessor(job, done) {
     });
     return done();
   } catch (err) {
+    debug.error(err);
     return done(err);
   }
 }

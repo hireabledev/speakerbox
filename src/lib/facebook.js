@@ -17,16 +17,16 @@ export default function getFacebookClient({ token }) {
   const client = {
     async getPost(id) {
       return fetch(`/${id}`, {
-        query: {
+        query: getQuery({
           fields: 'link',
-        },
+        }),
       });
     },
     async getPhoto(id) {
       return fetch(`/${id}`, {
-        query: {
+        query: getQuery({
           fields: 'link',
-        },
+        }),
       });
     },
     /**
@@ -46,18 +46,22 @@ export default function getFacebookClient({ token }) {
         throw new Error('Message or link required.');
       }
       if (options.imgUrl) {
-        return fetch(`/${id}/photos`, {
+        return await fetch(`/${id}/photos`, {
           method: 'POST',
-          query: getQuery(),
+          query: getQuery({
+            fields: 'link',
+          }),
           body: {
             caption: options.message,
             url: options.imgUrl,
           },
         });
       }
-      return fetch(`/${id}/feed`, {
+      return await fetch(`/${id}/feed`, {
         method: 'POST',
-        query: getQuery(),
+        query: getQuery({
+          fields: 'link',
+        }),
         body: {
           message: options.message,
         },
