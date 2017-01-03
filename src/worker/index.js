@@ -1,3 +1,4 @@
+import 'isomorphic-fetch';
 import globby from 'globby';
 import path from 'path';
 import { worker as debug } from '../lib/debug';
