@@ -1,3 +1,3 @@
 #!/bin/bash
 
-mocha --compilers js:babel-register src/**/*.test.js
+mocha --compilers js:babel-register test/index.js test/**/*.test.js src/**/*.test.js
