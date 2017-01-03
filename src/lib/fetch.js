@@ -34,6 +34,9 @@ export default async function superFetch(url, options = {}) {
 
   if (res.status >= 200 && res.status < 400) {
     return result;
+  } else if (res.status === 401 && typeof window !== 'undefined') {
+    window.location.href = '/sso';
+    return new Promise(() => {});
   }
 
   throw result;
