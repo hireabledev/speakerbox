@@ -109,6 +109,7 @@
     "babel-cli": "^6.14.0",
     "babel-core": "^6.14.0",
     "babel-loader": "^6.2.5",
+    "babel-plugin-istanbul": "^3.0.0",
     "babel-plugin-module-resolver": "^2.4.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.18.0",
     "babel-plugin-transform-runtime": "^6.15.0",
@@ -132,6 +133,7 @@
     "mocha": "^3.1.0",
     "nock": "^9.0.2",
     "node-sass": "^3.10.0",
+    "nyc": "^10.0.0",
     "postcss-loader": "^0.13.0",
     "sass-loader": "^4.0.0",
     "sinon": "^1.17.7",
@@ -140,5 +142,9 @@
     "webpack": "^1.14.0",
     "webpack-dev-middleware": "^1.9.0",
     "webpack-hot-middleware": "^2.13.2"
+  },
+  "nyc": {
+    "sourceMap": false,
+    "instrument": false
   }
 }

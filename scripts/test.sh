@@ -1,3 +1,3 @@
 #!/bin/bash
 
-mocha --compilers js:babel-register test/index.js test/**/*.test.js src/**/*.test.js
+NODE_ENV=test nyc --reporter=lcov --reporter=text mocha --compilers js:babel-register test/index.js "src/**/*.spec.js"

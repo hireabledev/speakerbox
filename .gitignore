@@ -2,3 +2,5 @@
 build/
 public/
 webpack.stats.json
+.nyc_output/
+coverage/
