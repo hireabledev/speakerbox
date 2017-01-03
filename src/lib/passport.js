@@ -93,6 +93,7 @@ passport.use(getStrategy({
   mapProfileToAccount(profile) {
     return {
       id: profile.id,
+      name: profile.displayName,
       type: 'facebook',
     };
   },
@@ -116,6 +117,7 @@ passport.use(getStrategy({
   mapProfileToAccount(profile) {
     return {
       id: profile.id,
+      name: profile.displayName,
       type: 'twitter',
     };
   },
@@ -136,6 +138,7 @@ passport.use(getStrategy({
   mapProfileToAccount(profile) {
     return {
       id: profile.id,
+      name: profile.displayName,
       type: 'linkedin',
     };
   },
