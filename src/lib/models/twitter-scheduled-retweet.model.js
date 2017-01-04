@@ -21,6 +21,14 @@ const TwitterScheduledRetweet = sequelize.define('TwitterScheduledRetweet', {
                           defaultValue: Sequelize.NOW,
                           comment: 'Twitter scheduled retweet date.',
                         },
+  url:                  {
+                          type: Sequelize.TEXT,
+                          comment: 'Twitter retwet URL. Set by worker.',
+                        },
+  posted:               {
+                          type: Sequelize.DATE,
+                          comment: 'Twitter retweeted date. Set by worker.',
+                        },
   jobId:                {
                           type: Sequelize.STRING,
                           allowNull: false,

@@ -16,6 +16,8 @@ export class ImagePicker extends Component {
     const {
       input,
       meta, // eslint-disable-line no-unused-vars
+      disabled,
+      placeholder,
       ...inputProps
     } = this.props;
 
@@ -44,28 +46,31 @@ export class ImagePicker extends Component {
         {value && (
           <div className="sb-img-picker-body">
             <img className="sb-img-picker-img" src={value} alt="Upload" />
-            <button
-              className="sb-img-picker-remove"
-              type="button"
-              onClick={() => {
-                input.onChange(null);
-                this.inputElement.value = '';
-              }}
-            >
-              <Icon name="remove" label="remove" />
-            </button>
+            {!disabled && (
+              <button
+                className="sb-img-picker-remove"
+                type="button"
+                onClick={() => {
+                  input.onChange(null);
+                  this.inputElement.value = '';
+                }}
+              >
+                <Icon name="remove" label="remove" />
+              </button>
+            )}
           </div>
         )}
         {!value && (
           <div className="sb-img-picker-placeholder">
             <Icon name="photo" label="photo" />
             {' '}
-            {inputProps.placeholder || 'Select image'}
+            {placeholder || 'Select image'}
           </div>
         )}
         <input
           ref={el => { this.inputElement = el; }}
           className="sb-img-picker-input"
+          disabled={disabled}
           type="file"
           onChange={handleChange}
           onBlur={() => onBlur(value)}
@@ -79,6 +84,7 @@ export class ImagePicker extends Component {
 ImagePicker.propTypes = {
   id: PropTypes.string,
   className: PropTypes.string,
+  disabled: PropTypes.bool,
   input: PropTypes.shape({
     onBlur: PropTypes.func,
     onChange: PropTypes.func,

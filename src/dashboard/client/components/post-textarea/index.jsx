@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import debounce from 'lodash/debounce';
 import * as postActions from '../../actions/posts';
 
-export function PostTextarea({ post, onChange }) {
+export function PostTextarea({ disabled, post, onChange }) {
   const debouncedOnChange = debounce(value => {
     if (value) {
       onChange(post.id, post.type, value);
@@ -14,11 +14,13 @@ export function PostTextarea({ post, onChange }) {
       className="sb-post-textarea"
       defaultValue={post.body || post.message || post.comment}
       onChange={e => debouncedOnChange(e.target.value)}
+      disabled={disabled}
     />
   );
 }
 
 PostTextarea.propTypes = {
+  disabled: PropTypes.bool,
   post: PropTypes.shape({
     id: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,

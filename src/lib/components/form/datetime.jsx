@@ -40,7 +40,10 @@ export function DatetimePicker(props) {
 
 DatetimePicker.propTypes = {
   input: PropTypes.shape({
-    value: PropTypes.string,
+    value: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.object, // TODO: moment or datetime
+    ]),
     onBlur: PropTypes.func,
     onChange: PropTypes.func,
     onFocus: PropTypes.func,

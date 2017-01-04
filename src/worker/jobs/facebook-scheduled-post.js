@@ -17,6 +17,7 @@ export default async function facebookScheduledPostProcessor(job, done) {
     const scheduledPost = await FacebookScheduledPost.findById(scheduledPostId);
     await scheduledPost.update({
       url: body.link,
+      posted: new Date(),
     });
     return done();
   } catch (err) {

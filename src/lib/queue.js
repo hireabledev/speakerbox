@@ -10,7 +10,7 @@ export function addJob({ type, title, attempts, delay, priority, data }) {
   return new Promise((resolve, reject) => {
     let q = queue.create(type, { title, data });
 
-    if (delay) { q = q.delay(delay); }
+    if (delay) { q = q.delay(typeof delay === 'string' ? new Date(delay) : delay); }
     if (priority) { q = q.priority(priority); }
     if (attempts) {
       q = q.attempts(attempts).backoff({ type: 'exponential' });

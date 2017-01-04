@@ -18,6 +18,7 @@ export default async function twitterScheduledPostProcessor(job, done) {
     const scheduledPost = await TwitterScheduledPost.findById(scheduledPostId);
     await scheduledPost.update({
       url: `https://twitter.com/${data.user.screen_name}/status/${data.id_str}`,
+      posted: new Date(),
     });
     return done();
   } catch (err) {

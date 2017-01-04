@@ -17,6 +17,7 @@ export default async function linkedinScheduledPostProcessor(job, done) {
     const scheduledPost = await LinkedinScheduledPost.findById(scheduledPostId);
     await scheduledPost.update({
       url: body.updateUrl,
+      posted: new Date(),
     });
     return done();
   } catch (err) {

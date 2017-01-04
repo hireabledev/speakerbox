@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Datetime from 'react-datetime';
 import * as postActions from '../../actions/posts';
 
-export function PostDateButton({ post, onChange }) {
+export function PostDateButton({ disabled, post, onChange }) {
   return (
     <Datetime
       className="sb-post-action"
@@ -11,13 +11,13 @@ export function PostDateButton({ post, onChange }) {
       value={new Date(post.date)}
       onChange={(date) => onChange(post.id, post.type, date.toISOString())}
       isValidDate={m => m.isAfter(new Date())}
-    >
-      Stuff
-    </Datetime>
+      inputProps={{ disabled }}
+    />
   );
 }
 
 PostDateButton.propTypes = {
+  disabled: PropTypes.bool,
   post: PropTypes.shape({
     id: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,

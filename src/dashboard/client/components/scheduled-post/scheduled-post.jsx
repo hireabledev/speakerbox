@@ -1,16 +1,22 @@
 import React, { PropTypes } from 'react';
+import cn from 'classnames';
 import PostTypeLabel from '../post-type-label';
 import PostTextarea from '../post-textarea';
 import PostImg from '../post-img';
 
 export default function Post({ post, actions }) {
+  const disabled = !!post.url;
   return (
-    <article className="sb-post sb-scheduled-post">
+    <article
+      className={cn('sb-post sb-scheduled-post', {
+        'sb-scheduled-post-posted': post.posted,
+      })}
+    >
       <div className="sb-post-body">
         <div className="sb-post-container">
           <PostTypeLabel type={post.type} accountId={post.accountId} feedId={post.feedId} />
-          <PostTextarea post={post} />
-          <PostImg post={post} />
+          <PostTextarea post={post} disabled={disabled} />
+          {(!disabled || post.imgUrl) && <PostImg post={post} disabled={!!post.url} />}
         </div>
       </div>
       {actions}
@@ -26,6 +32,7 @@ Post.propTypes = {
     comment: PropTypes.string,
     message: PropTypes.string,
     date: PropTypes.date,
+    posted: PropTypes.date,
   }).isRequired,
   actions: PropTypes.node,
 };

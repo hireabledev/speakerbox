@@ -3,18 +3,20 @@ import { connect } from 'react-redux';
 import { ImagePicker } from 'lib/components/form/img-picker';
 import * as postActions from '../../actions/posts';
 
-export function PostImg({ post, onChange }) {
+export function PostImg({ disabled, post, onChange }) {
   return (
     <ImagePicker
       input={{
         value: post.imgUrl,
         onChange: value => onChange(post.id, post.type, value),
       }}
+      disabled={disabled}
     />
   );
 }
 
 PostImg.propTypes = {
+  disabled: PropTypes.bool,
   post: PropTypes.shape({
     id: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,

@@ -49,6 +49,10 @@ const LinkedinScheduledPost = sequelize.define('LinkedinScheduledPost', {
                           type: Sequelize.TEXT,
                           comment: 'Linkedin post URL. Set by worker.',
                         },
+  posted:               {
+                          type: Sequelize.DATE,
+                          comment: 'Linkedin posted date. Set by worker.',
+                        },
   jobId:                {
                           type: Sequelize.STRING,
                           allowNull: false,
