@@ -14,10 +14,30 @@ const FacebookPost = sequelize.define('FacebookPost', {
                           allowNull: false,
                           comment: 'Facebook post URL.',
                         },
-  body:                 {
+  message:              {
                           type: Sequelize.TEXT,
                           allowNull: false,
-                          comment: 'Facebook post body.',
+                          comment: 'Facebook post message.',
+                        },
+  link:                 {
+                          type: Sequelize.TEXT,
+                          comment: 'Link.',
+                        },
+  picture:              {
+                          type: Sequelize.TEXT,
+                          comment: 'Link picture URL.',
+                        },
+  name:                 {
+                          type: Sequelize.TEXT,
+                          comment: 'Link name.',
+                        },
+  caption:              {
+                          type: Sequelize.TEXT,
+                          comment: 'Link caption.',
+                        },
+  description:          {
+                          type: Sequelize.TEXT,
+                          comment: 'Link description.',
                         },
   date:                 {
                           type: Sequelize.TEXT,

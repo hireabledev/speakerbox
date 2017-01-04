@@ -3,6 +3,8 @@ import { Strategy as FacebookStrategy } from 'passport-facebook';
 import { Strategy as TwitterStrategy } from 'passport-twitter';
 import { Strategy as LinkedinStrategy } from 'passport-linkedin-oauth2';
 import { server as debug } from 'lib/debug';
+import { schedule as facebookSchedule } from 'worker/jobs/facebook-import-posts';
+import { schedule as twitterSchedule } from 'worker/jobs/twitter-import-posts';
 import {
   FB_KEY,
   FB_SECRET,
@@ -68,7 +70,15 @@ function getStrategy({ Strategy, strategyOptions, mapProfileToUser, mapProfileTo
               return req.app.models.Account.create({
                 ...accountData,
                 userId: user.id,
-              });
+              })
+                .then(newAccount => {
+                  if (newAccount.type === 'facebook') {
+                    return facebookSchedule(newAccount.id, true);
+                  } else if (newAccount.type === 'twitter') {
+                    return twitterSchedule(newAccount.id, true);
+                  }
+                  return newAccount;
+                });
             })
             .then(() => done(null, user))
         ))

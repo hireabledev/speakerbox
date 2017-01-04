@@ -14,10 +14,10 @@ const LinkedinPost = sequelize.define('LinkedinPost', {
                           allowNull: false,
                           comment: 'Linkedin post URL.',
                         },
-  body:                 {
+  message:              {
                           type: Sequelize.TEXT,
                           allowNull: false,
-                          comment: 'Linkedin post body.',
+                          comment: 'Linkedin post message.',
                         },
   date:                 {
                           type: Sequelize.TEXT,

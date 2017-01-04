@@ -1,6 +1,6 @@
 import { kue as debug } from 'lib/debug';
-import { Account, FacebookScheduledPost } from '../../lib/models';
-import facebookClient from '../../lib/facebook';
+import { Account, FacebookScheduledPost } from 'lib/models';
+import facebookClient from 'lib/facebook';
 
 export default async function facebookScheduledPostProcessor(job, done) {
   const { message, imgUrl, scheduledPostId, accountId } = job.data.data;

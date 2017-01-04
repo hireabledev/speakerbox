@@ -18,7 +18,6 @@ const FacebookScheduledPost = sequelize.define('FacebookScheduledPost', {
                         },
   message:              {
                           type: Sequelize.TEXT,
-                          allowNull: false,
                           comment: 'Message.',
                         },
   link:                 {

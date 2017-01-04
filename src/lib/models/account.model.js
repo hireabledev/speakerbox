@@ -31,6 +31,10 @@ const Account = sequelize.define('Account', {
                           allowNull: false,
                           comment: 'Account name.',
                         },
+  synced:               {
+                          type: Sequelize.DATE,
+                          comment: 'Last synced date.',
+                        },
   imgUrl:               {
                           type: Sequelize.STRING,
                           comment: 'Account image URL.',

@@ -1,6 +1,6 @@
 import { kue as debug } from 'lib/debug';
-import { Account, LinkedinScheduledPost } from '../../lib/models';
-import linkedinClient from '../../lib/linkedin';
+import { Account, LinkedinScheduledPost } from 'lib/models';
+import linkedinClient from 'lib/linkedin';
 
 export default async function linkedinScheduledPostProcessor(job, done) {
   const { message, imgUrl, scheduledPostId, accountId } = job.data.data;

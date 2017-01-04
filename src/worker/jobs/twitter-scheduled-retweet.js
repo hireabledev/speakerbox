@@ -1,6 +1,6 @@
 import { kue as debug } from 'lib/debug';
-import { Account, TwitterScheduledRetweet } from '../../lib/models';
-import twitterClient from '../../lib/twitter';
+import { Account, TwitterScheduledRetweet } from 'lib/models';
+import twitterClient from 'lib/twitter';
 
 export default async function twitterScheduledRetweetProcessor(job, done) {
   const { statusId, scheduledPostId, accountId } = job.data.data;

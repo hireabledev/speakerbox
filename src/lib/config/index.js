@@ -48,14 +48,19 @@ export const FB_SECRET = env('FB_SECRET', null, 'required');
 export const FB_CB_URL = env('FB_CB_URL', `${HOST}/sso/auth/facebook/callback`);
 
 export const FB_API_URL = env('FB_API_URL', 'https://graph.facebook.com/v2.2');
+export const FB_FETCH_DELAY = env('FB_FETCH_DELAY', 899995);
 
 export const TWITTER_KEY = env('TWITTER_KEY', null, 'required');
 export const TWITTER_SECRET = env('TWITTER_SECRET', null, 'required');
 export const TWITTER_CB_URL = env('TWITTER_CB_URL', `${HOST}/sso/auth/twitter/callback`);
 
+export const TWITTER_FETCH_DELAY = env('TWITTER_FETCH_DELAY', 899995);
+
 export const LINKEDIN_KEY = env('LINKEDIN_KEY', null, 'required');
 export const LINKEDIN_SECRET = env('LINKEDIN_SECRET', null, 'required');
 export const LINKEDIN_CB_URL = env('LINKEDIN_CB_URL', `${HOST}/sso/auth/linkedin/callback`);
+
+export const LINKEDIN_FETCH_DELAY = env('LINKEDIN_FETCH_DELAY', 899995);
 
 export const LINKEDIN_API_URL = env('LINKEDIN_API_URL', 'https://api.linkedin.com/v1');
 

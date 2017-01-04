@@ -33,7 +33,7 @@ export default function TwitterPost({ post }) {
 TwitterPost.propTypes = {
   post: PropTypes.shape({
     type: PropTypes.string,
-    body: PropTypes.string,
+    message: PropTypes.string,
     date: PropTypes.date,
     url: PropTypes.string,
     authorName: PropTypes.string,

@@ -2,6 +2,27 @@ import Twit from 'twit';
 import fetch from 'lib/fetch';
 import { TWITTER_KEY, TWITTER_SECRET } from './config';
 
+function mapPosts(post) {
+  return {
+    id: post.id_str,
+    url: `https://twitter.com/${post.user.screen_name}/${post.id}`,
+    message: post.text,
+    date: new Date(post.created_at),
+    authorName: post.user.name,
+    authorImgUrl: post.user.profile_image_url_https,
+    authorUrl: `https://twitter.com/${post.user.screen_name}`,
+    data: post,
+  };
+}
+
+async function getPosts(options) {
+  const res = await this.get('statuses/home_timeline', {
+    since_id: options.sinceId,
+  });
+  res.body = { posts: res.data.map(mapPosts) };
+  return res;
+}
+
 async function retweet(id) {
   return await this.post('statuses/retweet/:id', { id });
 }
@@ -28,6 +49,7 @@ export default function getTwitterClient({ token, tokenSecret }) {
 
   const client = new Twit(options);
 
+  client.getPosts = getPosts;
   client.retweet = retweet;
   client.update = update;
 

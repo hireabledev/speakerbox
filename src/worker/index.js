@@ -1,10 +1,10 @@
 import 'isomorphic-fetch';
 import globby from 'globby';
 import path from 'path';
-import { worker as debug } from '../lib/debug';
-import sentry from '../lib/sentry';
-import queue from '../lib/queue';
-import { sequelize } from '../lib/models';
+import { worker as debug } from 'lib/debug';
+import sentry from 'lib/sentry';
+import queue from 'lib/queue';
+import { sequelize } from 'lib/models';
 
 sentry.patchGlobal(() => {
   debug.error('FATAL ERROR');

@@ -1,6 +1,6 @@
 import { kue as debug } from 'lib/debug';
-import { Account, TwitterScheduledPost } from '../../lib/models';
-import twitterClient from '../../lib/twitter';
+import { Account, TwitterScheduledPost } from 'lib/models';
+import twitterClient from 'lib/twitter';
 
 export default async function twitterScheduledPostProcessor(job, done) {
   const { message, imgUrl, scheduledPostId, accountId } = job.data.data;

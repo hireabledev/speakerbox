@@ -1,6 +1,26 @@
 import superFetch from 'lib/fetch';
 import { FB_API_URL } from './config';
 
+const FEED_FIELDS = 'message,permalink_url,created_time,admin_creator,caption,description,link,from{name,link,picture},to{name,link,picture},object_id,parent_id,picture,place,shares,source,status_type,story';
+
+function mapPosts(post) {
+  return {
+    id: post.id,
+    url: post.permalink_url,
+    message: post.message,
+    link: post.link,
+    name: post.name,
+    picture: post.picture,
+    caption: post.caption,
+    description: post.description,
+    date: new Date(post.created_time),
+    authorName: post.from.name,
+    authorImgUrl: post.from.picture ? post.from.picture.data.url : null,
+    authorUrl: post.from.link,
+    data: post,
+  };
+}
+
 function fetch(url, options) {
   return superFetch(FB_API_URL + url, {
     ...options,
@@ -28,6 +48,16 @@ export default function getFacebookClient({ token }) {
           fields: 'link',
         }),
       });
+    },
+    async getPosts(id, options = {}) {
+      const res = await fetch(`/${id || 'me'}/feed`, {
+        query: getQuery({
+          fields: FEED_FIELDS,
+          since: options.since,
+        }),
+      });
+      res.body.posts = res.body.data.map(mapPosts);
+      return res;
     },
     /**
      * Publish a new status message.

@@ -27,7 +27,7 @@ export default function RSSPost({ post }) {
 RSSPost.propTypes = {
   post: PropTypes.shape({
     type: PropTypes.string,
-    body: PropTypes.string,
+    message: PropTypes.string,
     date: PropTypes.date,
     url: PropTypes.string,
     favorited: PropTypes.string,

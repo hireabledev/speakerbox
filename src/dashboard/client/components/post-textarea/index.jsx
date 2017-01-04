@@ -12,7 +12,7 @@ export function PostTextarea({ disabled, post, onChange }) {
   return (
     <textarea
       className="sb-post-textarea"
-      defaultValue={post.body || post.message || post.comment}
+      defaultValue={post.message || post.comment}
       onChange={e => debouncedOnChange(e.target.value)}
       disabled={disabled}
     />
