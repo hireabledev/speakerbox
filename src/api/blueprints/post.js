@@ -1,6 +1,9 @@
 import startCase from 'lodash/startCase';
 import omit from 'lodash/omit';
 import uuid from 'uuid';
+import { server as debug } from 'lib/debug';
+
+const JOB_DOESNT_EXIST_REGEXP = /job.+doesn'?t exist/;
 
 export function indexBlueprint(modelName) {
   return async function index(req, res, next) {
@@ -123,7 +126,15 @@ export function removeScheduledBlueprint(modelName) {
     const instance = await Model
       .scopeForUserAccounts(req.user, req.query.user)
       .findByIdOr404(req.params.id);
-    await req.app.removeJob(instance.jobId);
+    try {
+      await req.app.removeJob(instance.jobId);
+    } catch (err) {
+      if (JOB_DOESNT_EXIST_REGEXP.test(err.message)) {
+        debug.info(err.message);
+      } else {
+        throw err;
+      }
+    }
     return await instance.destroy();
   };
 }
