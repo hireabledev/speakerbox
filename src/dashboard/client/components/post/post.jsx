@@ -31,6 +31,9 @@ export default function Post({ post, actions }) {
             </PostMeta.Secondary>
           </PostMeta>
           <p className="sb-post-content">
+            {post.title && (
+              <h1 className="sb-post-title">{post.title}</h1>
+            )}
             {post.message || post.comment || post.description || post.caption}
           </p>
         </div>

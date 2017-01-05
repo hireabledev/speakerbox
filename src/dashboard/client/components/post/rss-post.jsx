@@ -8,7 +8,10 @@ import PostViewLink from '../post-view-link';
 export default function RSSPost({ post }) {
   return (
     <Post
-      post={post}
+      post={{
+        ...post,
+        message: (<span dangerouslySetInnerHTML={{ __html: post.message }} />),
+      }}
       actions={(
         <PostActions>
           <PostFavoriteButton post={post} />

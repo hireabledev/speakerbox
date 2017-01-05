@@ -1,5 +1,3 @@
-import { removeJob } from 'lib/queue';
-
 export async function index(req, res, next) {
   const Account = req.app.models.Account;
   const { limit, skip, where, attributes } = res.locals;
@@ -48,10 +46,5 @@ export async function remove(req) {
   const instance = await req.app.models.Account
     .scopeForUser(req.user, req.query.user)
     .findOneOr404({ where });
-
-  if (instance.syncJobId) {
-    await removeJob(instance.syncJobId);
-  }
-
   return await instance.destroy();
 }

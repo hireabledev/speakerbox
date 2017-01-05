@@ -12,9 +12,13 @@ const RSSPost = sequelize.define('RSSPost', {
                         },
   url:                  {
                           type: Sequelize.TEXT,
-                          comment: 'RSS post URL.',
+                          comment: 'RSS post link.',
                         },
-  body:                 {
+  title:                {
+                          type: Sequelize.TEXT,
+                          comment: 'RSS post title.',
+                        },
+  message:              {
                           type: Sequelize.TEXT,
                           allowNull: false,
                           comment: 'RSS post body.',
