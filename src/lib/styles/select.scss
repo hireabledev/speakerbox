@@ -21,6 +21,10 @@ $select-link-hover-color: $input-color-focus;
   line-height: $select-input-height - rem(1px);
 }
 
+.Select-account {
+  white-space: nowrap;
+}
+
 .Select-account-img {
   $size: $select-input-height - (2 * $select-padding-vertical);
   height: $size;
