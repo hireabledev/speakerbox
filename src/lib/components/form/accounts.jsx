@@ -4,6 +4,25 @@ import { Field } from 'redux-form';
 import { connect } from 'react-redux';
 import Select from 'react-select';
 import Option from 'react-select/lib/Option';
+import Icon from 'lib/components/icon';
+
+function AccountOption(props) {
+  return (
+    <span className="Select-account Select-account-selected">
+      <img className="Select-account-img" src={props.imgUrl} alt="Account" />
+      {' '}
+      {props.name}
+      {' – '}
+      <Icon name={props.type} label={props.type} />
+    </span>
+  );
+}
+
+AccountOption.propTypes = {
+  name: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  imgUrl: PropTypes.string,
+};
 
 function AccountPickerOption(props) {
   return (
@@ -12,6 +31,8 @@ function AccountPickerOption(props) {
         <img className="Select-account-img" src={props.option.imgUrl} alt="Account" />
         {' '}
         {props.children}
+        {' – '}
+        <Icon name={props.option.type} label={props.option.type} />
       </div>
     </Option>
   );
@@ -19,6 +40,7 @@ function AccountPickerOption(props) {
 
 AccountPickerOption.propTypes = {
   option: PropTypes.shape({
+    type: PropTypes.string.isRequired,
     imgUrl: PropTypes.string,
   }).isRequired,
   children: PropTypes.node.isRequired,
@@ -47,6 +69,7 @@ export function AccountPicker(props) {
         onBlur={() => input.onBlur(input.value)}
         onFocus={() => input.onFocus(input.value)}
         value={input.value}
+        valueRenderer={AccountOption}
       />
       {meta.error && (
         <div className="form-control-feedback">{meta.error}</div>

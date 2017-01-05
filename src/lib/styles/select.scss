@@ -22,7 +22,13 @@ $select-link-hover-color: $input-color-focus;
 }
 
 .Select-account-img {
-  $size: $select-input-height - 2 * $select-padding-vertical;
+  $size: $select-input-height - (2 * $select-padding-vertical);
+  height: $size;
+  width: $size;
+}
+
+.Select-account-selected .Select-account-img {
+  $size: ($select-input-height - (2 * $select-padding-vertical)) - rem(4px);
   height: $size;
   width: $size;
 }
