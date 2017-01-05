@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import concat from 'lodash/concat';
 import memoize from 'lodash/memoize';
+import orderBy from 'lodash/orderBy';
 import Link from 'react-router/lib/Link';
 import Fallback from 'lib/components/fallback';
 import Page from 'lib/components/page';
@@ -16,7 +17,7 @@ export class StreamPage extends Component {
   }
 
   componentDidMount() {
-    this.fetchPosts();
+    this.fetchPosts({ query: { sort: '-date' } });
   }
 
   componentDidUpdate(prevProps) {
@@ -26,11 +27,9 @@ export class StreamPage extends Component {
     }
   }
 
-  fetchPosts() {
-    const options = {};
-
+  fetchPosts(options = { query: {} }) {
     if (this.props.location.pathname === '/favorites') {
-      options.query = { favorited: true };
+      options.query = { favorited: true }; // eslint-disable-line no-param-reassign
     }
 
     this.props.fetchPosts(options);
@@ -50,11 +49,19 @@ export class StreamPage extends Component {
       moreRSSPosts,
     } = this.props;
 
-    const posts = concat(facebookPosts, twitterPosts, linkedinPosts, rssPosts);
+    const posts = orderBy(
+      concat(facebookPosts, twitterPosts, linkedinPosts, rssPosts),
+      'date',
+      'desc'
+    );
     const morePosts = moreFacebookPosts || moreTwitterPosts || moreLinkedinPosts || moreRSSPosts;
 
-    const filterByAccount = memoize((post) => (accountVisibility[post.accountId]));
-    const filterByFeed = memoize((post) => (feedVisibility[post.rssFeedId]));
+    const filterByAccountOrFeed = memoize((post) => {
+      if (post.type === 'rss') {
+        return feedVisibility[post.rssFeedId];
+      }
+      return accountVisibility[post.accountId];
+    });
 
     return (
       <Page
@@ -68,18 +75,9 @@ export class StreamPage extends Component {
         <Fallback if={posts.length === 0}>
           No posts. <Link to="/settings/accounts">Add an account?</Link>
         </Fallback>
-        {facebookPosts
-          .filter(filterByAccount)
-          .map(post => <Post key={post.id} post={post} type="facebook" />)}
-        {twitterPosts
-          .filter(filterByAccount)
-          .map(post => <Post key={post.id} post={post} type="twitter" />)}
-        {linkedinPosts
-          .filter(filterByAccount)
-          .map(post => <Post key={post.id} post={post} type="linkedin" />)}
-        {rssPosts
-          .filter(filterByFeed)
-          .map(post => <Post key={post.id} post={post} type="rss" />)}
+        {posts
+          .filter(filterByAccountOrFeed)
+          .map(post => <Post key={post.id} post={post} type={post.type} />)}
         {morePosts && (
           <button className="btn btn-primary" onClick={this.props.fetchPosts}>Load More</button>
         )}
