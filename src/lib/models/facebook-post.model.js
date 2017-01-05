@@ -16,7 +16,6 @@ const FacebookPost = sequelize.define('FacebookPost', {
                         },
   message:              {
                           type: Sequelize.TEXT,
-                          allowNull: false,
                           comment: 'Facebook post message.',
                         },
   link:                 {
