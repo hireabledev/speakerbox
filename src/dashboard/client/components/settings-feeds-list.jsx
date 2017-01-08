@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Link from 'react-router/lib/Link';
+import cn from 'classnames';
 import { PageTitle } from 'lib/components/page';
 import If from 'lib/components/if';
 import { removeFeed } from '../actions/feeds';
@@ -95,7 +96,20 @@ export class SettingsFeedsListPage extends Component {
                 ))}
               </tbody>
             </table>
-            <Link to="/settings/feeds/new" className="btn btn-primary">Add Feed</Link>
+            <Link
+              to="/settings/feeds/new"
+              className={cn('btn btn-primary', {
+                disabled: feeds.length >= 2,
+              })}
+            >
+              Add Feed
+            </Link>
+            {feeds.length >= 2 && (
+              <span className="text-muted">
+                {'\u00a0\u00a0\u00a0'}
+                You can only add 2 feeds.
+              </span>
+            )}
           </div>
         </If>
         <If truthy={this.state.feedFormVisible}>
