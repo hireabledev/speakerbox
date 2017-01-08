@@ -5,6 +5,7 @@ import { RECEIVE_ACCOUNTS, RECEIVE_RSS_FEEDS } from '../constants/action-types';
 import { getVisibilityFromQuery } from '../utils';
 
 const initialState = {
+  isQueryFiltered: false,
   accountVisibility: {},
   feedVisibility: {},
 };
@@ -23,7 +24,7 @@ export default function visibilityReducer(state = initialState, action) {
               if (typeof currentValue !== 'undefined') {
                 return currentValue;
               }
-              return Object.keys(state.accountVisibility).length === 0;
+              return !state.isQueryFiltered;
             },
           ),
         },
@@ -40,23 +41,26 @@ export default function visibilityReducer(state = initialState, action) {
               if (typeof currentValue !== 'undefined') {
                 return currentValue;
               }
-              return Object.keys(state.feedVisibility).length === 0;
+              return !state.isQueryFiltered;
             },
           ),
         },
       };
-    case LOCATION_CHANGE:
+    case LOCATION_CHANGE: {
+      const isQueryFiltered = !!(action.payload.query.accounts || action.payload.query.feeds);
       return {
         ...state,
+        isQueryFiltered,
         accountVisibility: {
-          ...mapValues(state.accountVisibility, () => (!action.payload.query.accounts)),
+          ...mapValues(state.accountVisibility, () => !isQueryFiltered),
           ...getVisibilityFromQuery(action.payload.query.accounts),
         },
         feedVisibility: {
-          ...mapValues(state.feedVisibility, () => (!action.payload.query.feeds)),
+          ...mapValues(state.feedVisibility, () => !isQueryFiltered),
           ...getVisibilityFromQuery(action.payload.query.feeds),
         },
       };
+    }
     default:
       return state;
   }

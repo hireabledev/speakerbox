@@ -13,7 +13,7 @@ function isChecked(accounts, feeds, type, id) {
 
 export function AccountList(props) {
   const accountsByType = groupBy(props.accounts, 'type');
-  const { feeds, accountVisibility, feedVisibility, showFeeds, pathname } = props;
+  const { feeds, isQueryFiltered, accountVisibility, feedVisibility, showFeeds, pathname } = props;
 
   if (showFeeds && feeds.length > 0) {
     accountsByType.feeds = feeds;
@@ -28,6 +28,7 @@ export function AccountList(props) {
         pathname={pathname}
         id={account.id}
         name={account.name || account.id}
+        isQueryFiltered={isQueryFiltered}
         accountVisibility={accountVisibility}
         feedVisibility={feedVisibility}
         checked={isChecked(accountVisibility, feedVisibility, type, account.id)}
@@ -48,6 +49,7 @@ export function AccountList(props) {
 
 AccountList.propTypes = {
   pathname: PropTypes.string.isRequired,
+  isQueryFiltered: PropTypes.bool.isRequired,
   accounts: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string, // eslint-disable-line react/no-unused-prop-types
   })).isRequired,
@@ -66,7 +68,7 @@ AccountList.defaultProps = {
 };
 
 function AccountListItem(props) {
-  const { type, pathname, id, accountVisibility, feedVisibility } = props;
+  const { type, pathname, id, isQueryFiltered, accountVisibility, feedVisibility } = props;
 
   let accounts = { ...accountVisibility };
   let feeds = { ...feedVisibility };
@@ -80,10 +82,11 @@ function AccountListItem(props) {
   accounts = Object.keys(pickBy(accounts, account => (account === true)));
   feeds = Object.keys(pickBy(feeds, feed => (feed === true)));
 
-  if (accounts.length === Object.keys(accountVisibility).length) {
+  const allAccountsEnabled = accounts.length === Object.keys(accountVisibility).length;
+  const allFeedsEnabled = feeds.length === Object.keys(feedVisibility).length;
+
+  if (allAccountsEnabled && allFeedsEnabled) {
     accounts = undefined;
-  }
-  if (feeds.length === Object.keys(feedVisibility).length) {
     feeds = undefined;
   }
 
@@ -113,11 +116,13 @@ AccountListItem.propTypes = {
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   checked: PropTypes.bool.isRequired,
+  isQueryFiltered: PropTypes.bool.isRequired,
   accountVisibility: PropTypes.object.isRequired,
   feedVisibility: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
+  isQueryFiltered: state.visibility.isQueryFiltered,
   accounts: state.accounts.accounts,
   accountVisibility: state.visibility.accountVisibility,
   feeds: state.rss.feeds,
