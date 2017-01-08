@@ -84,7 +84,7 @@ StreamPage.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  accountVisibility: state.accounts.accountVisibility,
+  accountVisibility: state.visibility.accountVisibility,
   facebookScheduledPosts: state.facebook.scheduledPosts,
   twitterScheduledPosts: state.twitter.scheduledPosts,
   linkedinScheduledPosts: state.linkedin.scheduledPosts,

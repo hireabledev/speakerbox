@@ -9,6 +9,7 @@ import linkedin from './linkedin';
 import twitter from './twitter';
 import rss from './rss';
 import user from './user';
+import visibility from './visibility';
 
 export default function configureReducer(reducers) {
   return combineReducers({
@@ -20,6 +21,7 @@ export default function configureReducer(reducers) {
     linkedin,
     rss,
     user,
+    visibility,
     form,
     notifs,
     ...reducers,

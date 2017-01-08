@@ -119,9 +119,9 @@ AccountListItem.propTypes = {
 
 const mapStateToProps = (state) => ({
   accounts: state.accounts.accounts,
-  accountVisibility: state.accounts.accountVisibility,
+  accountVisibility: state.visibility.accountVisibility,
   feeds: state.rss.feeds,
-  feedVisibility: state.rss.feedVisibility,
+  feedVisibility: state.visibility.feedVisibility,
 });
 
 export default connect(mapStateToProps)(AccountList);

@@ -1,7 +1,4 @@
-import keyBy from 'lodash/keyBy';
-import mapValues from 'lodash/mapValues';
 import omit from 'lodash/omit';
-import { LOCATION_CHANGE } from 'react-router-redux';
 import {
   RECEIVE_RSS_POSTS,
   RECEIVE_RSS_POST,
@@ -10,7 +7,6 @@ import {
   RECEIVE_RSS_FEED,
   RECEIVE_REMOVE_RSS_FEED,
 } from '../constants/action-types';
-import { getVisibilityFromQuery } from '../utils';
 import { mergeKeyById, replaceByIdOrAppend } from '../utils/reducers';
 
 const initialState = {
@@ -48,21 +44,8 @@ export default function rssFeedsReducer(state = initialState, action) {
       return {
         ...state,
         feeds: [...state.feeds, ...action.payload.feeds],
-        postsById: mergeKeyById(state.feedsById, action.payload.feeds),
+        feedsById: mergeKeyById(state.feedsById, action.payload.feeds),
         moreFeeds: action.payload.more,
-        feedVisibility: {
-          ...state.feedVisibility,
-          ...mapValues(
-            keyBy(action.payload.feeds, 'id'),
-            (value, key) => {
-              const currentValue = state.feedVisibility[key];
-              if (typeof currentValue !== 'undefined') {
-                return currentValue;
-              }
-              return Object.keys(state.feedVisibility).length === 0;
-            },
-          ),
-        },
       };
     case RECEIVE_RSS_FEED:
       return {
@@ -75,14 +58,6 @@ export default function rssFeedsReducer(state = initialState, action) {
         ...state,
         feeds: state.feeds.filter(feed => feed.id !== action.payload.id),
         feedsById: omit(state.feedsById, action.payload.id),
-      };
-    case LOCATION_CHANGE:
-      return {
-        ...state,
-        feedVisibility: {
-          ...mapValues(state.feedVisibility, () => (!action.payload.query.feeds)),
-          ...getVisibilityFromQuery(action.payload.query.feeds),
-        },
       };
     default:
       return state;
