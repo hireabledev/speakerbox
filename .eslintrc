@@ -38,6 +38,7 @@
     "import/no-named-as-default": 0,
     "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
     "no-shadow": ["error", { "allow": ["res"] }],
+    "react/no-multi-comp": 1,
     "react/forbid-prop-types": 0,
     "react/no-unused-prop-types": [1, { skipShapeProps: true }]
   }

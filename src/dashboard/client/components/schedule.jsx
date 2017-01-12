@@ -41,7 +41,7 @@ export class StreamPage extends Component {
         }
         sidebarSecondary={<div />}
       >
-        <PostForm />
+        <PostForm message={this.props.location.query.message} />
         <br />
         <Fallback if={posts.length === 0}>
           No scheduled posts. Add one?
@@ -66,6 +66,9 @@ export class StreamPage extends Component {
 StreamPage.propTypes = {
   location: PropTypes.shape({
     pathname: PropTypes.string,
+    query: PropTypes.shape({
+      message: PropTypes.string,
+    }).isRequired,
   }).isRequired,
   accountVisibility: PropTypes.object,
   facebookScheduledPosts: PropTypes.arrayOf(PropTypes.shape({

@@ -1,21 +1,28 @@
 import React, { PropTypes } from 'react';
 import cn from 'classnames';
+import Link from 'react-router/lib/Link';
 import Icon from 'lib/components/icon';
 
-export default function PostScheduleButton({ onClick }) {
+export default function PostScheduleButton({ post }) {
   return (
-    <button
+    <Link
+      to={{
+        pathname: '/schedule',
+        query: {
+          message: post.message,
+        },
+      }}
       className={cn('sb-post-action')}
-      onClick={onClick}
-      type="button"
     >
       <Icon name="pencil-square-o" label="pencil" />
       {' '}
       Post
-    </button>
+    </Link>
   );
 }
 
 PostScheduleButton.propTypes = {
-  onClick: PropTypes.func.isRequired,
+  post: PropTypes.shape({
+    message: PropTypes.string,
+  }).isRequired,
 };

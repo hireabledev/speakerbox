@@ -12,9 +12,7 @@ export default function LinkedInPost({ post }) {
       actions={(
         <PostActions>
           <PostFavoriteButton post={post} />
-          {/* <PostScheduleButton
-            onClick={(e) => console.log('TODO')}
-          /> */}
+          <PostScheduleButton post={post} />
           <PostActions.Secondary>
             <PostViewLink url={post.url} />
           </PostActions.Secondary>

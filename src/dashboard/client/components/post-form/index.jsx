@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import Link from 'react-router/lib/Link';
 import cn from 'classnames';
 import some from 'lodash/some';
 import throttle from 'lodash/throttle';
@@ -8,59 +9,71 @@ import * as postActions from '../../actions/posts';
 
 const FORM_NAME = 'scheduledPost';
 
-export function RawPostForm(props) {
-  const resetButton = (
-    <button
-      className="btn btn-secondary"
-      type="button"
-      onClick={() => props.reset()}
-    >
-      Cancel
-    </button>
-  );
-  return (
-    <form name={props.name} onSubmit={props.handleSubmit}>
-      <FormGroup name="message">
-        <Label srOnly>Message</Label>
-        <Textarea
-          placeholder="What do you want to share?"
-          onFocus={() => props.touch('message')}
-          onBlur={(e) => {
-            if (props.pristine && e.target.value === '') {
-              props.reset();
-            }
-          }}
-          required
-        />
-      </FormGroup>
-      <div className={cn({ 'hidden-xs-up': props.pristine && props.anyTouched === false })}>
-        <FormGroup name="date">
-          <Label srOnly>Date</Label>
-          <Datetime required afterToday />
+export class RawPostForm extends Component {
+  componentDidMount() {
+    if (this.props.initialValues.message) {
+      this.messageInput.focus();
+    }
+  }
+
+  render() {
+    const resetButton = (
+      <Link
+        to="/schedule"
+        className="btn btn-secondary"
+        onClick={() => this.props.reset()}
+      >
+        Cancel
+      </Link>
+    );
+    return (
+      <form name={this.props.name} onSubmit={this.props.handleSubmit}>
+        <FormGroup name="message">
+          <Label srOnly>Message</Label>
+          <Textarea
+            getRef={input => { this.messageInput = input; }}
+            placeholder="What do you want to share?"
+            onFocus={() => this.props.touch('message')}
+            onBlur={(e) => {
+              if (this.props.pristine && e.target.value === '') {
+                this.props.reset();
+              }
+            }}
+            required
+          />
         </FormGroup>
-        <FormGroup name="accounts">
-          <Label srOnly>Accounts</Label>
-          <AccountSelect required />
-        </FormGroup>
-        <FormGroup name="imgUrl">
-          <Label srOnly>Image</Label>
-          <ImagePicker required />
-        </FormGroup>
-        <button
-          className="btn btn-primary"
-          disabled={props.pristine || props.submitting}
-          type="submit"
-        >
-          Save
-        </button>
-        {' '}
-        {props.cancelButton || resetButton}
-      </div>
-    </form>
-  );
+        <div className={cn({ 'hidden-xs-up': this.props.pristine && this.props.anyTouched === false })}>
+          <FormGroup name="date">
+            <Label srOnly>Date</Label>
+            <Datetime required afterToday />
+          </FormGroup>
+          <FormGroup name="accounts">
+            <Label srOnly>Accounts</Label>
+            <AccountSelect required />
+          </FormGroup>
+          <FormGroup name="imgUrl">
+            <Label srOnly>Image</Label>
+            <ImagePicker required />
+          </FormGroup>
+          <button
+            className="btn btn-primary"
+            disabled={this.props.pristine || this.props.submitting}
+            type="submit"
+          >
+            Save
+          </button>
+          {' '}
+          {this.props.cancelButton || resetButton}
+        </div>
+      </form>
+    );
+  }
 }
 
 RawPostForm.propTypes = {
+  initialValues: PropTypes.shape({
+    message: PropTypes.string,
+  }),
   name: PropTypes.string,
   handleSubmit: PropTypes.func,
   reset: PropTypes.func,
@@ -105,7 +118,7 @@ export class PostForm extends Component {
             form.reset();
             return results;
           }}
-          initialValues={{ accounts: this.props.accounts }}
+          initialValues={{ message: this.props.message, accounts: this.props.accounts }}
           validate={validate}
         />
       </div>
@@ -118,6 +131,7 @@ PostForm.propTypes = {
   cancelButton: PropTypes.node,
   addScheduledPost: PropTypes.func.isRequired,
   accounts: PropTypes.arrayOf(PropTypes.object),
+  message: PropTypes.string,
 };
 
 const mapStateToProps = (state) => ({

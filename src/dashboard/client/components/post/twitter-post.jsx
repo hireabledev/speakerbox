@@ -17,10 +17,8 @@ export default function TwitterPost({ post }) {
             <Icon name="retweet" label="retweet" />
             {' '}
             Retweet
-          </button>
-          <PostScheduleButton
-            onClick={(e) => console.log('TODO')}
-          /> */}
+          </button> */}
+          <PostScheduleButton post={post} />
           <PostActions.Secondary>
             <PostViewLink url={post.url} />
           </PostActions.Secondary>

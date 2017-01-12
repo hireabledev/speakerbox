@@ -9,11 +9,14 @@ function TextareaInner(props) {
     meta,
     outerOnFocus,
     outerOnBlur,
+    getRef,
     ...inputProps
   } = props;
+  const ref = getRef ? { ref: getRef } : {};
   return (
     <div className="form-control-container">
       <textarea
+        {...ref}
         {...inputProps}
         className={cn(props.className, {
           'form-control-danger': meta.invalid,
@@ -46,6 +49,7 @@ TextareaInner.propTypes = {
   className: PropTypes.string,
   outerOnFocus: PropTypes.func,
   outerOnBlur: PropTypes.func,
+  getRef: PropTypes.func,
 };
 
 TextareaInner.defaultProps = {
