@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import concat from 'lodash/concat';
 import memoize from 'lodash/memoize';
+import InfiniteScroll from 'react-infinite-scroller';
 import Fallback from 'lib/components/fallback';
 import Page from 'lib/components/page';
 import AccountList from './account-list';
@@ -46,18 +47,21 @@ export class StreamPage extends Component {
         <Fallback if={posts.length === 0}>
           No scheduled posts. Add one?
         </Fallback>
-        {facebookScheduledPosts
-          .filter(filterByAccount)
-          .map(post => <ScheduledPost key={post.id} post={post} type="facebook" />)}
-        {twitterScheduledPosts
-          .filter(filterByAccount)
-          .map(post => <ScheduledPost key={post.id} post={post} type="twitter" />)}
-        {linkedinScheduledPosts
-          .filter(filterByAccount)
-          .map(post => <ScheduledPost key={post.id} post={post} type="linkedin" />)}
-        {moreScheduledPosts && (
-          <button onClick={this.props.fetchScheduledPosts}>Load More</button>
-        )}
+        <InfiniteScroll
+          pageStart={0}
+          loadMore={this.props.fetchScheduledPosts}
+          hasMore={moreScheduledPosts}
+        >
+          {facebookScheduledPosts
+            .filter(filterByAccount)
+            .map(post => <ScheduledPost key={post.id} post={post} type="facebook" />)}
+          {twitterScheduledPosts
+            .filter(filterByAccount)
+            .map(post => <ScheduledPost key={post.id} post={post} type="twitter" />)}
+          {linkedinScheduledPosts
+            .filter(filterByAccount)
+            .map(post => <ScheduledPost key={post.id} post={post} type="linkedin" />)}
+        </InfiniteScroll>
       </Page>
     );
   }

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import concat from 'lodash/concat';
 import memoize from 'lodash/memoize';
 import orderBy from 'lodash/orderBy';
+import InfiniteScroll from 'react-infinite-scroller';
 import Link from 'react-router/lib/Link';
 import Fallback from 'lib/components/fallback';
 import Page from 'lib/components/page';
@@ -75,12 +76,15 @@ export class StreamPage extends Component {
         <Fallback if={posts.length === 0}>
           No posts. <Link to="/settings/accounts">Add an account?</Link>
         </Fallback>
-        {posts
-          .filter(filterByAccountOrFeed)
-          .map(post => <Post key={post.id} post={post} type={post.type} />)}
-        {morePosts && (
-          <button className="btn btn-primary" onClick={this.props.fetchPosts}>Load More</button>
-        )}
+        <InfiniteScroll
+          pageStart={0}
+          loadMore={this.props.fetchPosts}
+          hasMore={morePosts}
+        >
+          {posts
+            .filter(filterByAccountOrFeed)
+            .map(post => <Post key={post.id} post={post} type={post.type} />)}
+        </InfiniteScroll>
       </Page>
     );
   }
