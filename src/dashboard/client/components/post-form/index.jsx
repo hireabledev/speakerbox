@@ -4,6 +4,7 @@ import Link from 'react-router/lib/Link';
 import cn from 'classnames';
 import some from 'lodash/some';
 import throttle from 'lodash/throttle';
+import { getTweetLength } from 'twitter-text';
 import Form, { FormGroup, Label, Textarea, Datetime, AccountSelect, ImagePicker } from 'lib/components/form';
 import * as postActions from '../../actions/posts';
 
@@ -87,11 +88,11 @@ RawPostForm.propTypes = {
 const validate = throttle((values) => {
   const errors = {};
   const message = values.message;
-  if (message && message.length > 140 && some(values.accounts, { type: 'twitter' })) {
+  if (message && some(values.accounts, { type: 'twitter' }) && getTweetLength(message) > 140) {
     errors.message = `Message too long for Twitter account. ${message.length}/140`;
   }
   return errors;
-}, 500);
+}, 800);
 
 export class PostForm extends Component {
   constructor(props) {
