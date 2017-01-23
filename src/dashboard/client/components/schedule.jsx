@@ -48,6 +48,7 @@ export class StreamPage extends Component {
           No scheduled posts. Add one?
         </Fallback>
         <InfiniteScroll
+          initialLoad={false}
           pageStart={0}
           loadMore={this.props.fetchScheduledPosts}
           hasMore={moreScheduledPosts}

@@ -18,7 +18,7 @@ export class StreamPage extends Component {
   }
 
   componentDidMount() {
-    this.fetchPosts({ query: { sort: '-date' } });
+    this.fetchPosts();
   }
 
   componentDidUpdate(prevProps) {
@@ -28,9 +28,9 @@ export class StreamPage extends Component {
     }
   }
 
-  fetchPosts(options = { query: {} }) {
+  fetchPosts(options = { query: { sort: '-date' } }) {
     if (this.props.location.pathname === '/favorites') {
-      options.query = { favorited: true }; // eslint-disable-line no-param-reassign
+      options.query.favorited = true; // eslint-disable-line no-param-reassign
     }
 
     this.props.fetchPosts(options);
@@ -77,8 +77,9 @@ export class StreamPage extends Component {
           No posts. <Link to="/settings/accounts">Add an account?</Link>
         </Fallback>
         <InfiniteScroll
+          initialLoad={false}
           pageStart={0}
-          loadMore={this.props.fetchPosts}
+          loadMore={() => this.fetchPosts()}
           hasMore={morePosts}
         >
           {posts
