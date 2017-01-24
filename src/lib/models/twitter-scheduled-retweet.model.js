@@ -10,11 +10,6 @@ const TwitterScheduledRetweet = sequelize.define('TwitterScheduledRetweet', {
                           primaryKey: true,
                           comment: 'Twitter scheduled retweet ID.',
                         },
-  statusId:             {
-                          type: Sequelize.STRING,
-                          allowNull: false,
-                          comment: 'Tweet ID.',
-                        },
   date:                 {
                           type: Sequelize.DATE,
                           allowNull: false,
@@ -35,6 +30,9 @@ const TwitterScheduledRetweet = sequelize.define('TwitterScheduledRetweet', {
                           comment: 'Kue job ID.',
                         },
 }, {
+  getterMethods: {
+    type() { return 'twitter'; },
+  },
   name: {
     singular: 'twitterScheduledRetweet',
     plural: 'twitterScheduledRetweets',

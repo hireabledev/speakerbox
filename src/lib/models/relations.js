@@ -34,6 +34,14 @@ TwitterScheduledRetweet.belongsTo(Account);
 Account.hasMany(TwitterScheduledPost, { onUpdate: 'cascade', onDelete: 'cascade' });
 TwitterScheduledPost.belongsTo(Account);
 
+TwitterPost.hasOne(TwitterScheduledRetweet, {
+  as: 'scheduledRetweet',
+  foreignKey: 'twitterPostId',
+  onUpdate: 'cascade',
+  onDelete: 'cascade',
+});
+TwitterScheduledRetweet.belongsTo(TwitterPost);
+
 
 // Linkedin
 Account.hasMany(LinkedinPost, { onUpdate: 'cascade', onDelete: 'cascade' });

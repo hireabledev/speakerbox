@@ -11,6 +11,7 @@ function mapPosts(post) {
     authorName: post.user.name,
     authorImgUrl: post.user.profile_image_url_https,
     authorUrl: `https://twitter.com/${post.user.screen_name}`,
+    retweeted: post.retweeted,
     data: post,
   };
 }

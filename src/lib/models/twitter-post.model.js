@@ -39,6 +39,11 @@ const TwitterPost = sequelize.define('TwitterPost', {
                           allowNull: false,
                           comment: 'Twitter post author URL.',
                         },
+  retweeted:            {
+                          type: Sequelize.BOOLEAN,
+                          allowNull: false,
+                          comment: 'Twitter post retweeted status.',
+                        },
   data:                 {
                           type: Sequelize.JSONB,
                           allowNull: false,
