@@ -101,7 +101,7 @@
     "redux-thunk": "^2.1.0",
     "sanitize-html": "^1.13.0",
     "sendgrid": "^4.4.0",
-    "sequelize": "^3.24.3",
+    "sequelize": "^3.29.0",
     "twit": "^2.2.5",
     "twitter-text": "^1.14.3",
     "uuid": "^2.0.3",
