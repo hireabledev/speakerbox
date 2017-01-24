@@ -186,6 +186,107 @@ export function scheduledPostActions(type) {
   };
 }
 
+export function scheduledRetweetActions() {
+  const receiveScheduledRetweets = ({ retweets, more }) => ({
+    type: actions.RECEIVE_TWITTER_SCHEDULED_RETWEETS,
+    payload: { retweets, more },
+  });
+
+  const receiveScheduledRetweet = (retweet) => ({
+    type: actions.RECEIVE_TWITTER_SCHEDULED_RETWEET,
+    payload: retweet,
+  });
+
+  const receiveRemoveScheduledRetweet = (id) => ({
+    type: actions.RECEIVE_REMOVE_TWITTER_SCHEDULED_RETWEET,
+    payload: { id },
+  });
+
+  const fetchScheduledRetweets = () => (
+    async (dispatch, getState) => {
+      const state = getState().twitter;
+      try {
+        const res = await dispatch(fetch(`/api/twitter/scheduled-retweets?skip=${state.scheduledRetweets.length}`));
+        const { data, more } = res.body;
+        dispatch(receiveScheduledRetweets({ retweets: data, more }));
+        return res.body;
+      } catch (err) {
+        dispatch(notifyError(err));
+        throw err;
+      }
+    }
+  );
+
+  const fetchScheduledRetweet = (id) => (
+    async dispatch => {
+      try {
+        const res = await dispatch(fetch(`/api/twitter/scheduled-retweets/${id}`));
+        const retweet = res.body;
+        dispatch(receiveScheduledRetweet(retweet));
+        return retweet;
+      } catch (err) {
+        dispatch(notifyError(err));
+        throw err;
+      }
+    }
+  );
+
+  const createScheduledRetweet = (body) => (
+    async dispatch => {
+      try {
+        const res = await dispatch(fetch('/api/twitter/scheduled-retweets', { method: 'POST', body }));
+        const retweet = res.body;
+        dispatch(receiveScheduledRetweet(retweet));
+        dispatch(notifySuccess('Scheduled Retweet'));
+        return retweet;
+      } catch (err) {
+        dispatch(notifyError(err));
+        throw err;
+      }
+    }
+  );
+
+  const updateScheduledRetweet = (id, body) => (
+    async dispatch => {
+      try {
+        const res = await dispatch(fetch(`/api/twitter/scheduled-retweets/${id}`, { method: 'PATCH', body }));
+        const retweet = res.body;
+        dispatch(receiveScheduledRetweet(retweet));
+        dispatch(notifySuccess('Updated Retweet'));
+        return retweet;
+      } catch (err) {
+        dispatch(notifyError(err));
+        throw err;
+      }
+    }
+  );
+
+  const removeScheduledRetweet = (id) => (
+    async dispatch => {
+      try {
+        await dispatch(fetch(`/api/twitter/scheduled-retweets/${id}`, { method: 'DELETE' }));
+        dispatch(receiveRemoveScheduledRetweet(id));
+        dispatch(notifySuccess('Removed Retweet'));
+        return { id };
+      } catch (err) {
+        dispatch(notifyError(err));
+        throw err;
+      }
+    }
+  );
+
+  return {
+    receiveScheduledRetweets,
+    receiveScheduledRetweet,
+    receiveRemoveScheduledRetweet,
+    fetchScheduledRetweets,
+    fetchScheduledRetweet,
+    createScheduledRetweet,
+    updateScheduledRetweet,
+    removeScheduledRetweet,
+  };
+}
+
 export const facebook = {
   ...postActions('facebook'),
   ...scheduledPostActions('facebook'),
@@ -194,6 +295,7 @@ export const facebook = {
 export const twitter = {
   ...postActions('twitter'),
   ...scheduledPostActions('twitter'),
+  ...scheduledRetweetActions(),
 };
 
 export const linkedin = {
@@ -219,6 +321,7 @@ export function fetchAllScheduledPosts() {
     await Promise.resolve([
       facebook.fetchScheduledPosts()(dispatch, getState),
       twitter.fetchScheduledPosts()(dispatch, getState),
+      twitter.fetchScheduledRetweets()(dispatch, getState),
       linkedin.fetchScheduledPosts()(dispatch, getState),
     ])
   );
