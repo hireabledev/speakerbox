@@ -1,24 +1,27 @@
 import startCase from 'lodash/startCase';
+import identity from 'lodash/identity';
 import omit from 'lodash/omit';
 import uuid from 'uuid';
 import { server as debug } from 'lib/debug';
 
 const JOB_DOESNT_EXIST_REGEXP = /job.+doesn'?t exist/;
 
-export function indexBlueprint(modelName) {
+export function indexBlueprint(modelName, options = {}) {
+  const mapQuery = options.mapQuery || identity;
+
   return async function index(req, res, next) {
     const Model = req.app.models[modelName];
     const { limit, skip, where, attributes } = res.locals;
 
     const instances = await Model
       .scopeForUserAccounts(req.user, req.query.user)
-      .findAll({
+      .findAll(mapQuery({
         limit: limit + 1,
         offset: skip,
         where,
         attributes: Model.getValidAttributes(attributes),
         order: [['date', 'DESC']],
-      });
+      }, req));
 
     return {
       data: instances.slice(0, limit),
@@ -27,12 +30,13 @@ export function indexBlueprint(modelName) {
   };
 }
 
-export function showBlueprint(modelName) {
+export function showBlueprint(modelName, options = {}) {
+  const mapQuery = options.mapQuery || identity;
   return async function show(req) {
     const Model = req.app.models[modelName];
     return await Model
       .scopeForUserAccounts(req.user, req.query.user)
-      .findByIdOr404(req.params.id);
+      .findOneOr404(mapQuery({ where: { id: req.params.id } }, req));
   };
 }
 

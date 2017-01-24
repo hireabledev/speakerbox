@@ -5,7 +5,9 @@ import {
   removeBlueprint,
 } from '../../blueprints/post';
 
-export const index = indexBlueprint('FacebookPost');
-export const show = showBlueprint('FacebookPost');
-export const update = updateBlueprint('FacebookPost');
-export const remove = removeBlueprint('FacebookPost');
+const MODEL_NAME = 'FacebookPost';
+
+export const index = indexBlueprint(MODEL_NAME);
+export const show = showBlueprint(MODEL_NAME);
+export const update = updateBlueprint(MODEL_NAME);
+export const remove = removeBlueprint(MODEL_NAME);
