@@ -8,6 +8,7 @@
   }
   .sb-img-picker {
     float: left;
+    margin-top: $card-spacer-y;
 
     &.active {
       border: 1px solid $border;

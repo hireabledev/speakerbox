@@ -26,7 +26,12 @@ PostRemoveButton.propTypes = {
 };
 
 const mapDispatchToPros = dispatch => ({
-  onClick: (id, type) => dispatch(postActions[type].removeScheduledPost(id)),
+  onClick: (id, type) => {
+    if (type === 'retweet') {
+      return dispatch(postActions.twitter.removeScheduledRetweet(id));
+    }
+    return dispatch(postActions[type].removeScheduledPost(id));
+  },
 });
 
 export default connect(null, mapDispatchToPros)(PostRemoveButton);

@@ -31,7 +31,7 @@ const TwitterScheduledRetweet = sequelize.define('TwitterScheduledRetweet', {
                         },
 }, {
   getterMethods: {
-    type() { return 'twitter'; },
+    type() { return 'retweet'; },
   },
   name: {
     singular: 'twitterScheduledRetweet',

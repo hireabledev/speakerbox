@@ -236,6 +236,8 @@ export function scheduledRetweetActions() {
       try {
         const res = await dispatch(fetch('/api/twitter/scheduled-retweets', { method: 'POST', body }));
         const retweet = res.body;
+        const post = await fetch(`/api/twitter/posts/${retweet.twitterPostId}`);
+        retweet.twitterPost = post;
         dispatch(receiveScheduledRetweet(retweet));
         dispatch(notifySuccess('Scheduled Retweet'));
         return retweet;
@@ -251,6 +253,8 @@ export function scheduledRetweetActions() {
       try {
         const res = await dispatch(fetch(`/api/twitter/scheduled-retweets/${id}`, { method: 'PATCH', body }));
         const retweet = res.body;
+        const post = await fetch(`/api/twitter/posts/${retweet.twitterPostId}`);
+        retweet.twitterPost = post;
         dispatch(receiveScheduledRetweet(retweet));
         dispatch(notifySuccess('Updated Retweet'));
         return retweet;
