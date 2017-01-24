@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import concat from 'lodash/concat';
 import memoize from 'lodash/memoize';
+import orderBy from 'lodash/orderBy';
 import InfiniteScroll from 'react-infinite-scroller';
 import Fallback from 'lib/components/fallback';
 import Page from 'lib/components/page';
@@ -22,14 +23,25 @@ export class StreamPage extends Component {
       moreFacebookScheduledPosts,
       twitterScheduledPosts = [],
       moreTwitterScheduledPosts,
+      twitterScheduledRetweets = [],
+      moreTwitterScheduledRetweets,
       linkedinScheduledPosts = [],
       moreLinkedinScheduledPosts,
     } = this.props;
 
-    const posts = concat(facebookScheduledPosts, twitterScheduledPosts, linkedinScheduledPosts);
+    const posts = orderBy(
+      concat(
+        facebookScheduledPosts,
+        twitterScheduledPosts,
+        twitterScheduledRetweets,
+        linkedinScheduledPosts
+      ),
+      'date',
+      'desc'
+    );
 
     const moreScheduledPosts = moreFacebookScheduledPosts || moreTwitterScheduledPosts
-      || moreLinkedinScheduledPosts;
+      || moreTwitterScheduledRetweets || moreLinkedinScheduledPosts;
 
     const filterByAccount = memoize((post) => (accountVisibility[post.accountId]));
 
@@ -53,15 +65,9 @@ export class StreamPage extends Component {
           loadMore={this.props.fetchScheduledPosts}
           hasMore={moreScheduledPosts}
         >
-          {facebookScheduledPosts
+          {posts
             .filter(filterByAccount)
-            .map(post => <ScheduledPost key={post.id} post={post} type="facebook" />)}
-          {twitterScheduledPosts
-            .filter(filterByAccount)
-            .map(post => <ScheduledPost key={post.id} post={post} type="twitter" />)}
-          {linkedinScheduledPosts
-            .filter(filterByAccount)
-            .map(post => <ScheduledPost key={post.id} post={post} type="linkedin" />)}
+            .map(post => <ScheduledPost key={post.id} post={post} type={post.type} />)}
         </InfiniteScroll>
       </Page>
     );
@@ -84,6 +90,10 @@ StreamPage.propTypes = {
     id: PropTypes.string, // eslint-disable-line react/no-unused-prop-types
   })).isRequired,
   moreTwitterScheduledPosts: PropTypes.bool.isRequired,
+  twitterScheduledRetweets: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string, // eslint-disable-line react/no-unused-prop-types
+  })).isRequired,
+  moreTwitterScheduledRetweets: PropTypes.bool.isRequired,
   linkedinScheduledPosts: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string, // eslint-disable-line react/no-unused-prop-types
   })).isRequired,
@@ -95,9 +105,11 @@ const mapStateToProps = (state) => ({
   accountVisibility: state.visibility.accountVisibility,
   facebookScheduledPosts: state.facebook.scheduledPosts,
   twitterScheduledPosts: state.twitter.scheduledPosts,
+  twitterScheduledRetweets: state.twitter.scheduledRetweets,
   linkedinScheduledPosts: state.linkedin.scheduledPosts,
   moreFacebookScheduledPosts: state.facebook.moreScheduledPosts,
   moreTwitterScheduledPosts: state.twitter.moreScheduledPosts,
+  moreTwitterScheduledRetweets: state.twitter.moreScheduledRetweets,
   moreLinkedinScheduledPosts: state.linkedin.moreScheduledPosts,
 });
 
