@@ -12,16 +12,17 @@ export function indexBlueprint(modelName, options = {}) {
   return async function index(req, res, next) {
     const Model = req.app.models[modelName];
     const { limit, skip, where, attributes } = res.locals;
+    const query = {
+      limit: limit + 1,
+      offset: skip,
+      where,
+      attributes: Model.getValidAttributes(attributes),
+      order: [['date', 'DESC']],
+    };
 
     const instances = await Model
       .scopeForUserAccounts(req.user, req.query.user)
-      .findAll(mapQuery({
-        limit: limit + 1,
-        offset: skip,
-        where,
-        attributes: Model.getValidAttributes(attributes),
-        order: [['date', 'DESC']],
-      }, req));
+      .findAll(mapQuery(query, req));
 
     return {
       data: instances.slice(0, limit),
@@ -34,9 +35,10 @@ export function showBlueprint(modelName, options = {}) {
   const mapQuery = options.mapQuery || identity;
   return async function show(req) {
     const Model = req.app.models[modelName];
+    const query = { where: { id: req.params.id } };
     return await Model
       .scopeForUserAccounts(req.user, req.query.user)
-      .findOneOr404(mapQuery({ where: { id: req.params.id } }, req));
+      .findOneOr404(mapQuery(query, req));
   };
 }
 
