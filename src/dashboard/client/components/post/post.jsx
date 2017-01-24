@@ -47,7 +47,10 @@ Post.propTypes = {
   post: PropTypes.shape({
     type: PropTypes.oneOf(['facebook', 'twitter', 'linkedin', 'rss']).isRequired,
     comment: PropTypes.string,
-    message: PropTypes.string,
+    message: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.node,
+    ]),
     date: PropTypes.date,
     authorName: PropTypes.string,
     authorUrl: PropTypes.string,
