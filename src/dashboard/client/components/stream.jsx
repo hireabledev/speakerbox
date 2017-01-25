@@ -33,7 +33,7 @@ export class StreamPage extends Component {
       options.query.favorited = true; // eslint-disable-line no-param-reassign
     }
 
-    this.props.fetchPosts(options);
+    return this.props.fetchPosts(options);
   }
 
   render() {

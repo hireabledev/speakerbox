@@ -34,7 +34,11 @@ export function postActions(type) {
           },
         }));
         const { data, more } = res.body;
-        dispatch(receivePosts({ posts: data, more }));
+        const posts = data.map(post => {
+          post.date = new Date(post.date); // eslint-disable-line no-param-reassign
+          return post;
+        });
+        dispatch(receivePosts({ posts, more }));
         return res.body;
       } catch (err) {
         dispatch(notifyError(err));
@@ -48,6 +52,7 @@ export function postActions(type) {
       try {
         const res = await dispatch(fetch(`/api/${type}/posts/${id}`));
         const post = res.body;
+        post.date = new Date(post.date);
         dispatch(receivePost(post));
         return post;
       } catch (err) {
@@ -62,6 +67,7 @@ export function postActions(type) {
       try {
         const res = await dispatch(fetch(`/api/${type}/posts/${id}`, { method: 'PATCH', body }));
         const post = res.body;
+        post.date = new Date(post.date);
         dispatch(receivePost(post));
         dispatch(notifySuccess('Updated Post'));
         return post;
@@ -120,7 +126,11 @@ export function scheduledPostActions(type) {
           },
         }));
         const { data, more } = res.body;
-        dispatch(receiveScheduledPosts({ posts: data, more }));
+        const posts = data.map(post => {
+          post.date = new Date(post.date); // eslint-disable-line no-param-reassign
+          return post;
+        });
+        dispatch(receiveScheduledPosts({ posts, more }));
         return res.body;
       } catch (err) {
         dispatch(notifyError(err));
@@ -134,6 +144,7 @@ export function scheduledPostActions(type) {
       try {
         const res = await dispatch(fetch(`/api/${type}/scheduled-posts/${id}`));
         const post = res.body;
+        post.date = new Date(post.date);
         dispatch(receiveScheduledPost(post));
         return post;
       } catch (err) {
@@ -148,6 +159,7 @@ export function scheduledPostActions(type) {
       try {
         const res = await dispatch(fetch(`/api/${type}/scheduled-posts`, { method: 'POST', body }));
         const post = res.body;
+        post.date = new Date(post.date);
         dispatch(receiveScheduledPost(post));
         dispatch(notifySuccess('Scheduled Post'));
         return post;
@@ -163,6 +175,7 @@ export function scheduledPostActions(type) {
       try {
         const res = await dispatch(fetch(`/api/${type}/scheduled-posts/${id}`, { method: 'PATCH', body }));
         const post = res.body;
+        post.date = new Date(post.date);
         dispatch(receiveScheduledPost(post));
         dispatch(notifySuccess('Updated Post'));
         return post;
@@ -231,7 +244,11 @@ export function scheduledRetweetActions() {
           },
         }));
         const { data, more } = res.body;
-        dispatch(receiveScheduledRetweets({ retweets: data, more }));
+        const retweets = data.map(retweet => {
+          retweet.date = new Date(retweet.date); // eslint-disable-line no-param-reassign
+          return retweet;
+        });
+        dispatch(receiveScheduledRetweets({ retweets, more }));
         return res.body;
       } catch (err) {
         dispatch(notifyError(err));
@@ -245,6 +262,7 @@ export function scheduledRetweetActions() {
       try {
         const res = await dispatch(fetch(`/api/twitter/scheduled-retweets/${id}`));
         const retweet = res.body;
+        retweet.date = new Date(retweet.date);
         dispatch(receiveScheduledRetweet(retweet));
         return retweet;
       } catch (err) {
@@ -262,7 +280,9 @@ export function scheduledRetweetActions() {
         const postRes = await fetch(`/api/twitter/posts/${retweet.twitterPostId}`); // TODO: handle in reducer?
         const post = postRes.body;
         post.scheduledRetweet = retweet;
+        post.date = new Date(post.date);
         retweet.twitterPost = post;
+        retweet.date = new Date(retweet.date);
         dispatch(receiveScheduledRetweet(retweet));
         dispatch(twitter.receivePost(post));
         dispatch(notifySuccess('Scheduled Retweet'));
@@ -279,8 +299,12 @@ export function scheduledRetweetActions() {
       try {
         const res = await dispatch(fetch(`/api/twitter/scheduled-retweets/${id}`, { method: 'PATCH', body }));
         const retweet = res.body;
-        const post = await fetch(`/api/twitter/posts/${retweet.twitterPostId}`);
+        const postRes = await fetch(`/api/twitter/posts/${retweet.twitterPostId}`);
+        const post = postRes.body;
+        post.scheduledRetweet = retweet;
+        post.date = new Date(post.date);
         retweet.twitterPost = post;
+        retweet.date = new Date(retweet.date);
         dispatch(receiveScheduledRetweet(retweet));
         dispatch(notifySuccess('Updated Retweet'));
         return retweet;

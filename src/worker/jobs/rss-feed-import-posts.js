@@ -43,6 +43,7 @@ export default async function rssFeedImportPostsProcessor(job, done) {
     // save to database
     const posts = await RSSPost.bulkCreate(items.map(post => ({
       ...post,
+      date: new Date(post.date),
       message: sanitizeHtml(post.description),
       url: post.link,
       rssFeedId,

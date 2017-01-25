@@ -35,7 +35,7 @@ export class StreamPage extends Component {
     if (id) {
       options.query.id = id; // eslint-disable-line no-param-reassign
     }
-    this.props.fetchScheduledPosts(options);
+    return this.props.fetchScheduledPosts(options);
   }
 
 
@@ -92,7 +92,7 @@ export class StreamPage extends Component {
         <InfiniteScroll
           initialLoad={false}
           pageStart={0}
-          loadMore={this.props.fetchScheduledPosts}
+          loadMore={this.fetchScheduledPosts}
           hasMore={moreScheduledPosts}
         >
           {posts

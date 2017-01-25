@@ -5,7 +5,7 @@ import cn from 'classnames';
 const DATE_FORMATS = [moment.ISO_8601, 'YYYY-MM-DD HH:m:s.SSS ZZ'];
 
 export default function DisplayDate({ className, date, format }) {
-  const m = moment(date, DATE_FORMATS);
+  const m = date instanceof Date ? moment(date) : moment(date, DATE_FORMATS);
   return (
     <time
       className={cn('display-date', className)}
