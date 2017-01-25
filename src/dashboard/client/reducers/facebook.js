@@ -5,6 +5,7 @@ import {
   RESET_FACEBOOK_POSTS,
   RECEIVE_FACEBOOK_SCHEDULED_POSTS,
   RECEIVE_FACEBOOK_SCHEDULED_POST,
+  RESET_FACEBOOK_SCHEDULED_POSTS,
   RECEIVE_REMOVE_FACEBOOK_SCHEDULED_POST,
 } from '../constants/action-types';
 import { mergeKeyById, replaceByIdOrAppend } from '../utils/reducers';
@@ -51,6 +52,12 @@ export default function facebookPostsReducer(state = initialState, action) {
         ...state,
         scheduledPosts: replaceByIdOrAppend(state.scheduledPosts, action.payload),
         scheduledPostsById: mergeKeyById(state.scheduledPostsById, [action.payload]),
+      };
+    case RESET_FACEBOOK_SCHEDULED_POSTS:
+      return {
+        ...state,
+        scheduledPosts: [],
+        scheduledPostsById: {},
       };
     case RECEIVE_REMOVE_FACEBOOK_SCHEDULED_POST:
       return {

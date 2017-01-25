@@ -2,6 +2,10 @@ import fetch from 'lib/fetch';
 import { notifySuccess, notifyError } from './notifications';
 import * as actions from '../constants/action-types';
 
+export const facebook = {};
+export const twitter = {};
+export const linkedin = {};
+
 export function postActions(type) {
   const TYPE = type.toUpperCase();
 
@@ -101,6 +105,10 @@ export function scheduledPostActions(type) {
     payload: { id },
   });
 
+  const resetScheduledPosts = () => ({
+    type: actions[`RESET_${TYPE}_SCHEDULED_POSTS`],
+  });
+
   const fetchScheduledPosts = (options = {}) => (
     async (dispatch, getState) => {
       const state = getState()[type];
@@ -183,6 +191,7 @@ export function scheduledPostActions(type) {
     receiveScheduledPosts,
     receiveScheduledPost,
     receiveRemoveScheduledPost,
+    resetScheduledPosts,
     fetchScheduledPosts,
     fetchScheduledPost,
     createScheduledPost,
@@ -205,6 +214,10 @@ export function scheduledRetweetActions() {
   const receiveRemoveScheduledRetweet = (id) => ({
     type: actions.RECEIVE_REMOVE_TWITTER_SCHEDULED_RETWEET,
     payload: { id },
+  });
+
+  const resetScheduledRetweets = () => ({
+    type: actions.RESET_TWITTER_SCHEDULED_RETWEETS,
   });
 
   const fetchScheduledRetweets = (options = {}) => (
@@ -246,9 +259,12 @@ export function scheduledRetweetActions() {
       try {
         const res = await dispatch(fetch('/api/twitter/scheduled-retweets', { method: 'POST', body }));
         const retweet = res.body;
-        const post = await fetch(`/api/twitter/posts/${retweet.twitterPostId}`);
+        const postRes = await fetch(`/api/twitter/posts/${retweet.twitterPostId}`); // TODO: handle in reducer?
+        const post = postRes.body;
+        post.scheduledRetweet = retweet;
         retweet.twitterPost = post;
         dispatch(receiveScheduledRetweet(retweet));
+        dispatch(twitter.receivePost(post));
         dispatch(notifySuccess('Scheduled Retweet'));
         return retweet;
       } catch (err) {
@@ -293,6 +309,7 @@ export function scheduledRetweetActions() {
     receiveScheduledRetweets,
     receiveScheduledRetweet,
     receiveRemoveScheduledRetweet,
+    resetScheduledRetweets,
     fetchScheduledRetweets,
     fetchScheduledRetweet,
     createScheduledRetweet,
@@ -301,21 +318,24 @@ export function scheduledRetweetActions() {
   };
 }
 
-export const facebook = {
-  ...postActions('facebook'),
-  ...scheduledPostActions('facebook'),
-};
+Object.assign(
+  facebook,
+  postActions('facebook'),
+  scheduledPostActions('facebook')
+);
 
-export const twitter = {
-  ...postActions('twitter'),
-  ...scheduledPostActions('twitter'),
-  ...scheduledRetweetActions(),
-};
+Object.assign(
+  twitter,
+  postActions('twitter'),
+  scheduledPostActions('twitter'),
+  scheduledRetweetActions()
+);
 
-export const linkedin = {
-  ...postActions('linkedin'),
-  ...scheduledPostActions('linkedin'),
-};
+Object.assign(
+  linkedin,
+  postActions('linkedin'),
+  scheduledPostActions('linkedin')
+);
 
 export const rss = postActions('rss');
 
@@ -347,5 +367,14 @@ export function resetAllPosts() {
     dispatch(twitter.resetPosts());
     dispatch(linkedin.resetPosts());
     dispatch(rss.resetPosts());
+  };
+}
+
+export function resetAllScheduledPosts() {
+  return dispatch => {
+    dispatch(facebook.resetScheduledPosts());
+    dispatch(twitter.resetScheduledPosts());
+    dispatch(twitter.resetScheduledRetweets());
+    dispatch(linkedin.resetScheduledPosts());
   };
 }

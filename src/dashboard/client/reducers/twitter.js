@@ -5,6 +5,8 @@ import {
   RESET_TWITTER_POSTS,
   RECEIVE_TWITTER_SCHEDULED_POSTS,
   RECEIVE_TWITTER_SCHEDULED_POST,
+  RESET_TWITTER_SCHEDULED_POSTS,
+  RESET_TWITTER_SCHEDULED_RETWEETS,
   RECEIVE_REMOVE_TWITTER_SCHEDULED_POST,
   RECEIVE_TWITTER_SCHEDULED_RETWEETS,
   RECEIVE_TWITTER_SCHEDULED_RETWEET,
@@ -58,6 +60,12 @@ export default function twitterPostsReducer(state = initialState, action) {
         scheduledPosts: replaceByIdOrAppend(state.scheduledPosts, action.payload),
         scheduledPostsById: mergeKeyById(state.scheduledPostsById, [action.payload]),
       };
+    case RESET_TWITTER_SCHEDULED_POSTS:
+      return {
+        ...state,
+        scheduledPosts: [],
+        scheduledPostsById: {},
+      };
     case RECEIVE_REMOVE_TWITTER_SCHEDULED_POST:
       return {
         ...state,
@@ -79,14 +87,34 @@ export default function twitterPostsReducer(state = initialState, action) {
         scheduledRetweets: replaceByIdOrAppend(state.scheduledRetweets, action.payload),
         scheduledRetweetsById: mergeKeyById(state.scheduledRetweetsById, [action.payload]),
       };
-    case RECEIVE_REMOVE_TWITTER_SCHEDULED_RETWEET:
+    case RESET_TWITTER_SCHEDULED_RETWEETS:
       return {
         ...state,
+        scheduledRetweets: [],
+        scheduledRetweetsById: {},
+      };
+    case RECEIVE_REMOVE_TWITTER_SCHEDULED_RETWEET: {
+      const targetScheduledRetweet = state.scheduledRetweetsById[action.payload.id];
+      const targetPost = state.postsById[targetScheduledRetweet.twitterPostId];
+      const replacementPost = { ...targetPost, scheduledRetweet: null };
+      return {
+        ...state,
+        posts: state.posts.map(post => {
+          if (post.id === targetPost.id) {
+            return replacementPost;
+          }
+          return post;
+        }),
+        postsById: {
+          ...state.postsById,
+          [targetPost.id]: replacementPost,
+        },
         scheduledRetweets: state.scheduledRetweets.filter(scheduledRetweet => (
           scheduledRetweet.id !== action.payload.id
         )),
         scheduledRetweetsById: omit(state.scheduledRetweetsById, action.payload.id),
       };
+    }
     default:
       return state;
   }

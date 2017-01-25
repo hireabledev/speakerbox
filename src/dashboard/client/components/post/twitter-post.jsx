@@ -1,8 +1,8 @@
 import React, { PropTypes } from 'react';
-import Icon from 'lib/components/icon';
 import Post from './post';
 import PostActions from '../post-actions';
 import PostFavoriteButton from '../post-favorite-button';
+import PostRetweetButton from '../post-retweet-button';
 import PostScheduleButton from '../post-schedule-button';
 import PostViewLink from '../post-view-link';
 
@@ -13,11 +13,7 @@ export default function TwitterPost({ post }) {
       actions={(
         <PostActions>
           <PostFavoriteButton post={post} />
-          {/* <button className="sb-post-action" type="button">
-            <Icon name="retweet" label="retweet" />
-            {' '}
-            Retweet
-          </button> */}
+          <PostRetweetButton post={post} />
           <PostScheduleButton post={post} />
           <PostActions.Secondary>
             <PostViewLink url={post.url} />

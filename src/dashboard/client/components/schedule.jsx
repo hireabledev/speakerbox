@@ -9,17 +9,35 @@ import Page from 'lib/components/page';
 import AccountList from './account-list';
 import ScheduledPost from './scheduled-post';
 import PostForm from './post-form';
-import { fetchAllScheduledPosts } from '../actions/posts';
+import { fetchAllScheduledPosts, resetAllScheduledPosts } from '../actions/posts';
 
 export class StreamPage extends Component {
+  constructor(props) {
+    super(props);
+    this.fetchScheduledPosts = this.fetchScheduledPosts.bind(this);
+  }
+
   componentDidMount() {
-    const options = {};
+    this.fetchScheduledPosts();
+  }
+
+  componentDidUpdate(prevProps) {
+    const differentPathname = prevProps.location.pathname !== this.props.location.pathname;
+    const differentQuery = prevProps.location.query !== this.props.location.query;
+    if (differentPathname || differentQuery) {
+      this.props.resetScheduledPosts();
+      this.fetchScheduledPosts();
+    }
+  }
+
+  fetchScheduledPosts(options = { query: { sort: '-date' } }) {
     const id = this.props.location.query.id;
     if (id) {
-      options.query = { id };
+      options.query.id = id; // eslint-disable-line no-param-reassign
     }
     this.props.fetchScheduledPosts(options);
   }
+
 
   render() {
     const {
@@ -48,7 +66,14 @@ export class StreamPage extends Component {
     const moreScheduledPosts = moreFacebookScheduledPosts || moreTwitterScheduledPosts
       || moreTwitterScheduledRetweets || moreLinkedinScheduledPosts;
 
-    const filterByAccount = memoize((post) => (accountVisibility[post.accountId]));
+    const queryId = this.props.location.query.id;
+
+    const filterPosts = memoize((post) => {
+      if (queryId && post.id !== queryId) {
+        return false;
+      }
+      return accountVisibility[post.accountId];
+    });
 
     return (
       <Page
@@ -71,7 +96,7 @@ export class StreamPage extends Component {
           hasMore={moreScheduledPosts}
         >
           {posts
-            .filter(filterByAccount)
+            .filter(filterPosts)
             .map(post => <ScheduledPost key={post.id} post={post} type={post.type} />)}
         </InfiniteScroll>
       </Page>
@@ -105,6 +130,7 @@ StreamPage.propTypes = {
   })).isRequired,
   moreLinkedinScheduledPosts: PropTypes.bool.isRequired,
   fetchScheduledPosts: PropTypes.func.isRequired,
+  resetScheduledPosts: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -120,6 +146,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  resetScheduledPosts: (options) => dispatch(resetAllScheduledPosts(options)),
   fetchScheduledPosts: (options) => dispatch(fetchAllScheduledPosts(options)),
 });
 
