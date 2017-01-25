@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import cn from 'classnames';
+import Icon from 'lib/components/icon';
 import PostTypeLabel from '../post-type-label';
 import PostTextarea from '../post-textarea';
 import PostActions from '../post-actions';
@@ -16,7 +17,9 @@ export default function ScheduledRetweet({ post }) {
     >
       <div className="sb-post-body">
         <div className="sb-post-container">
-          <PostTypeLabel type="twitter" accountId={post.accountId} />
+          <PostTypeLabel type="twitter" accountId={post.accountId}>
+            <Icon name="retweet" label="retweet" /> Twitter
+          </PostTypeLabel>
           <PostTextarea post={post.twitterPost} disabled />
         </div>
       </div>
