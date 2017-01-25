@@ -4,6 +4,7 @@ import configureRouter from '../../router';
 import { where, filter, created, attributes } from '../../../lib/middleware/sequelize';
 import { index, show, update, remove } from './controller';
 
+const MODEL_NAME = 'Account';
 const router = configureRouter();
 
 router.get(
@@ -13,7 +14,7 @@ router.get(
   where,
   created,
   attributes,
-  filter('Account'),
+  filter(MODEL_NAME),
   index
 );
 router.get('/:id', show);

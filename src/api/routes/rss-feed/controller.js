@@ -7,8 +7,10 @@ import {
   removeBlueprint,
 } from '../../blueprints';
 
-export const index = indexBlueprint('RSSFeed');
-export const show = showBlueprint('RSSFeed');
+const MODEL_NAME = 'RSSFeed';
+
+export const index = indexBlueprint(MODEL_NAME);
+export const show = showBlueprint(MODEL_NAME);
 
 export async function create(req) {
   const feed = req.app.models.RSSFeed.build(omit(req.body, ['created', 'updated']));
@@ -17,5 +19,5 @@ export async function create(req) {
   return await feed.save();
 }
 
-export const update = updateBlueprint('RSSFeed');
-export const remove = removeBlueprint('RSSFeed');
+export const update = updateBlueprint(MODEL_NAME);
+export const remove = removeBlueprint(MODEL_NAME);

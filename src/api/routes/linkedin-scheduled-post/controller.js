@@ -6,10 +6,11 @@ import {
   removeScheduledBlueprint,
 } from '../../blueprints/post';
 
+const MODEL_NAME = 'LinkedinScheduledPost';
 const JOB_TYPE = 'linkedin-scheduled-post';
 
-export const index = indexBlueprint('LinkedinScheduledPost');
-export const show = showBlueprint('LinkedinScheduledPost');
-export const create = createScheduledBlueprint('LinkedinScheduledPost', JOB_TYPE);
-export const update = updateScheduledBlueprint('LinkedinScheduledPost', JOB_TYPE);
-export const remove = removeScheduledBlueprint('LinkedinScheduledPost');
+export const index = indexBlueprint(MODEL_NAME);
+export const show = showBlueprint(MODEL_NAME);
+export const create = createScheduledBlueprint(MODEL_NAME, JOB_TYPE);
+export const update = updateScheduledBlueprint(MODEL_NAME, JOB_TYPE);
+export const remove = removeScheduledBlueprint(MODEL_NAME);

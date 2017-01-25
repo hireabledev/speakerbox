@@ -1,24 +1,28 @@
 import startCase from 'lodash/startCase';
+import identity from 'lodash/identity';
 import omit from 'lodash/omit';
 import uuid from 'uuid';
 import { server as debug } from 'lib/debug';
 
 const JOB_DOESNT_EXIST_REGEXP = /job.+doesn'?t exist/;
 
-export function indexBlueprint(modelName) {
+export function indexBlueprint(modelName, options = {}) {
+  const mapQuery = options.mapQuery || identity;
+
   return async function index(req, res, next) {
     const Model = req.app.models[modelName];
     const { limit, skip, where, attributes } = res.locals;
+    const query = {
+      limit: limit + 1,
+      offset: skip,
+      where,
+      attributes: Model.getValidAttributes(attributes),
+      order: [['date', 'DESC']],
+    };
 
     const instances = await Model
       .scopeForUserAccounts(req.user, req.query.user)
-      .findAll({
-        limit: limit + 1,
-        offset: skip,
-        where,
-        attributes: Model.getValidAttributes(attributes),
-        order: [['date', 'DESC']],
-      });
+      .findAll(mapQuery(query, req));
 
     return {
       data: instances.slice(0, limit),
@@ -27,12 +31,14 @@ export function indexBlueprint(modelName) {
   };
 }
 
-export function showBlueprint(modelName) {
+export function showBlueprint(modelName, options = {}) {
+  const mapQuery = options.mapQuery || identity;
   return async function show(req) {
     const Model = req.app.models[modelName];
+    const query = { where: { id: req.params.id } };
     return await Model
       .scopeForUserAccounts(req.user, req.query.user)
-      .findByIdOr404(req.params.id);
+      .findOneOr404(mapQuery(query, req));
   };
 }
 

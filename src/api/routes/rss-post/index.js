@@ -5,6 +5,7 @@ import { where, filter, created, attributes } from '../../../lib/middleware/sequ
 import { favorited } from '../../middleware/post';
 import { index, show, update, remove } from './controller';
 
+const MODEL_NAME = 'RSSPost';
 const router = configureRouter();
 
 router.get(
@@ -15,7 +16,7 @@ router.get(
   where,
   created,
   attributes,
-  filter('RSSPost'),
+  filter(MODEL_NAME),
   index
 );
 router.get('/:id', show);

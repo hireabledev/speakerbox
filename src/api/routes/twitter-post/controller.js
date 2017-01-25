@@ -5,7 +5,25 @@ import {
   removeBlueprint,
 } from '../../blueprints/post';
 
-export const index = indexBlueprint('TwitterPost');
-export const show = showBlueprint('TwitterPost');
-export const update = updateBlueprint('TwitterPost');
-export const remove = removeBlueprint('TwitterPost');
+const MODEL_NAME = 'TwitterPost';
+
+export const index = indexBlueprint(MODEL_NAME, {
+  mapQuery: (options, req) => ({
+    ...options,
+    include: [{
+      model: req.app.models.TwitterScheduledRetweet,
+      as: 'scheduledRetweet',
+    }],
+  }),
+});
+export const show = showBlueprint(MODEL_NAME, {
+  mapQuery: (options, req) => ({
+    ...options,
+    include: [{
+      model: req.app.models.TwitterScheduledRetweet,
+      as: 'scheduledRetweet',
+    }],
+  }),
+});
+export const update = updateBlueprint(MODEL_NAME);
+export const remove = removeBlueprint(MODEL_NAME);

@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Icon from 'lib/components/icon';
+import history from '../../history';
 import * as postActions from '../../actions/posts';
 
 export function PostRemoveButton({ post, onClick }) {
@@ -26,7 +27,14 @@ PostRemoveButton.propTypes = {
 };
 
 const mapDispatchToPros = dispatch => ({
-  onClick: (id, type) => dispatch(postActions[type].removeScheduledPost(id)),
+  onClick: async (id, type) => {
+    if (type === 'retweet') {
+      await dispatch(postActions.twitter.removeScheduledRetweet(id));
+    } else {
+      await dispatch(postActions[type].removeScheduledPost(id));
+    }
+    history.push('/schedule');
+  },
 });
 
 export default connect(null, mapDispatchToPros)(PostRemoveButton);

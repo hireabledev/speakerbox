@@ -3,7 +3,7 @@ import { Account, TwitterScheduledRetweet } from 'lib/models';
 import twitterClient from 'lib/twitter';
 
 export default async function twitterScheduledRetweetProcessor(job, done) {
-  const { statusId, scheduledPostId, accountId } = job.data.data;
+  const { twitterPostId, scheduledPostId, accountId } = job.data.data;
 
   try {
     const account = await Account.findById(accountId);
@@ -11,7 +11,7 @@ export default async function twitterScheduledRetweetProcessor(job, done) {
       token: account.accessToken,
       tokenSecret: account.tokenSecret,
     });
-    const { data } = await twitter.retweet(statusId);
+    const { data } = await twitter.retweet(twitterPostId);
     if (data.errors && data.errors.length) {
       throw new Error(data.errors.map(err => `${err.message} (${err.code})`).join('\n'));
     }

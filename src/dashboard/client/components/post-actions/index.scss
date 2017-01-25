@@ -1,6 +1,5 @@
 .sb-post-actions {
   border-top: 1px dotted $border;
-
 }
 
 .sb-post-action {
@@ -18,6 +17,11 @@
     background-color: shade($card-bg, 2%);
     color: $link-hover-color;
     text-decoration: none;
+  }
+
+  &[disabled] {
+    background-color: shade($card-bg, 2%);
+    color: $text-muted;
   }
 
   + .sb-post-action {

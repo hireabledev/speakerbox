@@ -2,6 +2,10 @@ import fetch from 'lib/fetch';
 import { notifySuccess, notifyError } from './notifications';
 import * as actions from '../constants/action-types';
 
+export const facebook = {};
+export const twitter = {};
+export const linkedin = {};
+
 export function postActions(type) {
   const TYPE = type.toUpperCase();
 
@@ -101,11 +105,20 @@ export function scheduledPostActions(type) {
     payload: { id },
   });
 
-  const fetchScheduledPosts = () => (
+  const resetScheduledPosts = () => ({
+    type: actions[`RESET_${TYPE}_SCHEDULED_POSTS`],
+  });
+
+  const fetchScheduledPosts = (options = {}) => (
     async (dispatch, getState) => {
       const state = getState()[type];
       try {
-        const res = await dispatch(fetch(`/api/${type}/scheduled-posts?skip=${state.scheduledPosts.length}`));
+        const res = await dispatch(fetch(`/api/${type}/scheduled-posts`, {
+          query: {
+            skip: state.scheduledPosts.length,
+            ...options.query,
+          },
+        }));
         const { data, more } = res.body;
         dispatch(receiveScheduledPosts({ posts: data, more }));
         return res.body;
@@ -178,6 +191,7 @@ export function scheduledPostActions(type) {
     receiveScheduledPosts,
     receiveScheduledPost,
     receiveRemoveScheduledPost,
+    resetScheduledPosts,
     fetchScheduledPosts,
     fetchScheduledPost,
     createScheduledPost,
@@ -186,20 +200,142 @@ export function scheduledPostActions(type) {
   };
 }
 
-export const facebook = {
-  ...postActions('facebook'),
-  ...scheduledPostActions('facebook'),
-};
+export function scheduledRetweetActions() {
+  const receiveScheduledRetweets = ({ retweets, more }) => ({
+    type: actions.RECEIVE_TWITTER_SCHEDULED_RETWEETS,
+    payload: { retweets, more },
+  });
 
-export const twitter = {
-  ...postActions('twitter'),
-  ...scheduledPostActions('twitter'),
-};
+  const receiveScheduledRetweet = (retweet) => ({
+    type: actions.RECEIVE_TWITTER_SCHEDULED_RETWEET,
+    payload: retweet,
+  });
 
-export const linkedin = {
-  ...postActions('linkedin'),
-  ...scheduledPostActions('linkedin'),
-};
+  const receiveRemoveScheduledRetweet = (id) => ({
+    type: actions.RECEIVE_REMOVE_TWITTER_SCHEDULED_RETWEET,
+    payload: { id },
+  });
+
+  const resetScheduledRetweets = () => ({
+    type: actions.RESET_TWITTER_SCHEDULED_RETWEETS,
+  });
+
+  const fetchScheduledRetweets = (options = {}) => (
+    async (dispatch, getState) => {
+      const state = getState().twitter;
+      try {
+        const res = await dispatch(fetch('/api/twitter/scheduled-retweets', {
+          query: {
+            skip: state.scheduledRetweets.length,
+            ...options.query,
+          },
+        }));
+        const { data, more } = res.body;
+        dispatch(receiveScheduledRetweets({ retweets: data, more }));
+        return res.body;
+      } catch (err) {
+        dispatch(notifyError(err));
+        throw err;
+      }
+    }
+  );
+
+  const fetchScheduledRetweet = (id) => (
+    async dispatch => {
+      try {
+        const res = await dispatch(fetch(`/api/twitter/scheduled-retweets/${id}`));
+        const retweet = res.body;
+        dispatch(receiveScheduledRetweet(retweet));
+        return retweet;
+      } catch (err) {
+        dispatch(notifyError(err));
+        throw err;
+      }
+    }
+  );
+
+  const createScheduledRetweet = (body) => (
+    async dispatch => {
+      try {
+        const res = await dispatch(fetch('/api/twitter/scheduled-retweets', { method: 'POST', body }));
+        const retweet = res.body;
+        const postRes = await fetch(`/api/twitter/posts/${retweet.twitterPostId}`); // TODO: handle in reducer?
+        const post = postRes.body;
+        post.scheduledRetweet = retweet;
+        retweet.twitterPost = post;
+        dispatch(receiveScheduledRetweet(retweet));
+        dispatch(twitter.receivePost(post));
+        dispatch(notifySuccess('Scheduled Retweet'));
+        return retweet;
+      } catch (err) {
+        dispatch(notifyError(err));
+        throw err;
+      }
+    }
+  );
+
+  const updateScheduledRetweet = (id, body) => (
+    async dispatch => {
+      try {
+        const res = await dispatch(fetch(`/api/twitter/scheduled-retweets/${id}`, { method: 'PATCH', body }));
+        const retweet = res.body;
+        const post = await fetch(`/api/twitter/posts/${retweet.twitterPostId}`);
+        retweet.twitterPost = post;
+        dispatch(receiveScheduledRetweet(retweet));
+        dispatch(notifySuccess('Updated Retweet'));
+        return retweet;
+      } catch (err) {
+        dispatch(notifyError(err));
+        throw err;
+      }
+    }
+  );
+
+  const removeScheduledRetweet = (id) => (
+    async dispatch => {
+      try {
+        await dispatch(fetch(`/api/twitter/scheduled-retweets/${id}`, { method: 'DELETE' }));
+        dispatch(receiveRemoveScheduledRetweet(id));
+        dispatch(notifySuccess('Removed Retweet'));
+        return { id };
+      } catch (err) {
+        dispatch(notifyError(err));
+        throw err;
+      }
+    }
+  );
+
+  return {
+    receiveScheduledRetweets,
+    receiveScheduledRetweet,
+    receiveRemoveScheduledRetweet,
+    resetScheduledRetweets,
+    fetchScheduledRetweets,
+    fetchScheduledRetweet,
+    createScheduledRetweet,
+    updateScheduledRetweet,
+    removeScheduledRetweet,
+  };
+}
+
+Object.assign(
+  facebook,
+  postActions('facebook'),
+  scheduledPostActions('facebook')
+);
+
+Object.assign(
+  twitter,
+  postActions('twitter'),
+  scheduledPostActions('twitter'),
+  scheduledRetweetActions()
+);
+
+Object.assign(
+  linkedin,
+  postActions('linkedin'),
+  scheduledPostActions('linkedin')
+);
 
 export const rss = postActions('rss');
 
@@ -214,12 +350,13 @@ export function fetchAllPosts(options) {
   );
 }
 
-export function fetchAllScheduledPosts() {
+export function fetchAllScheduledPosts(options) {
   return async (dispatch, getState) => (
     await Promise.resolve([
-      facebook.fetchScheduledPosts()(dispatch, getState),
-      twitter.fetchScheduledPosts()(dispatch, getState),
-      linkedin.fetchScheduledPosts()(dispatch, getState),
+      facebook.fetchScheduledPosts(options)(dispatch, getState),
+      twitter.fetchScheduledPosts(options)(dispatch, getState),
+      twitter.fetchScheduledRetweets(options)(dispatch, getState),
+      linkedin.fetchScheduledPosts(options)(dispatch, getState),
     ])
   );
 }
@@ -230,5 +367,14 @@ export function resetAllPosts() {
     dispatch(twitter.resetPosts());
     dispatch(linkedin.resetPosts());
     dispatch(rss.resetPosts());
+  };
+}
+
+export function resetAllScheduledPosts() {
+  return dispatch => {
+    dispatch(facebook.resetScheduledPosts());
+    dispatch(twitter.resetScheduledPosts());
+    dispatch(twitter.resetScheduledRetweets());
+    dispatch(linkedin.resetScheduledPosts());
   };
 }
