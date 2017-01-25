@@ -15,6 +15,7 @@ export class StreamPage extends Component {
   constructor(props) {
     super(props);
     this.fetchScheduledPosts = this.fetchScheduledPosts.bind(this);
+    this.onRemoveScheduledPost = this.onRemoveScheduledPost.bind(this);
   }
 
   componentDidMount() {
@@ -30,6 +31,13 @@ export class StreamPage extends Component {
     }
   }
 
+  onRemoveScheduledPost() {
+    if (this.props.location.query.id) {
+      this.props.resetScheduledPosts();
+      this.fetchScheduledPosts();
+    }
+  }
+
   fetchScheduledPosts(options = { query: { sort: '-date' } }) {
     const id = this.props.location.query.id;
     if (id) {
@@ -37,7 +45,6 @@ export class StreamPage extends Component {
     }
     return this.props.fetchScheduledPosts(options);
   }
-
 
   render() {
     const {
@@ -97,7 +104,13 @@ export class StreamPage extends Component {
         >
           {posts
             .filter(filterPosts)
-            .map(post => <ScheduledPost key={post.id} post={post} type={post.type} />)}
+            .map(post => (
+              <ScheduledPost
+                key={post.id}
+                post={post}
+                type={post.type}
+                onRemove={this.onRemoveScheduledPost}
+              />))}
         </InfiniteScroll>
       </Page>
     );

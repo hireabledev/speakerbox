@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import noop from 'lodash/noop';
 import cn from 'classnames';
 import Icon from 'lib/components/icon';
 import PostTypeLabel from '../post-type-label';
@@ -8,7 +9,7 @@ import PostRemoveButton from '../post-remove-button';
 import PostDateButton from '../post-date-button';
 import PostViewLink from '../post-view-link';
 
-export default function ScheduledRetweet({ post }) {
+export default function ScheduledRetweet({ post, onRemove }) {
   return (
     <article
       className={cn('sb-post sb-scheduled-post', {
@@ -27,7 +28,7 @@ export default function ScheduledRetweet({ post }) {
         <PostDateButton post={post} disabled={!!post.posted} />
         {post.url && <PostViewLink url={post.url} />}
         <PostActions.Secondary>
-          <PostRemoveButton post={post} />
+          <PostRemoveButton post={post} onClick={onRemove} />
         </PostActions.Secondary>
       </PostActions>
     </article>
@@ -40,4 +41,9 @@ ScheduledRetweet.propTypes = {
     date: PropTypes.date,
     posted: PropTypes.date,
   }).isRequired,
+  onRemove: PropTypes.func,
+};
+
+ScheduledRetweet.defaultProps = {
+  onRemove: noop,
 };

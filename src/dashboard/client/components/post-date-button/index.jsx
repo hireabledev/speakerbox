@@ -22,7 +22,10 @@ PostDateButton.propTypes = {
   post: PropTypes.shape({
     id: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
-    date: PropTypes.string.isRequired,
+    date: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.object,
+    ]).isRequired,
   }).isRequired,
   onChange: PropTypes.func.isRequired,
 };

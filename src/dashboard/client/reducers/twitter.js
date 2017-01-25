@@ -100,14 +100,14 @@ export default function twitterPostsReducer(state = initialState, action) {
       return {
         ...state,
         posts: state.posts.map(post => {
-          if (post.id === targetPost.id) {
+          if (targetPost && post.id === targetPost.id) {
             return replacementPost;
           }
           return post;
         }),
         postsById: {
           ...state.postsById,
-          [targetPost.id]: replacementPost,
+          ...(targetPost ? { [targetPost.id]: replacementPost } : {}),
         },
         scheduledRetweets: state.scheduledRetweets.filter(scheduledRetweet => (
           scheduledRetweet.id !== action.payload.id

@@ -1,11 +1,12 @@
 import React, { PropTypes } from 'react';
+import noop from 'lodash/noop';
 import ScheduledPost from './scheduled-post';
 import PostActions from '../post-actions';
 import PostRemoveButton from '../post-remove-button';
 import PostDateButton from '../post-date-button';
 import PostViewLink from '../post-view-link';
 
-export default function LinkedinPost({ post }) {
+export default function LinkedinPost({ post, onRemove }) {
   return (
     <ScheduledPost
       post={post}
@@ -14,7 +15,7 @@ export default function LinkedinPost({ post }) {
           <PostDateButton post={post} disabled={!!post.posted} />
           {post.url && <PostViewLink url={post.url} />}
           <PostActions.Secondary>
-            <PostRemoveButton post={post} />
+            <PostRemoveButton post={post} onClick={onRemove} />
           </PostActions.Secondary>
         </PostActions>
       )}
@@ -31,4 +32,9 @@ LinkedinPost.propTypes = {
     comment: PropTypes.string,
     date: PropTypes.date,
   }).isRequired,
+  onRemove: PropTypes.func,
+};
+
+LinkedinPost.defaultProps = {
+  onRemove: noop,
 };
