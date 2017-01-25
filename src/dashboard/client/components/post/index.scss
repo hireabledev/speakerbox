@@ -19,7 +19,8 @@
 
 .sb-post-author-img-url {
   @extend .media-left;
-  width: 4rem;
+  padding-right: 0;
+  margin-right: rem(10px);
 }
 
 .sb-post-container {
