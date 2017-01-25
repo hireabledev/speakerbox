@@ -11,13 +11,13 @@ export function indexBlueprint(modelName, options = {}) {
 
   return async function index(req, res, next) {
     const Model = req.app.models[modelName];
-    const { limit, skip, where, attributes } = res.locals;
+    const { limit, skip, where, attributes, sort } = res.locals;
     const query = {
       limit: limit + 1,
       offset: skip,
       where,
       attributes: Model.getValidAttributes(attributes),
-      order: [['date', 'DESC']],
+      order: sort,
     };
 
     const instances = await Model

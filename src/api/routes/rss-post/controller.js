@@ -1,6 +1,6 @@
 export async function index(req, res, next) {
   const { RSSPost } = req.app.models;
-  const { limit, skip, where, attributes } = res.locals;
+  const { limit, skip, where, attributes, sort } = res.locals;
 
   const instances = await RSSPost
     .scopeForUserFeeds(req.user, req.query.user)
@@ -9,6 +9,7 @@ export async function index(req, res, next) {
       offset: skip,
       where,
       attributes: RSSPost.getValidAttributes(attributes),
+      order: sort,
     });
 
   return {
