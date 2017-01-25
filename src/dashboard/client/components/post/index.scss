@@ -18,13 +18,11 @@
 }
 
 .sb-post-author-img-url {
-  @extend .media-left;
   padding-right: 0;
   margin-right: rem(10px);
 }
 
 .sb-post-container {
-  @extend .media-body;
 }
 
 .sb-post-date {

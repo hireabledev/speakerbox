@@ -28,7 +28,7 @@ export default function Page({ children, menu, subnav, sidebar, sidebarSecondary
             <div
               className={cn({
                 'sb-page-body': true,
-                'col-xs-12': true,
+                'col-12': true,
                 'col-md-8 col-lg-9': oneSidebar && !bothSidebars,
                 'col-md-4 col-lg-6': bothSidebars,
               })}

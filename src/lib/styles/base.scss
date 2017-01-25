@@ -1,3 +1,7 @@
+html {
+  font-size: $font-size-root;
+}
+
 .sb-app-body {
   position: relative;
 }
@@ -6,7 +10,7 @@
   background-color: #CD7901;
   height: 4px;
   position: fixed;
-  z-index: $zindex-navbar-fixed;
+  z-index: $zindex-navbar;
 }
 
 .table > thead > tr > th:last-child,
