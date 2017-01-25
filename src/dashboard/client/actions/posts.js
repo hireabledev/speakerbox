@@ -101,11 +101,16 @@ export function scheduledPostActions(type) {
     payload: { id },
   });
 
-  const fetchScheduledPosts = () => (
+  const fetchScheduledPosts = (options = {}) => (
     async (dispatch, getState) => {
       const state = getState()[type];
       try {
-        const res = await dispatch(fetch(`/api/${type}/scheduled-posts?skip=${state.scheduledPosts.length}`));
+        const res = await dispatch(fetch(`/api/${type}/scheduled-posts`, {
+          query: {
+            skip: state.scheduledPosts.length,
+            ...options.query,
+          },
+        }));
         const { data, more } = res.body;
         dispatch(receiveScheduledPosts({ posts: data, more }));
         return res.body;
@@ -202,11 +207,16 @@ export function scheduledRetweetActions() {
     payload: { id },
   });
 
-  const fetchScheduledRetweets = () => (
+  const fetchScheduledRetweets = (options = {}) => (
     async (dispatch, getState) => {
       const state = getState().twitter;
       try {
-        const res = await dispatch(fetch(`/api/twitter/scheduled-retweets?skip=${state.scheduledRetweets.length}`));
+        const res = await dispatch(fetch('/api/twitter/scheduled-retweets', {
+          query: {
+            skip: state.scheduledRetweets.length,
+            ...options.query,
+          },
+        }));
         const { data, more } = res.body;
         dispatch(receiveScheduledRetweets({ retweets: data, more }));
         return res.body;
@@ -320,13 +330,13 @@ export function fetchAllPosts(options) {
   );
 }
 
-export function fetchAllScheduledPosts() {
+export function fetchAllScheduledPosts(options) {
   return async (dispatch, getState) => (
     await Promise.resolve([
-      facebook.fetchScheduledPosts()(dispatch, getState),
-      twitter.fetchScheduledPosts()(dispatch, getState),
-      twitter.fetchScheduledRetweets()(dispatch, getState),
-      linkedin.fetchScheduledPosts()(dispatch, getState),
+      facebook.fetchScheduledPosts(options)(dispatch, getState),
+      twitter.fetchScheduledPosts(options)(dispatch, getState),
+      twitter.fetchScheduledRetweets(options)(dispatch, getState),
+      linkedin.fetchScheduledPosts(options)(dispatch, getState),
     ])
   );
 }

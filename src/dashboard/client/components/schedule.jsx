@@ -13,7 +13,12 @@ import { fetchAllScheduledPosts } from '../actions/posts';
 
 export class StreamPage extends Component {
   componentDidMount() {
-    this.props.fetchScheduledPosts();
+    const options = {};
+    const id = this.props.location.query.id;
+    if (id) {
+      options.query = { id };
+    }
+    this.props.fetchScheduledPosts(options);
   }
 
   render() {
@@ -78,6 +83,7 @@ StreamPage.propTypes = {
   location: PropTypes.shape({
     pathname: PropTypes.string,
     query: PropTypes.shape({
+      id: PropTypes.string,
       message: PropTypes.string,
     }).isRequired,
   }).isRequired,
