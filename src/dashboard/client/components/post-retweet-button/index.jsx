@@ -60,8 +60,12 @@ export class PostRetweetButton extends Component {
             className="form form-inline"
             onSubmit={(e) => {
               e.preventDefault();
+              const date = this.state.date;
+              this.setState({ visible: false });
               return this.props.createScheduledRetweet(
-                post.id, post.accountId, this.state.date
+                post.id,
+                post.accountId,
+                date && date.toISOString()
               );
             }}
           >
@@ -100,7 +104,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(twitter.createScheduledRetweet({
       twitterPostId: postId,
       accountId,
-      date: date.toISOString(),
+      date,
     }))
   ),
 });
