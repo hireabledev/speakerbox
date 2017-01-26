@@ -20,7 +20,7 @@ const LinkedinPost = sequelize.define('LinkedinPost', {
                           comment: 'Linkedin post message.',
                         },
   date:                 {
-                          type: Sequelize.TEXT,
+                          type: Sequelize.DATE,
                           allowNull: false,
                           comment: 'Linkedin post date.',
                         },

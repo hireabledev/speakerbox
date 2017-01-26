@@ -20,7 +20,7 @@ const TwitterPost = sequelize.define('TwitterPost', {
                           comment: 'Twitter post status.',
                         },
   date:                 {
-                          type: Sequelize.TEXT,
+                          type: Sequelize.DATE,
                           allowNull: false,
                           comment: 'Twitter post date.',
                         },

@@ -39,7 +39,7 @@ const FacebookPost = sequelize.define('FacebookPost', {
                           comment: 'Link description.',
                         },
   date:                 {
-                          type: Sequelize.TEXT,
+                          type: Sequelize.DATE,
                           allowNull: false,
                           comment: 'Facebook post date.',
                         },
