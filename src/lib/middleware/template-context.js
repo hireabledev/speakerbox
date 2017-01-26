@@ -12,6 +12,7 @@ export default function templateContextMiddleware(req, res, next) {
     if (GA_ID) { res.locals.GA_ID = GA_ID; }
     if (ADSENSE_ID) { res.locals.ADSENSE_ID = ADSENSE_ID; }
     if (MIXPANEL_ID) { res.locals.MIXPANEL_ID = MIXPANEL_ID; }
+    if (req.user) { res.locals.user = req.user; }
 
     const webpackStats = res.locals.webpackStats.toJson
       ? res.locals.webpackStats.toJson()

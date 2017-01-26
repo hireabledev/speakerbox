@@ -1,0 +1,14 @@
+@import '../../lib/styles/functions';
+@import '../../lib/styles/variables';
+@import '../../lib/styles/functions-with-variables';
+@import '../../lib/styles/mixins';
+
+@import 'bootstrap/scss/bootstrap';
+
+.navbar > .container {
+  justify-content: space-between;
+}
+
+img {
+  max-width: 100%;
+}

@@ -1,1 +1,1 @@
-console.log('marketing');
+import './styles.scss';

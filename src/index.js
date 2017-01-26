@@ -65,7 +65,7 @@ if (ENV === 'production') {
   });
 }
 
-app.use(STATIC_URL, express.static('assets'));
+app.use(STATIC_URL, express.static(`${__dirname}/assets`));
 
 if (ENV === 'development') {
   const webpack = require('webpack');

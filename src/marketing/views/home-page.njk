@@ -1,5 +1,57 @@
 {% extends "common/layout.njk" %}
 
 {% block body %}
-  <h1>Speaker Box</h1>
+<div class="sb-marketing">
+  <nav class="navbar navbar-toggleable-sm navbar-inverse bg-primary">
+    <div class="container d-flex">
+      <a class="navbar-brand" href="#">SpeakerBox</a>
+
+      <ul class="navbar-nav align-self-end">
+        {% if user %}
+          <li class="nav-item">
+            <a class="nav-link" href="/dashboard">Dashboard</a>
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="/sso">Sign In</a>
+          </li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
+
+  <div class="bg-primary text-white pt-3 pb-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <h2 class="h3 mb-3">
+            Welcome to SpeakerBox!
+          </h2>
+          <p>
+            Tune in to your favorite social and rss channels using the Speakerbox app. You can read your stream, schedule posts and retweets, and manage your readership experience.
+          </p>
+          <ul class="my-4">
+            <li>
+              Read posts across Twitter, Linkedin, and Facebook.
+            </li>
+            <li>
+              Schedule posts and retweets
+            </li>
+            <li>
+              Metrics are coming soon!
+            </li>
+          </ul>
+          <a class="btn btn-success my-4" href="/sso">
+            Sign up now!
+          </a>
+        </div>
+        <div class="col-md-8">
+          <div class="bg-faded p-2 rounded">
+            <img src="{{ STATIC_URL }}/img/stream-page-view.png" alt="Stream View" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
