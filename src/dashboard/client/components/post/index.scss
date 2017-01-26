@@ -10,7 +10,6 @@
 
 .sb-post-body {
   @extend .card-block;
-  @extend .media;
 }
 
 .sb-post-body.sb-post-body.sb-post-body {
@@ -23,6 +22,7 @@
 }
 
 .sb-post-container {
+  flex-grow: 1;
 }
 
 .sb-post-date {
