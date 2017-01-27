@@ -1,3 +1,15 @@
 machine:
   node:
     version: 6
+  services:
+    - redis
+compile:
+  pre:
+    - chmod u+x scripts/*.sh
+  override:
+    - npm run build
+deployment:
+  staging:
+    branch: develop
+    heroku:
+      appname: speakerbox-stage
