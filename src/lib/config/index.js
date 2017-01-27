@@ -1,8 +1,13 @@
 import { config as debug } from '../debug';
 
+export const ENV = process.env.NODE_ENV || 'development';
+export const IS_PROD = (ENV === 'production');
+export const IS_TEST = (ENV === 'test');
+export const IS_DEV = (ENV === 'development');
+
 function env(str, defaultValue, required) {
   const result = process.env[str] || defaultValue;
-  if (required === 'required' && !result) {
+  if (IS_PROD && required === 'required' && !result) {
     throw new Error(`${str} env variable is required.`);
   }
   if (result === undefined) {
@@ -12,11 +17,6 @@ function env(str, defaultValue, required) {
   }
   return result;
 }
-
-export const ENV = env('NODE_ENV', 'development');
-export const IS_PROD = (ENV === 'production');
-export const IS_TEST = (ENV === 'test');
-export const IS_DEV = (ENV === 'development');
 
 export const PORT = env('PORT', 3000);
 export const HOST = env('HOST', `http://localhost:${PORT}`);
