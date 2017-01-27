@@ -1,12 +1,13 @@
 import path from 'path';
 import { groupBy, mapValues } from 'lodash';
-import { HOST, GA_ID, ADSENSE_ID, MIXPANEL_ID, STATIC_URL, VERSION } from '../config';
+import { ENV, HOST, GA_ID, ADSENSE_ID, MIXPANEL_ID, STATIC_URL, VERSION } from '../config';
 
 const LEADING_DOT_REGEXP = /^\./;
 
 export default function templateContextMiddleware(req, res, next) {
   if (req.method === 'GET' && (req.is('text/*') || !req.get('content-type'))) {
     /* eslint no-param-reassign: 0 */
+    res.locals.ENV = ENV;
     res.locals.HOST = HOST;
     res.locals.VERSION = VERSION;
 

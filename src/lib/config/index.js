@@ -7,6 +7,8 @@ function env(str, defaultValue, required) {
   const result = process.env[str] || defaultValue;
   if (result === undefined) {
     debug.warn(`Optional env variable ${str} is undefined.`);
+  } else if (result === null) {
+    debug.warn(`Optional env variable ${str} is null.`);
   }
   return result;
 }
@@ -26,8 +28,8 @@ export const SENTRY_DSN_PUBLIC = env('SENTRY_DSN_PUBLIC', null);
 export const GA_ID = env('GA_ID');
 export const MIXPANEL_ID = env('MIXPANEL_ID', null);
 
-export const AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID', null, true);
-export const AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY', null, true);
+export const AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID', null, 'required');
+export const AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY', null, 'required');
 export const AWS_S3_BUCKET = env('AWS_S3_BUCKET', 'speaker-box');
 export const AWS_REGION = env('AWS_REGION', 'us-west-1');
 
@@ -66,6 +68,9 @@ export const LINKEDIN_API_URL = env('LINKEDIN_API_URL', 'https://api.linkedin.co
 
 export const ADSENSE_ID = env('ADSENSE_ID');
 export const VERSION = env('HEROKU_SLUG_COMMIT', `dev-${new Date().getTime()}`);
+
+const forceHttps = env('FORCE_HTTPS', IS_PROD);
+export const FORCE_HTTPS = typeof forceHttps === 'string' ? JSON.parse(forceHttps) : forceHttps;
 
 // Email Templates
 export const DEFAULT_EMAIL_TEMPLATE = env('DEFAULT_EMAIL_TEMPLATE', null, 'required');

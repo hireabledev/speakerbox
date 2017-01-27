@@ -12,6 +12,7 @@ import basicAuth from 'basic-auth-connect';
 import {
   ENV,
   PORT,
+  FORCE_HTTPS,
   KUE_USER,
   KUE_PWD,
   SECRET,
@@ -55,7 +56,7 @@ app.use(passport.session());
 
 app.set('trust proxy', ['loopback', 'linklocal', 'uniquelocal']);
 
-if (ENV === 'production') {
+if (ENV === 'production' && FORCE_HTTPS) {
   // Force HTTPS
   app.use((req, res, next) => {
     if (req.headers['x-forwarded-proto'] !== 'https' && req.path !== `/${LETS_ENCRYPT_URL}`) {

@@ -6,7 +6,7 @@ import sentry from 'lib/sentry';
 import queue from 'lib/queue';
 import { sequelize } from 'lib/models';
 
-sentry.patchGlobal(() => {
+sentry.install(() => {
   debug.error('FATAL ERROR');
   process.exit(1);
 });

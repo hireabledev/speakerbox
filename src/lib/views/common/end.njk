@@ -1,4 +1,4 @@
 {% if SENTRY_DSN_PUBLIC %}
   <script src="https://cdn.ravenjs.com/3.6.1/raven.min.js"></script>
-  <script>Raven.config('{{ SENTRY_DSN_PUBLIC }}', { release: '{{ VERSION }}' }).install();</script>
+  <script>Raven.config('{{ SENTRY_DSN_PUBLIC }}', { environment: '{{ ENV }}', release: '{{ VERSION }}' }).install();</script>
 {% endif %}
