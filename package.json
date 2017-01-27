@@ -14,7 +14,8 @@
     "babel": "scripts/babel.sh",
     "webpack": "scripts/webpack.sh",
     "worker": "scripts/worker.sh",
-    "heroku-prebuild": "chmod u+x scripts/*.sh"
+    "heroku-prebuild": "chmod u+x scripts/*.sh",
+    "heroku-postbuild": "bash scripts/build.sh"
   },
   "repository": {
     "type": "git",

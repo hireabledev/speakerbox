@@ -8,8 +8,3 @@ compile:
     - chmod u+x scripts/*.sh
   override:
     - npm run build
-deployment:
-  staging:
-    branch: develop
-    heroku:
-      appname: speakerbox-stage
