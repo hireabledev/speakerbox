@@ -1,3 +1,3 @@
 #!/bin/bash
 
-NODE_ENV=production babel src -d ./build -s --copy-files
+NODE_ENV=production BABEL_ENV=server babel src -d ./build -s --copy-files

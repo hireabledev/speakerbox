@@ -1,0 +1,8 @@
+{
+  "extends": ".babelrc-client.json",
+  "plugins": [
+    ["istanbul", {
+      "exclude": ["**/*.spec.js"]
+    }]
+  ]
+}

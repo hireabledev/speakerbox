@@ -1,0 +1,17 @@
+{
+  "presets": [
+    "stage-3"
+  ],
+  "plugins": [
+    "transform-runtime",
+    "transform-es2015-modules-commonjs",
+    ["module-resolver", {
+      "root": ["./src"]
+    }]
+  ],
+  "ignore": [
+    "node_modules",
+    "src/public",
+    "*.jsx"
+  ]
+}

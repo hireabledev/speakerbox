@@ -1,3 +1,3 @@
 #!/bin/bash
 
-NODE_ENV=production BABEL_ENV=development webpack -p --progress
+NODE_ENV=production BABEL_ENV=client webpack -p --progress

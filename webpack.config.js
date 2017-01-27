@@ -4,6 +4,7 @@ const fs = require('fs');
 const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const babelConfig = require('./.babelrc-client.json');
 
 const ENV = process.env.NODE_ENV || 'development';
 const STATIC_URL = process.env.STATIC_URL || '/assets/';
@@ -32,7 +33,15 @@ const webpackConfig = {
         ]),
       },
       { test: /\.(png|jpg|svg|gif)$/, loader: 'url?limit=8192' },
-      { test: /\.(js|jsx)$/, exclude: /node_modules/, loader: 'babel' },
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        loader: 'babel',
+        query: {
+          babelrc: false,
+          ...babelConfig,
+        },
+      },
       { test: /\.json$/, loader: 'json' },
       { test: /\.html$/, loader: 'html' },
     ],
