@@ -38,6 +38,7 @@ export function addFeed(body) {
       const feed = res.body;
       dispatch(notifySuccess('Feed Created'));
       dispatch(receiveFeed(feed));
+      mixpanel.track('Added RSS Feed', { id: feed.id });
       return feed;
     } catch (err) {
       dispatch(notifyError(err));
@@ -53,6 +54,7 @@ export function updateFeed(id, body) {
       const feed = res.body;
       dispatch(notifySuccess('Feed Updated'));
       dispatch(receiveFeed(feed));
+      mixpanel.track('Updated RSS Feed', { id: feed.id });
       return feed;
     } catch (err) {
       dispatch(notifyError(err));
@@ -74,6 +76,7 @@ export function removeFeed(id) {
       await dispatch(fetch(`/api/rss/feeds/${id}`, { method: 'DELETE' }));
       dispatch(notifySuccess('Feed Removed'));
       dispatch(receiveRemoveFeed(id));
+      mixpanel.track('Removed RSS Feed', { id });
       return { id };
     } catch (err) {
       dispatch(notifyError(err));

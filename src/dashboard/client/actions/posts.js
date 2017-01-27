@@ -162,6 +162,11 @@ export function scheduledPostActions(type) {
         post.date = new Date(post.date);
         dispatch(receiveScheduledPost(post));
         dispatch(notifySuccess('Scheduled Post'));
+        mixpanel.track('Scheduled Post', {
+          type,
+          id: post.id,
+          account: post.accountId,
+        });
         return post;
       } catch (err) {
         dispatch(notifyError(err));
@@ -178,6 +183,11 @@ export function scheduledPostActions(type) {
         post.date = new Date(post.date);
         dispatch(receiveScheduledPost(post));
         dispatch(notifySuccess('Updated Post'));
+        mixpanel.track('Updated Scheduled Post', {
+          type,
+          id: post.id,
+          account: post.accountId,
+        });
         return post;
       } catch (err) {
         dispatch(notifyError(err));
@@ -192,6 +202,7 @@ export function scheduledPostActions(type) {
         await dispatch(fetch(`/api/${type}/scheduled-posts/${id}`, { method: 'DELETE' }));
         dispatch(receiveRemoveScheduledPost(id));
         dispatch(notifySuccess('Removed Post'));
+        mixpanel.track('Removed Scheduled Post', { type, id });
         return { id };
       } catch (err) {
         dispatch(notifyError(err));
@@ -286,6 +297,11 @@ export function scheduledRetweetActions() {
         dispatch(receiveScheduledRetweet(retweet));
         dispatch(twitter.receivePost(post));
         dispatch(notifySuccess('Scheduled Retweet'));
+        mixpanel.track('Scheduled Retweet', {
+          id: retweet.id,
+          account: retweet.accountId,
+          post: post.id,
+        });
         return retweet;
       } catch (err) {
         dispatch(notifyError(err));
@@ -307,6 +323,11 @@ export function scheduledRetweetActions() {
         retweet.date = new Date(retweet.date);
         dispatch(receiveScheduledRetweet(retweet));
         dispatch(notifySuccess('Updated Retweet'));
+        mixpanel.track('Updated Scheduled Retweet', {
+          id: retweet.id,
+          account: retweet.accountId,
+          post: post.id,
+        });
         return retweet;
       } catch (err) {
         dispatch(notifyError(err));
@@ -321,6 +342,7 @@ export function scheduledRetweetActions() {
         await dispatch(fetch(`/api/twitter/scheduled-retweets/${id}`, { method: 'DELETE' }));
         dispatch(receiveRemoveScheduledRetweet(id));
         dispatch(notifySuccess('Removed Retweet'));
+        mixpanel.track('Removed Scheduled Retweet', { id });
         return { id };
       } catch (err) {
         dispatch(notifyError(err));

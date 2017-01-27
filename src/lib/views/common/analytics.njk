@@ -21,8 +21,19 @@
     (function(w) {
       function noop() {};
       w.mixpanel = {
-        track: noop,
         identify: noop,
+        track: noop,
+        people: {
+          set: noop,
+          set_once: noop,
+          increment: noop,
+          append: noop,
+          union: noop,
+          track_charge: noop,
+          clear_charges: noop,
+          delete_user: noop
+        },
+        alias: noop
       };
     })(window);
   </script>
