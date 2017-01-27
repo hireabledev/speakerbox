@@ -1,10 +1,10 @@
 import { config as debug } from '../debug';
 
 function env(str, defaultValue, required) {
-  if (required === 'required' && !str) {
+  const result = process.env[str] || defaultValue;
+  if (required === 'required' && !result) {
     throw new Error(`${str} env variable is required.`);
   }
-  const result = process.env[str] || defaultValue;
   if (result === undefined) {
     debug.warn(`Optional env variable ${str} is undefined.`);
   } else if (result === null) {
@@ -73,4 +73,4 @@ const forceHttps = env('FORCE_HTTPS', IS_PROD);
 export const FORCE_HTTPS = typeof forceHttps === 'string' ? JSON.parse(forceHttps) : forceHttps;
 
 // Email Templates
-export const DEFAULT_EMAIL_TEMPLATE = env('DEFAULT_EMAIL_TEMPLATE', null, 'required');
+export const DEFAULT_EMAIL_TEMPLATE = env('DEFAULT_EMAIL_TEMPLATE', null);
