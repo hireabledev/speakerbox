@@ -42,7 +42,7 @@ export const KUE_USER = env('KUE_USER', 'kue');
 export const KUE_PWD = env('KUE_PWD', null, 'required');
 
 export const SEND_EMAIL = env('SEND_EMAIL', IS_PROD);
-export const SENDGRID_API_KEY = env('SENDGRID_API_KEY', null, 'required');
+export const SENDGRID_API_KEY = env('SENDGRID_API_KEY', null);
 export const CONTACT_EMAIL = env('CONTACT_EMAIL', 'Speaker Box <no-reply@speakerbox.io>');
 
 export const FB_KEY = env('FB_KEY', null, 'required');
