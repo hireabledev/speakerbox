@@ -65,6 +65,7 @@ export const LINKEDIN_FETCH_DELAY = env('LINKEDIN_FETCH_DELAY', 899995);
 export const LINKEDIN_API_URL = env('LINKEDIN_API_URL', 'https://api.linkedin.com/v1');
 
 export const ADSENSE_ID = env('ADSENSE_ID');
+export const VERSION = env('HEROKU_SLUG_COMMIT', `dev-${new Date().getTime()}`);
 
 // Email Templates
 export const DEFAULT_EMAIL_TEMPLATE = env('DEFAULT_EMAIL_TEMPLATE', null, 'required');
