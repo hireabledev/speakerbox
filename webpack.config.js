@@ -37,10 +37,7 @@ const webpackConfig = {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         loader: 'babel',
-        query: {
-          babelrc: false,
-          ...babelConfig,
-        },
+        query: Object.assign({ babelrc: false }, babelConfig),
       },
       { test: /\.json$/, loader: 'json' },
       { test: /\.html$/, loader: 'html' },
