@@ -32,7 +32,7 @@ export function SettingsAccountsPage(props) {
   return (
     <div>
       <PageTitle flush>Accounts</PageTitle>
-      <table className="table">
+      <table className="table table-responsive">
         <thead>
           <tr>
             <th>Name</th>

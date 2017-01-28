@@ -44,4 +44,5 @@ $select-link-hover-color: $input-color-focus;
 
 .Select-control {
   height: $input-height + $input-padding-y + rem(1px);
+  padding-bottom: $input-padding-y;
 }

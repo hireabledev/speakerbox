@@ -73,7 +73,7 @@ export class SettingsFeedsListPage extends Component {
         </PageTitle>
         <If falsy={this.state.feedFormVisible}>
           <div>
-            <table className="table">
+            <table className="table table-responsive">
               <thead>
                 <tr>
                   <th>Name</th>
