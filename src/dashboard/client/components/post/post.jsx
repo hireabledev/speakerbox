@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import Linkify from 'react-linkify';
 import DisplayDate from 'lib/client/components/display-date';
 import PostTypeLabel from '../post-type-label';
 import PostAuthor from '../post-author';
@@ -33,7 +34,9 @@ export default function Post({ post, actions }) {
           {post.title && (
             <h1 className="sb-post-title">{post.title}</h1>
           )}
-          {post.message || post.comment || post.description || post.caption}
+          <Linkify properties={{ target: '_blank', rel: 'noopener noreferrer' }}>
+            {post.message || post.comment || post.description || post.caption}
+          </Linkify>
         </p>
       </div>
       {actions}
