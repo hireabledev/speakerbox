@@ -30,6 +30,7 @@ export function postActions(type) {
         const res = await dispatch(fetch(`/api/${type}/posts`, {
           query: {
             skip: state.posts.length,
+            limit: 5,
             ...options.query,
           },
         }));
