@@ -1,7 +1,5 @@
-import pagination from 'express-query-pagination';
-import sort from 'express-sequelize-sort';
 import configureRouter from '../../router';
-import { where, filter, created, attributes } from '../../../lib/middleware/sequelize';
+import { listMiddleware, filter } from '../../middleware';
 import { favorited } from '../../middleware/post';
 import { index, show, update, remove } from './controller';
 
@@ -10,12 +8,8 @@ const router = configureRouter();
 
 router.get(
   '/',
-  pagination,
-  sort,
+  ...listMiddleware,
   favorited,
-  where,
-  created,
-  attributes,
   filter(MODEL_NAME),
   index
 );

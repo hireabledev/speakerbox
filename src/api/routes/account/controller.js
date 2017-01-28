@@ -1,6 +1,6 @@
 export async function index(req, res, next) {
   const Account = req.app.models.Account;
-  const { limit, skip, where, attributes } = res.locals;
+  const { limit, skip, where, attributes, sort } = res.locals;
 
   const instances = await Account
     .scopeForUser(req.user, req.query.user)
@@ -9,6 +9,7 @@ export async function index(req, res, next) {
       offset: skip,
       where,
       attributes: Account.getValidAttributes(attributes),
+      order: sort,
     });
 
   return {
