@@ -1,11 +1,16 @@
 $sb-menu-spacer-y: $spacer-y * 2 / 3;
 $sb-menu-spacer-x: rem(($grid-gutter-width-base / 2));
+$sb-menu-width: rem(240px);
 
 /* nav */.sb-menu {
   background: $sb-menu-bg;
   flex-shrink: 0;
+  height: 100%;
+  margin-left: 0;
   min-height: 100vh;
-  width: rem(240px);
+  transition: margin-left 0.4s ease-in-out;
+  width: $sb-menu-width;
+  z-index: $zindex-navbar;
 
   a {
     color: $sb-menu-link;
@@ -47,6 +52,19 @@ $sb-menu-spacer-x: rem(($grid-gutter-width-base / 2));
   padding: $spacer-y $sb-menu-spacer-x;
 }
 
+  .sb-menu-brand-mobile {
+    color: $sb-menu-link-active;
+    transition: color 0.4s ease-in-out;
+
+    &.sb-menu-brand-mobile-active {
+      color: $sb-menu-brand-bg;
+    }
+
+    @include media-breakpoint-up(md) {
+      display: none;
+    }
+  }
+
 .sb-menu-content {
   color: $sb-menu-text;
   margin-top: 1.5rem;
@@ -55,4 +73,39 @@ $sb-menu-spacer-x: rem(($grid-gutter-width-base / 2));
 .sb-menu .sb-divider {
   border-top: 1px solid shade($sb-menu-bg, 20%);
   border-bottom: 1px solid tint($sb-menu-bg, 5%);
+}
+
+.sb-menu-toggle {
+  $size: rem(50px);
+
+  background: $brand-primary;
+  border: 0;
+  border-radius: 1000px;
+  box-shadow: $shadow;
+  color: #fff;
+  height: $size;
+  width: $size;
+  line-height: 1;
+  padding: $spacer-x;
+  position: fixed;
+  bottom: $grid-gutter-width-base;
+  right: $grid-gutter-width-base;
+  z-index: $zindex-navbar;
+}
+
+@include media-breakpoint-down(sm) {
+  .sb-menu {
+    position: fixed;
+    top: 0;
+  }
+
+  .sb-menu:not(.sb-menu-expanded) {
+    margin-left: -$sb-menu-width;
+  }
+}
+
+@include media-breakpoint-up(md) {
+  .sb-menu-toggle {
+    display: none;
+  }
 }

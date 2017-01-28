@@ -10,7 +10,7 @@ export default function Icon(props) {
     props.className
   );
   const icon = <span className={className} aria-hidden="true" />;
-  const label = <span className="sr-only">{props.label}</span>;
+  const label = <span className="sr-only">{props.label || props.name}</span>;
   if (props.label) {
     return (
       <span>

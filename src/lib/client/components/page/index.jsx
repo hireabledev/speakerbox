@@ -21,7 +21,7 @@ export default function Page({ children, menu, subnav, sidebar, sidebarSecondary
         <div className="container-fluid">
           <div className="row">
             <If truthy={sidebar}>
-              <div className="sb-page-sidebar col-xs-12 col-md-4 col-lg-3">
+              <div className="sb-page-sidebar col-xs-12 col-lg-3">
                 {sidebar}
               </div>
             </If>
@@ -29,15 +29,15 @@ export default function Page({ children, menu, subnav, sidebar, sidebarSecondary
               className={cn({
                 'sb-page-body': true,
                 'col-12': true,
-                'col-md-8 col-lg-9': oneSidebar && !bothSidebars,
-                'col-md-4 col-lg-6': bothSidebars,
+                'col-lg-9': oneSidebar && !bothSidebars,
+                'col-lg-6': bothSidebars,
               })}
             >
               {children}
             </div>
             <If truthy={sidebarSecondary}>
               <div
-                className="sb-page-sidebar sb-page-sidebar-secondary col-xs-12 col-md-4 col-lg-3"
+                className="sb-page-sidebar sb-page-sidebar-secondary col-xs-12 col-lg-3"
               >
                 {sidebarSecondary}
               </div>

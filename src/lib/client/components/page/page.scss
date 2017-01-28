@@ -1,7 +1,9 @@
 $sb-subnav-bg: $white;
 
 .sb-page {
-  display: flex;
+  @include media-breakpoint-up(md) {
+    display: flex;
+  }
   position: relative;
 }
 
