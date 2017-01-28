@@ -2,8 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Link from 'react-router/lib/Link';
 import cn from 'classnames';
-import { PageTitle } from 'lib/components/page';
-import If from 'lib/components/if';
+import { PageTitle } from 'lib/client/components/page';
+import If from 'lib/client/components/if';
 import { removeFeed } from '../actions/feeds';
 import FeedForm from './feed-form';
 

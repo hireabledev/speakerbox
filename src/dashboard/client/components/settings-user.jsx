@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import Form, { FormGroup, Label, Input } from 'lib/components/form';
-import { PageTitle } from 'lib/components/page';
+import Form, { FormGroup, Label, Input } from 'lib/client/components/form';
+import { PageTitle } from 'lib/client/components/page';
 import { updateUser } from '../actions/user';
 
 export function SettingsUserForm(props) {

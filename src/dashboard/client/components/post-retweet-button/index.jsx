@@ -4,7 +4,7 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 import Datetime from 'react-datetime';
 import Link from 'react-router/lib/Link';
-import Icon from 'lib/components/icon';
+import Icon from 'lib/client/components/icon';
 import { twitter } from '../../actions/posts';
 
 export class PostRetweetButton extends Component {

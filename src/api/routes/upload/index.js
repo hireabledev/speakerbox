@@ -1,6 +1,6 @@
+import { upload } from 'lib/multer';
 import configureRouter from '../../router';
 import { listMiddleware, filter } from '../../middleware';
-import { upload } from '../../../lib/multer';
 import { index, show, create, update, remove } from './controller';
 
 const MODEL_NAME = 'Account';

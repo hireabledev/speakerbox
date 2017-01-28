@@ -1,6 +1,6 @@
 import sort from 'express-sequelize-sort';
 import pagination from 'express-query-pagination';
-import { where, created, attributes } from '../../lib/middleware/sequelize';
+import { where, created, attributes } from 'lib/middleware/sequelize';
 
 export const listMiddleware = [
   pagination,
@@ -10,4 +10,4 @@ export const listMiddleware = [
   attributes,
 ];
 
-export { filter } from '../../lib/middleware/sequelize';
+export { filter } from 'lib/middleware/sequelize';

@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import Page from 'lib/components/page';
-import Subnav, { SubnavLink } from 'lib/components/subnav';
+import Page from 'lib/client/components/page';
+import Subnav, { SubnavLink } from 'lib/client/components/subnav';
 
 export class SettingsPage extends Component {
   componentDidMount() {

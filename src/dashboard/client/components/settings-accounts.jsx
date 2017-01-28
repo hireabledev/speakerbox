@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { PageTitle } from 'lib/components/page';
+import { PageTitle } from 'lib/client/components/page';
 import { removeAccount } from '../actions/accounts';
 
 function AccountItem({ account, remove }) {

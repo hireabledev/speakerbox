@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { ImagePicker } from 'lib/components/form/img-picker';
+import { ImagePicker } from 'lib/client/components/form/img-picker';
 import * as postActions from '../../actions/posts';
 
 export function PostImg({ disabled, post, onChange }) {

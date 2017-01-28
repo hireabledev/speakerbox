@@ -5,7 +5,7 @@ import cn from 'classnames';
 import some from 'lodash/some';
 import throttle from 'lodash/throttle';
 import { getTweetLength } from 'twitter-text';
-import Form, { FormGroup, Label, Textarea, Datetime, AccountSelect, ImagePicker } from 'lib/components/form';
+import Form, { FormGroup, Label, Textarea, Datetime, AccountSelect, ImagePicker } from 'lib/client/components/form';
 import * as postActions from '../../actions/posts';
 
 const FORM_NAME = 'scheduledPost';

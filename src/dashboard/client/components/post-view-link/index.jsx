@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import Icon from 'lib/components/icon';
+import Icon from 'lib/client/components/icon';
 
 export default function PostViewLink({ url }) {
   return (

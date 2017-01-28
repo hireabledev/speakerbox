@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import cn from 'classnames';
 import Link from 'react-router/lib/Link';
-import Icon from 'lib/components/icon';
+import Icon from 'lib/client/components/icon';
 
 export default function PostScheduleButton({ post }) {
   return (

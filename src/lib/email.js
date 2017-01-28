@@ -1,8 +1,8 @@
 import sendgrid from 'sendgrid';
 import { parseAddresses } from 'mimelib';
 import { flatten, mapKeys } from 'lodash';
-import { email as debug } from '../lib/debug';
-import sentry from '../lib/sentry';
+import { email as debug } from 'lib/debug';
+import sentry from 'lib/sentry';
 import {
   IS_PROD,
   SEND_EMAIL,

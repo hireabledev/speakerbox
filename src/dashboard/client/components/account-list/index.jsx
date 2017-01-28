@@ -5,7 +5,7 @@ import map from 'lodash/map';
 import noop from 'lodash/noop';
 import pickBy from 'lodash/pickBy';
 import Link from 'react-router/lib/Link';
-import { IconCheckbox } from 'lib/components/checkbox';
+import { IconCheckbox } from 'lib/client/components/checkbox';
 
 function isChecked(accounts, feeds, type, id) {
   return type === 'feeds' ? !!feeds[id] : !!accounts[id];

@@ -2,7 +2,7 @@ import { Router } from 'express';
 import {
   authenticated as authenticatedMiddleware,
   adminOnly as adminOnlyMiddleware,
-} from '../lib/middleware/access-control';
+} from 'lib/middleware/access-control';
 
 export function patchController(controller) {
   return function patchedController(req, res, next) {

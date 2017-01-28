@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import Loading from 'react-redux-loading-bar';
 import { Notifs } from 'redux-notifications';
 import { connect } from 'react-redux';
-import Notif from 'lib/components/notification';
+import Notif from 'lib/client/components/notification';
 import { fetchUser } from '../actions/user';
 import { fetchAccounts } from '../actions/accounts';
 import { fetchFeeds } from '../actions/feeds';

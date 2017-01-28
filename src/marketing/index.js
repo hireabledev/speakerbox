@@ -1,5 +1,5 @@
 import express from 'express';
-import configureNunjucks from '../lib/nunjucks';
+import configureNunjucks from 'lib/nunjucks';
 
 // Routes
 import homePage from './routes/home-page';

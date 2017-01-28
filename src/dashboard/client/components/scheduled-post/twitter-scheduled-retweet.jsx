@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import noop from 'lodash/noop';
 import cn from 'classnames';
-import Icon from 'lib/components/icon';
+import Icon from 'lib/client/components/icon';
 import PostTypeLabel from '../post-type-label';
 import PostTextarea from '../post-textarea';
 import PostActions from '../post-actions';

@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import Form, { FormGroup, Label, Input } from 'lib/components/form';
+import Form, { FormGroup, Label, Input } from 'lib/client/components/form';
 import { addFeed, updateFeed } from '../../actions/feeds';
 
 export function RawFeedForm(props) {

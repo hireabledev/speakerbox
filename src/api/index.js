@@ -1,5 +1,5 @@
 import express from 'express';
-import queue, { addJob, removeJob } from '../lib/queue';
+import queue, { addJob, removeJob } from 'lib/queue';
 import { scopeToAccountType } from './middleware/account';
 
 // Routes

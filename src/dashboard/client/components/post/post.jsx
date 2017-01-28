@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import DisplayDate from 'lib/components/display-date';
+import DisplayDate from 'lib/client/components/display-date';
 import PostTypeLabel from '../post-type-label';
 import PostAuthor from '../post-author';
 import PostAuthorImg from '../post-author-img';

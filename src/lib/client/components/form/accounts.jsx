@@ -4,7 +4,7 @@ import { Field } from 'redux-form';
 import { connect } from 'react-redux';
 import Select from 'react-select';
 import Option from 'react-select/lib/Option';
-import Icon from 'lib/components/icon';
+import Icon from 'lib/client/components/icon';
 
 function AccountOption(props) {
   return (

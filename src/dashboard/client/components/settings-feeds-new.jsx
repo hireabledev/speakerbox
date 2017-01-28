@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import Link from 'react-router/lib/Link';
-import { PageTitle } from 'lib/components/page';
+import { PageTitle } from 'lib/client/components/page';
 import FeedForm from './feed-form';
 
 export default function SettingsFeedsNewPage(props) {

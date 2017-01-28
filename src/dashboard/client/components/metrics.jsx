@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Page, { PageTitle } from 'lib/components/page';
+import Page, { PageTitle } from 'lib/client/components/page';
 
 export default class MetricsPage extends Component {
   componentDidMount() {

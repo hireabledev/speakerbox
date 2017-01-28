@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import Icon from 'lib/components/icon';
+import Icon from 'lib/client/components/icon';
 import * as postActions from '../../actions/posts';
 
 export function PostRemoveButton({ post, onClick }) {

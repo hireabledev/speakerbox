@@ -3,7 +3,7 @@ import cn from 'classnames';
 import noop from 'lodash/noop';
 import { Field } from 'redux-form';
 import fetch from 'lib/fetch';
-import Icon from 'lib/components/icon';
+import Icon from 'lib/client/components/icon';
 
 export class ImagePicker extends Component {
   componentWillReceiveProps(nextProps) {

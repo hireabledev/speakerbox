@@ -1,5 +1,5 @@
+import { adminOnly } from 'lib/middleware/access-control';
 import configureRouter from '../../router';
-import { adminOnly } from '../../../lib/middleware/access-control';
 import { listMiddleware } from '../../middleware';
 import { index, show, create, update, remove } from './controller';
 

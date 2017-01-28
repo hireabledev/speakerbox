@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import Icon from 'lib/components/icon';
+import Icon from 'lib/client/components/icon';
 import Post from './post';
 import PostActions from '../post-actions';
 import PostFavoriteButton from '../post-favorite-button';

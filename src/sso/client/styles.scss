@@ -1,12 +1,12 @@
-@import '../../lib/styles/functions';
-@import '../../lib/styles/variables';
-@import '../../lib/styles/functions-with-variables';
-@import '../../lib/styles/mixins';
+@import '../../lib/client/styles/functions';
+@import '../../lib/client/styles/variables';
+@import '../../lib/client/styles/functions-with-variables';
+@import '../../lib/client/styles/mixins';
 
 @import 'bootstrap/scss/bootstrap';
 
-@import '../../lib/styles/base';
-@import '../../lib/styles/buttons';
-@import '../../lib/styles/cards';
+@import '../../lib/client/styles/base';
+@import '../../lib/client/styles/buttons';
+@import '../../lib/client/styles/cards';
 
-@import '../../lib/components/page/page';
+@import '../../lib/client/components/page/page';

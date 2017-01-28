@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import cn from 'classnames';
-import Icon from 'lib/components/icon';
+import Icon from 'lib/client/components/icon';
 import * as postActions from '../../actions/posts';
 
 export function PostFavoriteButton({ post, onClick }) {
