@@ -41,13 +41,15 @@ export default async function rssFeedImportPostsProcessor(job, done) {
     job.progress(2, PROGRESS_TOTAL, 'Fetched rss posts');
 
     // save to database
-    const posts = await RSSPost.bulkCreate(items.map(post => ({
-      ...post,
-      date: new Date(post.date),
-      message: sanitizeHtml(post.description),
-      url: post.link,
-      rssFeedId,
-    })));
+    const posts = await Promise.all(items.map(
+      post => RSSPost.create({
+        ...post,
+        date: new Date(post.date),
+        message: sanitizeHtml(post.description),
+        url: post.link,
+        rssFeedId,
+      })
+    ));
     job.progress(3, PROGRESS_TOTAL, `Created ${posts.length} posts`);
 
     // update feed
