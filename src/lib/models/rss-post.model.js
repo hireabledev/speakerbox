@@ -46,6 +46,10 @@ const RSSPost = sequelize.define('RSSPost', {
     singular: 'rssPost',
     plural: 'rssPosts',
   },
+  indexes: [{
+    unique: 'feedPostUrl',
+    fields: ['url', 'rssFeedId'],
+  }],
 });
 
 export default RSSPost;
