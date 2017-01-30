@@ -73,29 +73,31 @@ export class SettingsFeedsListPage extends Component {
         </PageTitle>
         <If falsy={this.state.feedFormVisible}>
           <div>
-            <table className="table table-responsive">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>URL</th>
-                  <th>ID</th>
-                  <th><span className="sr-only">Actions</span></th>
-                </tr>
-              </thead>
-              <tbody>
-                {feeds.map(feed => (
-                  <FeedItem
-                    key={feed.id}
-                    feed={feed}
-                    onClick={e => {
-                      e.preventDefault();
-                      this.editFeed(feed);
-                    }}
-                    remove={this.props.removeFeed}
-                  />
-                ))}
-              </tbody>
-            </table>
+            <div className="table-responsive">
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>URL</th>
+                    <th>ID</th>
+                    <th><span className="sr-only">Actions</span></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {feeds.map(feed => (
+                    <FeedItem
+                      key={feed.id}
+                      feed={feed}
+                      onClick={e => {
+                        e.preventDefault();
+                        this.editFeed(feed);
+                      }}
+                      remove={this.props.removeFeed}
+                    />
+                  ))}
+                </tbody>
+              </table>
+            </div>
             <Link
               to="/settings/feeds/new"
               className={cn('btn btn-primary', {

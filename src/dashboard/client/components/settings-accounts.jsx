@@ -32,21 +32,23 @@ export function SettingsAccountsPage(props) {
   return (
     <div>
       <PageTitle flush>Accounts</PageTitle>
-      <table className="table table-responsive">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Type</th>
-            <th>ID</th>
-            <th><span className="sr-only">Actions</span></th>
-          </tr>
-        </thead>
-        <tbody>
-          {accounts.map(account => (
-            <AccountItem key={account.id} account={account} remove={props.removeAccount} />
-          ))}
-        </tbody>
-      </table>
+      <div className="table-responsive">
+        <table className="table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>ID</th>
+              <th><span className="sr-only">Actions</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            {accounts.map(account => (
+              <AccountItem key={account.id} account={account} remove={props.removeAccount} />
+            ))}
+          </tbody>
+        </table>
+      </div>
       <a className="btn btn-primary" href="/sso">Add Account</a>
     </div>
   );
