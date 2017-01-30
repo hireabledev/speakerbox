@@ -8,7 +8,7 @@ export function PostTypeLabel({ children, type, accountId, accountsById, feedId,
   return (
     <div
       className={cn('sb-post-type', `sb-post-type-${type}`)}
-      title={(account && account.name) || (feed && feed.name)}
+      title={(account && account.name) || (feed && feed.title)}
     >
       {children || type}
     </div>
