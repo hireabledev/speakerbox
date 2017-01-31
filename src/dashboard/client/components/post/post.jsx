@@ -6,10 +6,11 @@ import PostAuthor from '../post-author';
 import PostAuthorImg from '../post-author-img';
 import PostMeta from '../post-meta';
 
-export default function Post({ post, actions }) {
+export default function Post({ post, actions, waypoint }) {
   return (
     <article className="sb-post">
       <div className="sb-post-body">
+        {waypoint}
         <PostMeta position="top">
           <PostMeta.Primary>
             {post.authorImgUrl && (
@@ -58,4 +59,5 @@ Post.propTypes = {
     authorImgUrl: PropTypes.string,
   }).isRequired,
   actions: PropTypes.node,
+  waypoint: PropTypes.node,
 };

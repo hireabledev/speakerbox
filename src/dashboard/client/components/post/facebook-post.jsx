@@ -10,10 +10,11 @@ function getFacebookShareUrl(url) {
   return `https://www.facebook.com/sharer.php?u=${url}`;
 }
 
-export default function FacebookPost({ post }) {
+export default function FacebookPost({ post, waypoint }) {
   return (
     <Post
       post={post}
+      waypoint={waypoint}
       actions={(
         <PostActions>
           <PostFavoriteButton post={post} />
@@ -48,4 +49,5 @@ FacebookPost.propTypes = {
     authorImgUrl: PropTypes.string,
     favorited: PropTypes.string,
   }).isRequired,
+  waypoint: PropTypes.node,
 };

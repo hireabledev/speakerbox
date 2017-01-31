@@ -11,10 +11,10 @@ const postMap = {
   linkedin: LinkedinPost,
 };
 
-export default function UniversalPost({ children, post, type }) {
+export default function UniversalPost({ children, post, waypoint, type }) {
   const InnerPost = postMap[type];
   return (
-    <InnerPost post={post}>
+    <InnerPost post={post} waypoint={waypoint}>
       {children}
     </InnerPost>
   );
@@ -24,4 +24,5 @@ UniversalPost.propTypes = {
   children: PropTypes.node,
   post: PropTypes.object,
   type: PropTypes.oneOf(['rss', 'facebook', 'twitter', 'linkedin']),
+  waypoint: PropTypes.node,
 };

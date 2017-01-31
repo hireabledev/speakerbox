@@ -5,13 +5,14 @@ import PostFavoriteButton from '../post-favorite-button';
 import PostScheduleButton from '../post-schedule-button';
 import PostViewLink from '../post-view-link';
 
-export default function RSSPost({ post }) {
+export default function RSSPost({ post, waypoint }) {
   return (
     <Post
       post={{
         ...post,
         message: (<span dangerouslySetInnerHTML={{ __html: post.message }} />),
       }}
+      waypoint={waypoint}
       actions={(
         <PostActions>
           <PostFavoriteButton post={post} />
@@ -33,4 +34,5 @@ RSSPost.propTypes = {
     url: PropTypes.string,
     favorited: PropTypes.string,
   }).isRequired,
+  waypoint: PropTypes.node,
 };

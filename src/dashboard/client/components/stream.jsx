@@ -1,20 +1,32 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import concat from 'lodash/concat';
+import includes from 'lodash/includes';
+import last from 'lodash/last';
 import memoize from 'lodash/memoize';
 import orderBy from 'lodash/orderBy';
-import InfiniteScroll from 'react-infinite-scroller';
+import Waypoint from 'react-waypoint';
 import Link from 'react-router/lib/Link';
 import Fallback from 'lib/client/components/fallback';
 import Page from 'lib/client/components/page';
 import Post from './post';
 import AccountList from './account-list';
-import { fetchAllPosts, resetAllPosts } from '../actions/posts';
+import {
+  facebook,
+  twitter,
+  linkedin,
+  rss,
+  fetchAllPosts,
+  resetAllPosts,
+} from '../actions/posts';
 
 export class StreamPage extends Component {
   constructor(props) {
     super(props);
+    this.getWaypoint = this.getWaypoint.bind(this);
+    this.getFetchOptions = this.getFetchOptions.bind(this);
     this.fetchPosts = this.fetchPosts.bind(this);
+    this.fetchPostsByType = this.fetchPostsByType.bind(this);
   }
 
   componentDidMount() {
@@ -28,12 +40,44 @@ export class StreamPage extends Component {
     }
   }
 
-  fetchPosts(options = { query: { sort: '-date' } }) {
-    if (this.props.location.pathname === '/favorites') {
-      options.query.favorited = true; // eslint-disable-line no-param-reassign
-    }
+  getWaypoint(post) {
+    const moreMap = {
+      facebook: this.props.moreFacebookPosts,
+      twitter: this.props.moreTwitterPosts,
+      linkedin: this.props.moreLinkedinPosts,
+      rss: this.props.moreRSSPosts,
+    };
+    return (
+      <Waypoint
+        onEnter={() => {
+          const { type } = post;
+          if (moreMap[type]) {
+            this.fetchPostsByType(type);
+          }
+        }}
+      />
+    );
+  }
 
-    return this.props.fetchPosts(options);
+  getFetchOptions(options = { limit: 10 }) {
+    const fetchOptions = {
+      query: {
+        sort: '-date',
+        limit: options.limit,
+      },
+    };
+    if (this.props.location.pathname === '/favorites') {
+      fetchOptions.query.favorited = true; // eslint-disable-line no-param-reassign
+    }
+    return fetchOptions;
+  }
+
+  fetchPosts() {
+    return this.props.fetchPosts(this.getFetchOptions());
+  }
+
+  fetchPostsByType(type) {
+    return this.props.fetchPostsByType(type)(this.getFetchOptions({ limit: 10 }));
   }
 
   render() {
@@ -41,13 +85,9 @@ export class StreamPage extends Component {
       accountVisibility,
       feedVisibility,
       facebookPosts = [],
-      moreFacebookPosts,
       twitterPosts = [],
-      moreTwitterPosts,
       linkedinPosts = [],
-      moreLinkedinPosts,
       rssPosts = [],
-      moreRSSPosts,
     } = this.props;
 
     const posts = orderBy(
@@ -55,7 +95,13 @@ export class StreamPage extends Component {
       'date',
       'desc'
     );
-    const morePosts = moreFacebookPosts || moreTwitterPosts || moreLinkedinPosts || moreRSSPosts;
+
+    const lastPosts = [
+      last(facebookPosts),
+      last(twitterPosts),
+      last(linkedinPosts),
+      last(rssPosts),
+    ];
 
     const filterByAccountOrFeed = memoize((post) => {
       if (post.type === 'rss') {
@@ -76,16 +122,16 @@ export class StreamPage extends Component {
         <Fallback if={posts.length === 0}>
           No posts. <Link to="/settings/accounts">Add an account?</Link>
         </Fallback>
-        <InfiniteScroll
-          initialLoad={false}
-          pageStart={0}
-          loadMore={() => this.fetchPosts()}
-          hasMore={morePosts}
-        >
-          {posts
-            .filter(filterByAccountOrFeed)
-            .map(post => <Post key={post.id} post={post} type={post.type} />)}
-        </InfiniteScroll>
+        {posts
+          .filter(filterByAccountOrFeed)
+          .map(post => (
+            <Post
+              key={post.id}
+              post={post}
+              type={post.type}
+              waypoint={includes(lastPosts, post) ? this.getWaypoint(post) : null}
+            />)
+          )}
       </Page>
     );
   }
@@ -114,6 +160,7 @@ StreamPage.propTypes = {
   })).isRequired,
   moreRSSPosts: PropTypes.bool.isRequired,
   fetchPosts: PropTypes.func.isRequired,
+  fetchPostsByType: PropTypes.func.isRequired,
   resetPosts: PropTypes.func.isRequired,
 };
 
@@ -132,6 +179,10 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   fetchPosts: (options) => dispatch(fetchAllPosts(options)),
+  fetchPostsByType: (type) => (options) => {
+    const typeMap = { facebook, twitter, linkedin, rss };
+    return dispatch(typeMap[type].fetchPosts(options));
+  },
   resetPosts: () => dispatch(resetAllPosts()),
 });
 

@@ -5,10 +5,11 @@ import PostFavoriteButton from '../post-favorite-button';
 import PostScheduleButton from '../post-schedule-button';
 import PostViewLink from '../post-view-link';
 
-export default function LinkedInPost({ post }) {
+export default function LinkedInPost({ post, waypoint }) {
   return (
     <Post
       post={post}
+      waypoint={waypoint}
       actions={(
         <PostActions>
           <PostFavoriteButton post={post} />
@@ -33,4 +34,5 @@ LinkedInPost.propTypes = {
     authorImgUrl: PropTypes.string,
     favorited: PropTypes.string,
   }),
+  waypoint: PropTypes.node,
 };

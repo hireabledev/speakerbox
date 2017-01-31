@@ -6,10 +6,11 @@ import PostRetweetButton from '../post-retweet-button';
 import PostScheduleButton from '../post-schedule-button';
 import PostViewLink from '../post-view-link';
 
-export default function TwitterPost({ post }) {
+export default function TwitterPost({ post, waypoint }) {
   return (
     <Post
       post={post}
+      waypoint={waypoint}
       actions={(
         <PostActions>
           <PostFavoriteButton post={post} />
@@ -35,4 +36,5 @@ TwitterPost.propTypes = {
     authorImgUrl: PropTypes.string,
     favorited: PropTypes.string,
   }).isRequired,
+  waypoint: PropTypes.node,
 };
