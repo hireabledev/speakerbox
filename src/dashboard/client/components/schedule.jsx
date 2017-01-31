@@ -57,7 +57,6 @@ export class SchedulePage extends Component {
       retweet: this.props.moreTwitterScheduledRetweets,
       linkedin: this.props.moreLinkedinScheduledPosts,
     };
-    console.log(post, moreMap[post.type]);
     return (
       <Waypoint
         onEnter={() => {
