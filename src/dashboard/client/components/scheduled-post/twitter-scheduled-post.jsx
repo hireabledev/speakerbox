@@ -6,10 +6,11 @@ import PostRemoveButton from '../post-remove-button';
 import PostDateButton from '../post-date-button';
 import PostViewLink from '../post-view-link';
 
-export default function TwitterPost({ post, onRemove }) {
+export default function TwitterPost({ post, onRemove, waypoint }) {
   return (
     <ScheduledPost
       post={post}
+      waypoint={waypoint}
       actions={(
         <PostActions>
           <PostDateButton post={post} disabled={!!post.posted} />
@@ -33,6 +34,7 @@ TwitterPost.propTypes = {
     date: PropTypes.date,
   }).isRequired,
   onRemove: PropTypes.func,
+  waypoint: PropTypes.node,
 };
 
 TwitterPost.defaultProps = {

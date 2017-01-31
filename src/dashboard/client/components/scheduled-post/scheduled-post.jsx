@@ -4,7 +4,7 @@ import PostTypeLabel from '../post-type-label';
 import PostTextarea from '../post-textarea';
 import PostImg from '../post-img';
 
-export default function Post({ post, actions }) {
+export default function Post({ post, actions, waypoint }) {
   const disabled = !!post.url;
   return (
     <article
@@ -12,6 +12,7 @@ export default function Post({ post, actions }) {
         'sb-scheduled-post-posted': post.posted,
       })}
     >
+      {waypoint}
       <div className="sb-post-body">
         <div className="sb-post-container">
           <PostTypeLabel type={post.type} accountId={post.accountId} feedId={post.feedId} />
@@ -35,4 +36,5 @@ Post.propTypes = {
     posted: PropTypes.date,
   }).isRequired,
   actions: PropTypes.node,
+  waypoint: PropTypes.node,
 };

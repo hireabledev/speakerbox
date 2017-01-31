@@ -6,10 +6,11 @@ import PostRemoveButton from '../post-remove-button';
 import PostDateButton from '../post-date-button';
 import PostViewLink from '../post-view-link';
 
-export default function LinkedinPost({ post, onRemove }) {
+export default function LinkedinPost({ post, onRemove, waypoint }) {
   return (
     <ScheduledPost
       post={post}
+      waypoint={waypoint}
       actions={(
         <PostActions>
           <PostDateButton post={post} disabled={!!post.posted} />
@@ -32,6 +33,7 @@ LinkedinPost.propTypes = {
     comment: PropTypes.string,
     date: PropTypes.date,
   }).isRequired,
+  waypoint: PropTypes.node,
   onRemove: PropTypes.func,
 };
 

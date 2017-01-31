@@ -59,7 +59,7 @@ export class StreamPage extends Component {
     );
   }
 
-  getFetchOptions(options = { limit: 10 }) {
+  getFetchOptions(options = { limit: 5 }) {
     const fetchOptions = {
       query: {
         sort: '-date',
@@ -67,7 +67,7 @@ export class StreamPage extends Component {
       },
     };
     if (this.props.location.pathname === '/favorites') {
-      fetchOptions.query.favorited = true; // eslint-disable-line no-param-reassign
+      fetchOptions.query.favorited = true;
     }
     return fetchOptions;
   }

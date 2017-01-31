@@ -9,13 +9,14 @@ import PostRemoveButton from '../post-remove-button';
 import PostDateButton from '../post-date-button';
 import PostViewLink from '../post-view-link';
 
-export default function ScheduledRetweet({ post, onRemove }) {
+export default function ScheduledRetweet({ post, onRemove, waypoint }) {
   return (
     <article
       className={cn('sb-post sb-scheduled-post', {
         'sb-scheduled-post-posted': post.posted,
       })}
     >
+      {waypoint}
       <div className="sb-post-body">
         <div className="sb-post-container">
           <PostTypeLabel type="twitter" accountId={post.accountId}>
@@ -42,6 +43,7 @@ ScheduledRetweet.propTypes = {
     posted: PropTypes.date,
   }).isRequired,
   onRemove: PropTypes.func,
+  waypoint: PropTypes.node,
 };
 
 ScheduledRetweet.defaultProps = {

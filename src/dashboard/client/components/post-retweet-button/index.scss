@@ -7,6 +7,7 @@
     box-shadow: $shadow;
     border-radius: $border-radius;
     border: 1px solid $border;
+    flex-wrap: nowrap;
     padding: $spacer-y $spacer-x;
     position: absolute;
     white-space: nowrap;

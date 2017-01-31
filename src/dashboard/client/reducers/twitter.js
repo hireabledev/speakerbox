@@ -52,7 +52,7 @@ export default function twitterPostsReducer(state = initialState, action) {
         ...state,
         scheduledPosts: [...state.scheduledPosts, ...action.payload.posts],
         scheduledPostsById: mergeKeyById(state.scheduledPostsById, action.payload.posts),
-        morePosts: action.payload.more,
+        moreScheduledPosts: action.payload.more,
       };
     case RECEIVE_TWITTER_SCHEDULED_POST:
       return {
@@ -79,7 +79,7 @@ export default function twitterPostsReducer(state = initialState, action) {
         ...state,
         scheduledRetweets: [...state.scheduledRetweets, ...action.payload.retweets],
         scheduledRetweetsById: mergeKeyById(state.scheduledRetweetsById, action.payload.retweets),
-        moreRetweets: action.payload.more,
+        moreScheduledRetweets: action.payload.more,
       };
     case RECEIVE_TWITTER_SCHEDULED_RETWEET:
       return {

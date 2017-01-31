@@ -1,20 +1,32 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import concat from 'lodash/concat';
+import includes from 'lodash/includes';
+import last from 'lodash/last';
 import memoize from 'lodash/memoize';
 import orderBy from 'lodash/orderBy';
-import InfiniteScroll from 'react-infinite-scroller';
+import sortedUniqBy from 'lodash/sortedUniqBy';
+import Waypoint from 'react-waypoint';
 import Fallback from 'lib/client/components/fallback';
 import Page from 'lib/client/components/page';
 import AccountList from './account-list';
 import ScheduledPost from './scheduled-post';
 import PostForm from './post-form';
-import { fetchAllScheduledPosts, resetAllScheduledPosts } from '../actions/posts';
+import {
+  facebook,
+  twitter,
+  linkedin,
+  fetchAllScheduledPosts,
+  resetAllScheduledPosts,
+} from '../actions/posts';
 
-export class StreamPage extends Component {
+export class SchedulePage extends Component {
   constructor(props) {
     super(props);
+    this.getWaypoint = this.getWaypoint.bind(this);
+    this.getFetchOptions = this.getFetchOptions.bind(this);
     this.fetchScheduledPosts = this.fetchScheduledPosts.bind(this);
+    this.fetchScheduledPostsByType = this.fetchScheduledPostsByType.bind(this);
     this.onRemoveScheduledPost = this.onRemoveScheduledPost.bind(this);
   }
 
@@ -38,40 +50,77 @@ export class StreamPage extends Component {
     }
   }
 
-  fetchScheduledPosts(options = { query: { sort: '-date' } }) {
+  getWaypoint(post) {
+    const moreMap = {
+      facebook: this.props.moreFacebookScheduledPosts,
+      twitter: this.props.moreTwitterScheduledPosts,
+      retweet: this.props.moreTwitterScheduledRetweets,
+      linkedin: this.props.moreLinkedinScheduledPosts,
+    };
+    console.log(post, moreMap[post.type]);
+    return (
+      <Waypoint
+        onEnter={() => {
+          const { type } = post;
+          if (moreMap[type]) {
+            this.fetchScheduledPostsByType(type);
+          }
+        }}
+      />
+    );
+  }
+
+  getFetchOptions(options = { limit: 5 }) {
+    const fetchOptions = {
+      query: {
+        sort: 'date',
+        limit: options.limit,
+      },
+    };
     const id = this.props.location.query.id;
     if (id) {
-      options.query.id = id; // eslint-disable-line no-param-reassign
+      fetchOptions.query.id = id;
     }
-    return this.props.fetchScheduledPosts(options);
+    return fetchOptions;
+  }
+
+  fetchScheduledPosts() {
+    return this.props.fetchScheduledPosts(this.getFetchOptions());
+  }
+
+  fetchScheduledPostsByType(type) {
+    return this.props.fetchScheduledPostsByType(type)(this.getFetchOptions({ limit: 10 }));
   }
 
   render() {
     const {
       accountVisibility,
       facebookScheduledPosts = [],
-      moreFacebookScheduledPosts,
       twitterScheduledPosts = [],
-      moreTwitterScheduledPosts,
       twitterScheduledRetweets = [],
-      moreTwitterScheduledRetweets,
       linkedinScheduledPosts = [],
-      moreLinkedinScheduledPosts,
     } = this.props;
 
-    const posts = orderBy(
-      concat(
-        facebookScheduledPosts,
-        twitterScheduledPosts,
-        twitterScheduledRetweets,
-        linkedinScheduledPosts
+    const posts = sortedUniqBy( // TODO: handle in reducer
+      orderBy(
+        concat(
+          facebookScheduledPosts,
+          twitterScheduledPosts,
+          twitterScheduledRetweets,
+          linkedinScheduledPosts
+        ),
+        'date',
+        'asc'
       ),
-      'date',
-      'desc'
+      'id',
     );
 
-    const moreScheduledPosts = moreFacebookScheduledPosts || moreTwitterScheduledPosts
-      || moreTwitterScheduledRetweets || moreLinkedinScheduledPosts;
+    const lastScheduledPosts = [
+      last(facebookScheduledPosts),
+      last(twitterScheduledPosts),
+      last(twitterScheduledRetweets),
+      last(linkedinScheduledPosts),
+    ];
 
     const queryId = this.props.location.query.id;
 
@@ -96,28 +145,22 @@ export class StreamPage extends Component {
         <Fallback if={posts.length === 0}>
           No scheduled posts. Add one?
         </Fallback>
-        <InfiniteScroll
-          initialLoad={false}
-          pageStart={0}
-          loadMore={this.fetchScheduledPosts}
-          hasMore={moreScheduledPosts}
-        >
-          {posts
-            .filter(filterPosts)
-            .map(post => (
-              <ScheduledPost
-                key={post.id}
-                post={post}
-                type={post.type}
-                onRemove={this.onRemoveScheduledPost}
-              />))}
-        </InfiniteScroll>
+        {posts
+          .filter(filterPosts)
+          .map(post => (
+            <ScheduledPost
+              key={post.id}
+              post={post}
+              type={post.type}
+              onRemove={this.onRemoveScheduledPost}
+              waypoint={includes(lastScheduledPosts, post) ? this.getWaypoint(post) : null}
+            />))}
       </Page>
     );
   }
 }
 
-StreamPage.propTypes = {
+SchedulePage.propTypes = {
   location: PropTypes.shape({
     pathname: PropTypes.string,
     query: PropTypes.shape({
@@ -143,6 +186,7 @@ StreamPage.propTypes = {
   })).isRequired,
   moreLinkedinScheduledPosts: PropTypes.bool.isRequired,
   fetchScheduledPosts: PropTypes.func.isRequired,
+  fetchScheduledPostsByType: PropTypes.func.isRequired,
   resetScheduledPosts: PropTypes.func.isRequired,
 };
 
@@ -161,6 +205,13 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   resetScheduledPosts: (options) => dispatch(resetAllScheduledPosts(options)),
   fetchScheduledPosts: (options) => dispatch(fetchAllScheduledPosts(options)),
+  fetchScheduledPostsByType: (type) => (options) => {
+    const typeMap = { facebook, twitter, linkedin };
+    if (type === 'retweet') {
+      return dispatch(twitter.fetchScheduledRetweets(options));
+    }
+    return dispatch(typeMap[type].fetchScheduledPosts(options));
+  },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(StreamPage);
+export default connect(mapStateToProps, mapDispatchToProps)(SchedulePage);
