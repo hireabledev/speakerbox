@@ -5,7 +5,7 @@ import { TWITTER_KEY, TWITTER_SECRET } from './config';
 function mapPosts(post) {
   return {
     id: post.id_str,
-    url: `https://twitter.com/${post.user.screen_name}/status/${post.id}`,
+    url: `https://twitter.com/${post.user.screen_name}/status/${post.id_str}`,
     message: post.text,
     date: new Date(post.created_at),
     authorName: post.user.name,
