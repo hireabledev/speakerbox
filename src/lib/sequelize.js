@@ -7,6 +7,8 @@ import { ENV } from './config';
 const config = require('./config/db')[ENV];
 
 const sequelize = new Sequelize(config.url, {
+  dialectOptions: config.dialectOptions,
+
   pool: {
     max: os.cpus().length,
     min: 0,
