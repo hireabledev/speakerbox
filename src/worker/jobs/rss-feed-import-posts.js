@@ -1,6 +1,6 @@
 import sanitizeHtml from 'sanitize-html';
 import { FB_FETCH_DELAY } from 'lib/config';
-import { addJob } from 'lib/queue';
+import { addJob, removeJob } from 'lib/queue';
 import { kue as debug } from 'lib/debug';
 import { RSSFeed, RSSPost } from 'lib/models';
 import fetchFeed from 'lib/rss';
@@ -33,6 +33,7 @@ export default async function rssFeedImportPostsProcessor(job, done) {
     if (syncedRecently(feed)) {
       job.log('RSSFeed synced recently. Re-scheduling.');
       await schedule(rssFeedId);
+      await removeJob(job.id);
       return done();
     }
 
@@ -57,6 +58,7 @@ export default async function rssFeedImportPostsProcessor(job, done) {
     job.progress(4, PROGRESS_TOTAL, 'Updated feed.');
 
     await schedule(rssFeedId);
+    await removeJob(job.id);
     return done();
   } catch (err) {
     debug.error(err);

@@ -1,5 +1,5 @@
 import { FB_FETCH_DELAY } from 'lib/config';
-import { addJob } from 'lib/queue';
+import { addJob, removeJob } from 'lib/queue';
 import { kue as debug } from 'lib/debug';
 import { Account, FacebookPost } from 'lib/models';
 import facebookClient from 'lib/facebook';
@@ -32,6 +32,7 @@ export default async function facebookImportPostsProcessor(job, done) {
     if (syncedRecently(account)) {
       job.log('Account synced recently. Re-scheduling.');
       await schedule(accountId);
+      await removeJob(job.id);
       return done();
     }
 
@@ -49,6 +50,7 @@ export default async function facebookImportPostsProcessor(job, done) {
     job.progress(4, PROGRESS_TOTAL, 'Updated account.');
 
     await schedule(accountId);
+    await removeJob(job.id);
     return done();
   } catch (err) {
     debug.error(err);

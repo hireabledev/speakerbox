@@ -1,6 +1,6 @@
 import kue from 'kue';
 import moment from 'moment';
-import { REDIS_URL } from './config';
+import { REDIS_URL, KUE_CLEANUP_BATCH_SIZE } from './config';
 import { kue as debug } from './debug';
 
 const queue = kue.createQueue({
@@ -42,7 +42,7 @@ export function removeJob(jobId) {
 export function cleanupJobs() {
   return new Promise((resolve, reject) => {
     const CLEANUP_TIME = moment().subtract(1, 'hour');
-    kue.Job.rangeByState('complete', 0, 1000, 'asc', (err, jobs) => {
+    kue.Job.rangeByState('complete', 0, KUE_CLEANUP_BATCH_SIZE, 'asc', (err, jobs) => {
       if (err) { return reject(err); }
       const oldJobs = jobs.filter(job => CLEANUP_TIME.isAfter(parseInt(job.created_at, 10)));
       return Promise.all(oldJobs.map(oldJob => removeJob(oldJob.id)))

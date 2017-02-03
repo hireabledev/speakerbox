@@ -1,5 +1,5 @@
 import { TWITTER_FETCH_DELAY } from 'lib/config';
-import { addJob } from 'lib/queue';
+import { addJob, removeJob } from 'lib/queue';
 import { kue as debug } from 'lib/debug';
 import { Account, TwitterPost } from 'lib/models';
 import twitterClient from 'lib/twitter';
@@ -32,6 +32,7 @@ export default async function twitterImportPostsProcessor(job, done) {
     if (syncedRecently(account)) {
       job.log('Account synced recently. Re-scheduling.');
       await schedule(accountId);
+      await removeJob(job.id);
       return done();
     }
 
@@ -62,6 +63,7 @@ export default async function twitterImportPostsProcessor(job, done) {
     job.progress(4, PROGRESS_TOTAL, 'Updated account.');
 
     await schedule(accountId);
+    await removeJob(job.id);
     return done();
   } catch (err) {
     debug.error(err);

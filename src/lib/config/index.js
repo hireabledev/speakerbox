@@ -40,6 +40,7 @@ export const REDIS_URL = env('REDIS_URL');
 
 export const KUE_USER = env('KUE_USER', 'kue');
 export const KUE_PWD = env('KUE_PWD', null, 'required');
+export const KUE_CLEANUP_BATCH_SIZE = env('KUE_CLEANUP_BATCH_SIZE', 1000);
 
 export const SEND_EMAIL = env('SEND_EMAIL', IS_PROD);
 export const SENDGRID_API_KEY = env('SENDGRID_API_KEY', null);
