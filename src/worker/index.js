@@ -3,7 +3,7 @@ import globby from 'globby';
 import path from 'path';
 import { worker as debug } from 'lib/debug';
 import sentry from 'lib/sentry';
-import queue from 'lib/queue';
+import queue, { cleanupJobs } from 'lib/queue';
 import { sequelize } from 'lib/models';
 
 sentry.install(() => {
@@ -40,6 +40,10 @@ function safetyWrapJob(fn) {
     }
   };
 }
+
+debug.info('Clean up jobs...');
+cleanupJobs();
+setInterval(cleanupJobs, 1000 * 60 * 10);
 
 debug.info('Kue loading models...');
 

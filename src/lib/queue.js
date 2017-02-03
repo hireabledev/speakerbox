@@ -1,4 +1,5 @@
 import kue from 'kue';
+import moment from 'moment';
 import { REDIS_URL } from './config';
 import { kue as debug } from './debug';
 
@@ -36,6 +37,22 @@ export function removeJob(jobId) {
       /* eslint-enable no-shadow */
     })
   ));
+}
+
+export function cleanupJobs() {
+  return new Promise((resolve, reject) => {
+    const CLEANUP_TIME = moment().subtract(1, 'hour');
+    kue.Job.rangeByState('complete', 0, 1000, 'asc', (err, jobs) => {
+      if (err) { return reject(err); }
+      const oldJobs = jobs.filter(job => CLEANUP_TIME.isAfter(new Date(job.created_at)));
+      return Promise.all(oldJobs.map(removeJob))
+        .then(removedJobs => {
+          debug.info(`Removed ${removedJobs.length} jobs.`);
+          return resolve(removedJobs);
+        })
+        .catch(reject);
+    });
+  });
 }
 
 export default queue;
