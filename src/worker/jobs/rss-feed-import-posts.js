@@ -1,5 +1,5 @@
 import sanitizeHtml from 'sanitize-html';
-import { FB_FETCH_DELAY } from 'lib/config';
+import { RSS_FETCH_DELAY } from 'lib/config';
 import { addJob, removeJob } from 'lib/queue';
 import { kue as debug } from 'lib/debug';
 import { RSSFeed, RSSPost } from 'lib/models';
@@ -10,7 +10,7 @@ export function schedule(rssFeedId, immediate) {
   return addJob({
     type: 'rss-feed-import-posts',
     title: `RSS Feed Import Posts for ${rssFeedId}`,
-    delay: immediate ? 0 : FB_FETCH_DELAY,
+    delay: immediate ? 0 : RSS_FETCH_DELAY,
     priority: 'low',
     data: { rssFeedId },
   });

@@ -5,73 +5,274 @@ export const IS_PROD = (ENV === 'production');
 export const IS_TEST = (ENV === 'test');
 export const IS_DEV = (ENV === 'development');
 
-function env(str, defaultValue, required) {
-  const result = process.env[str] || defaultValue;
-  if (IS_PROD && required === 'required' && !result) {
-    throw new Error(`${str} env variable is required.`);
+const transforms = {
+  identity(value) {
+    return value;
+  },
+  boolean(value) {
+    return Boolean(value);
+  },
+  integer(value) {
+    try {
+      const result = parseInt(value, 10);
+      if (isNaN(result)) {
+        return value;
+      }
+      return result;
+    } catch (err) {
+      return value;
+    }
+  },
+  number(value) {
+    try {
+      const result = parseFloat(value);
+      if (isNaN(result)) {
+        return value;
+      }
+      return value;
+    } catch (err) {
+      return value;
+    }
+  },
+  json(value) {
+    try {
+      return JSON.parse(value);
+    } catch (err) {
+      return value;
+    }
+  },
+};
+
+function env(options) {
+  const {
+    name,
+    defaultValue,
+    required = false,
+    transform = transforms.identity,
+  } = options;
+
+  const value = transform(process.env[name]);
+
+  if (required && (value === undefined || value === null)) {
+    throw new Error(`${name} env variable is required.`);
   }
-  if (result === undefined) {
-    debug.warn(`Optional env variable ${str} is undefined.`);
-  } else if (result === null) {
-    debug.warn(`Optional env variable ${str} is null.`);
+
+  const result = (value !== undefined ? value : defaultValue);
+
+  if (result === undefined || result === null) {
+    debug.warn(`Optional env variable ${name} is ${result}.`);
   }
+
   return result;
 }
 
-export const PORT = env('PORT', 3000);
-export const HOST = env('HOST', `http://localhost:${PORT}`);
-export const SECRET = env('SECRET', 'speaker boxy box');
-export const STATIC_URL = env('STATIC_URL', '/assets');
+export const PORT = env({
+  name: 'PORT',
+  defaultValue: 3000,
+  transform: transforms.integer,
+});
 
-export const SENTRY_DSN = env('SENTRY_DSN', null);
-export const SENTRY_DSN_PUBLIC = env('SENTRY_DSN_PUBLIC', null);
-export const GA_ID = env('GA_ID');
-export const MIXPANEL_ID = env('MIXPANEL_ID', null);
+export const HOST = env({
+  name: 'HOST',
+  defaultValue: `http://localhost:${PORT}`,
+});
 
-export const AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID', null, 'required');
-export const AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY', null, 'required');
-export const AWS_S3_BUCKET = env('AWS_S3_BUCKET', 'speaker-box');
-export const AWS_REGION = env('AWS_REGION', 'us-west-1');
+export const SECRET = env({
+  name: 'SECRET',
+  defaultValue: 'speaker boxy box',
+  required: IS_PROD,
+});
 
-export const LETS_ENCRYPT_URL = env('LETS_ENCRYPT_URL');
-export const LETS_ENCRYPT_KEY = env('LETS_ENCRYPT_KEY');
+export const STATIC_URL = env({
+  name: 'STATIC_URL',
+  defaultValue: '/assets',
+});
 
-export const REDIS_URL = env('REDIS_URL');
+export const REDIS_URL = env({
+  name: 'REDIS_URL',
+  required: IS_PROD,
+});
 
-export const KUE_USER = env('KUE_USER', 'kue');
-export const KUE_PWD = env('KUE_PWD', null, 'required');
-export const KUE_CLEANUP_BATCH_SIZE = env('KUE_CLEANUP_BATCH_SIZE', 1000);
+// Sentry
+export const SENTRY_DSN = env({
+  name: 'SENTRY_DSN',
+  defaultValue: null,
+  required: IS_PROD,
+});
 
-export const SEND_EMAIL = env('SEND_EMAIL', IS_PROD);
-export const SENDGRID_API_KEY = env('SENDGRID_API_KEY', null);
-export const CONTACT_EMAIL = env('CONTACT_EMAIL', 'Speaker Box <no-reply@speakerbox.io>');
+export const SENTRY_DSN_PUBLIC = env({
+  name: 'SENTRY_DSN_PUBLIC',
+  defaultValue: null,
+  required: IS_PROD,
+});
 
-export const FB_KEY = env('FB_KEY', null, 'required');
-export const FB_SECRET = env('FB_SECRET', null, 'required');
-export const FB_CB_URL = env('FB_CB_URL', `${HOST}/sso/auth/facebook/callback`);
+// Analytics
+export const GA_ID = env({
+  name: 'GA_ID',
+});
 
-export const FB_API_URL = env('FB_API_URL', 'https://graph.facebook.com/v2.2');
-export const FB_FETCH_DELAY = env('FB_FETCH_DELAY', 899995);
+export const MIXPANEL_ID = env({
+  name: 'MIXPANEL_ID',
+});
 
-export const TWITTER_KEY = env('TWITTER_KEY', null, 'required');
-export const TWITTER_SECRET = env('TWITTER_SECRET', null, 'required');
-export const TWITTER_CB_URL = env('TWITTER_CB_URL', `${HOST}/sso/auth/twitter/callback`);
+export const ADSENSE_ID = env({
+  name: 'ADSENSE_ID',
+});
 
-export const TWITTER_FETCH_DELAY = env('TWITTER_FETCH_DELAY', 899995);
+// AWS
+export const AWS_ACCESS_KEY_ID = env({
+  name: 'AWS_ACCESS_KEY_ID',
+  required: IS_PROD,
+});
 
-export const LINKEDIN_KEY = env('LINKEDIN_KEY', null, 'required');
-export const LINKEDIN_SECRET = env('LINKEDIN_SECRET', null, 'required');
-export const LINKEDIN_CB_URL = env('LINKEDIN_CB_URL', `${HOST}/sso/auth/linkedin/callback`);
+export const AWS_SECRET_ACCESS_KEY = env({
+  name: 'AWS_SECRET_ACCESS_KEY',
+  required: IS_PROD,
+});
 
-export const LINKEDIN_FETCH_DELAY = env('LINKEDIN_FETCH_DELAY', 899995);
+export const AWS_S3_BUCKET = env({
+  name: 'AWS_S3_BUCKET',
+  defaultValue: 'speakerbox',
+});
 
-export const LINKEDIN_API_URL = env('LINKEDIN_API_URL', 'https://api.linkedin.com/v1');
+export const AWS_REGION = env({
+  name: 'AWS_REGION',
+  defaultValue: 'us-west-1',
+});
 
-export const ADSENSE_ID = env('ADSENSE_ID');
-export const VERSION = env('HEROKU_SLUG_COMMIT', `dev-${new Date().getTime()}`);
+// Let's Encrypt
+export const LETS_ENCRYPT_URL = env({
+  name: 'LETS_ENCRYPT_URL',
+});
 
-const forceHttps = env('FORCE_HTTPS', IS_PROD);
-export const FORCE_HTTPS = typeof forceHttps === 'string' ? JSON.parse(forceHttps) : forceHttps;
+export const LETS_ENCRYPT_KEY = env({
+  name: 'LETS_ENCRYPT_KEY',
+});
 
-// Email Templates
-export const DEFAULT_EMAIL_TEMPLATE = env('DEFAULT_EMAIL_TEMPLATE', null);
+// Kue
+export const KUE_USER = env({
+  name: 'KUE_USER',
+  defaultValue: 'kue',
+});
+
+export const KUE_PWD = env({
+  name: 'KUE_PWD',
+  required: IS_PROD,
+});
+
+export const KUE_CLEANUP_BATCH_SIZE = env({
+  name: 'KUE_CLEANUP_BATCH_SIZE',
+  defaultValue: 1000,
+  transform: transforms.integer,
+});
+
+// Email
+export const SEND_EMAIL = env({
+  name: 'SEND_EMAIL',
+  defaultValue: IS_PROD,
+});
+
+export const SENDGRID_API_KEY = env({
+  name: 'SENDGRID_API_KEY',
+});
+
+export const CONTACT_EMAIL = env({
+  name: 'CONTACT_EMAIL',
+  defaultValue: 'Speaker Box <no-reply@speakerbox.io>',
+});
+
+export const DEFAULT_EMAIL_TEMPLATE = env({
+  name: 'DEFAULT_EMAIL_TEMPLATE',
+});
+
+// Social Networks + RSS
+export const FB_KEY = env({
+  name: 'FB_KEY',
+  required: true,
+});
+
+export const FB_SECRET = env({
+  name: 'FB_SECRET',
+  required: true,
+});
+
+export const FB_CB_URL = env({
+  name: 'FB_CB_URL',
+  defaultValue: `${HOST}/sso/auth/facebook/callback`,
+});
+
+export const FB_API_URL = env({
+  name: 'FB_API_URL',
+  defaultValue: 'https://graph.facebook.com/v2.2',
+});
+
+export const TWITTER_KEY = env({
+  name: 'TWITTER_KEY',
+  required: true,
+});
+
+export const TWITTER_SECRET = env({
+  name: 'TWITTER_SECRET',
+  required: true,
+});
+
+export const TWITTER_CB_URL = env({
+  name: 'TWITTER_CB_URL',
+  defaultValue: `${HOST}/sso/auth/twitter/callback`,
+});
+
+export const LINKEDIN_KEY = env({
+  name: 'LINKEDIN_KEY',
+  required: true,
+});
+
+export const LINKEDIN_SECRET = env({
+  name: 'LINKEDIN_SECRET',
+  required: true,
+});
+
+export const LINKEDIN_CB_URL = env({
+  name: 'LINKEDIN_CB_URL',
+  defaultValue: `${HOST}/sso/auth/linkedin/callback`,
+});
+
+export const LINKEDIN_API_URL = env({
+  name: 'LINKEDIN_API_URL',
+  defaultValue: 'https://api.linkedin.com/v1',
+});
+
+export const FB_FETCH_DELAY = env({
+  name: 'FB_FETCH_DELAY',
+  defaultValue: 1000 * 60 * 15,
+  transform: transforms.integer,
+});
+
+export const TWITTER_FETCH_DELAY = env({
+  name: 'TWITTER_FETCH_DELAY',
+  defaultValue: 1000 * 60 * 15,
+  transform: transforms.integer,
+});
+
+export const LINKEDIN_FETCH_DELAY = env({
+  name: 'LINKEDIN_FETCH_DELAY',
+  defaultValue: 1000 * 60 * 15,
+  transform: transforms.integer,
+});
+
+export const RSS_FETCH_DELAY = env({
+  name: 'FB_FETCH_DELAY',
+  defaultValue: 1000 * 60 * 15,
+  transform: transforms.integer,
+});
+
+export const VERSION = env({
+  name: 'HEROKU_SLUG_COMMIT',
+  defaultValue: `${ENV}-${new Date().getTime()}`,
+  required: IS_PROD,
+});
+
+export const FORCE_HTTPS = env({
+  name: 'FORCE_HTTPS',
+  defaultValue: IS_PROD,
+  transform: transforms.boolean,
+});
