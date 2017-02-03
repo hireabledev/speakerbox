@@ -44,8 +44,8 @@ export function cleanupJobs() {
     const CLEANUP_TIME = moment().subtract(1, 'hour');
     kue.Job.rangeByState('complete', 0, 1000, 'asc', (err, jobs) => {
       if (err) { return reject(err); }
-      const oldJobs = jobs.filter(job => CLEANUP_TIME.isAfter(new Date(job.created_at)));
-      return Promise.all(oldJobs.map(removeJob))
+      const oldJobs = jobs.filter(job => CLEANUP_TIME.isAfter(parseInt(job.created_at, 10)));
+      return Promise.all(oldJobs.map(oldJob => removeJob(oldJob.id)))
         .then(removedJobs => {
           debug.info(`Removed ${removedJobs.length} jobs.`);
           return resolve(removedJobs);
