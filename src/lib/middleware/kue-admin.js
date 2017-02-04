@@ -1,10 +1,10 @@
 import kue from 'kue';
-import basicAuth from 'basic-auth-connect';
-import { KUE_USER, KUE_PWD } from 'lib/config';
+import { authenticated, adminOnly } from './access-control';
 
 kue.app.set('title', 'Job Queue - Speaker Box');
 
 export default [
-  basicAuth(KUE_USER, KUE_PWD),
+  authenticated,
+  adminOnly,
   kue.app,
 ];

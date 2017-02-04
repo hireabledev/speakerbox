@@ -20,6 +20,7 @@ export default function templateContextMiddleware(req, res, next) {
       ? res.locals.webpackStats.toJson()
       : res.locals.webpackStats;
 
+    // TODO: cache on prod
     res.locals.assets = mapValues(webpackStats.assetsByChunkName, chunkAssets => {
       chunkAssets = Array.isArray(chunkAssets) ? chunkAssets : [chunkAssets];
       chunkAssets = chunkAssets.filter(assetName => {

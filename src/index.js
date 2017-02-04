@@ -11,6 +11,7 @@ import {
   PORT,
   SECRET,
   STATIC_URL,
+  FORCE_STATIC_ASSETS,
   LETS_ENCRYPT_URL,
   LETS_ENCRYPT_KEY,
 } from './lib/config';
@@ -52,7 +53,7 @@ app.set('trust proxy', ['loopback', 'linklocal', 'uniquelocal']);
 app.use(forceHttps);
 app.use(STATIC_URL, express.static(`${__dirname}/assets`));
 
-if (ENV === 'development') {
+if (ENV === 'development' && FORCE_STATIC_ASSETS === false) {
   const webpack = require('webpack');
   const webpackMiddleware = require('webpack-dev-middleware');
   const webpackConfig = require('../webpack.config');

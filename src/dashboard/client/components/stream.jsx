@@ -105,7 +105,7 @@ export class StreamPage extends Component {
 
     const filterByAccountOrFeed = memoize((post) => {
       if (post.type === 'rss') {
-        return feedVisibility[post.rssFeedId];
+        return feedVisibility[post.feedId];
       }
       return accountVisibility[post.accountId];
     });

@@ -18,20 +18,20 @@ export class PostRetweetButton extends Component {
 
   render() {
     const { post } = this.props;
-    const { scheduledRetweet } = post;
+    const { scheduledPost } = post;
 
     let retweeted = post.retweeted;
 
-    if (scheduledRetweet && moment().isAfter(scheduledRetweet.date)) {
+    if (scheduledPost && moment().isAfter(scheduledPost.date)) {
       retweeted = true;
     }
 
-    return (scheduledRetweet && !retweeted) ? (
+    return (scheduledPost && !retweeted) ? (
       <Link
         className={cn('sb-post-action', {
-          active: post.scheduledRetweet,
+          active: post.scheduledPost,
         })}
-        to={{ pathname: '/schedule', query: { id: scheduledRetweet.id } }}
+        to={{ pathname: '/schedule', query: { id: scheduledPost.id } }}
       >
         <Icon name="retweet" label="retweet" />
         {' '}
@@ -41,7 +41,7 @@ export class PostRetweetButton extends Component {
       <span className="sb-post-retweet-button">
         <button
           className={cn('sb-post-action', {
-            active: post.scheduledRetweet,
+            active: post.scheduledPost,
           })}
           type="button"
           disabled={retweeted}
@@ -62,7 +62,7 @@ export class PostRetweetButton extends Component {
               e.preventDefault();
               const date = this.state.date;
               this.setState({ visible: false });
-              return this.props.createScheduledRetweet(
+              return this.props.createScheduledPost(
                 post.id,
                 post.accountId,
                 date && date.toISOString()
@@ -70,7 +70,7 @@ export class PostRetweetButton extends Component {
             }}
           >
             <Datetime
-              defaultValue={scheduledRetweet ? new Date(scheduledRetweet.date) : new Date()}
+              defaultValue={scheduledPost ? new Date(scheduledPost.date) : new Date()}
               isValidDate={currentDate => currentDate.isAfter(new Date())}
               onChange={date => this.setState({ date })}
             />
@@ -91,18 +91,18 @@ PostRetweetButton.propTypes = {
   post: PropTypes.shape({
     id: PropTypes.string,
     retweeted: PropTypes.bool,
-    scheduledRetweet: PropTypes.shape({
+    scheduledPost: PropTypes.shape({
       id: PropTypes.string,
       date: PropTypes.string,
     }),
   }).isRequired,
-  createScheduledRetweet: PropTypes.func.isRequired,
+  createScheduledPost: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  createScheduledRetweet: (postId, accountId, date) => (
-    dispatch(twitter.createScheduledRetweet({
-      twitterPostId: postId,
+  createScheduledPost: (postId, accountId, date) => (
+    dispatch(twitter.createScheduledPost({
+      postId,
       accountId,
       date,
     }))

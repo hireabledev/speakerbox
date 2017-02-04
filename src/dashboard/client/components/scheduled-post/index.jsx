@@ -8,12 +8,14 @@ import LinkedinScheduledPost from './linkedin-scheduled-post';
 const postMap = {
   facebook: FacebookScheduledPost,
   twitter: TwitterScheduledPost,
-  retweet: TwitterScheduledRetweet,
   linkedin: LinkedinScheduledPost,
 };
 
 export default function UniversalScheduledPost({ children, post, type, onRemove, waypoint }) {
-  const InnerPost = postMap[type];
+  let InnerPost = postMap[type];
+  if (type === 'twitter' && post.postId) {
+    InnerPost = TwitterScheduledRetweet;
+  }
   return (
     <InnerPost post={post} onRemove={onRemove} waypoint={waypoint}>
       {children}
@@ -26,7 +28,7 @@ UniversalScheduledPost.propTypes = {
   post: PropTypes.object,
   onRemove: PropTypes.func,
   waypoint: PropTypes.node,
-  type: PropTypes.oneOf(['facebook', 'twitter', 'retweet', 'linkedin']),
+  type: PropTypes.oneOf(['facebook', 'twitter', 'linkedin']),
 };
 
 UniversalScheduledPost.defaultProps = {

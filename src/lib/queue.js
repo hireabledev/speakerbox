@@ -3,6 +3,8 @@ import moment from 'moment';
 import { REDIS_URL, KUE_CLEANUP_BATCH_SIZE } from './config';
 import { kue as debug } from './debug';
 
+const JOB_DOESNT_EXIST_REGEXP = /job.+doesn'?t exist/;
+
 const queue = kue.createQueue({
   redis: REDIS_URL,
 });
@@ -26,9 +28,16 @@ export function addJob({ type, title, attempts, delay, priority, data }) {
 }
 
 export function removeJob(jobId) {
+  if (!jobId) { return Promise.resolve(null); }
   return new Promise((resolve, reject) => (
     kue.Job.get(jobId, (err, job) => {
-      if (err) { return reject(err); }
+      if (err) {
+        if (JOB_DOESNT_EXIST_REGEXP.test(err.message)) {
+          debug.warn(err.message);
+          return resolve(job);
+        }
+        return reject(err);
+      }
       /* eslint-disable no-shadow */
       return job.remove(err => {
         if (err) { return reject(err); }

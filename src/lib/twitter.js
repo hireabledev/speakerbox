@@ -4,7 +4,7 @@ import { TWITTER_KEY, TWITTER_SECRET } from './config';
 
 function mapPosts(post) {
   return {
-    id: post.id_str,
+    nativeId: post.id_str,
     url: `https://twitter.com/${post.user.screen_name}/status/${post.id_str}`,
     message: post.text,
     date: new Date(post.created_at),
@@ -13,6 +13,7 @@ function mapPosts(post) {
     authorUrl: `https://twitter.com/${post.user.screen_name}`,
     retweeted: post.retweeted,
     data: post,
+    type: 'twitter',
   };
 }
 

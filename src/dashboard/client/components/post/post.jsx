@@ -36,7 +36,7 @@ export default function Post({ post, actions, waypoint }) {
             <h1 className="sb-post-title">{post.title}</h1>
           )}
           <Linkify properties={{ target: '_blank', rel: 'noopener noreferrer' }}>
-            {post.message || post.comment || post.description || post.caption}
+            {post.message}
           </Linkify>
         </p>
       </div>

@@ -6,11 +6,7 @@ import {
   RECEIVE_TWITTER_SCHEDULED_POSTS,
   RECEIVE_TWITTER_SCHEDULED_POST,
   RESET_TWITTER_SCHEDULED_POSTS,
-  RESET_TWITTER_SCHEDULED_RETWEETS,
   RECEIVE_REMOVE_TWITTER_SCHEDULED_POST,
-  RECEIVE_TWITTER_SCHEDULED_RETWEETS,
-  RECEIVE_TWITTER_SCHEDULED_RETWEET,
-  RECEIVE_REMOVE_TWITTER_SCHEDULED_RETWEET,
 } from '../constants/action-types';
 import { mergeKeyById, replaceByIdOrAppend } from '../utils/reducers';
 
@@ -21,9 +17,6 @@ const initialState = {
   scheduledPosts: [],
   scheduledPostsById: {},
   moreScheduledPosts: false,
-  scheduledRetweets: [],
-  scheduledRetweetsById: {},
-  moreScheduledRetweets: false,
 };
 
 export default function twitterPostsReducer(state = initialState, action) {
@@ -66,37 +59,10 @@ export default function twitterPostsReducer(state = initialState, action) {
         scheduledPosts: [],
         scheduledPostsById: {},
       };
-    case RECEIVE_REMOVE_TWITTER_SCHEDULED_POST:
-      return {
-        ...state,
-        scheduledPosts: state.scheduledPosts.filter(scheduledPost => (
-          scheduledPost.id !== action.payload.id
-        )),
-        scheduledPostsById: omit(state.scheduledPostsById, action.payload.id),
-      };
-    case RECEIVE_TWITTER_SCHEDULED_RETWEETS:
-      return {
-        ...state,
-        scheduledRetweets: [...state.scheduledRetweets, ...action.payload.retweets],
-        scheduledRetweetsById: mergeKeyById(state.scheduledRetweetsById, action.payload.retweets),
-        moreScheduledRetweets: action.payload.more,
-      };
-    case RECEIVE_TWITTER_SCHEDULED_RETWEET:
-      return {
-        ...state,
-        scheduledRetweets: replaceByIdOrAppend(state.scheduledRetweets, action.payload),
-        scheduledRetweetsById: mergeKeyById(state.scheduledRetweetsById, [action.payload]),
-      };
-    case RESET_TWITTER_SCHEDULED_RETWEETS:
-      return {
-        ...state,
-        scheduledRetweets: [],
-        scheduledRetweetsById: {},
-      };
-    case RECEIVE_REMOVE_TWITTER_SCHEDULED_RETWEET: {
-      const targetScheduledRetweet = state.scheduledRetweetsById[action.payload.id];
-      const targetPost = state.postsById[targetScheduledRetweet.twitterPostId];
-      const replacementPost = { ...targetPost, scheduledRetweet: null };
+    case RECEIVE_REMOVE_TWITTER_SCHEDULED_POST: {
+      const targetScheduledPost = state.scheduledPostsById[action.payload.id];
+      const targetPost = state.postsById[targetScheduledPost.postId];
+      const replacementPost = { ...targetPost, scheduledPost: null };
       return {
         ...state,
         posts: state.posts.map(post => {
@@ -109,10 +75,10 @@ export default function twitterPostsReducer(state = initialState, action) {
           ...state.postsById,
           ...(targetPost ? { [targetPost.id]: replacementPost } : {}),
         },
-        scheduledRetweets: state.scheduledRetweets.filter(scheduledRetweet => (
-          scheduledRetweet.id !== action.payload.id
+        scheduledPosts: state.scheduledPosts.filter(scheduledPost => (
+          scheduledPost.id !== action.payload.id
         )),
-        scheduledRetweetsById: omit(state.scheduledRetweetsById, action.payload.id),
+        scheduledPostsById: omit(state.scheduledPostsById, action.payload.id),
       };
     }
     default:

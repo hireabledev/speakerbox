@@ -54,7 +54,6 @@ export class SchedulePage extends Component {
     const moreMap = {
       facebook: this.props.moreFacebookScheduledPosts,
       twitter: this.props.moreTwitterScheduledPosts,
-      retweet: this.props.moreTwitterScheduledRetweets,
       linkedin: this.props.moreLinkedinScheduledPosts,
     };
     return (
@@ -96,7 +95,6 @@ export class SchedulePage extends Component {
       accountVisibility,
       facebookScheduledPosts = [],
       twitterScheduledPosts = [],
-      twitterScheduledRetweets = [],
       linkedinScheduledPosts = [],
     } = this.props;
 
@@ -105,7 +103,6 @@ export class SchedulePage extends Component {
         concat(
           facebookScheduledPosts,
           twitterScheduledPosts,
-          twitterScheduledRetweets,
           linkedinScheduledPosts
         ),
         'date',
@@ -117,7 +114,6 @@ export class SchedulePage extends Component {
     const lastScheduledPosts = [
       last(facebookScheduledPosts),
       last(twitterScheduledPosts),
-      last(twitterScheduledRetweets),
       last(linkedinScheduledPosts),
     ];
 
@@ -176,10 +172,6 @@ SchedulePage.propTypes = {
     id: PropTypes.string, // eslint-disable-line react/no-unused-prop-types
   })).isRequired,
   moreTwitterScheduledPosts: PropTypes.bool.isRequired,
-  twitterScheduledRetweets: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string, // eslint-disable-line react/no-unused-prop-types
-  })).isRequired,
-  moreTwitterScheduledRetweets: PropTypes.bool.isRequired,
   linkedinScheduledPosts: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string, // eslint-disable-line react/no-unused-prop-types
   })).isRequired,
@@ -193,11 +185,9 @@ const mapStateToProps = (state) => ({
   accountVisibility: state.visibility.accountVisibility,
   facebookScheduledPosts: state.facebook.scheduledPosts,
   twitterScheduledPosts: state.twitter.scheduledPosts,
-  twitterScheduledRetweets: state.twitter.scheduledRetweets,
   linkedinScheduledPosts: state.linkedin.scheduledPosts,
   moreFacebookScheduledPosts: state.facebook.moreScheduledPosts,
   moreTwitterScheduledPosts: state.twitter.moreScheduledPosts,
-  moreTwitterScheduledRetweets: state.twitter.moreScheduledRetweets,
   moreLinkedinScheduledPosts: state.linkedin.moreScheduledPosts,
 });
 
@@ -206,9 +196,6 @@ const mapDispatchToProps = (dispatch) => ({
   fetchScheduledPosts: (options) => dispatch(fetchAllScheduledPosts(options)),
   fetchScheduledPostsByType: (type) => (options) => {
     const typeMap = { facebook, twitter, linkedin };
-    if (type === 'retweet') {
-      return dispatch(twitter.fetchScheduledRetweets(options));
-    }
     return dispatch(typeMap[type].fetchScheduledPosts(options));
   },
 });

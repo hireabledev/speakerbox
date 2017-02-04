@@ -31,12 +31,7 @@ PostDateButton.propTypes = {
 };
 
 const mapDispatchToProps = dispatch => ({
-  onChange: (id, type, date) => {
-    if (type === 'retweet') {
-      return dispatch(postActions.twitter.updateScheduledRetweet(id, { date }));
-    }
-    return dispatch(postActions[type].updateScheduledPost(id, { date }));
-  },
+  onChange: (id, type, date) => dispatch(postActions[type].updateScheduledPost(id, { date })),
 });
 
 export default connect(null, mapDispatchToProps)(PostDateButton);

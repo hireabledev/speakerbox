@@ -5,9 +5,9 @@ const FEED_FIELDS = 'message,permalink_url,created_time,admin_creator,caption,de
 
 function mapPosts(post) {
   return {
-    id: post.id,
+    nativeId: post.id,
     url: post.permalink_url,
-    message: post.message,
+    message: post.message || post.description,
     link: post.link,
     name: post.name,
     picture: post.picture,
@@ -18,6 +18,7 @@ function mapPosts(post) {
     authorImgUrl: post.from.picture ? post.from.picture.data.url : null,
     authorUrl: post.from.link,
     data: post,
+    type: 'facebook',
   };
 }
 

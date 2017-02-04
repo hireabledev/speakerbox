@@ -28,11 +28,7 @@ PostRemoveButton.propTypes = {
 const mapDispatchToPros = (dispatch, ownProps) => ({
   onClick: async (post) => {
     const { id, type } = post;
-    if (type === 'retweet') {
-      await dispatch(postActions.twitter.removeScheduledRetweet(id));
-    } else {
-      await dispatch(postActions[type].removeScheduledPost(id));
-    }
+    await dispatch(postActions[type].removeScheduledPost(id));
     if (ownProps.onClick) {
       ownProps.onClick(post);
     }

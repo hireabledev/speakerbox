@@ -1,29 +1,14 @@
 import omit from 'lodash/omit';
+import {
+  indexBlueprint,
+  showBlueprint,
+  removeBlueprint,
+} from '../../blueprints';
 
-export async function index(req, res, next) {
-  const { limit, skip, where, attributes } = res.locals;
+const MODEL_NAME = 'Upload';
 
-  const Upload = req.app.models.Upload;
-  const uploads = await Upload
-    .scopeForUser(req.user, req.query.user)
-    .findAll({
-      limit: limit + 1,
-      offset: skip,
-      where,
-      attributes: Upload.getValidAttributes(attributes),
-    });
-
-  return {
-    data: uploads.slice(0, limit),
-    more: uploads.length > limit,
-  };
-}
-
-export async function show(req) {
-  return await req.app.models.Upload
-    .scopeForUser(req.user, req.query.user)
-    .findByIdOr404(req.params.id);
-}
+export const index = indexBlueprint(MODEL_NAME);
+export const show = showBlueprint(MODEL_NAME);
 
 export async function create(req) {
   const upload = req.app.models.Upload.build(omit(req.body, ['created', 'updated']));
@@ -46,9 +31,4 @@ export async function update(req) {
   return upload.update(body);
 }
 
-export async function remove(req) {
-  const upload = await req.app.models.Upload
-    .scopeForUser(req.user, req.query.user)
-    .findByIdOr404(req.params.id);
-  return await upload.destroy();
-}
+export const remove = removeBlueprint(MODEL_NAME); // TODO: remove asset from S3

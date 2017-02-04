@@ -1,70 +1,9 @@
-import { config as debug } from '../debug';
+import env, { transforms } from 'lib/env';
 
 export const ENV = process.env.NODE_ENV || 'development';
 export const IS_PROD = (ENV === 'production');
 export const IS_TEST = (ENV === 'test');
 export const IS_DEV = (ENV === 'development');
-
-const transforms = {
-  identity(value) {
-    return value;
-  },
-  boolean(value) {
-    return Boolean(value);
-  },
-  integer(value) {
-    try {
-      const result = parseInt(value, 10);
-      if (isNaN(result)) {
-        return value;
-      }
-      return result;
-    } catch (err) {
-      return value;
-    }
-  },
-  number(value) {
-    try {
-      const result = parseFloat(value);
-      if (isNaN(result)) {
-        return value;
-      }
-      return value;
-    } catch (err) {
-      return value;
-    }
-  },
-  json(value) {
-    try {
-      return JSON.parse(value);
-    } catch (err) {
-      return value;
-    }
-  },
-};
-
-function env(options) {
-  const {
-    name,
-    defaultValue,
-    required = false,
-    transform = transforms.identity,
-  } = options;
-
-  const value = transform(process.env[name]);
-
-  if (required && (value === undefined || value === null)) {
-    throw new Error(`${name} env variable is required.`);
-  }
-
-  const result = (value !== undefined ? value : defaultValue);
-
-  if (result === undefined || result === null) {
-    debug.warn(`Optional env variable ${name} is ${result}.`);
-  }
-
-  return result;
-}
 
 export const PORT = env({
   name: 'PORT',
@@ -86,6 +25,12 @@ export const SECRET = env({
 export const STATIC_URL = env({
   name: 'STATIC_URL',
   defaultValue: '/assets',
+});
+
+export const FORCE_STATIC_ASSETS = env({
+  name: 'FORCE_STATIC_ASSETS',
+  defaultValue: false,
+  transform: transforms.boolean,
 });
 
 export const REDIS_URL = env({
@@ -150,16 +95,6 @@ export const LETS_ENCRYPT_KEY = env({
 });
 
 // Kue
-export const KUE_USER = env({
-  name: 'KUE_USER',
-  defaultValue: 'kue',
-});
-
-export const KUE_PWD = env({
-  name: 'KUE_PWD',
-  required: IS_PROD,
-});
-
 export const KUE_CLEANUP_BATCH_SIZE = env({
   name: 'KUE_CLEANUP_BATCH_SIZE',
   defaultValue: 1000,
@@ -241,26 +176,14 @@ export const LINKEDIN_API_URL = env({
   defaultValue: 'https://api.linkedin.com/v1',
 });
 
-export const FB_FETCH_DELAY = env({
-  name: 'FB_FETCH_DELAY',
-  defaultValue: 1000 * 60 * 15,
-  transform: transforms.integer,
-});
-
-export const TWITTER_FETCH_DELAY = env({
-  name: 'TWITTER_FETCH_DELAY',
-  defaultValue: 1000 * 60 * 15,
-  transform: transforms.integer,
-});
-
-export const LINKEDIN_FETCH_DELAY = env({
-  name: 'LINKEDIN_FETCH_DELAY',
+export const ACCOUNT_FETCH_DELAY = env({
+  name: 'ACCOUNT_FETCH_DELAY',
   defaultValue: 1000 * 60 * 15,
   transform: transforms.integer,
 });
 
 export const RSS_FETCH_DELAY = env({
-  name: 'FB_FETCH_DELAY',
+  name: 'RSS_FETCH_DELAY',
   defaultValue: 1000 * 60 * 15,
   transform: transforms.integer,
 });

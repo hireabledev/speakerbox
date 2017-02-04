@@ -13,7 +13,7 @@ export function SettingsUserForm(props) {
       </FormGroup>
       <FormGroup>
         <Label htmlFor="email">Email Address</Label>
-        <Input type="email" name="email" placeholder="Email Address" required />
+        <Input type="email" name="email" placeholder="Email Address" />
       </FormGroup>
       <FormGroup>
         <Label htmlFor="tel">Phone Number</Label>

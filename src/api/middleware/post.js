@@ -8,3 +8,14 @@ export function favorited(req, res, next) {
   }
   next();
 }
+
+export function posted(req, res, next) {
+  if (req.query.posted) {
+    delete req.query.posted; // eslint-disable-line no-param-reassign
+    res.locals.where = { // eslint-disable-line no-param-reassign
+      ...res.locals.where,
+      posted: { $ne: null },
+    };
+  }
+  next();
+}

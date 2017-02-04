@@ -24,20 +24,24 @@ const Account = sequelize.define('Account', {
                           validate: {
                             isIn: [['facebook', 'twitter', 'linkedin']],
                           },
-                          comment: 'Account type.',
+                          comment: 'Type of account.',
                         },
   name:                 {
                           type: Sequelize.STRING,
                           allowNull: false,
-                          comment: 'Account name.',
-                        },
-  synced:               {
-                          type: Sequelize.DATE,
-                          comment: 'Last synced date.',
+                          comment: 'Name of account.',
                         },
   imgUrl:               {
                           type: Sequelize.STRING,
-                          comment: 'Account image URL.',
+                          comment: 'URL of account image.',
+                        },
+  synced:               {
+                          type: Sequelize.DATE,
+                          comment: 'Date account was last synced.',
+                        },
+  jobId:                {
+                          type: Sequelize.INTEGER,
+                          comment: 'Sync job id.',
                         },
 }, {
   name: {

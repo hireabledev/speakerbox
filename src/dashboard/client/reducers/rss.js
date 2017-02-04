@@ -19,7 +19,7 @@ const initialState = {
   feedVisibility: {},
 };
 
-export default function rssFeedsReducer(state = initialState, action) {
+export default function feedsReducer(state = initialState, action) {
   switch (action.type) {
     case RECEIVE_RSS_POSTS:
       return {

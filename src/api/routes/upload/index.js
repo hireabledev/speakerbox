@@ -3,7 +3,7 @@ import configureRouter from '../../router';
 import { listMiddleware, filter } from '../../middleware';
 import { index, show, create, update, remove } from './controller';
 
-const MODEL_NAME = 'Account';
+const MODEL_NAME = 'Upload';
 const router = configureRouter();
 
 router.get(

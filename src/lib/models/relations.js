@@ -1,62 +1,85 @@
 import User from './user.model';
 import Account from './account.model';
 import Upload from './upload.model';
-import RSSFeed from './rss-feed.model';
-import RSSPost from './rss-post.model';
-import FacebookPost from './facebook-post.model';
-import FacebookScheduledPost from './facebook-scheduled-post.model';
-import TwitterPost from './twitter-post.model';
-import TwitterScheduledRetweet from './twitter-scheduled-retweet.model';
-import TwitterScheduledPost from './twitter-scheduled-post.model';
-import LinkedinPost from './linkedin-post.model';
-import LinkedinScheduledPost from './linkedin-scheduled-post.model';
+import Feed from './feed.model';
+import Post from './post.model';
+import ScheduledPost from './scheduled-post.model';
 
-// RSS
-RSSFeed.hasMany(RSSPost, { onUpdate: 'cascade', onDelete: 'cascade' });
-RSSPost.belongsTo(RSSFeed);
-
-
-// Facebook
-Account.hasMany(FacebookPost, { onUpdate: 'cascade', onDelete: 'cascade' });
-FacebookPost.belongsTo(Account);
-
-Account.hasMany(FacebookScheduledPost, { onUpdate: 'cascade', onDelete: 'cascade' });
-FacebookScheduledPost.belongsTo(Account);
-
-
-// Twitter
-Account.hasMany(TwitterPost, { onUpdate: 'cascade', onDelete: 'cascade' });
-TwitterPost.belongsTo(Account);
-
-Account.hasMany(TwitterScheduledRetweet, { onUpdate: 'cascade', onDelete: 'cascade' });
-TwitterScheduledRetweet.belongsTo(Account);
-
-Account.hasMany(TwitterScheduledPost, { onUpdate: 'cascade', onDelete: 'cascade' });
-TwitterScheduledPost.belongsTo(Account);
-
-TwitterPost.hasOne(TwitterScheduledRetweet, {
-  as: 'scheduledRetweet',
-  foreignKey: 'twitterPostId',
+// Posts
+Feed.hasMany(Post, {
   onUpdate: 'cascade',
   onDelete: 'cascade',
+  as: 'Posts',
+  foreignKey: 'feedId',
 });
-TwitterScheduledRetweet.belongsTo(TwitterPost);
+Post.belongsTo(Feed, {
+  as: 'Feed',
+  foreignKey: 'feedId',
+});
 
+Account.hasMany(Post, {
+  onUpdate: 'cascade',
+  onDelete: 'cascade',
+  as: 'Posts',
+  foreignKey: 'accountId',
+});
+Post.belongsTo(Account, {
+  as: 'Account',
+  foreignKey: 'accountId',
+});
 
-// Linkedin
-Account.hasMany(LinkedinPost, { onUpdate: 'cascade', onDelete: 'cascade' });
-LinkedinPost.belongsTo(Account);
+Account.hasMany(ScheduledPost, {
+  onUpdate: 'cascade',
+  onDelete: 'cascade',
+  as: 'ScheduledPosts',
+  foreignKey: 'accountId',
+});
+ScheduledPost.belongsTo(Account, {
+  as: 'Account',
+  foreignKey: 'accountId',
+});
 
-Account.hasMany(LinkedinScheduledPost, { onUpdate: 'cascade', onDelete: 'cascade' });
-LinkedinScheduledPost.belongsTo(Account);
-
+Post.hasOne(ScheduledPost, {
+  onUpdate: 'cascade',
+  onDelete: 'cascade',
+  as: 'ScheduledPost',
+  foreignKey: 'postId',
+});
+ScheduledPost.belongsTo(Post, {
+  as: 'Post',
+  foreignKey: 'postId',
+});
 
 // User
-User.hasMany(Account, { onUpdate: 'cascade', onDelete: 'cascade' });
-Account.belongsTo(User);
+User.hasMany(Account, {
+  onUpdate: 'cascade',
+  onDelete: 'cascade',
+  as: 'Accounts',
+  foreignKey: 'userId',
+});
+Account.belongsTo(User, {
+  as: 'User',
+  foreignKey: 'userId',
+});
 
-User.hasMany(RSSFeed, { onUpdate: 'cascade', onDelete: 'cascade' });
-RSSFeed.belongsTo(User);
+User.hasMany(Feed, {
+  onUpdate: 'cascade',
+  onDelete: 'cascade',
+  as: 'Feeds',
+  foreignKey: 'userId',
+});
+Feed.belongsTo(User, {
+  as: 'User',
+  foreignKey: 'userId',
+});
 
-User.hasMany(Upload, { onUpdate: 'cascade', onDelete: 'cascade' });
-Upload.belongsTo(User);
+User.hasMany(Upload, {
+  onUpdate: 'cascade',
+  onDelete: 'cascade',
+  as: 'Uploads',
+  foreignKey: 'userId',
+});
+Upload.belongsTo(User, {
+  as: 'User',
+  foreignKey: 'userId',
+});

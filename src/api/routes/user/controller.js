@@ -39,5 +39,6 @@ export async function remove(req) {
     throw forbidden('Only admins are allowed to do that');
   }
   const user = await req.app.models.User.findByIdOr404(req.params.id);
-  return await user.destroy();
+  await user.destroy();
+  return user;
 }

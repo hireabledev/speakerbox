@@ -26,9 +26,6 @@ describe('twitter reducer', () => {
       'scheduledPosts',
       'scheduledPostsById',
       'moreScheduledPosts',
-      'scheduledRetweets',
-      'scheduledRetweetsById',
-      'moreScheduledRetweets',
     ]);
   });
 
@@ -110,6 +107,8 @@ describe('twitter reducer', () => {
 
   it('should remove scheduled post', () => {
     initialState = {
+      posts: [],
+      postsById: {},
       scheduledPosts: [a1, a2],
       scheduledPostsById: {
         [a1.id]: a1,
@@ -131,6 +130,4 @@ describe('twitter reducer', () => {
     expect(state.scheduledPostsById).to.not.have.any.keys(a2.id);
     expect(state.scheduledPostsById).to.have.any.keys(a1.id);
   });
-
-  // TODO: test removing retweet updates post
 });

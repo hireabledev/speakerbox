@@ -1,51 +1,13 @@
-export async function index(req, res, next) {
-  const Account = req.app.models.Account;
-  const { limit, skip, where, attributes, sort } = res.locals;
+import {
+  indexBlueprint,
+  showBlueprint,
+  updateBlueprint,
+  removeBlueprint,
+} from '../../blueprints';
 
-  const instances = await Account
-    .scopeForUser(req.user, req.query.user)
-    .findAll({
-      limit: limit + 1,
-      offset: skip,
-      where,
-      attributes: Account.getValidAttributes(attributes),
-      order: sort,
-    });
+const MODEL_NAME = 'Account';
 
-  return {
-    data: instances.slice(0, limit),
-    more: instances.length > limit,
-  };
-}
-
-export async function show(req) {
-  const where = { id: req.params.id };
-  if (req.query.type) {
-    where.type = req.query.type;
-  }
-  return await req.app.models.Account
-    .scopeForUser(req.user, req.query.user)
-    .findOneOr404({ where });
-}
-
-export async function update(req) {
-  const where = { id: req.params.id };
-  if (req.query.type) {
-    where.type = req.query.type;
-  }
-  const instance = await req.app.models.Account
-    .scopeForUser(req.user, req.query.user)
-    .findOneOr404({ where });
-  return instance.update(req.body);
-}
-
-export async function remove(req) {
-  const where = { id: req.params.id };
-  if (req.query.type) {
-    where.type = req.query.type;
-  }
-  const instance = await req.app.models.Account
-    .scopeForUser(req.user, req.query.user)
-    .findOneOr404({ where });
-  return await instance.destroy();
-}
+export const index = indexBlueprint(MODEL_NAME);
+export const show = showBlueprint(MODEL_NAME);
+export const update = updateBlueprint(MODEL_NAME);
+export const remove = removeBlueprint(MODEL_NAME);

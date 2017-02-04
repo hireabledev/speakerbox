@@ -1,5 +1,4 @@
-import omit from 'lodash/omit';
-import { schedule } from 'worker/jobs/rss-feed-import-posts';
+import { schedule } from 'worker/jobs/feed-import-posts';
 import {
   indexBlueprint,
   showBlueprint,
@@ -7,15 +6,16 @@ import {
   removeBlueprint,
 } from '../../blueprints';
 
-const MODEL_NAME = 'RSSFeed';
+const MODEL_NAME = 'Feed';
 
 export const index = indexBlueprint(MODEL_NAME);
 export const show = showBlueprint(MODEL_NAME);
 
 export async function create(req) {
-  const feed = req.app.models.RSSFeed.build(omit(req.body, ['created', 'updated']));
+  const feed = req.app.models.Feed.build(req.body);
   feed.setUser(req.user);
-  await schedule(feed.id, true);
+  const job = await schedule(feed, true);
+  feed.jobId = job.id;
   return await feed.save();
 }
 

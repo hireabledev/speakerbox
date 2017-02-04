@@ -13,7 +13,7 @@ export function fetchFeeds() {
   return async (dispatch, getState) => {
     const { rss } = getState();
     try {
-      const res = await dispatch(fetch(`/api/rss/feeds?skip=${rss.feeds.length}`));
+      const res = await dispatch(fetch(`/api/feeds?skip=${rss.feeds.length}`));
       const { data, more } = res.body;
       dispatch(receiveFeeds({ feeds: data, more }));
       return res.body;
@@ -34,7 +34,7 @@ export function receiveFeed(feed) {
 export function addFeed(body) {
   return async dispatch => {
     try {
-      const res = await dispatch(fetch('/api/rss/feeds', { method: 'POST', body }));
+      const res = await dispatch(fetch('/api/feeds', { method: 'POST', body }));
       const feed = res.body;
       dispatch(notifySuccess('Feed Created'));
       dispatch(receiveFeed(feed));
@@ -50,7 +50,7 @@ export function addFeed(body) {
 export function updateFeed(id, body) {
   return async dispatch => {
     try {
-      const res = await dispatch(fetch(`/api/rss/feeds/${id}`, { method: 'PATCH', body }));
+      const res = await dispatch(fetch(`/api/feeds/${id}`, { method: 'PATCH', body }));
       const feed = res.body;
       dispatch(notifySuccess('Feed Updated'));
       dispatch(receiveFeed(feed));
@@ -73,7 +73,7 @@ export function receiveRemoveFeed(id) {
 export function removeFeed(id) {
   return async dispatch => {
     try {
-      await dispatch(fetch(`/api/rss/feeds/${id}`, { method: 'DELETE' }));
+      await dispatch(fetch(`/api/feeds/${id}`, { method: 'DELETE' }));
       dispatch(notifySuccess('Feed Removed'));
       dispatch(receiveRemoveFeed(id));
       mixpanel.track('Removed RSS Feed', { id });
