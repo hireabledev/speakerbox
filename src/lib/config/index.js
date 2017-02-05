@@ -197,5 +197,6 @@ export const VERSION = env({
 export const FORCE_HTTPS = env({
   name: 'FORCE_HTTPS',
   defaultValue: IS_PROD,
+  required: true,
   transform: transforms.boolean,
 });

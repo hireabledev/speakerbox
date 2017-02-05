@@ -15,6 +15,7 @@ export default function (sequelize) {
     secret: SECRET,
     resave: false,
     saveUninitialized: true,
+    maxAge: 1000 * 60 * 60 * 24 * 365,
     cookie: {
       secure: IS_PROD,
     },

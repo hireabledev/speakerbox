@@ -34,6 +34,8 @@ import sso from './sso';
 
 const app = express();
 
+app.set('trust proxy', ['loopback', 'linklocal', 'uniquelocal']);
+
 // Logs
 app.use(sentryRequestMiddleware);
 app.use(morgan('combined'));
@@ -44,13 +46,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser(SECRET));
 
 // Middleware
+app.use(forceHttps);
 app.use(compression());
 app.use(session(sequelize));
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.set('trust proxy', ['loopback', 'linklocal', 'uniquelocal']);
-app.use(forceHttps);
 app.use(STATIC_URL, express.static(`${__dirname}/assets`));
 
 if (ENV === 'development' && FORCE_STATIC_ASSETS === false) {
