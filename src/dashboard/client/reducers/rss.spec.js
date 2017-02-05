@@ -28,7 +28,6 @@ describe('rss reducer', () => {
       'feeds',
       'feedsById',
       'moreFeeds',
-      'feedVisibility',
     ]);
   });
 

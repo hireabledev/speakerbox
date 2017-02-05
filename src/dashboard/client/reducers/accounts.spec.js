@@ -17,7 +17,6 @@ describe('accounts reducer', () => {
       'accounts',
       'accountsById',
       'moreAccounts',
-      'accountVisibility',
     ]);
   });
 
