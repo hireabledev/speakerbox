@@ -41,6 +41,10 @@ const ScheduledPost = sequelize.define('ScheduledPost', {
                           defaultValue: {},
                           comment: 'Scheduled post data.',
                         },
+  url:                  {
+                          type: Sequelize.TEXT,
+                          comment: 'Published post url.',
+                        },
   jobId:                {
                           type: Sequelize.INTEGER,
                           allowNull: false,
