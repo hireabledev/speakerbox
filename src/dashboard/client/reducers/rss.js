@@ -16,7 +16,6 @@ const initialState = {
   feeds: [],
   feedsById: {},
   moreFeeds: false,
-  feedVisibility: {},
 };
 
 export default function feedsReducer(state = initialState, action) {
@@ -52,10 +51,6 @@ export default function feedsReducer(state = initialState, action) {
         ...state,
         feeds: replaceByIdOrAppend(state.feeds, action.payload),
         feedsById: mergeKeyById(state.feedsById, [action.payload]),
-        feedVisibility: {
-          ...state.feedVisibility,
-          [action.payload.id]: true,
-        },
       };
     case RECEIVE_REMOVE_RSS_FEED:
       return {

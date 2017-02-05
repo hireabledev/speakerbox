@@ -16,7 +16,9 @@ export async function schedule(feed, immediate) {
     data: { feedId: feed.id },
   });
   if (feed.isNewRecord === false) {
-    await removeJob(feed.jobId);
+    if (feed.jobId) {
+      await removeJob(feed.jobId);
+    }
     await feed.update({ jobId: job.id });
   }
   return job;
@@ -47,6 +49,7 @@ export default async function feedImportPostsProcessor(job, done) {
     job.progress(2, PROGRESS_TOTAL, 'Fetched rss posts');
 
     // save to database
+    // TODO: move mapping to lib
     const posts = await Promise.all(items.map(
       item => {
         const id = uuid.v4();

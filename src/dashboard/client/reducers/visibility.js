@@ -1,7 +1,7 @@
 import keyBy from 'lodash/keyBy';
 import mapValues from 'lodash/mapValues';
 import { LOCATION_CHANGE } from 'react-router-redux';
-import { RECEIVE_ACCOUNTS, RECEIVE_RSS_FEEDS } from '../constants/action-types';
+import { RECEIVE_ACCOUNTS, RECEIVE_RSS_FEEDS, RECEIVE_RSS_FEED } from '../constants/action-types';
 import { getVisibilityFromQuery } from '../utils';
 
 const initialState = {
@@ -46,6 +46,17 @@ export default function visibilityReducer(state = initialState, action) {
           ),
         },
       };
+    case RECEIVE_RSS_FEED: {
+      const id = action.payload.id;
+      const value = state.feedVisibility[id];
+      return {
+        ...state,
+        feedVisibility: {
+          ...state.feedVisibility,
+          [id]: typeof value !== 'undefined' ? value : true,
+        },
+      };
+    }
     case LOCATION_CHANGE: {
       const isQueryFiltered = !!(action.payload.query.accounts || action.payload.query.feeds);
       return {

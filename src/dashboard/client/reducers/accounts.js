@@ -6,7 +6,6 @@ const initialState = {
   accounts: [],
   accountsById: {},
   moreAccounts: false,
-  accountVisibility: {},
 };
 
 export default function accountsReducer(state = initialState, action) {

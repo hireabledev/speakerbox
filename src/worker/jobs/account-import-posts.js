@@ -14,7 +14,9 @@ export async function schedule(account, immediate) {
     data: { accountId: account.id },
   });
   if (account.isNewRecord === false) {
-    await removeJob(account.jobId);
+    if (account.jobId) {
+      await removeJob(account.jobId);
+    }
     await account.update({ jobId: job.id });
   }
   return job;
@@ -42,7 +44,6 @@ export default async function accountImportPostsProcessor(job, done) {
 
     // fetch posts
     const { body } = await getAccountPosts(account);
-    console.log(body);
     job.progress(2, PROGRESS_TOTAL, 'Fetched posts');
 
     // save to database
