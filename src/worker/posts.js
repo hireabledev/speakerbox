@@ -24,7 +24,7 @@ export async function getAccountPosts(account) {
         token: account.accessToken,
         tokenSecret: account.tokenSecret,
       });
-      const getOptions = lastPost ? { sinceId: lastPost.id } : {};
+      const getOptions = lastPost ? { sinceId: lastPost.nativeId } : {};
       return twitter.getPosts(getOptions);
     }
     default:
