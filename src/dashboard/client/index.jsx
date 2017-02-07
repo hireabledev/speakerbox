@@ -9,7 +9,7 @@ import routes from './routes';
 import './styles.scss';
 
 const store = configureStore({
-  configureReducer,
+  reducer: configureReducer(),
   history: browserHistory,
 });
 const history = syncHistoryWithStore(browserHistory, store);

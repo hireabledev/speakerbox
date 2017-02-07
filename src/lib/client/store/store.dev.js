@@ -5,9 +5,9 @@ import createLogger from 'redux-logger';
 import fetchMiddleware from './middleware/fetch';
 import DevTools from '../components/root/dev-tools';
 
-export default function configureStore({ initialState, history, configureReducer } = {}) {
-  if (typeof configureReducer !== 'function') {
-    throw new Error('Cannot configure store. Missing configureReducer function.');
+export default function configureStore({ initialState, history, reducer } = {}) {
+  if (typeof reducer !== 'function') {
+    throw new Error('Cannot configure store. Missing root reducer.');
   }
 
   const middleware = [
@@ -20,7 +20,7 @@ export default function configureStore({ initialState, history, configureReducer
   ];
 
   const store = createStore(
-    configureReducer(),
+    reducer,
     initialState,
     compose(
       applyMiddleware(...middleware),

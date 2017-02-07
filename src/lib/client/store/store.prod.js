@@ -3,7 +3,7 @@ import thunk from 'redux-thunk';
 import { routerMiddleware } from 'react-router-redux';
 import fetchMiddleware from './middleware/fetch';
 
-export default function configureStore({ initialState, history, configureReducer } = {}) {
+export default function configureStore({ initialState, history, reducer } = {}) {
   const middleware = [
     fetchMiddleware(),
     thunk,
@@ -11,7 +11,7 @@ export default function configureStore({ initialState, history, configureReducer
   ];
 
   const store = createStore(
-    configureReducer(),
+    reducer,
     initialState,
     applyMiddleware(...middleware)
   );
