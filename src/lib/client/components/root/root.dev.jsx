@@ -3,10 +3,9 @@
 import React, { PropTypes } from 'react';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router';
-import routes from '../../routes';
 import DevTools from './dev-tools';
 
-export default function Root({ store, history }) {
+export default function Root({ store, history, routes }) {
   return (
     <Provider store={store}>
       <div>
@@ -20,4 +19,5 @@ export default function Root({ store, history }) {
 Root.propTypes = {
   store: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
+  routes: PropTypes.object.isRequired,
 };

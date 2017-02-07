@@ -3,10 +3,13 @@ import thunk from 'redux-thunk';
 import { routerMiddleware } from 'react-router-redux';
 import createLogger from 'redux-logger';
 import fetchMiddleware from './middleware/fetch';
-import configureReducer from '../reducers';
 import DevTools from '../components/root/dev-tools';
 
-export default function configureStore({ initialState, history } = {}) {
+export default function configureStore({ initialState, history, configureReducer } = {}) {
+  if (typeof configureReducer !== 'function') {
+    throw new Error('Cannot configure store. Missing configureReducer function.');
+  }
+
   const middleware = [
     fetchMiddleware(),
     thunk,
