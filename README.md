@@ -3,7 +3,7 @@
 
 ## Mission
 
-> To improve how constituents and local public agencies communicate with each other.
+> To improve how constituents and services communicate with each other.
 
 
 ## Setup
