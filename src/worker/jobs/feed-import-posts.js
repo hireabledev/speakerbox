@@ -77,8 +77,12 @@ export default async function feedImportPostsProcessor(job, done) {
 
     return done();
   } catch (err) {
-    debug.error(err);
-    sentry.captureException(err);
+    if (err.name !== 'SequelizeUniqueConstraintError') {
+      debug.error(err);
+      sentry.captureException(err);
+    } else {
+      debug.warn(err);
+    }
     await schedule(feed);
     return done(err);
   }
