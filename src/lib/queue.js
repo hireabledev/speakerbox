@@ -48,20 +48,27 @@ export function removeJob(jobId) {
   ));
 }
 
-export function cleanupJobs() {
+export function cleanupJobsByState(state, minutes = 60) {
   return new Promise((resolve, reject) => {
-    const CLEANUP_TIME = moment().subtract(1, 'hour');
-    kue.Job.rangeByState('complete', 0, KUE_CLEANUP_BATCH_SIZE, 'asc', (err, jobs) => {
+    const CLEANUP_TIME = moment().subtract(minutes, 'minutes');
+    kue.Job.rangeByState(state, 0, KUE_CLEANUP_BATCH_SIZE, 'asc', (err, jobs) => {
       if (err) { return reject(err); }
       const oldJobs = jobs.filter(job => CLEANUP_TIME.isAfter(parseInt(job.created_at, 10)));
       return Promise.all(oldJobs.map(oldJob => removeJob(oldJob.id)))
         .then(removedJobs => {
-          debug.info(`Removed ${removedJobs.length} jobs.`);
+          debug.info(`Removed ${removedJobs.length} ${state} jobs.`);
           return resolve(removedJobs);
         })
         .catch(reject);
     });
   });
+}
+
+export function cleanupJobs() {
+  return Promise.all([
+    cleanupJobsByState('completed', 60),
+    cleanupJobsByState('failed', 60 * 24 * 3),
+  ]);
 }
 
 export default queue;
