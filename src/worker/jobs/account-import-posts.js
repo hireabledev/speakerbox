@@ -1,3 +1,4 @@
+import sentry from 'lib/sentry';
 import { ACCOUNT_FETCH_DELAY } from 'lib/config';
 import { addJob, removeJob } from 'lib/queue';
 import { kue as debug } from 'lib/debug';
@@ -60,6 +61,7 @@ export default async function accountImportPostsProcessor(job, done) {
     return done();
   } catch (err) {
     debug.error(err);
+    sentry.captureException(err);
     await schedule(account);
     return done(err);
   }

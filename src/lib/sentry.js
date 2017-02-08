@@ -1,4 +1,5 @@
 import raven from 'raven';
+import has from 'lodash/has';
 import { ENV, SENTRY_DSN, VERSION } from './config';
 import { sentry as debug } from './debug';
 
@@ -47,6 +48,15 @@ Raven.config(SENTRY_DSN, {
   environment: ENV,
   release: VERSION,
   tags,
+  shouldSendCallback(data) {
+    if (has(data, 'extra.Error.output.statusCode')) {
+      const statusCode = data.extra.Error.output.statusCode;
+      if (statusCode >= 400 && statusCode < 500) {
+        return false;
+      }
+    }
+    return true;
+  },
 });
 
 export default Raven;

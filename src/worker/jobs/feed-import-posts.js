@@ -1,5 +1,6 @@
 import uuid from 'uuid';
 import sanitizeHtml from 'sanitize-html';
+import sentry from 'lib/sentry';
 import { RSS_FETCH_DELAY } from 'lib/config';
 import { addJob, removeJob } from 'lib/queue';
 import { kue as debug } from 'lib/debug';
@@ -77,6 +78,7 @@ export default async function feedImportPostsProcessor(job, done) {
     return done();
   } catch (err) {
     debug.error(err);
+    sentry.captureException(err);
     await schedule(feed);
     return done(err);
   }

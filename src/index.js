@@ -17,7 +17,7 @@ import {
 } from './lib/config';
 import { server as debug } from './lib/debug';
 import models, { sequelize } from './lib/models';
-import { sentryRequestMiddleware, sentryErrorMiddleware } from './lib/sentry';
+import sentry, { sentryRequestMiddleware, sentryErrorMiddleware } from './lib/sentry';
 import session from './lib/session';
 import passport from './lib/passport';
 import templateContext from './lib/middleware/template-context';
@@ -33,6 +33,11 @@ import marketing from './marketing';
 import sso from './sso';
 
 const app = express();
+
+sentry.install(() => {
+  debug.error('FATAL ERROR');
+  process.exit(1);
+});
 
 app.set('trust proxy', ['loopback', 'linklocal', 'uniquelocal']);
 
