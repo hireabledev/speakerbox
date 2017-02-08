@@ -14,8 +14,8 @@ export const show = showBlueprint(MODEL_NAME);
 export async function create(req) {
   const feed = req.app.models.Feed.build(req.body);
   feed.setUser(req.user);
-  const job = await schedule(feed, true);
-  feed.jobId = job.id;
+  await feed.save();
+  await schedule(feed, true);
   return await feed.save();
 }
 
