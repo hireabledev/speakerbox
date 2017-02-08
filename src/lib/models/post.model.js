@@ -66,6 +66,10 @@ const Post = sequelize.define('Post', {
     singular: 'post',
     plural: 'posts',
   },
+  indexes: [{
+    unique: true,
+    fields: ['url', 'feedId'],
+  }],
 });
 
 export default Post;
