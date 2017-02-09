@@ -5009,9 +5009,9 @@ raven-js@^3.9.2:
   dependencies:
     json-stringify-safe "^5.0.1"
 
-raven@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/raven/-/raven-1.1.1.tgz#8837af64baa29ec32fc1cd8223255645ce3c9a42"
+raven@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/raven/-/raven-1.1.2.tgz#a5eb3db71f2fc3015a20145bcaf28015e7ae0718"
   dependencies:
     cookie "0.3.1"
     json-stringify-safe "5.0.1"
