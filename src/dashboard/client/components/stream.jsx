@@ -8,6 +8,7 @@ import orderBy from 'lodash/orderBy';
 import Waypoint from 'react-waypoint';
 import Link from 'react-router/lib/Link';
 import Fallback from 'lib/client/components/fallback';
+import Banner from 'lib/client/components/banner';
 import Page from 'lib/client/components/page';
 import Post from './post';
 import AccountList from './account-list';
@@ -110,6 +111,15 @@ export class StreamPage extends Component {
       return accountVisibility[post.accountId];
     });
 
+    const filteredPosts = posts.filter(filterByAccountOrFeed);
+
+    const numberOfAds = Math.floor(filteredPosts.length / 10);
+
+    for (let i = 1; i < numberOfAds; i += 1) {
+      const ad = { isBanner: true };
+      filteredPosts.splice(i * 10, 0, ad);
+    }
+
     return (
       <Page
         bg="light"
@@ -122,16 +132,26 @@ export class StreamPage extends Component {
         <Fallback if={posts.length === 0}>
           No posts. <Link to="/settings/accounts">Add an account?</Link>
         </Fallback>
-        {posts
-          .filter(filterByAccountOrFeed)
-          .map(post => (
-            <Post
-              key={post.id}
-              post={post}
-              type={post.type}
-              waypoint={includes(lastPosts, post) ? this.getWaypoint(post) : null}
-            />)
-          )}
+        {filteredPosts
+          .map((post, index) => {
+            if (post.isBanner) {
+              return (
+                <Banner
+                  key={index}
+                  className="sb-bn-center my-3 mx-auto"
+                  layout="landscape"
+                />
+              );
+            }
+            return (
+              <Post
+                key={post.id}
+                post={post}
+                type={post.type}
+                waypoint={includes(lastPosts, post) ? this.getWaypoint(post) : null}
+              />
+            );
+          })}
       </Page>
     );
   }

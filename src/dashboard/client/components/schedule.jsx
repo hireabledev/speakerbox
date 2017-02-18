@@ -149,7 +149,8 @@ export class SchedulePage extends Component {
               type={post.type}
               onRemove={this.onRemoveScheduledPost}
               waypoint={includes(lastScheduledPosts, post) ? this.getWaypoint(post) : null}
-            />))}
+            />
+          ))}
       </Page>
     );
   }
