@@ -5,6 +5,9 @@ export const transforms = {
     return value;
   },
   boolean(value) {
+    if (value === 'false') {
+      return false;
+    }
     return Boolean(value);
   },
   integer(value) {
