@@ -48,6 +48,7 @@
     "connect-session-sequelize": "^3.1.0",
     "cookie-parser": "^1.4.3",
     "debug": "^2.2.0",
+    "dotenv": "^4.0.0",
     "express": "^4.14.0",
     "express-query-boolean": "^1.0.0",
     "express-query-int": "^1.0.1",

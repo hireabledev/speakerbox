@@ -1,4 +1,7 @@
+import { config as dotenv } from 'dotenv';
 import env, { transforms } from 'lib/env';
+
+dotenv();
 
 export const ENV = process.env.NODE_ENV || 'development';
 export const IS_PROD = (ENV === 'production');
