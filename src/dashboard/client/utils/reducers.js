@@ -8,12 +8,18 @@ export function mergeKeyById(itemsById, nextItems) {
   };
 }
 
-export function replaceByIdOrAppend(items, item) {
-  const newItems = [...items];
-  let index = findIndex(items, { id: item.id });
-  if (index === -1) {
-    index = newItems.length;
+export function replaceByIdOrAppend(items, input) {
+  const result = [...items];
+  let newItems = input;
+  if (Array.isArray(newItems) === false) {
+    newItems = [input];
   }
-  newItems.splice(index, 1, item);
-  return newItems;
+  newItems.forEach(item => {
+    let index = findIndex(result, { id: item.id });
+    if (index === -1) {
+      index = result.length;
+    }
+    result.splice(index, 1, item);
+  });
+  return result;
 }

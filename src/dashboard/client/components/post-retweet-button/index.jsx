@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Datetime from 'react-datetime';
 import Link from 'react-router/lib/Link';
 import Icon from 'lib/client/components/icon';
-import { twitter } from '../../actions/posts';
+import { createScheduledPost } from '../../actions/posts';
 
 export class PostRetweetButton extends Component {
   constructor(props) {
@@ -101,7 +101,7 @@ PostRetweetButton.propTypes = {
 
 const mapDispatchToProps = (dispatch) => ({
   createScheduledPost: (postId, accountId, date) => (
-    dispatch(twitter.createScheduledPost({
+    dispatch(createScheduledPost({
       postId,
       accountId,
       date,

@@ -5,9 +5,7 @@ import { reducer as form } from 'redux-form';
 import { reducer as notifs } from 'redux-notifications';
 import menu from 'lib/client/reducers/menu';
 import accounts from './accounts';
-import facebook from './facebook';
-import linkedin from './linkedin';
-import twitter from './twitter';
+import posts from './posts';
 import rss from './rss';
 import user from './user';
 import visibility from './visibility';
@@ -17,9 +15,7 @@ export default function configureReducer(reducers) {
     routing,
     loadingBar,
     accounts,
-    facebook,
-    twitter,
-    linkedin,
+    posts,
     rss,
     user,
     visibility,

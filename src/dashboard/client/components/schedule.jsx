@@ -1,24 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import concat from 'lodash/concat';
-import includes from 'lodash/includes';
-import last from 'lodash/last';
-import memoize from 'lodash/memoize';
-import orderBy from 'lodash/orderBy';
-import sortedUniqBy from 'lodash/sortedUniqBy';
 import Waypoint from 'react-waypoint';
 import Fallback from 'lib/client/components/fallback';
 import Page from 'lib/client/components/page';
 import AccountList from './account-list';
 import ScheduledPost from './scheduled-post';
 import PostForm from './post-form';
-import {
-  facebook,
-  twitter,
-  linkedin,
-  fetchAllScheduledPosts,
-  resetAllScheduledPosts,
-} from '../actions/posts';
+import { fetchScheduledPosts, resetScheduledPosts } from '../actions/posts';
 
 export class SchedulePage extends Component {
   constructor(props) {
@@ -26,7 +14,7 @@ export class SchedulePage extends Component {
     this.getWaypoint = this.getWaypoint.bind(this);
     this.getFetchOptions = this.getFetchOptions.bind(this);
     this.fetchScheduledPosts = this.fetchScheduledPosts.bind(this);
-    this.fetchScheduledPostsByType = this.fetchScheduledPostsByType.bind(this);
+    this.fetchScheduledPostsByAccount = this.fetchScheduledPostsByAccount.bind(this);
     this.onRemoveScheduledPost = this.onRemoveScheduledPost.bind(this);
   }
 
@@ -50,29 +38,21 @@ export class SchedulePage extends Component {
     }
   }
 
-  getWaypoint(post) {
-    const moreMap = {
-      facebook: this.props.moreFacebookScheduledPosts,
-      twitter: this.props.moreTwitterScheduledPosts,
-      linkedin: this.props.moreLinkedinScheduledPosts,
-    };
-    return (
-      <Waypoint
-        onEnter={() => {
-          const { type } = post;
-          if (moreMap[type]) {
-            this.fetchScheduledPostsByType(type);
-          }
-        }}
-      />
-    );
+  getWaypoint(scheduledPost) {
+    if (this.props.moreScheduledPosts) {
+      return (
+        <Waypoint onEnter={() => this.fetchScheduledPostsByAccount(scheduledPost.accountId)} />
+      );
+    }
+    return null;
   }
 
-  getFetchOptions(options = { limit: 5 }) {
+  getFetchOptions(query = {}) {
     const fetchOptions = {
       query: {
         sort: 'date',
-        limit: options.limit,
+        limit: 5,
+        ...query,
       },
     };
     const id = this.props.location.query.id;
@@ -86,45 +66,29 @@ export class SchedulePage extends Component {
     return this.props.fetchScheduledPosts(this.getFetchOptions());
   }
 
-  fetchScheduledPostsByType(type) {
-    return this.props.fetchScheduledPostsByType(type)(this.getFetchOptions({ limit: 10 }));
+  fetchScheduledPostsByAccount(accountId) {
+    return this.props.fetchScheduledPosts(this.getFetchOptions({ limit: 10, accountId }));
   }
 
   render() {
     const {
       accountVisibility,
-      facebookScheduledPosts = [],
-      twitterScheduledPosts = [],
-      linkedinScheduledPosts = [],
+      scheduledPosts = [],
     } = this.props;
-
-    const posts = sortedUniqBy( // TODO: handle in reducer
-      orderBy(
-        concat(
-          facebookScheduledPosts,
-          twitterScheduledPosts,
-          linkedinScheduledPosts
-        ),
-        'date',
-        'asc'
-      ),
-      'id',
-    );
-
-    const lastScheduledPosts = [
-      last(facebookScheduledPosts),
-      last(twitterScheduledPosts),
-      last(linkedinScheduledPosts),
-    ];
 
     const queryId = this.props.location.query.id;
 
-    const filterPosts = memoize((post) => {
+    const filteredScheduledPosts = scheduledPosts.filter((post) => {
       if (queryId && post.id !== queryId) {
         return false;
       }
       return accountVisibility[post.accountId];
     });
+
+    const lastScheduledPosts = filteredScheduledPosts.reduce((result, scheduledPost) => {
+      result[scheduledPost.accountId] = scheduledPost; // eslint-disable-line no-param-reassign
+      return result;
+    }, {});
 
     return (
       <Page
@@ -137,18 +101,21 @@ export class SchedulePage extends Component {
       >
         <PostForm message={this.props.location.query.message} />
         <br />
-        <Fallback if={posts.length === 0}>
+        <Fallback if={filteredScheduledPosts.length === 0}>
           No scheduled posts. Add one?
         </Fallback>
-        {posts
-          .filter(filterPosts)
-          .map(post => (
+        {filteredScheduledPosts
+          .map(scheduledPost => (
             <ScheduledPost
-              key={post.id}
-              post={post}
-              type={post.type}
+              key={scheduledPost.id}
+              post={scheduledPost}
+              type={scheduledPost.type}
               onRemove={this.onRemoveScheduledPost}
-              waypoint={includes(lastScheduledPosts, post) ? this.getWaypoint(post) : null}
+              waypoint={
+                (lastScheduledPosts[scheduledPost.accountId] === scheduledPost)
+                  ? this.getWaypoint(scheduledPost)
+                  : null
+              }
             />
           ))}
       </Page>
@@ -165,40 +132,23 @@ SchedulePage.propTypes = {
     }).isRequired,
   }).isRequired,
   accountVisibility: PropTypes.object,
-  facebookScheduledPosts: PropTypes.arrayOf(PropTypes.shape({
+  scheduledPosts: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string, // eslint-disable-line react/no-unused-prop-types
   })).isRequired,
-  moreFacebookScheduledPosts: PropTypes.bool.isRequired,
-  twitterScheduledPosts: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string, // eslint-disable-line react/no-unused-prop-types
-  })).isRequired,
-  moreTwitterScheduledPosts: PropTypes.bool.isRequired,
-  linkedinScheduledPosts: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string, // eslint-disable-line react/no-unused-prop-types
-  })).isRequired,
-  moreLinkedinScheduledPosts: PropTypes.bool.isRequired,
+  moreScheduledPosts: PropTypes.bool.isRequired,
   fetchScheduledPosts: PropTypes.func.isRequired,
-  fetchScheduledPostsByType: PropTypes.func.isRequired,
   resetScheduledPosts: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   accountVisibility: state.visibility.accountVisibility,
-  facebookScheduledPosts: state.facebook.scheduledPosts,
-  twitterScheduledPosts: state.twitter.scheduledPosts,
-  linkedinScheduledPosts: state.linkedin.scheduledPosts,
-  moreFacebookScheduledPosts: state.facebook.moreScheduledPosts,
-  moreTwitterScheduledPosts: state.twitter.moreScheduledPosts,
-  moreLinkedinScheduledPosts: state.linkedin.moreScheduledPosts,
+  scheduledPosts: state.posts.scheduledPosts,
+  moreScheduledPosts: state.posts.moreScheduledPosts,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  resetScheduledPosts: (options) => dispatch(resetAllScheduledPosts(options)),
-  fetchScheduledPosts: (options) => dispatch(fetchAllScheduledPosts(options)),
-  fetchScheduledPostsByType: (type) => (options) => {
-    const typeMap = { facebook, twitter, linkedin };
-    return dispatch(typeMap[type].fetchScheduledPosts(options));
-  },
+  fetchScheduledPosts: (options) => dispatch(fetchScheduledPosts(options)),
+  resetScheduledPosts: (options) => dispatch(resetScheduledPosts(options)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SchedulePage);

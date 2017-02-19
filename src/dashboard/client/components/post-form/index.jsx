@@ -6,7 +6,7 @@ import some from 'lodash/some';
 import throttle from 'lodash/throttle';
 import { getTweetLength } from 'twitter-text';
 import Form, { FormGroup, Label, Textarea, Datetime, AccountSelect, ImagePicker } from 'lib/client/components/form';
-import * as postActions from '../../actions/posts';
+import { createScheduledPost } from '../../actions/posts';
 
 const FORM_NAME = 'scheduledPost';
 
@@ -109,7 +109,7 @@ export class PostForm extends Component {
           cancelButton={this.props.cancelButton}
           onSubmit={async (values, _, form) => {
             const results = await Promise.all(values.accounts.map(account => (
-              this.props.addScheduledPost(account.type, {
+              this.props.addScheduledPost({
                 accountId: account.id,
                 message: values.message,
                 date: values.date,
@@ -140,7 +140,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  addScheduledPost: (type, body) => dispatch(postActions[type].createScheduledPost(body)),
+  addScheduledPost: (body) => dispatch(createScheduledPost(body)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostForm);

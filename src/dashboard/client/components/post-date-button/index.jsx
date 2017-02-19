@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Datetime from 'react-datetime';
-import * as postActions from '../../actions/posts';
+import { updateScheduledPost } from '../../actions/posts';
 
 export function PostDateButton({ disabled, post, onChange }) {
   return (
@@ -10,7 +10,7 @@ export function PostDateButton({ disabled, post, onChange }) {
       className="sb-post-action"
       dateFormat="ll"
       value={new Date(post.date)}
-      onChange={(date) => onChange(post.id, post.type, date.toISOString())}
+      onChange={(date) => onChange(post.id, date.toISOString())}
       isValidDate={m => m.isAfter(new Date())}
       inputProps={{ disabled }}
     />
@@ -31,7 +31,7 @@ PostDateButton.propTypes = {
 };
 
 const mapDispatchToProps = dispatch => ({
-  onChange: (id, type, date) => dispatch(postActions[type].updateScheduledPost(id, { date })),
+  onChange: (id, date) => dispatch(updateScheduledPost(id, { date })),
 });
 
 export default connect(null, mapDispatchToProps)(PostDateButton);

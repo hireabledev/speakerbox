@@ -1,289 +1,201 @@
 import fetch from 'lib/fetch';
 import { notifySuccess, notifyError } from './notifications';
-import * as actions from '../constants/action-types';
+import {
+  RECEIVE_POSTS,
+  RECEIVE_POST,
+  RESET_POSTS,
+  RECEIVE_SCHEDULED_POSTS,
+  RECEIVE_SCHEDULED_POST,
+  RESET_SCHEDULED_POSTS,
+  RECEIVE_REMOVE_SCHEDULED_POST,
+} from '../constants/action-types';
 
-export const facebook = {};
-export const twitter = {};
-export const linkedin = {};
+export const receivePosts = ({ posts, more }) => ({
+  type: RECEIVE_POSTS,
+  payload: { posts, more },
+});
 
-export function postActions(type) {
-  const TYPE = type.toUpperCase();
+export const receivePost = (post) => ({
+  type: RECEIVE_POST,
+  payload: post,
+});
 
-  const receivePosts = ({ posts, more }) => ({
-    type: actions[`RECEIVE_${TYPE}_POSTS`],
-    payload: { posts, more },
-  });
+export const resetPosts = () => ({
+  type: RESET_POSTS,
+});
 
-  const receivePost = (post) => ({
-    type: actions[`RECEIVE_${TYPE}_POST`],
-    payload: post,
-  });
-
-  const resetPosts = () => ({
-    type: actions[`RESET_${TYPE}_POSTS`],
-  });
-
-  const fetchPosts = (options = {}) => (
-    async (dispatch, getState) => {
-      const state = getState()[type];
-      try {
-        const res = await dispatch(fetch('/api/posts', {
-          query: {
-            skip: state.posts.length,
-            limit: 5,
-            type,
-            ...options.query,
-          },
-        }));
-        const { data, more } = res.body;
-        const posts = data.map(post => {
-          post.date = new Date(post.date); // eslint-disable-line no-param-reassign
-          return post;
-        });
-        dispatch(receivePosts({ posts, more }));
-        return res.body;
-      } catch (err) {
-        dispatch(notifyError(err));
-        throw err;
-      }
-    }
-  );
-
-  const fetchPost = (id) => (
-    async dispatch => {
-      try {
-        const res = await dispatch(fetch(`/api/posts/${id}`));
-        const post = res.body;
-        post.date = new Date(post.date);
-        dispatch(receivePost(post));
+export const fetchPosts = (options = {}) => (
+  async (dispatch, getState) => {
+    const state = getState().posts;
+    try {
+      const res = await dispatch(fetch('/api/posts', {
+        query: {
+          skip: state.posts.length,
+          limit: 5,
+          ...options.query,
+        },
+      }));
+      const { data, more } = res.body;
+      const posts = data.map(post => {
+        post.date = new Date(post.date); // eslint-disable-line no-param-reassign
         return post;
-      } catch (err) {
-        dispatch(notifyError(err));
-        throw err;
-      }
+      });
+      dispatch(receivePosts({ posts, more }));
+      return res.body;
+    } catch (err) {
+      dispatch(notifyError(err));
+      throw err;
     }
-  );
-
-  const updatePost = (id, body) => (
-    async dispatch => {
-      try {
-        const res = await dispatch(fetch(`/api/posts/${id}`, { method: 'PATCH', body }));
-        const post = res.body;
-        post.date = new Date(post.date);
-        dispatch(receivePost(post));
-        dispatch(notifySuccess('Updated Post'));
-        return post;
-      } catch (err) {
-        dispatch(notifyError(err));
-        throw err;
-      }
-    }
-  );
-
-  const toggleFavoritePost = (id, favorited) => (
-    updatePost(id, { favorited: favorited ? null : new Date() })
-  );
-
-  return {
-    receivePosts,
-    receivePost,
-    resetPosts,
-    fetchPosts,
-    fetchPost,
-    updatePost,
-    toggleFavoritePost,
-  };
-}
-
-export function scheduledPostActions(type) {
-  const TYPE = type.toUpperCase();
-
-  const receiveScheduledPosts = ({ posts, more }) => ({
-    type: actions[`RECEIVE_${TYPE}_SCHEDULED_POSTS`],
-    payload: { posts, more },
-  });
-
-  const receiveScheduledPost = (post) => ({
-    type: actions[`RECEIVE_${TYPE}_SCHEDULED_POST`],
-    payload: post,
-  });
-
-  const receiveRemoveScheduledPost = (id) => ({
-    type: actions[`RECEIVE_REMOVE_${TYPE}_SCHEDULED_POST`],
-    payload: { id },
-  });
-
-  const resetScheduledPosts = () => ({
-    type: actions[`RESET_${TYPE}_SCHEDULED_POSTS`],
-  });
-
-  const fetchScheduledPosts = (options = {}) => (
-    async (dispatch, getState) => {
-      const state = getState()[type];
-      try {
-        const res = await dispatch(fetch('/api/scheduled-posts', {
-          query: {
-            skip: state.scheduledPosts.length,
-            type,
-            ...options.query,
-          },
-        }));
-        const { data, more } = res.body;
-        const posts = data.map(post => {
-          post.date = new Date(post.date); // eslint-disable-line no-param-reassign
-          return post;
-        });
-        dispatch(receiveScheduledPosts({ posts, more }));
-        return res.body;
-      } catch (err) {
-        dispatch(notifyError(err));
-        throw err;
-      }
-    }
-  );
-
-  const fetchScheduledPost = (id) => (
-    async dispatch => {
-      try {
-        const res = await dispatch(fetch(`/api/scheduled-posts/${id}`));
-        const post = res.body;
-        post.date = new Date(post.date);
-        dispatch(receiveScheduledPost(post));
-        return post;
-      } catch (err) {
-        dispatch(notifyError(err));
-        throw err;
-      }
-    }
-  );
-
-  const createScheduledPost = (body) => (
-    async dispatch => {
-      try {
-        const res = await dispatch(fetch('/api/scheduled-posts', { method: 'POST', body }));
-        const post = res.body;
-        post.date = new Date(post.date);
-        dispatch(receiveScheduledPost(post));
-        dispatch(notifySuccess('Scheduled Post'));
-        mixpanel.track('Scheduled Post', {
-          type,
-          id: post.id,
-          account: post.accountId,
-        });
-        if (type === 'twitter' && post.postId) {
-          post.post = await dispatch(twitter.fetchPost(post.postId));
-        }
-        return post;
-      } catch (err) {
-        dispatch(notifyError(err));
-        throw err;
-      }
-    }
-  );
-
-  const updateScheduledPost = (id, body) => (
-    async dispatch => {
-      try {
-        const res = await dispatch(fetch(`/api/scheduled-posts/${id}`, { method: 'PATCH', body }));
-        const post = res.body;
-        post.date = new Date(post.date);
-        dispatch(receiveScheduledPost(post));
-        dispatch(notifySuccess('Updated Post'));
-        mixpanel.track('Updated Scheduled Post', {
-          type,
-          id: post.id,
-          account: post.accountId,
-        });
-        return post;
-      } catch (err) {
-        dispatch(notifyError(err));
-        throw err;
-      }
-    }
-  );
-
-  const removeScheduledPost = (id) => (
-    async dispatch => {
-      try {
-        await dispatch(fetch(`/api/scheduled-posts/${id}`, { method: 'DELETE' }));
-        dispatch(receiveRemoveScheduledPost(id));
-        dispatch(notifySuccess('Removed Post'));
-        mixpanel.track('Removed Scheduled Post', { type, id });
-        return { id };
-      } catch (err) {
-        dispatch(notifyError(err));
-        throw err;
-      }
-    }
-  );
-
-  return {
-    receiveScheduledPosts,
-    receiveScheduledPost,
-    receiveRemoveScheduledPost,
-    resetScheduledPosts,
-    fetchScheduledPosts,
-    fetchScheduledPost,
-    createScheduledPost,
-    updateScheduledPost,
-    removeScheduledPost,
-  };
-}
-
-Object.assign(
-  facebook,
-  postActions('facebook'),
-  scheduledPostActions('facebook')
+  }
 );
 
-Object.assign(
-  twitter,
-  postActions('twitter'),
-  scheduledPostActions('twitter'),
+export const fetchPost = (id) => (
+  async dispatch => {
+    try {
+      const res = await dispatch(fetch(`/api/posts/${id}`));
+      const post = res.body;
+      post.date = new Date(post.date);
+      dispatch(receivePost(post));
+      return post;
+    } catch (err) {
+      dispatch(notifyError(err));
+      throw err;
+    }
+  }
 );
 
-Object.assign(
-  linkedin,
-  postActions('linkedin'),
-  scheduledPostActions('linkedin')
+export const updatePost = (id, body) => (
+  async dispatch => {
+    try {
+      const res = await dispatch(fetch(`/api/posts/${id}`, { method: 'PATCH', body }));
+      const post = res.body;
+      post.date = new Date(post.date);
+      dispatch(receivePost(post));
+      dispatch(notifySuccess('Updated Post'));
+      return post;
+    } catch (err) {
+      dispatch(notifyError(err));
+      throw err;
+    }
+  }
 );
 
-export const rss = postActions('rss');
+export const toggleFavoritePost = (id, favorited) => (
+  updatePost(id, { favorited: favorited ? null : new Date() })
+);
 
-export function fetchAllPosts(options) {
-  return async (dispatch, getState) => (
-    await Promise.resolve([
-      facebook.fetchPosts(options)(dispatch, getState),
-      twitter.fetchPosts(options)(dispatch, getState),
-      linkedin.fetchPosts(options)(dispatch, getState),
-      rss.fetchPosts(options)(dispatch, getState),
-    ])
-  );
-}
+export const receiveScheduledPosts = ({ scheduledPosts, more }) => ({
+  type: RECEIVE_SCHEDULED_POSTS,
+  payload: { scheduledPosts, more },
+});
 
-export function fetchAllScheduledPosts(options) {
-  return async (dispatch, getState) => (
-    await Promise.resolve([
-      facebook.fetchScheduledPosts(options)(dispatch, getState),
-      twitter.fetchScheduledPosts(options)(dispatch, getState),
-      linkedin.fetchScheduledPosts(options)(dispatch, getState),
-    ])
-  );
-}
+export const receiveScheduledPost = (scheduledPost) => ({
+  type: RECEIVE_SCHEDULED_POST,
+  payload: scheduledPost,
+});
 
-export function resetAllPosts() {
-  return dispatch => {
-    dispatch(facebook.resetPosts());
-    dispatch(twitter.resetPosts());
-    dispatch(linkedin.resetPosts());
-    dispatch(rss.resetPosts());
-  };
-}
+export const receiveRemoveScheduledPost = (id) => ({
+  type: RECEIVE_REMOVE_SCHEDULED_POST,
+  payload: { id },
+});
 
-export function resetAllScheduledPosts() {
-  return dispatch => {
-    dispatch(facebook.resetScheduledPosts());
-    dispatch(twitter.resetScheduledPosts());
-    dispatch(linkedin.resetScheduledPosts());
-  };
-}
+export const resetScheduledPosts = () => ({
+  type: RESET_SCHEDULED_POSTS,
+});
+
+export const fetchScheduledPosts = (options = {}) => (
+  async (dispatch, getState) => {
+    const state = getState().posts;
+    try {
+      const res = await dispatch(fetch('/api/scheduled-posts', {
+        query: {
+          skip: state.scheduledPosts.length,
+          ...options.query,
+        },
+      }));
+      const { data, more } = res.body;
+      const scheduledPosts = data.map(scheduledPost => {
+        scheduledPost.date = new Date(scheduledPost.date); // eslint-disable-line no-param-reassign
+        return scheduledPost;
+      });
+      dispatch(receiveScheduledPosts({ scheduledPosts, more }));
+      return res.body;
+    } catch (err) {
+      dispatch(notifyError(err));
+      throw err;
+    }
+  }
+);
+
+export const fetchScheduledPost = (id) => (
+  async dispatch => {
+    try {
+      const res = await dispatch(fetch(`/api/scheduled-posts/${id}`));
+      const scheduledPost = res.body;
+      scheduledPost.date = new Date(scheduledPost.date);
+      dispatch(receiveScheduledPost(scheduledPost));
+      return scheduledPost;
+    } catch (err) {
+      dispatch(notifyError(err));
+      throw err;
+    }
+  }
+);
+
+export const createScheduledPost = (body) => (
+  async dispatch => {
+    try {
+      const res = await dispatch(fetch('/api/scheduled-posts', { method: 'POST', body }));
+      const scheduledPost = res.body;
+      scheduledPost.date = new Date(scheduledPost.date);
+      dispatch(receiveScheduledPost(scheduledPost));
+      dispatch(notifySuccess('Scheduled Post'));
+      mixpanel.track('Scheduled Post', {
+        id: scheduledPost.id,
+        account: scheduledPost.accountId,
+      });
+      if (scheduledPost.postId) {
+        scheduledPost.post = await dispatch(fetchPost(scheduledPost.postId));
+      }
+      return scheduledPost;
+    } catch (err) {
+      dispatch(notifyError(err));
+      throw err;
+    }
+  }
+);
+
+export const updateScheduledPost = (id, body) => (
+  async dispatch => {
+    try {
+      const res = await dispatch(fetch(`/api/scheduled-posts/${id}`, { method: 'PATCH', body }));
+      const scheduledPost = res.body;
+      scheduledPost.date = new Date(scheduledPost.date);
+      dispatch(receiveScheduledPost(scheduledPost));
+      dispatch(notifySuccess('Updated Post'));
+      mixpanel.track('Updated Scheduled Post', {
+        id: scheduledPost.id,
+        account: scheduledPost.accountId,
+      });
+      return scheduledPost;
+    } catch (err) {
+      dispatch(notifyError(err));
+      throw err;
+    }
+  }
+);
+
+export const removeScheduledPost = (id) => (
+  async dispatch => {
+    try {
+      await dispatch(fetch(`/api/scheduled-posts/${id}`, { method: 'DELETE' }));
+      dispatch(receiveRemoveScheduledPost(id));
+      dispatch(notifySuccess('Removed Post'));
+      mixpanel.track('Removed Scheduled Post', { id });
+      return { id };
+    } catch (err) {
+      dispatch(notifyError(err));
+      throw err;
+    }
+  }
+);

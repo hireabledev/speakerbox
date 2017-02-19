@@ -1,13 +1,13 @@
 import { expect } from 'chai';
-import reducer from './twitter';
+import reducer from './posts';
 import {
-  RECEIVE_TWITTER_POSTS,
-  RECEIVE_TWITTER_POST,
-  RESET_TWITTER_POSTS,
-  RECEIVE_REMOVE_TWITTER_SCHEDULED_POST,
+  RECEIVE_POSTS,
+  RECEIVE_POST,
+  RESET_POSTS,
+  RECEIVE_REMOVE_SCHEDULED_POST,
 } from '../constants/action-types';
 
-describe('twitter reducer', () => {
+describe('posts reducer', () => {
   let initialState;
 
   beforeEach(() => {
@@ -31,7 +31,7 @@ describe('twitter reducer', () => {
 
   it('should receive posts', () => {
     const action = {
-      type: RECEIVE_TWITTER_POSTS,
+      type: RECEIVE_POSTS,
       payload: {
         posts: [a1, a2],
       },
@@ -59,7 +59,7 @@ describe('twitter reducer', () => {
     };
 
     const action = {
-      type: RECEIVE_TWITTER_POST,
+      type: RECEIVE_POST,
       payload: a2Alt,
     };
 
@@ -79,7 +79,7 @@ describe('twitter reducer', () => {
     };
 
     const action = {
-      type: RECEIVE_TWITTER_POST,
+      type: RECEIVE_POST,
       payload: a3,
     };
 
@@ -97,7 +97,7 @@ describe('twitter reducer', () => {
     };
 
     const action = {
-      type: RESET_TWITTER_POSTS,
+      type: RESET_POSTS,
     };
 
     const state = reducer(initialState, action);
@@ -117,7 +117,7 @@ describe('twitter reducer', () => {
     };
 
     const action = {
-      type: RECEIVE_REMOVE_TWITTER_SCHEDULED_POST,
+      type: RECEIVE_REMOVE_SCHEDULED_POST,
       payload: {
         id: a2.id,
       },

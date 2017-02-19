@@ -1,10 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import concat from 'lodash/concat';
-import includes from 'lodash/includes';
-import last from 'lodash/last';
-import memoize from 'lodash/memoize';
-import orderBy from 'lodash/orderBy';
 import Waypoint from 'react-waypoint';
 import Link from 'react-router/lib/Link';
 import Fallback from 'lib/client/components/fallback';
@@ -12,14 +7,7 @@ import Banner from 'lib/client/components/banner';
 import Page from 'lib/client/components/page';
 import Post from './post';
 import AccountList from './account-list';
-import {
-  facebook,
-  twitter,
-  linkedin,
-  rss,
-  fetchAllPosts,
-  resetAllPosts,
-} from '../actions/posts';
+import { fetchPosts, resetPosts } from '../actions/posts';
 
 export class StreamPage extends Component {
   constructor(props) {
@@ -27,7 +15,7 @@ export class StreamPage extends Component {
     this.getWaypoint = this.getWaypoint.bind(this);
     this.getFetchOptions = this.getFetchOptions.bind(this);
     this.fetchPosts = this.fetchPosts.bind(this);
-    this.fetchPostsByType = this.fetchPostsByType.bind(this);
+    this.fetchPostsByAccount = this.fetchPostsByAccount.bind(this);
   }
 
   componentDidMount() {
@@ -42,29 +30,18 @@ export class StreamPage extends Component {
   }
 
   getWaypoint(post) {
-    const moreMap = {
-      facebook: this.props.moreFacebookPosts,
-      twitter: this.props.moreTwitterPosts,
-      linkedin: this.props.moreLinkedinPosts,
-      rss: this.props.moreRSSPosts,
-    };
-    return (
-      <Waypoint
-        onEnter={() => {
-          const { type } = post;
-          if (moreMap[type]) {
-            this.fetchPostsByType(type);
-          }
-        }}
-      />
-    );
+    if (this.props.morePosts) {
+      return <Waypoint onEnter={() => this.fetchPostsByAccount(post.accountId)} />;
+    }
+    return null;
   }
 
-  getFetchOptions(options = { limit: 5 }) {
+  getFetchOptions(query = {}) {
     const fetchOptions = {
       query: {
         sort: '-date',
-        limit: options.limit,
+        limit: 5,
+        ...query,
       },
     };
     if (this.props.location.pathname === '/favorites') {
@@ -77,43 +54,34 @@ export class StreamPage extends Component {
     return this.props.fetchPosts(this.getFetchOptions());
   }
 
-  fetchPostsByType(type) {
-    return this.props.fetchPostsByType(type)(this.getFetchOptions({ limit: 10 }));
+  fetchPostsByAccount(accountId) {
+    return this.props.fetchPosts(this.getFetchOptions({ limit: 10, accountId }));
   }
 
   render() {
     const {
       accountVisibility,
       feedVisibility,
-      facebookPosts = [],
-      twitterPosts = [],
-      linkedinPosts = [],
-      rssPosts = [],
+      posts = [],
     } = this.props;
 
-    const posts = orderBy(
-      concat(facebookPosts, twitterPosts, linkedinPosts, rssPosts),
-      'date',
-      'desc'
-    );
-
-    const lastPosts = [
-      last(facebookPosts),
-      last(twitterPosts),
-      last(linkedinPosts),
-      last(rssPosts),
-    ];
-
-    const filterByAccountOrFeed = memoize((post) => {
+    const filteredPosts = posts.filter((post) => {
       if (post.type === 'rss') {
         return feedVisibility[post.feedId];
       }
       return accountVisibility[post.accountId];
     });
 
-    const filteredPosts = posts.filter(filterByAccountOrFeed);
+    const lastPosts = filteredPosts.reduce((result, post) => {
+      if (post.accountId) {
+        result[post.accountId] = post; // eslint-disable-line no-param-reassign
+      } else if (post.feedId) {
+        result[post.feedId] = post; // eslint-disable-line no-param-reassign
+      }
+      return result;
+    }, {});
 
-    const numberOfAds = Math.floor(filteredPosts.length / 10);
+    const numberOfAds = Math.ceil(filteredPosts.length / 10);
 
     for (let i = 1; i < numberOfAds; i += 1) {
       const ad = { isBanner: true };
@@ -148,7 +116,11 @@ export class StreamPage extends Component {
                 key={post.id}
                 post={post}
                 type={post.type}
-                waypoint={includes(lastPosts, post) ? this.getWaypoint(post) : null}
+                waypoint={
+                  (lastPosts[post.accountId] === post || lastPosts[post.feedId] === post)
+                    ? this.getWaypoint(post)
+                    : null
+                }
               />
             );
           })}
@@ -163,47 +135,24 @@ StreamPage.propTypes = {
   }).isRequired,
   accountVisibility: PropTypes.object,
   feedVisibility: PropTypes.object,
-  facebookPosts: PropTypes.arrayOf(PropTypes.shape({
+  posts: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string, // eslint-disable-line react/no-unused-prop-types
   })).isRequired,
-  moreFacebookPosts: PropTypes.bool.isRequired,
-  twitterPosts: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string, // eslint-disable-line react/no-unused-prop-types
-  })).isRequired,
-  moreTwitterPosts: PropTypes.bool.isRequired,
-  linkedinPosts: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string, // eslint-disable-line react/no-unused-prop-types
-  })).isRequired,
-  moreLinkedinPosts: PropTypes.bool.isRequired,
-  rssPosts: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string, // eslint-disable-line react/no-unused-prop-types
-  })).isRequired,
-  moreRSSPosts: PropTypes.bool.isRequired,
+  morePosts: PropTypes.bool.isRequired,
   fetchPosts: PropTypes.func.isRequired,
-  fetchPostsByType: PropTypes.func.isRequired,
   resetPosts: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   accountVisibility: state.visibility.accountVisibility,
   feedVisibility: state.visibility.feedVisibility,
-  facebookPosts: state.facebook.posts,
-  twitterPosts: state.twitter.posts,
-  linkedinPosts: state.linkedin.posts,
-  rssPosts: state.rss.posts,
-  moreFacebookPosts: state.facebook.morePosts,
-  moreTwitterPosts: state.twitter.morePosts,
-  moreLinkedinPosts: state.linkedin.morePosts,
-  moreRSSPosts: state.rss.morePosts,
+  posts: state.posts.posts,
+  morePosts: state.posts.morePosts,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchPosts: (options) => dispatch(fetchAllPosts(options)),
-  fetchPostsByType: (type) => (options) => {
-    const typeMap = { facebook, twitter, linkedin, rss };
-    return dispatch(typeMap[type].fetchPosts(options));
-  },
-  resetPosts: () => dispatch(resetAllPosts()),
+  fetchPosts: (options) => dispatch(fetchPosts(options)),
+  resetPosts: () => dispatch(resetPosts()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(StreamPage);

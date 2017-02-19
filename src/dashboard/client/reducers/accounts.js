@@ -1,6 +1,6 @@
 import omit from 'lodash/omit';
 import { RECEIVE_ACCOUNTS, RECEIVE_REMOVE_ACCOUNT } from '../constants/action-types';
-import { mergeKeyById } from '../utils/reducers';
+import { mergeKeyById, replaceByIdOrAppend } from '../utils/reducers';
 
 const initialState = {
   accounts: [],
@@ -13,7 +13,7 @@ export default function accountsReducer(state = initialState, action) {
     case RECEIVE_ACCOUNTS:
       return {
         ...state,
-        accounts: [...state.accounts, ...action.payload.accounts],
+        accounts: replaceByIdOrAppend(state.accounts, action.payload.accounts),
         accountsById: mergeKeyById(state.accountsById, action.payload.accounts),
         moreAccounts: action.payload.more,
       };

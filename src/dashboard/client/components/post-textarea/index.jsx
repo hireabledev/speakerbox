@@ -1,12 +1,12 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import debounce from 'lodash/debounce';
-import * as postActions from '../../actions/posts';
+import { updateScheduledPost } from '../../actions/posts';
 
 export function PostTextarea({ disabled, post, onChange }) {
   const debouncedOnChange = debounce(value => {
     if (value) {
-      onChange(post.id, post.type, value);
+      onChange(post.id, value);
     }
   }, 1000);
   return (
@@ -23,13 +23,12 @@ PostTextarea.propTypes = {
   disabled: PropTypes.bool,
   post: PropTypes.shape({
     id: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
   }).isRequired,
   onChange: PropTypes.func.isRequired,
 };
 
 const mapDispatchToPros = dispatch => ({
-  onChange: (id, type, message) => dispatch(postActions[type].updateScheduledPost(id, { message })),
+  onChange: (id, message) => dispatch(updateScheduledPost(id, { message })),
 });
 
 export default connect(null, mapDispatchToPros)(PostTextarea);
