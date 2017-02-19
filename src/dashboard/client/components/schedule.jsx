@@ -14,7 +14,6 @@ export class SchedulePage extends Component {
     this.getWaypoint = this.getWaypoint.bind(this);
     this.getFetchOptions = this.getFetchOptions.bind(this);
     this.fetchScheduledPosts = this.fetchScheduledPosts.bind(this);
-    this.fetchScheduledPostsByAccount = this.fetchScheduledPostsByAccount.bind(this);
     this.onRemoveScheduledPost = this.onRemoveScheduledPost.bind(this);
   }
 
@@ -38,10 +37,10 @@ export class SchedulePage extends Component {
     }
   }
 
-  getWaypoint(scheduledPost) {
+  getWaypoint() {
     if (this.props.moreScheduledPosts) {
       return (
-        <Waypoint onEnter={() => this.fetchScheduledPostsByAccount(scheduledPost.accountId)} />
+        <Waypoint onEnter={() => this.fetchScheduledPosts()} />
       );
     }
     return null;
@@ -66,10 +65,6 @@ export class SchedulePage extends Component {
     return this.props.fetchScheduledPosts(this.getFetchOptions());
   }
 
-  fetchScheduledPostsByAccount(accountId) {
-    return this.props.fetchScheduledPosts(this.getFetchOptions({ limit: 10, accountId }));
-  }
-
   render() {
     const {
       accountVisibility,
@@ -85,10 +80,7 @@ export class SchedulePage extends Component {
       return accountVisibility[post.accountId];
     });
 
-    const lastScheduledPosts = filteredScheduledPosts.reduce((result, scheduledPost) => {
-      result[scheduledPost.accountId] = scheduledPost; // eslint-disable-line no-param-reassign
-      return result;
-    }, {});
+    const lastIndex = filteredScheduledPosts.length - 1;
 
     return (
       <Page
@@ -105,14 +97,14 @@ export class SchedulePage extends Component {
           No scheduled posts. Add one?
         </Fallback>
         {filteredScheduledPosts
-          .map(scheduledPost => (
+          .map((scheduledPost, index) => (
             <ScheduledPost
               key={scheduledPost.id}
               post={scheduledPost}
               type={scheduledPost.type}
               onRemove={this.onRemoveScheduledPost}
               waypoint={
-                (lastScheduledPosts[scheduledPost.accountId] === scheduledPost)
+                (index === lastIndex)
                   ? this.getWaypoint(scheduledPost)
                   : null
               }
