@@ -59,7 +59,7 @@ export async function processScheduledPost(scheduledPost, account) {
       let data;
 
       if (scheduledPost.postId) {
-        data = (await twitter.retweet(scheduledPost.post.nativeId)).data;
+        data = (await twitter.retweet(scheduledPost.Post.nativeId)).data;
       } else {
         data = (await twitter.update(message, imgUrl)).data;
       }
