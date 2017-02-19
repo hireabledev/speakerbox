@@ -69,7 +69,7 @@ export class StreamPage extends Component {
 
     const numberOfAds = Math.ceil(filteredPosts.length / 10);
 
-    for (let i = 1; i < numberOfAds; i += 1) {
+    for (let i = 1; i <= numberOfAds; i += 1) {
       const ad = { isBanner: true };
       filteredPosts.splice(i * 10, 0, ad);
     }
@@ -96,6 +96,7 @@ export class StreamPage extends Component {
                   key={index}
                   className="sb-bn-center my-3 mx-auto"
                   layout="landscape"
+                  waypoint={(index === lastIndex) ? this.getWaypoint() : null}
                 />
               );
             }
@@ -104,11 +105,7 @@ export class StreamPage extends Component {
                 key={post.id}
                 post={post}
                 type={post.type}
-                waypoint={
-                  (index === lastIndex)
-                    ? this.getWaypoint(post)
-                    : null
-                }
+                waypoint={(index === lastIndex) ? this.getWaypoint() : null}
               />
             );
           })}

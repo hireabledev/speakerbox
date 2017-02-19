@@ -13,9 +13,10 @@ const bannerMap = {
 };
 // eslint-enable max-len
 
-export default function Banner({ className, size, layout }) {
+export default function Banner({ className, size, layout, waypoint }) {
   return (
     <div className={cn('sb-bn', className)}>
+      {waypoint}
       {bannerMap[layout][size]}
     </div>
   );
@@ -30,6 +31,7 @@ Banner.propTypes = {
     'portrait',
     'landscape',
   ]),
+  waypoint: PropTypes.node,
 };
 
 Banner.defaultProps = {

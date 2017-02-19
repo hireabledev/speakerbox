@@ -103,11 +103,7 @@ export class SchedulePage extends Component {
               post={scheduledPost}
               type={scheduledPost.type}
               onRemove={this.onRemoveScheduledPost}
-              waypoint={
-                (index === lastIndex)
-                  ? this.getWaypoint(scheduledPost)
-                  : null
-              }
+              waypoint={(index === lastIndex) ? this.getWaypoint() : null}
             />
           ))}
       </Page>
