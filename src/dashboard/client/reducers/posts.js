@@ -1,4 +1,5 @@
 import omit from 'lodash/omit';
+import orderBy from 'lodash/orderBy';
 import {
   RECEIVE_POSTS,
   RECEIVE_POST,
@@ -8,7 +9,7 @@ import {
   RESET_SCHEDULED_POSTS,
   RECEIVE_REMOVE_SCHEDULED_POST,
 } from '../constants/action-types';
-import { mergeKeyById, replaceByIdOrAppend } from '../utils/reducers';
+import { mergeKeyById } from '../utils/reducers';
 
 const initialState = {
   posts: [],
@@ -21,38 +22,53 @@ const initialState = {
 
 export default function postsReducer(state = initialState, action) {
   switch (action.type) {
-    case RECEIVE_POSTS:
+    case RECEIVE_POSTS: {
+      const postsById = mergeKeyById(state.postsById, action.payload.posts);
+      const posts = orderBy(postsById, 'date', 'desc');
       return {
         ...state,
-        posts: replaceByIdOrAppend(state.posts, action.payload.posts),
-        postsById: mergeKeyById(state.postsById, action.payload.posts),
+        posts,
+        postsById,
         morePosts: action.payload.more,
       };
-    case RECEIVE_POST:
+    }
+    case RECEIVE_POST: {
+      const postsById = mergeKeyById(state.postsById, [action.payload]);
+      const posts = orderBy(postsById, 'date', 'desc');
       return {
         ...state,
-        posts: replaceByIdOrAppend(state.posts, action.payload),
-        postsById: mergeKeyById(state.postsById, [action.payload]),
+        posts,
+        postsById,
       };
+    }
     case RESET_POSTS:
       return {
         ...state,
         posts: [],
         postsById: {},
       };
-    case RECEIVE_SCHEDULED_POSTS:
+    case RECEIVE_SCHEDULED_POSTS: {
+      const scheduledPostsById = mergeKeyById(
+        state.scheduledPostsById,
+        action.payload.scheduledPosts
+      );
+      const scheduledPosts = orderBy(scheduledPostsById, 'date', 'desc');
       return {
         ...state,
-        scheduledPosts: replaceByIdOrAppend(state.scheduledPosts, action.payload.scheduledPosts),
-        scheduledPostsById: mergeKeyById(state.scheduledPostsById, action.payload.scheduledPosts),
+        scheduledPosts,
+        scheduledPostsById,
         moreScheduledPosts: action.payload.more,
       };
-    case RECEIVE_SCHEDULED_POST:
+    }
+    case RECEIVE_SCHEDULED_POST: {
+      const scheduledPostsById = mergeKeyById(state.scheduledPostsById, [action.payload]);
+      const scheduledPosts = orderBy(scheduledPostsById, 'date', 'desc');
       return {
         ...state,
-        scheduledPosts: replaceByIdOrAppend(state.scheduledPosts, action.payload),
-        scheduledPostsById: mergeKeyById(state.scheduledPostsById, [action.payload]),
+        scheduledPosts,
+        scheduledPostsById,
       };
+    }
     case RESET_SCHEDULED_POSTS:
       return {
         ...state,

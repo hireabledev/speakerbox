@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Waypoint from 'react-waypoint';
 import Link from 'react-router/lib/Link';
+import intersectionBy from 'lodash/intersectionBy';
 import Fallback from 'lib/client/components/fallback';
 import Banner from 'lib/client/components/banner';
 import Page from 'lib/client/components/page';
@@ -12,19 +13,28 @@ import { fetchPosts, resetPosts } from '../actions/posts';
 export class StreamPage extends Component {
   constructor(props) {
     super(props);
+    this.fetchNewPostsInterval = null;
     this.getWaypoint = this.getWaypoint.bind(this);
     this.getFetchOptions = this.getFetchOptions.bind(this);
     this.fetchPosts = this.fetchPosts.bind(this);
+    this.fetchNewPosts = this.fetchNewPosts.bind(this);
   }
 
   componentDidMount() {
     this.fetchPosts();
+    this.fetchNewPostsInterval = window.setInterval(this.fetchNewPosts, 1000 * 60);
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.location.pathname !== this.props.location.pathname) {
       this.props.resetPosts();
       this.fetchPosts();
+    }
+  }
+
+  componentWillUnmount() {
+    if (typeof this.fetchNewPostsInterval !== 'number') {
+      window.clearInterval(this.fetchNewPostsInterval);
     }
   }
 
@@ -51,6 +61,24 @@ export class StreamPage extends Component {
 
   fetchPosts() {
     return this.props.fetchPosts(this.getFetchOptions());
+  }
+
+  fetchNewPosts(skip = 0) {
+    const options = this.getFetchOptions();
+    const posts = this.props.posts;
+    return this.props.fetchPosts({
+      ...options,
+      query: {
+        ...options.query,
+        skip,
+      },
+    })
+      .then(res => {
+        if (res.data.length && intersectionBy(res.data, posts, 'id').length === 0) {
+          return this.fetchNewPosts(skip + 5);
+        }
+        return res;
+      });
   }
 
   render() {
