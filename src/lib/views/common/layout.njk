@@ -24,6 +24,9 @@
     {% include "common/icons.njk" %}
     {% block head %}{% endblock %}
     {% include "common/analytics.njk" %}
+    {% if PROPELLER_ID %}
+      <meta name="propeller" content="{{ PROPELLER_ID }}" />
+    {% endif %}
     {% if ADSENSE_ID %}
       <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <script>

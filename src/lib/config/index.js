@@ -67,6 +67,10 @@ export const ADSENSE_ID = env({
   name: 'ADSENSE_ID',
 });
 
+export const PROPELLER_ID = env({
+  name: 'PROPELLER_ID',
+});
+
 // AWS
 export const AWS_ACCESS_KEY_ID = env({
   name: 'AWS_ACCESS_KEY_ID',
