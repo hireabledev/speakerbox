@@ -123,6 +123,11 @@ export const CONTACT_EMAIL = env({
   defaultValue: 'Speaker Box <no-reply@speakerbox.io>',
 });
 
+export const LEGAL_EMAIL = env({
+  name: 'LEGAL_EMAIL',
+  defaultValue: 'hi@speakerbox.io',
+});
+
 export const DEFAULT_EMAIL_TEMPLATE = env({
   name: 'DEFAULT_EMAIL_TEMPLATE',
 });

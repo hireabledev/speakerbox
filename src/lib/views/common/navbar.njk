@@ -1,0 +1,17 @@
+<nav class="navbar navbar-toggleable-sm navbar-inverse bg-primary">
+  <div class="container d-flex">
+    <a class="navbar-brand" href="#">SpeakerBox</a>
+
+    <ul class="navbar-nav align-self-end">
+      {% if user %}
+        <li class="nav-item">
+          <a class="nav-link" href="/dashboard">Dashboard</a>
+        </li>
+      {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="/sso">Sign In</a>
+        </li>
+      {% endif %}
+    </ul>
+  </div>
+</nav>
