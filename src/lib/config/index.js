@@ -125,7 +125,7 @@ export const CONTACT_EMAIL = env({
 
 export const LEGAL_EMAIL = env({
   name: 'LEGAL_EMAIL',
-  defaultValue: 'hi@speakerbox.io',
+  defaultValue: 'hi@dasylabs.com',
 });
 
 export const DEFAULT_EMAIL_TEMPLATE = env({
