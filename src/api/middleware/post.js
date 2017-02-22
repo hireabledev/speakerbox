@@ -19,3 +19,16 @@ export function posted(req, res, next) {
   }
   next();
 }
+
+export function accountsOrFeeds(req, res, next) {
+  const { where } = res.locals;
+  if (where.accountId && where.feedId) {
+    where.$or = [
+      { accountId: { $in: where.accountId } },
+      { feedId: { $in: where.feedId } },
+    ];
+    delete where.accountId;
+    delete where.feedId;
+  }
+  next();
+}

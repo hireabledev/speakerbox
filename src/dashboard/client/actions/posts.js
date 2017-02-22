@@ -1,3 +1,4 @@
+import pickBy from 'lodash/pickBy';
 import fetch from 'lib/fetch';
 import { notifySuccess, notifyError } from './notifications';
 import {
@@ -9,6 +10,24 @@ import {
   RESET_SCHEDULED_POSTS,
   RECEIVE_REMOVE_SCHEDULED_POST,
 } from '../constants/action-types';
+
+function getVisibilityQueryParams({ accountVisibility, feedVisibility }) {
+  const params = {};
+  const accountId = Object.keys(pickBy(accountVisibility));
+  const feedId = Object.keys(pickBy(feedVisibility));
+  const allAccountsEnabled = Object.keys(accountVisibility).length === accountId.length;
+  const allFeedsEnabled = Object.keys(accountVisibility).length === accountId.length;
+  if (allAccountsEnabled && allFeedsEnabled) {
+    return params;
+  }
+  if (accountId.length) {
+    params.accountId = accountId;
+  }
+  if (feedId.length) {
+    params.feedId = feedId;
+  }
+  return params;
+}
 
 export const receivePosts = ({ posts, more }) => ({
   type: RECEIVE_POSTS,
@@ -26,12 +45,13 @@ export const resetPosts = () => ({
 
 export const fetchPosts = (options = {}) => (
   async (dispatch, getState) => {
-    const state = getState().posts;
+    const state = getState();
     try {
       const res = await dispatch(fetch('/api/posts', {
         query: {
-          skip: state.posts.length,
+          skip: state.posts.posts.length,
           limit: 5,
+          ...getVisibilityQueryParams(state.visibility),
           ...options.query,
         },
       }));
@@ -105,11 +125,12 @@ export const resetScheduledPosts = () => ({
 
 export const fetchScheduledPosts = (options = {}) => (
   async (dispatch, getState) => {
-    const state = getState().posts;
+    const state = getState();
     try {
       const res = await dispatch(fetch('/api/scheduled-posts', {
         query: {
-          skip: state.scheduledPosts.length,
+          skip: state.posts.scheduledPosts.length,
+          ...getVisibilityQueryParams(state.visibility),
           ...options.query,
         },
       }));

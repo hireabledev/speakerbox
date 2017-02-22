@@ -1,6 +1,6 @@
 import configureRouter from '../../router';
 import { listMiddleware, filter } from '../../middleware';
-import { favorited, posted } from '../../middleware/post';
+import { favorited, posted, accountsOrFeeds } from '../../middleware/post';
 import { index, show, update, remove } from './controller';
 
 const MODEL_NAME = 'Post';
@@ -11,6 +11,7 @@ router.get(
   ...listMiddleware,
   favorited,
   posted,
+  accountsOrFeeds,
   filter(MODEL_NAME),
   index
 );

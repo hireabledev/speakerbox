@@ -46,6 +46,7 @@ export default function postsReducer(state = initialState, action) {
         ...state,
         posts: [],
         postsById: {},
+        morePosts: true,
       };
     case RECEIVE_SCHEDULED_POSTS: {
       const scheduledPostsById = mergeKeyById(
@@ -74,6 +75,7 @@ export default function postsReducer(state = initialState, action) {
         ...state,
         scheduledPosts: [],
         scheduledPostsById: {},
+        moreScheduledPosts: true,
       };
     case RECEIVE_REMOVE_SCHEDULED_POST: {
       const targetScheduledPost = state.scheduledPostsById[action.payload.id];

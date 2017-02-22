@@ -24,7 +24,11 @@ export class StreamPage extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.location.pathname !== this.props.location.pathname) {
+    const differentPath = prevProps.location.pathname !== this.props.location.pathname;
+    const prevQuery = JSON.stringify(prevProps.location.query);
+    const nextQuery = JSON.stringify(this.props.location.query);
+    const differentQuery = prevQuery !== nextQuery;
+    if (differentPath || differentQuery) {
       this.props.resetPosts();
       this.fetchPosts();
     }
@@ -40,7 +44,7 @@ export class StreamPage extends Component {
     const fetchOptions = {
       query: {
         sort: '-date',
-        limit: 5,
+        limit: 10,
         ...query,
       },
     };
@@ -138,6 +142,7 @@ export class StreamPage extends Component {
 StreamPage.propTypes = {
   location: PropTypes.shape({
     pathname: PropTypes.string,
+    query: PropTypes.object,
   }).isRequired,
   accountVisibility: PropTypes.object,
   feedVisibility: PropTypes.object,
