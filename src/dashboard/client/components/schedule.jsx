@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import Waypoint from 'react-waypoint';
+import InfiniteScroll from 'react-infinite-scroller';
 import Fallback from 'lib/client/components/fallback';
 import Page from 'lib/client/components/page';
 import AccountList from './account-list';
@@ -11,14 +11,9 @@ import { fetchScheduledPosts, resetScheduledPosts } from '../actions/posts';
 export class SchedulePage extends Component {
   constructor(props) {
     super(props);
-    this.getWaypoint = this.getWaypoint.bind(this);
     this.getFetchOptions = this.getFetchOptions.bind(this);
     this.fetchScheduledPosts = this.fetchScheduledPosts.bind(this);
     this.onRemoveScheduledPost = this.onRemoveScheduledPost.bind(this);
-  }
-
-  componentDidMount() {
-    this.fetchScheduledPosts();
   }
 
   componentDidUpdate(prevProps) {
@@ -35,15 +30,6 @@ export class SchedulePage extends Component {
       this.props.resetScheduledPosts();
       this.fetchScheduledPosts();
     }
-  }
-
-  getWaypoint() {
-    if (this.props.moreScheduledPosts) {
-      return (
-        <Waypoint onEnter={() => this.fetchScheduledPosts()} />
-      );
-    }
-    return null;
   }
 
   getFetchOptions(query = {}) {
@@ -80,8 +66,6 @@ export class SchedulePage extends Component {
       return accountVisibility[post.accountId];
     });
 
-    const lastIndex = filteredScheduledPosts.length - 1;
-
     return (
       <Page
         bg="light"
@@ -96,16 +80,21 @@ export class SchedulePage extends Component {
         <Fallback if={filteredScheduledPosts.length === 0}>
           No scheduled posts. Add one?
         </Fallback>
-        {filteredScheduledPosts
-          .map((scheduledPost, index) => (
-            <ScheduledPost
-              key={scheduledPost.id}
-              post={scheduledPost}
-              type={scheduledPost.type}
-              onRemove={this.onRemoveScheduledPost}
-              waypoint={(index === lastIndex) ? this.getWaypoint() : null}
-            />
-          ))}
+        <InfiniteScroll
+          pageStart={0}
+          loadMore={this.fetchScheduledPosts}
+          hasMore={this.props.moreScheduledPosts}
+        >
+          {filteredScheduledPosts
+            .map((scheduledPost) => (
+              <ScheduledPost
+                key={scheduledPost.id}
+                post={scheduledPost}
+                type={scheduledPost.type}
+                onRemove={this.onRemoveScheduledPost}
+              />
+            ))}
+        </InfiniteScroll>
       </Page>
     );
   }

@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import Waypoint from 'react-waypoint';
+import InfiniteScroll from 'react-infinite-scroller';
 import Link from 'react-router/lib/Link';
 import intersectionBy from 'lodash/intersectionBy';
 import Fallback from 'lib/client/components/fallback';
@@ -14,14 +14,12 @@ export class StreamPage extends Component {
   constructor(props) {
     super(props);
     this.fetchNewPostsInterval = null;
-    this.getWaypoint = this.getWaypoint.bind(this);
     this.getFetchOptions = this.getFetchOptions.bind(this);
     this.fetchPosts = this.fetchPosts.bind(this);
     this.fetchNewPosts = this.fetchNewPosts.bind(this);
   }
 
   componentDidMount() {
-    this.fetchPosts();
     this.fetchNewPostsInterval = window.setInterval(this.fetchNewPosts, 1000 * 60);
   }
 
@@ -36,13 +34,6 @@ export class StreamPage extends Component {
     if (typeof this.fetchNewPostsInterval !== 'number') {
       window.clearInterval(this.fetchNewPostsInterval);
     }
-  }
-
-  getWaypoint() {
-    if (this.props.morePosts) {
-      return <Waypoint onEnter={() => this.fetchPosts()} />;
-    }
-    return null;
   }
 
   getFetchOptions(query = {}) {
@@ -102,8 +93,6 @@ export class StreamPage extends Component {
       filteredPosts.splice(i * 10, 0, ad);
     }
 
-    const lastIndex = filteredPosts.length - 1;
-
     return (
       <Page
         bg="light"
@@ -116,27 +105,31 @@ export class StreamPage extends Component {
         <Fallback if={posts.length === 0}>
           No posts. <Link to="/settings/accounts">Add an account?</Link>
         </Fallback>
-        {filteredPosts
-          .map((post, index) => {
-            if (post.isBanner) {
+        <InfiniteScroll
+          pageStart={0}
+          loadMore={this.fetchPosts}
+          hasMore={this.props.morePosts}
+        >
+          {filteredPosts
+            .map((post, index) => {
+              if (post.isBanner) {
+                return (
+                  <Banner
+                    key={index}
+                    className="sb-bn-center my-3 mx-auto"
+                    layout="landscape"
+                  />
+                );
+              }
               return (
-                <Banner
-                  key={index}
-                  className="sb-bn-center my-3 mx-auto"
-                  layout="landscape"
-                  waypoint={(index === lastIndex) ? this.getWaypoint() : null}
+                <Post
+                  key={post.id}
+                  post={post}
+                  type={post.type}
                 />
               );
-            }
-            return (
-              <Post
-                key={post.id}
-                post={post}
-                type={post.type}
-                waypoint={(index === lastIndex) ? this.getWaypoint() : null}
-              />
-            );
-          })}
+            })}
+        </InfiniteScroll>
       </Page>
     );
   }

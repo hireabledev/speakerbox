@@ -14,10 +14,10 @@ import { mergeKeyById } from '../utils/reducers';
 const initialState = {
   posts: [],
   postsById: {},
-  morePosts: false,
+  morePosts: true,
   scheduledPosts: [],
   scheduledPostsById: {},
-  moreScheduledPosts: false,
+  moreScheduledPosts: true,
 };
 
 export default function postsReducer(state = initialState, action) {

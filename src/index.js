@@ -1,5 +1,6 @@
 /* eslint global-require: 0, 'import/no-extraneous-dependencies': 0 */
 
+import 'dotenv/config';
 import 'isomorphic-fetch';
 import express from 'express';
 import morgan from 'morgan';
