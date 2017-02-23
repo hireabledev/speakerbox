@@ -192,6 +192,9 @@ export const updateScheduledPost = (id, body) => (
       const res = await dispatch(fetch(`/api/scheduled-posts/${id}`, { method: 'PATCH', body }));
       const scheduledPost = res.body;
       scheduledPost.date = new Date(scheduledPost.date);
+      if (scheduledPost.date < new Date()) {
+        delete scheduledPost.date;
+      }
       dispatch(receiveScheduledPost(scheduledPost));
       dispatch(notifySuccess('Updated Post'));
       mixpanel.track('Updated Scheduled Post', {

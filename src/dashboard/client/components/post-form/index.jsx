@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Link from 'react-router/lib/Link';
 import cn from 'classnames';
+import moment from 'moment';
 import some from 'lodash/some';
 import throttle from 'lodash/throttle';
 import { getTweetLength } from 'twitter-text';
@@ -119,7 +120,11 @@ export class PostForm extends Component {
             form.reset();
             return results;
           }}
-          initialValues={{ message: this.props.message, accounts: this.props.accounts }}
+          initialValues={{
+            message: this.props.message,
+            accounts: this.props.accounts,
+            date: moment().startOf('hour').add(2, 'hours'),
+          }}
           validate={validate}
         />
       </div>

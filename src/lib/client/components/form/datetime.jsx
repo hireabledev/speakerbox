@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import cn from 'classnames';
 import { Field } from 'redux-form';
 import Datetime from 'react-datetime';
+import moment from 'moment';
 
 export function DatetimePicker(props) {
   const {
@@ -11,14 +12,14 @@ export function DatetimePicker(props) {
     ...inputProps
   } = props;
 
-  const now = new Date();
+  const today = moment().startOf('day').subtract(1, 'ms');
 
   return (
     <div className="form-control-container">
       <Datetime
         isValidDate={currentDate => {
           if (afterToday) {
-            return currentDate.isAfter(now);
+            return currentDate.isAfter(today);
           }
           return true;
         }}
