@@ -164,16 +164,20 @@ export const fetchScheduledPost = (id) => (
 );
 
 export const createScheduledPost = (body) => (
-  async dispatch => {
+  async (dispatch, getState) => {
+    const state = getState();
     try {
       const res = await dispatch(fetch('/api/scheduled-posts', { method: 'POST', body }));
       const scheduledPost = res.body;
       scheduledPost.date = new Date(scheduledPost.date);
       dispatch(receiveScheduledPost(scheduledPost));
       dispatch(notifySuccess('Scheduled Post'));
+      const account = state.accounts.accountsById[scheduledPost.accountId];
       mixpanel.track('Scheduled Post', {
         id: scheduledPost.id,
-        account: scheduledPost.accountId,
+        accountId: scheduledPost.accountId,
+        accountName: account.name,
+        accountType: account.type,
       });
       if (scheduledPost.postId) {
         scheduledPost.post = await dispatch(fetchPost(scheduledPost.postId));
@@ -187,7 +191,8 @@ export const createScheduledPost = (body) => (
 );
 
 export const updateScheduledPost = (id, body) => (
-  async dispatch => {
+  async (dispatch, getState) => {
+    const state = getState();
     try {
       const res = await dispatch(fetch(`/api/scheduled-posts/${id}`, { method: 'PATCH', body }));
       const scheduledPost = res.body;
@@ -197,9 +202,12 @@ export const updateScheduledPost = (id, body) => (
       }
       dispatch(receiveScheduledPost(scheduledPost));
       dispatch(notifySuccess('Updated Post'));
+      const account = state.accounts.accountsById[scheduledPost.accountId];
       mixpanel.track('Updated Scheduled Post', {
         id: scheduledPost.id,
-        account: scheduledPost.accountId,
+        accountId: scheduledPost.accountId,
+        accountName: account.name,
+        accountType: account.type,
       });
       return scheduledPost;
     } catch (err) {

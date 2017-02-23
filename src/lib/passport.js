@@ -2,6 +2,7 @@ import passport from 'passport';
 import { Strategy as FacebookStrategy } from 'passport-facebook';
 import { Strategy as TwitterStrategy } from 'passport-twitter';
 import { Strategy as LinkedinStrategy } from 'passport-linkedin-oauth2';
+import mixpanel from 'lib/mixpanel';
 import { server as debug } from 'lib/debug';
 import { schedule } from 'worker/jobs/account-import-posts';
 import {
@@ -58,8 +59,21 @@ function getStrategy({ Strategy, strategyOptions, mapProfileToUser, mapProfileTo
 
       return getUser()
         .then(user => {
-          if (user) { return user.update(userData).then(() => (user)); }
-          return req.app.models.User.create(userData);
+          if (user) {
+            mixpanel.track('User Logged In', {
+              distinct_id: user.id,
+              name: user.displayName,
+            });
+            return user.update(userData).then(() => (user));
+          }
+          return req.app.models.User.create(userData)
+            .then(newUser => {
+              mixpanel.track('User Created', {
+                distinct_id: newUser.id,
+                name: newUser.displayName,
+              });
+              return newUser;
+            });
         })
         .then(user => (
           user.getAccounts({
@@ -75,6 +89,11 @@ function getStrategy({ Strategy, strategyOptions, mapProfileToUser, mapProfileTo
                   if (newAccount.type === 'facebook' || newAccount.type === 'twitter') {
                     return schedule(newAccount, true);
                   }
+                  mixpanel.track('Account Created', {
+                    distinct_id: user.id,
+                    id: newAccount.id,
+                    name: newAccount.name,
+                  });
                   return newAccount;
                 });
             })

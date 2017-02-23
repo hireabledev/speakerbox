@@ -22,7 +22,7 @@ export function fetchUser() {
         $email: user.email,
         tel: user.tel,
       });
-      mixpanel.track('User Logged In');
+      mixpanel.track('User Load');
       return user;
     } catch (err) {
       dispatch(notifyError(err));
