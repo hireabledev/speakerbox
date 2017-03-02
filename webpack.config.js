@@ -14,6 +14,7 @@ const webpackConfig = {
     vendor: ['./src/vendor.jsx', 'babel-polyfill', 'whatwg-fetch'],
     dashboard: 'dashboard/client/index.jsx',
     marketing: 'marketing/client/index.jsx',
+    admin: 'admin/client/index.jsx',
     sso: 'sso/client/index.jsx',
   },
   output: {

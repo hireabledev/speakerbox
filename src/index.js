@@ -29,6 +29,7 @@ import kueAdmin from './lib/middleware/kue-admin';
 
 // Apps
 import api from './api';
+import admin from './admin';
 import dashboard from './dashboard';
 import marketing from './marketing';
 import sso from './sso';
@@ -89,12 +90,13 @@ if (LETS_ENCRYPT_URL && LETS_ENCRYPT_KEY) {
 app.use(templateContext);
 
 app.use('/api', api);
+app.use('/admin', admin);
 app.use('/dashboard', dashboard);
 app.use('/kue', kueAdmin);
 app.use('/sso', sso);
 app.use('/', marketing);
 
-const apps = [app, api, dashboard, marketing, sso];
+const apps = [app, api, admin, dashboard, marketing, sso];
 
 apps.forEach(application => {
   /* eslint no-param-reassign: 0 */
