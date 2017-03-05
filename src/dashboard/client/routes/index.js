@@ -1,5 +1,6 @@
 import App from '../components/app';
 
+import * as notFound from './not-found';
 import * as stream from './stream';
 import * as favorites from './favorites';
 import * as schedule from './schedule';
@@ -17,6 +18,7 @@ export default {
       schedule,
       metrics,
       settings,
+      notFound,
     ],
   }],
 };
