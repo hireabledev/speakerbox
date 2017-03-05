@@ -5,7 +5,7 @@ import Link from 'react-router/lib/Link';
 import intersectionBy from 'lodash/intersectionBy';
 import Fallback from 'lib/client/components/fallback';
 import Banner from 'lib/client/components/banner';
-import Page from 'lib/client/components/page';
+import Page from './page';
 import Post from './post';
 import AccountList from './account-list';
 import { fetchPosts, resetPosts } from '../actions/posts';

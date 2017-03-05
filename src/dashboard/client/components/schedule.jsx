@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import InfiniteScroll from 'react-infinite-scroller';
 import Fallback from 'lib/client/components/fallback';
-import Page from 'lib/client/components/page';
+import Page from './page';
 import AccountList from './account-list';
 import ScheduledPost from './scheduled-post';
 import PostForm from './post-form';

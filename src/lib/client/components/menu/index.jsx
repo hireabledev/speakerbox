@@ -8,7 +8,7 @@ import Icon from '../icon';
 import MenuLink from './menu-link';
 import { toggleMenu } from '../../actions/menu';
 
-function Menu({ children, expanded, toggle }) {
+function Menu({ children, links, expanded, toggle }) {
   return (
     <div className="sb-menu-wrap">
       <MenuLink
@@ -24,31 +24,7 @@ function Menu({ children, expanded, toggle }) {
           SpeakerBox
         </MenuLink>
         <div className="sb-menu-list" onClick={toggle}>
-          <MenuLink className="sb-menu-link" to="/schedule">
-            <Icon name="calendar" label="schedule" fixedWidth />
-            {' '}
-            Schedule
-          </MenuLink>
-          <MenuLink className="sb-menu-link" to="/stream">
-            <Icon name="list-alt" label="stream" fixedWidth />
-            {' '}
-            Stream
-          </MenuLink>
-          <MenuLink className="sb-menu-link" to="/favorites">
-            <Icon name="star" label="favorites" fixedWidth />
-            {' '}
-            Favorites
-          </MenuLink>
-          <MenuLink className="sb-menu-link" to="/metrics">
-            <Icon name="line-chart" label="metrics" fixedWidth />
-            {' '}
-            Metrics
-          </MenuLink>
-          <MenuLink className="sb-menu-link" to="/settings">
-            <Icon name="cog" label="settings" fixedWidth />
-            {' '}
-            Settings
-          </MenuLink>
+          {links}
         </div>
         <If truthy={children}>
           <div className="sb-menu-content">
@@ -72,6 +48,7 @@ function Menu({ children, expanded, toggle }) {
 
 Menu.propTypes = {
   children: PropTypes.node,
+  links: PropTypes.node.isRequired,
   expanded: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
 };

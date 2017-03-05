@@ -1,7 +1,8 @@
 import React, { PropTypes } from 'react';
 import cn from 'classnames';
 import If from '../if';
-import Menu from '../menu';
+
+export { default as PageTitle } from './page-title';
 
 export default function Page({ children, menu, subnav, sidebar, sidebarSecondary, bg, padY }) {
   const oneSidebar = sidebar || sidebarSecondary;
@@ -13,7 +14,9 @@ export default function Page({ children, menu, subnav, sidebar, sidebarSecondary
         'sb-page-has-padding-y': padY,
       })}
     >
-      <Menu>{menu}</Menu>
+      <If truthy={menu}>
+        {menu}
+      </If>
       <div className="sb-page-content">
         <If truthy={subnav}>
           {subnav}
@@ -62,21 +65,4 @@ Page.propTypes = {
 Page.defaultProps = {
   bg: 'light',
   sidebar: null,
-};
-
-export function PageTitle({ children, flush }) {
-  return (
-    <h1
-      className={cn('sb-page-title', {
-        'sb-page-title-is-flush': flush,
-      })}
-    >
-      {children}
-    </h1>
-  );
-}
-
-PageTitle.propTypes = {
-  children: PropTypes.node,
-  flush: PropTypes.bool,
 };
