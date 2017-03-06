@@ -5,7 +5,7 @@ export default async function superFetch(url, options = {}) {
     ? {}
     : { 'Content-Type': 'application/json' };
   const fetchOptions = {
-    credentials: 'include',
+    credentials: (typeof window === 'undefined' ? 'omit' : 'include'),
     ...options,
     headers: {
       ...contentType,
