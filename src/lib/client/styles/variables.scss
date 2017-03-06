@@ -33,7 +33,7 @@ $input-border-color: $border;
 $input-box-shadow: none;
 
 // Menu
-$sb-menu-width: rem(240px);
+$sb-menu-width: 240px / 16px * 1rem;
 $sb-menu-bg: $dark-blue;
 $sb-menu-border: #252930;
 $sb-menu-text: #B5B5B5;
