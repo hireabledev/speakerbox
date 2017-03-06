@@ -19,12 +19,16 @@ $sb-subnav-bg: $white;
   box-shadow: none;
 }
 
+@include media-breakpoint-up(md) {
+  .sb-menu-wrap + .sb-page-content {
+    max-width: calc(100% - #{$sb-menu-width});
+  }
+}
+
 .sb-page-content {
   flex-grow: 1;
 
   @include media-breakpoint-up(md) {
-    max-width: calc(100% - #{$sb-menu-width});
-
     > .container-fluid {
       padding-left: $grid-gutter-width-base;
       padding-right: $grid-gutter-width-base;
