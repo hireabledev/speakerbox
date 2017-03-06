@@ -1,19 +1,17 @@
 import React, { PropTypes } from 'react';
 import InfiniteScroll from 'react-infinite-scroller';
 import startCase from 'lodash/startCase';
-import { getModel } from '../../models';
 import DisplayValue from '../display-value';
 
-export default function AdminTable({ loadMore, hasMore, items, modelName }) {
-  const model = getModel(modelName);
-  const fields = Object.keys(model.fields);
+export default function AdminTable({ loadMore, hasMore, items, model }) {
+  const { fields } = model;
   return (
     <div className="table-responsive">
       <table className="table admin-table">
         <thead>
           <tr>
             {fields.map(field => (
-              <th key={field}>{startCase(field)}</th>
+              <th key={field.key}>{startCase(field.key)}</th>
             ))}
           </tr>
         </thead>
@@ -26,11 +24,11 @@ export default function AdminTable({ loadMore, hasMore, items, modelName }) {
           {items.map((item, index) => (
             <tr key={item.id || index}>
               {fields.map(field => (
-                <td key={field}>
+                <td key={field.key}>
                   <DisplayValue
-                    fieldName={field}
-                    fieldModel={model.fields[field]}
-                    value={item[field]}
+                    schema={field}
+                    value={item[field.key]}
+                    shortenValues
                   />
                 </td>
               ))}
@@ -46,5 +44,9 @@ AdminTable.propTypes = {
   loadMore: PropTypes.func.isRequired,
   hasMore: PropTypes.bool.isRequired,
   items: PropTypes.arrayOf(PropTypes.object).isRequired,
-  modelName: PropTypes.string.isRequired,
+  model: PropTypes.shape({
+    fields: PropTypes.arrayOf(PropTypes.shape({
+      key: PropTypes.string.isRequired,
+    })).isRequired,
+  }).isRequired,
 };

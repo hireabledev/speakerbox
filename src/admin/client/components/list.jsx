@@ -4,6 +4,7 @@ import Fallback from 'lib/client/components/fallback';
 import startCase from 'lodash/startCase';
 import kebabCase from 'lodash/kebabCase';
 import fetch from 'lib/fetch';
+import { getModel } from '../models';
 import Page, { PageTitle } from './page';
 import Table from './table';
 
@@ -33,12 +34,13 @@ export default class ListPage extends Component {
   }
 
   async fetchItems() {
-    const { model } = this.props.routeParams;
     const { items } = this.state;
-    const res = await fetch(`/api/${kebabCase(model)}`, {
+    const { modelName } = this.props.routeParams;
+    const res = await fetch(`/api/${kebabCase(modelName)}`, {
       query: {
         user: 'all',
         skip: items.length,
+        ...this.props.location.query,
       },
     });
     const { data, more } = res.body;
@@ -57,19 +59,20 @@ export default class ListPage extends Component {
 
   render() {
     const { items, moreItems } = this.state;
-    const model = this.props.routeParams.model;
+    const { modelName } = this.props.routeParams;
+    const model = getModel(modelName);
     return (
       <Page bg="light" padY>
-        <PageTitle flush={items.length !== 0}>{startCase(model)}</PageTitle>
+        <PageTitle flush={items.length !== 0}>{startCase(model.plural)}</PageTitle>
         <Fallback if={items.length === 0}>
-          No items. <Link to={`/models/${model}/new`}>Add one</Link>?
+          No items. <Link to={`/models/${modelName}/new`}>Add one</Link>?
         </Fallback>
         {items.length === 0 ? null : (
           <Table
             loadMore={this.fetchItems}
             hasMore={moreItems}
             items={items}
-            modelName={model}
+            model={model}
           />
         )}
       </Page>
@@ -80,8 +83,9 @@ export default class ListPage extends Component {
 ListPage.propTypes = {
   location: PropTypes.shape({
     pathname: PropTypes.string.isRequired,
+    query: PropTypes.object,
   }).isRequired,
   routeParams: PropTypes.shape({
-    model: PropTypes.string.isRequired,
+    modelName: PropTypes.string.isRequired,
   }).isRequired,
 };

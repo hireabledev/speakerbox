@@ -1,35 +1,28 @@
 import React, { Component, PropTypes } from 'react';
 import startCase from 'lodash/startCase';
 import kebabCase from 'lodash/kebabCase';
+import withRouter from 'react-router/lib/withRouter';
 import fetch from 'lib/fetch';
 import Subnav, { SubnavLink } from 'lib/client/components/subnav';
-import DisplayValue from './display-value';
 import Page, { PageTitle } from './page';
 import { getModel } from '../models';
 
-export default class DetailPage extends Component {
+export class DeletePage extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      item: null,
-    };
-    this.fetchItem = this.fetchItem.bind(this);
+    this.onDelete = this.onDelete.bind(this);
   }
 
-  componentDidMount() {
-    this.fetchItem();
-  }
-
-  async fetchItem() {
+  async onDelete() {
     const { modelName, id } = this.props.routeParams;
-    const res = await fetch(`/api/${kebabCase(modelName)}/${id}`, {
+    await fetch(`/api/${kebabCase(modelName)}/${id}`, {
       query: { user: 'all' },
+      method: 'DELETE',
     });
-    this.setState({ item: res.body });
+    this.props.router.push(`/models/${modelName}`);
   }
 
   render() {
-    const { item } = this.state;
     const { modelName, id } = this.props.routeParams;
     const model = getModel(modelName);
     return (
@@ -50,25 +43,30 @@ export default class DetailPage extends Component {
           </Subnav>
         }
       >
-        <PageTitle>{startCase(model.name)}</PageTitle>
-        {model.fields.map(field => (
-          <div key={field.key} className="mb-4">
-            <h6 className="text-muted text-uppercase">{startCase(field.key)}</h6>
-            <DisplayValue
-              schema={field}
-              value={item && item[field.key]}
-              showEmpty
-            />
-          </div>
-        ))}
+        <PageTitle>Delete {startCase(model.name)}</PageTitle>
+        <p>
+          Are you sure you wish to delete the <b>{model.name}</b> with id <b>{id}</b>?
+        </p>
+        <button
+          onClick={this.onDelete}
+          className="btn btn-danger"
+          type="button"
+        >
+          Delete
+        </button>
       </Page>
     );
   }
 }
 
-DetailPage.propTypes = {
+DeletePage.propTypes = {
   routeParams: PropTypes.shape({
     modelName: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
   }).isRequired,
+  router: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
+
+export default withRouter(DeletePage);

@@ -14,56 +14,70 @@ const icons = {
 };
 
 export default function DisplayValue(props) {
-  const { fieldModel, value, shortenValues, showEmpty } = props;
+  const { schema, value, shortenValues, showEmpty } = props;
+  // empty values
   if (value == null) {
     if (value === null && showEmpty) {
       return <Icon name="remove" />;
     }
     return null;
-  } else if (typeof value === 'boolean') {
+  }
+  // booleans
+  if (typeof value === 'boolean') {
     if (value === true) {
       return <Icon name="check" title="true" />;
     } else if (value === false) {
       return <Icon name="times" title="false" />;
     }
-  } else if (fieldModel.type === 'id') {
-    const model = getModel(fieldModel.model);
+  }
+  // id
+  if (schema.type === 'id') {
+    const model = getModel(schema.model);
     return (
       <Link to={`/models/${model.plural}/${value}`}>
         {shortenValues ? `${value.substr(0, 6)}…` : value}
       </Link>
     );
-  } else if (fieldModel.type === 'date') {
+  }
+  // dates
+  if (schema.type === 'date') {
     const date = moment(value);
     return <time dateTime={value} title={value}>{date.format('lll')}</time>;
-  } else if (isUri(value)) {
+  }
+  // urls
+  if (isUri(value)) {
     const { host } = parseUrl(value);
     return (
       <a href={value} target="_blank" rel="noopener noreferrer" title={value}>
         {shortenValues ? `${host}…` : value}
       </a>
     );
-  } else if (icons[value]) {
+  }
+  // icons
+  if (icons[value]) {
     return <Icon name={value} title={value} />;
-  } else if (typeof value === 'string') {
-    return (
-      <span title={value.length > 160 ? value : null}>
-        {shortenValues ? value.substr(0, 160) : value}
-      </span>
-    );
-  } else if (typeof value === 'object') {
+  }
+  // objects
+  if (typeof value === 'object') {
     try {
       return <pre>{JSON.stringify(value, null, 2)}</pre>;
     } catch (e) {
       return <span>{value.toString()}</span>;
     }
   }
+  // strings
+  if (typeof value === 'string') {
+    return (
+      <span title={value.length > 160 ? value : null}>
+        {shortenValues ? value.substr(0, 160) : value}
+      </span>
+    );
+  }
   return <span>{value}</span>;
 }
 
 DisplayValue.propTypes = {
-  // fieldName: PropTypes.string,
-  fieldModel: PropTypes.shape({
+  schema: PropTypes.shape({
     type: PropTypes.string,
   }).isRequired,
   value: PropTypes.any,
@@ -72,6 +86,6 @@ DisplayValue.propTypes = {
 };
 
 DisplayValue.defaultProps = {
-  shortenValues: true,
+  shortenValues: false,
   showEmpty: false,
 };

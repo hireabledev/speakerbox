@@ -1,13 +1,16 @@
 const account = {
   name: 'account',
   plural: 'accounts',
-  fields: {
-    id: {
+  fields: [
+    {
+      key: 'id',
       type: 'id',
       model: 'account',
       required: true,
+      editable: false,
     },
-    type: {
+    {
+      key: 'type',
       type: 'radio',
       required: true,
       choices: [
@@ -16,46 +19,77 @@ const account = {
         { label: 'LinkedIn', value: 'linkedin' },
       ],
     },
-    name: {
+    {
+      key: 'name',
       type: 'text',
       required: true,
     },
-    imgUrl: {
+    {
+      key: 'imgUrl',
       type: 'text',
     },
-  },
+    {
+      key: 'synced',
+      type: 'date',
+      editable: false,
+    },
+    {
+      key: 'userId',
+      type: 'id',
+      model: 'user',
+      required: true,
+    },
+  ],
 };
 
 const feed = {
   name: 'feed',
   plural: 'feeds',
-  fields: {
-    id: {
+  fields: [
+    {
+      key: 'id',
       type: 'id',
       model: 'feed',
       required: true,
+      editable: false,
     },
-    name: {
+    {
+      key: 'name',
       type: 'text',
       required: true,
     },
-    url: {
+    {
+      key: 'url',
       type: 'text',
       required: true,
     },
-  },
+    {
+      key: 'synced',
+      type: 'date',
+      editable: false,
+    },
+    {
+      key: 'userId',
+      type: 'id',
+      model: 'user',
+      required: true,
+    },
+  ],
 };
 
 const post = {
   name: 'post',
   plural: 'posts',
-  fields: {
-    id: {
+  fields: [
+    {
+      key: 'id',
       type: 'id',
       model: 'post',
       required: true,
+      editable: false,
     },
-    type: {
+    {
+      key: 'type',
       type: 'radio',
       required: true,
       choices: [
@@ -65,58 +99,73 @@ const post = {
         { label: 'RSS', value: 'rss' },
       ],
     },
-    favorited: {
+    {
+      key: 'favorited',
       type: 'date',
     },
-    date: {
+    {
+      key: 'date',
       type: 'date',
       required: true,
     },
-    url: {
+    {
+      key: 'url',
       type: 'text',
       required: true,
     },
-    message: {
-      type: 'text',
+    {
+      key: 'message',
+      type: 'textarea',
       required: true,
     },
-    authorName: {
+    {
+      key: 'authorName',
       type: 'text',
     },
-    authorUrl: {
+    {
+      key: 'authorUrl',
       type: 'text',
     },
-    authorImgUrl: {
+    {
+      key: 'authorImgUrl',
       type: 'text',
     },
-    feedId: {
+    {
+      key: 'feedId',
       type: 'id',
       model: 'feed',
     },
-    accountId: {
+    {
+      key: 'accountId',
       type: 'id',
       model: 'account',
     },
-    nativeId: {
+    {
+      key: 'nativeId',
       type: 'text',
       editable: false,
     },
-    data: {
+    {
+      key: 'data',
       type: 'text',
+      editable: false,
     },
-  },
+  ],
 };
 
 const scheduledPost = {
   name: 'scheduledPost',
   plural: 'scheduledPosts',
-  fields: {
-    id: {
+  fields: [
+    {
+      key: 'id',
       type: 'id',
       model: 'scheduledPost',
       required: true,
+      editable: false,
     },
-    type: {
+    {
+      key: 'type',
       type: 'radio',
       required: true,
       choices: [
@@ -125,45 +174,69 @@ const scheduledPost = {
         { label: 'LinkedIn', value: 'linkedin' },
       ],
     },
-    posted: {
+    {
+      key: 'posted',
       type: 'date',
+      editable: false,
     },
-    date: {
+    {
+      key: 'url',
+      type: 'text',
+    },
+    {
+      key: 'date',
       type: 'date',
       required: true,
     },
-    message: {
+    {
+      key: 'message',
+      type: 'textarea',
+    },
+    {
+      key: 'imgUrl',
       type: 'text',
     },
-    imgUrl: {
-      type: 'text',
+    {
+      key: 'accountId',
+      type: 'id',
+      model: 'account',
+      required: true,
     },
-    url: {
-      type: 'text',
+    {
+      key: 'postId',
+      type: 'id',
+      model: 'post',
     },
-    data: {
+    {
+      key: 'data',
       type: 'text',
+      editable: false,
     },
-  },
+  ],
 };
 
 const upload = {
   name: 'upload',
   plural: 'uploads',
-  fields: {
-    id: {
+  fields: [
+    {
+      key: 'id',
       type: 'id',
       model: 'upload',
       required: true,
+      editable: false,
     },
-    title: {
+    {
+      key: 'title',
       type: 'text',
     },
-    url: {
+    {
+      key: 'url',
       type: 'text',
       required: true,
     },
-    type: {
+    {
+      key: 'type',
       type: 'radio',
       required: true,
       choices: [
@@ -172,23 +245,32 @@ const upload = {
         { label: 'Audio', value: 'audio' },
       ],
     },
-  },
+    {
+      key: 'userId',
+      type: 'id',
+      model: 'user',
+      required: true,
+    },
+  ],
 };
 
 const user = {
   name: 'user',
   plural: 'users',
-  fields: {
-    id: {
+  fields: [
+    {
+      key: 'id',
       type: 'id',
       model: 'user',
       required: true,
     },
-    displayName: {
+    {
+      key: 'displayName',
       type: 'text',
       required: true,
     },
-    role: {
+    {
+      key: 'role',
       type: 'radio',
       required: true,
       choices: [
@@ -196,23 +278,30 @@ const user = {
         { label: 'User', value: 'user' },
       ],
     },
-    imgUrl: {
+    {
+      key: 'imgUrl',
       type: 'text',
       required: true,
     },
-    email: {
-      type: 'text',
+    {
+      key: 'email',
+      type: 'email',
     },
-    emailConfirmed: {
+    {
+      key: 'emailConfirmed',
       type: 'boolean',
+      editable: false,
     },
-    tel: {
-      type: 'text',
+    {
+      key: 'tel',
+      type: 'tel',
     },
-    telConfirmed: {
+    {
+      key: 'telConfirmed',
       type: 'boolean',
+      editable: false,
     },
-  },
+  ],
 };
 
 const models = {
