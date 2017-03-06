@@ -50,6 +50,7 @@ const webpackConfig = {
         NODE_ENV: JSON.stringify(ENV),
       },
     }),
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new ExtractTextPlugin('[name].[hash].css'),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'common',
