@@ -9,8 +9,8 @@ export default function Icon(props) {
     },
     props.className
   );
-  const icon = <span className={className} aria-hidden="true" />;
-  const label = <span className="sr-only">{props.label || props.name}</span>;
+  const icon = <span className={className} title={props.title} aria-hidden="true" />;
+  const label = <span className="sr-only">{props.label || props.title || props.name}</span>;
   if (props.label) {
     return (
       <span>
@@ -27,4 +27,5 @@ Icon.propTypes = {
   fixedWidth: PropTypes.bool,
   name: PropTypes.string.isRequired,
   label: PropTypes.string,
+  title: PropTypes.string,
 };
