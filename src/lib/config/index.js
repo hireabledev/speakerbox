@@ -64,10 +64,6 @@ export const ADSENSE_ID = env({
   name: 'ADSENSE_ID',
 });
 
-export const POPADS_URL = env({
-  name: 'POPADS_URL',
-});
-
 // AWS
 export const AWS_ACCESS_KEY_ID = env({
   name: 'AWS_ACCESS_KEY_ID',
