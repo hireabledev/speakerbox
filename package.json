@@ -107,7 +107,9 @@
     "sequelize": "^3.30.0",
     "twit": "^2.2.5",
     "twitter-text": "^1.14.3",
+    "url": "^0.11.0",
     "uuid": "^2.0.3",
+    "valid-url": "^1.0.9",
     "whatwg-fetch": "^1.0.0"
   },
   "devDependencies": {

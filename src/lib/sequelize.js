@@ -66,13 +66,16 @@ const sequelize = new Sequelize(config.url, {
       },
 
       accountOrFeedUser(userId) {
-        return {
-          where: {
+        const where = userId
+          ? {
             $or: {
               '$Account.userId$': userId,
               '$Feed.userId$': userId,
             },
-          },
+          }
+          : {};
+        return {
+          where,
           include: [
             {
               model: this.sequelize.models.Account,
