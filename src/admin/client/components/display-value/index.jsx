@@ -14,8 +14,11 @@ const icons = {
 };
 
 export default function DisplayValue(props) {
-  const { fieldModel, value } = props;
+  const { fieldModel, value, shortenValues, showEmpty } = props;
   if (value == null) {
+    if (value === null && showEmpty) {
+      return <Icon name="remove" />;
+    }
     return null;
   } else if (typeof value === 'boolean') {
     if (value === true) {
@@ -27,7 +30,7 @@ export default function DisplayValue(props) {
     const model = getModel(fieldModel.model);
     return (
       <Link to={`/models/${model.plural}/${value}`}>
-        {value.substr(0, 6)}…
+        {shortenValues ? `${value.substr(0, 6)}…` : value}
       </Link>
     );
   } else if (fieldModel.type === 'date') {
@@ -37,16 +40,20 @@ export default function DisplayValue(props) {
     const { host } = parseUrl(value);
     return (
       <a href={value} target="_blank" rel="noopener noreferrer" title={value}>
-        {host}...
+        {shortenValues ? `${host}…` : value}
       </a>
     );
   } else if (icons[value]) {
     return <Icon name={value} title={value} />;
   } else if (typeof value === 'string') {
-    return <span title={value.length > 160 ? value : null}>{value.substr(0, 160)}</span>;
+    return (
+      <span title={value.length > 160 ? value : null}>
+        {shortenValues ? value.substr(0, 160) : value}
+      </span>
+    );
   } else if (typeof value === 'object') {
     try {
-      return <span>{JSON.stringify(value, null, 2)}</span>;
+      return <pre>{JSON.stringify(value, null, 2)}</pre>;
     } catch (e) {
       return <span>{value.toString()}</span>;
     }
@@ -60,4 +67,11 @@ DisplayValue.propTypes = {
     type: PropTypes.string,
   }).isRequired,
   value: PropTypes.any,
+  shortenValues: PropTypes.bool,
+  showEmpty: PropTypes.bool,
+};
+
+DisplayValue.defaultProps = {
+  shortenValues: true,
+  showEmpty: false,
 };
