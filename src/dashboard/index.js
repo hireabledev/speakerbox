@@ -8,6 +8,7 @@ configureNunjucks(app, __dirname);
 app.get('*', (req, res) => {
   res.render('spa-page.njk', {
     title: 'Dashboard',
+    SHOW_ADS: true,
   });
 });
 

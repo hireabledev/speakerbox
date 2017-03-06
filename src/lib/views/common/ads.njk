@@ -8,4 +8,10 @@
       });
     </script>
   {% endif %}
+  {% if PROPELLER_ID %}
+    <meta name="propeller" content="{{ PROPELLER_ID }}" />
+  {% endif %}
+  {% if PROPELLER_URL %}
+    <script src="{{ PROPELLER_URL }}"></script>
+  {% endif %}
 {% endif %}

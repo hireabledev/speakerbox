@@ -1,6 +1,16 @@
 import path from 'path';
 import { groupBy, mapValues } from 'lodash';
-import { ENV, HOST, GA_ID, ADSENSE_ID, MIXPANEL_ID, STATIC_URL, VERSION } from '../config';
+import {
+  ENV,
+  HOST,
+  GA_ID,
+  ADSENSE_ID,
+  MIXPANEL_ID,
+  PROPELLER_ID,
+  PROPELLER_URL,
+  STATIC_URL,
+  VERSION,
+} from '../config';
 
 const LEADING_DOT_REGEXP = /^\./;
 
@@ -14,6 +24,8 @@ export default async function templateContextMiddleware(req, res, next) {
     if (GA_ID) { res.locals.GA_ID = GA_ID; }
     if (ADSENSE_ID) { res.locals.ADSENSE_ID = ADSENSE_ID; }
     if (MIXPANEL_ID) { res.locals.MIXPANEL_ID = MIXPANEL_ID; }
+    if (PROPELLER_ID) { res.locals.PROPELLER_ID = PROPELLER_ID; }
+    if (PROPELLER_URL) { res.locals.PROPELLER_URL = PROPELLER_URL; }
     if (req.user) { res.locals.user = req.user; }
 
     const webpackStats = res.locals.webpackStats.toJson
