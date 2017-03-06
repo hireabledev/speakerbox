@@ -5,6 +5,7 @@ $sb-subnav-bg: $white;
     display: flex;
   }
   position: relative;
+  width: 100%;
 }
 
 .sb-page-sidebar {
@@ -22,6 +23,8 @@ $sb-subnav-bg: $white;
   flex-grow: 1;
 
   @include media-breakpoint-up(md) {
+    max-width: calc(100% - #{$sb-menu-width});
+
     > .container-fluid {
       padding-left: $grid-gutter-width-base;
       padding-right: $grid-gutter-width-base;
