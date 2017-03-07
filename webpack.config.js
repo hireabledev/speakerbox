@@ -75,7 +75,7 @@ const webpackConfig = {
       `${__dirname}/src`,
     ],
   },
-  devtool: (ENV === 'production' ? 'source-map' : 'cheap-source-map'),
+  devtool: (ENV === 'production' ? 'source-map' : 'cheap-module-source-map'),
   postcss(/* webpack */) {
     return [
       autoprefixer,
