@@ -42,7 +42,7 @@ $select-link-hover-color: $input-color-focus;
   margin-left: $input-padding-x;
 }
 
-.Select--multi .Select-control {
+.Select--multi.has-value .Select-control {
   height: $input-height + $input-padding-y + rem(1px);
   padding-bottom: $input-padding-y;
 }
