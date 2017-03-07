@@ -8,6 +8,7 @@ $sb-subnav-spacer-x: $grid-gutter-width-base / 2;
   display: flex;
   font-size: 0.9em;
   line-height: 1.5em;
+  overflow-x: auto;
   padding-left: $sb-subnav-spacer-x;
   padding-right: $sb-subnav-spacer-x;
   text-transform: uppercase;

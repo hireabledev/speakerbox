@@ -1,14 +1,18 @@
 import React, { Component, PropTypes } from 'react';
+import omit from 'lodash/omit';
 import Link from 'react-router/lib/Link';
+import withRouter from 'react-router/lib/withRouter';
 import Fallback from 'lib/client/components/fallback';
 import startCase from 'lodash/startCase';
 import kebabCase from 'lodash/kebabCase';
 import fetch from 'lib/fetch';
+import Subnav from 'lib/client/components/subnav';
+import { SelectAccount, SelectFeed, SelectPost, SelectUser } from './select';
 import { getModel } from '../models';
 import Page, { PageTitle } from './page';
 import Table from './table';
 
-export default class ListPage extends Component {
+export class ListPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -17,6 +21,8 @@ export default class ListPage extends Component {
     };
     this.fetchItems = this.fetchItems.bind(this);
     this.resetItems = this.resetItems.bind(this);
+    this.bindOnFilter = this.bindOnFilter.bind(this);
+    this.onFilter = this.onFilter.bind(this);
   }
 
   componentDidMount() {
@@ -25,12 +31,30 @@ export default class ListPage extends Component {
 
   componentDidUpdate(prevProps) {
     const differentPath = prevProps.location.pathname !== this.props.location.pathname;
-    if (differentPath) {
+    const prevQuery = JSON.stringify(prevProps.location.query);
+    const nextQuery = JSON.stringify(this.props.location.query);
+    const differentQuery = prevQuery !== nextQuery;
+    if (differentPath || differentQuery) {
       this.resetItems();
       setTimeout(() => {
         this.fetchItems();
       });
     }
+  }
+
+  onFilter(model, selection) {
+    const query = omit(this.props.location.query, model);
+    if (selection) {
+      query[model] = selection.value;
+    }
+    this.props.router.push({
+      pathname: this.props.location.pathname,
+      query,
+    });
+  }
+
+  bindOnFilter(modelName) {
+    return (...args) => this.onFilter.call(this, modelName, ...args);
   }
 
   async fetchItems() {
@@ -62,7 +86,51 @@ export default class ListPage extends Component {
     const { modelName } = this.props.routeParams;
     const model = getModel(modelName);
     return (
-      <Page bg="light" padY>
+      <Page
+        bg="light"
+        padY
+        subnav={
+          <Subnav>
+            {model.fields
+              .filter(field => (field.type === 'id' && field.model !== model.name))
+              .map(field => {
+                switch (field.model) {
+                  case 'account':
+                    return (
+                      <SelectAccount
+                        key={field.key}
+                        value={this.props.location.query[field.key]}
+                        onChange={this.bindOnFilter(field.key)}
+                      />
+                    );
+                  case 'feed':
+                    return (
+                      <SelectFeed
+                        key={field.key}
+                        value={this.props.location.query[field.key]}
+                        onChange={this.bindOnFilter(field.key)}
+                      />
+                    );
+                  case 'posts':
+                    return (
+                      <SelectPost
+                        key={field.key}
+                        value={this.props.location.query[field.key]}
+                        onChange={this.bindOnFilter(field.key)}
+                      />
+                    );
+                  default:
+                    return null;
+                }
+              })
+            }
+            <SelectUser
+              value={this.props.location.query.user}
+              onChange={this.bindOnFilter('user')}
+            />
+          </Subnav>
+        }
+      >
         <PageTitle flush={items.length !== 0}>{startCase(model.plural)}</PageTitle>
         <Fallback if={items.length === 0}>
           No items. <Link to={`/models/${modelName}/new`}>Add one</Link>?
@@ -88,4 +156,9 @@ ListPage.propTypes = {
   routeParams: PropTypes.shape({
     modelName: PropTypes.string.isRequired,
   }).isRequired,
+  router: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
+
+export default withRouter(ListPage);

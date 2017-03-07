@@ -46,3 +46,8 @@ $select-link-hover-color: $input-color-focus;
   height: $input-height + $input-padding-y + rem(1px);
   padding-bottom: $input-padding-y;
 }
+
+.sb-subnav > .Select {
+  min-width: 180px;
+  margin: rem(11.5px) $spacer-x;
+}
