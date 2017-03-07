@@ -7,7 +7,7 @@ import If from 'lib/client/components/if';
 import { removeFeed } from '../actions/feeds';
 import FeedForm from './feed-form';
 
-const MAX_FEEDS = 10;
+const MAX_FEEDS = 2;
 
 function FeedItem({ feed, onClick, remove }) {
   return (
