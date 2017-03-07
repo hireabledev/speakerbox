@@ -5,13 +5,16 @@ $sb-subnav-spacer-x: $grid-gutter-width-base / 2;
   border-bottom: 1px solid $sb-subnav-border;
   box-shadow: $sb-subnav-shadow;
   color: $sb-subnav-text;
-  display: flex;
   font-size: 0.9em;
   line-height: 1.5em;
-  overflow-x: auto;
   padding-left: $sb-subnav-spacer-x;
   padding-right: $sb-subnav-spacer-x;
   text-transform: uppercase;
+
+  @include media-breakpoint-up(md) {
+    display: flex;
+    flex-wrap: wrap;
+  }
 
   a {
     color: $sb-subnav-link;
