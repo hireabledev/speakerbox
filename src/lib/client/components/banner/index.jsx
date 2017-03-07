@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import cn from 'classnames';
-import { BANNER_PORTRAIT_L, BANNER_LANDSCAPE_L } from 'lib/config/client';
+import { SHOW_ADS, BANNER_PORTRAIT_L, BANNER_LANDSCAPE_L } from 'lib/client/constants';
 
 // eslint-disable max-len
 const bannerMap = {
@@ -14,12 +14,22 @@ const bannerMap = {
 // eslint-enable max-len
 
 export default function Banner({ className, size, layout, waypoint }) {
-  return (
-    <div className={cn('sb-bn', className)}>
-      {waypoint}
-      {bannerMap[layout][size]}
-    </div>
-  );
+  if (SHOW_ADS) {
+    return (
+      <div className={cn('sb-bn', className)}>
+        {waypoint}
+        {bannerMap[layout][size]}
+      </div>
+    );
+  }
+  if (waypoint) {
+    return (
+      <div className={cn('sb-bn sb-bn-empty', className)}>
+        {waypoint}
+      </div>
+    );
+  }
+  return null;
 }
 
 Banner.propTypes = {
