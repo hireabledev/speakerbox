@@ -7,6 +7,8 @@ import If from 'lib/client/components/if';
 import { removeFeed } from '../actions/feeds';
 import FeedForm from './feed-form';
 
+const MAX_FEEDS = 10;
+
 function FeedItem({ feed, onClick, remove }) {
   return (
     <tr>
@@ -101,15 +103,15 @@ export class SettingsFeedsListPage extends Component {
             <Link
               to="/settings/feeds/new"
               className={cn('btn btn-primary', {
-                disabled: feeds.length >= 2,
+                disabled: feeds.length >= MAX_FEEDS,
               })}
             >
               Add Feed
             </Link>
-            {feeds.length >= 2 && (
+            {feeds.length >= MAX_FEEDS && (
               <span className="text-muted">
                 {'\u00a0\u00a0\u00a0'}
-                You can only add 2 feeds.
+                You can only add MAX_FEEDS feeds.
               </span>
             )}
           </div>
