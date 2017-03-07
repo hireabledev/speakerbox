@@ -173,7 +173,8 @@ export const createScheduledPost = (body) => (
       dispatch(receiveScheduledPost(scheduledPost));
       dispatch(notifySuccess('Scheduled Post'));
       const account = state.accounts.accountsById[scheduledPost.accountId];
-      mixpanel.track('Scheduled Post', {
+      const eventName = scheduledPost.postId ? 'Scheduled Retweet' : 'Scheduled Post';
+      mixpanel.track(eventName, {
         id: scheduledPost.id,
         accountId: scheduledPost.accountId,
         accountName: account.name,
