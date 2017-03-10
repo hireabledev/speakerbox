@@ -118,6 +118,7 @@ export class PostForm extends Component {
               })
             )));
             form.reset();
+            this.props.onSuccess(results);
             return results;
           }}
           initialValues={{
@@ -133,11 +134,15 @@ export class PostForm extends Component {
 }
 
 PostForm.propTypes = {
-  onSuccess: PropTypes.func, // eslint-disable-line react/no-unused-prop-types
+  onSuccess: PropTypes.func,
   cancelButton: PropTypes.node,
   addScheduledPost: PropTypes.func.isRequired,
   accounts: PropTypes.arrayOf(PropTypes.object),
   message: PropTypes.string,
+};
+
+PostForm.defaultProps ={
+  onSuccess() {},
 };
 
 const mapStateToProps = (state) => ({

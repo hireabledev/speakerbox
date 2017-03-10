@@ -35,7 +35,7 @@ export class StreamPage extends Component {
   }
 
   componentWillUnmount() {
-    if (typeof this.fetchNewPostsInterval !== 'number') {
+    if (typeof this.fetchNewPostsInterval === 'number') {
       window.clearInterval(this.fetchNewPostsInterval);
     }
   }

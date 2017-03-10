@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import withRouter from 'react-router/lib/withRouter';
 import InfiniteScroll from 'react-infinite-scroller';
 import Fallback from 'lib/client/components/fallback';
 import Page from './page';
@@ -75,7 +76,14 @@ export class SchedulePage extends Component {
         }
         sidebarSecondary={<div />}
       >
-        <PostForm message={this.props.location.query.message} />
+        <PostForm 
+          message={this.props.location.query.message}
+          onSuccess={() => (
+            this.props.router.replace({
+              pathname: this.props.location.pathname,
+            })
+          )}
+        />
         <br />
         <Fallback if={filteredScheduledPosts.length === 0}>
           No scheduled posts. Add one?
@@ -128,4 +136,4 @@ const mapDispatchToProps = (dispatch) => ({
   resetScheduledPosts: (options) => dispatch(resetScheduledPosts(options)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SchedulePage);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SchedulePage));

@@ -30,7 +30,7 @@ export default function RSSPost({ post, waypoint }) {
       actions={(
         <PostActions>
           <PostFavoriteButton post={post} />
-          <PostScheduleButton post={post} />
+          <PostScheduleButton post={{ ...post, message: text }} />
           <PostActions.Secondary>
             <PostViewLink url={post.url} />
           </PostActions.Secondary>
