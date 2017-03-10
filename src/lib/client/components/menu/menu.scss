@@ -1,6 +1,10 @@
 $sb-menu-spacer-y: $spacer-y * 2 / 3;
 $sb-menu-spacer-x: rem(($grid-gutter-width-base / 2));
 
+.sb-menu-wrap {
+  background: $sb-menu-bg;
+}
+
 /* nav */.sb-menu {
   background: $sb-menu-bg;
   flex-shrink: 0;
