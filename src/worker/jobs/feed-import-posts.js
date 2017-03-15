@@ -51,21 +51,23 @@ export default async function feedImportPostsProcessor(job, done) {
 
     // save to database
     // TODO: move mapping to lib
-    const posts = await Promise.all(items.map(
-      item => {
-        const id = uuid.v4();
-        return Post.create({
-          id,
-          nativeId: item.id || id,
-          type: 'rss',
-          date: new Date(item.date),
-          message: sanitizeHtml(item.description),
-          authorName: item.author,
-          url: item.link,
-          feedId,
-        });
-      }
-    ));
+    const posts = await Promise.all(
+      items
+        .filter(item => item.description != null)
+        .map(item => {
+          const id = uuid.v4();
+          return Post.create({
+            id,
+            nativeId: item.id || id,
+            type: 'rss',
+            date: new Date(item.date),
+            message: sanitizeHtml(item.description),
+            authorName: item.author,
+            url: item.link,
+            feedId,
+          });
+        }),
+    );
     job.progress(3, PROGRESS_TOTAL, `Created ${posts.length} posts`);
 
     // schedule next job and remove old one

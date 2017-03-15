@@ -48,7 +48,10 @@ export default async function accountImportPostsProcessor(job, done) {
     job.progress(2, PROGRESS_TOTAL, 'Fetched posts');
 
     // save to database
-    const posts = await Post.bulkCreate(body.posts.map(post => ({ ...post, accountId })));
+    const posts = await Post.bulkCreate(
+      body.filter(post => post.message != null)
+        .map(post => ({ ...post, accountId })),
+    );
     job.progress(3, PROGRESS_TOTAL, `Created ${posts.length} posts`);
 
     // schedule next job and remove old one
