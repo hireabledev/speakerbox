@@ -45,12 +45,11 @@ export default async function accountImportPostsProcessor(job, done) {
 
     // fetch posts
     let { body } = await getAccountPosts(account);
-    body = body || [];
     job.progress(2, PROGRESS_TOTAL, 'Fetched posts');
 
     // save to database
     const posts = await Post.bulkCreate(
-      body.filter(post => post.message != null)
+      body.posts.filter(post => post.message != null)
         .map(post => ({ ...post, accountId })),
     );
     job.progress(3, PROGRESS_TOTAL, `Created ${posts.length} posts`);
