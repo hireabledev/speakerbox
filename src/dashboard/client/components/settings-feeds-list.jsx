@@ -111,7 +111,7 @@ export class SettingsFeedsListPage extends Component {
             {feeds.length >= MAX_FEEDS && (
               <span className="text-muted">
                 {'\u00a0\u00a0\u00a0'}
-                You can only add MAX_FEEDS feeds.
+                You can only add {MAX_FEEDS} feeds.
               </span>
             )}
           </div>
