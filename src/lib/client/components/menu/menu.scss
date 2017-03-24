@@ -52,7 +52,7 @@ $sb-menu-spacer-x: rem(($grid-gutter-width-base / 2));
   border-bottom: 3px solid $sb-menu-brand-border;
   font-size: $font-size-h5;
   text-align: center;
-  padding: $spacer-y $sb-menu-spacer-x;
+  padding: .6rem $sb-menu-spacer-x;
 }
 
   .sb-menu-brand-mobile {

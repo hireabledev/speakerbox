@@ -17,11 +17,11 @@ function Menu({ children, links, expanded, toggle }) {
         })}
         to="/"
       >
-        SpeakerBox
+        <img src="/assets/img/logo-inverse.svg" alt="SpeakerBox" height="37" />
       </MenuLink>
       <nav className={cn('sb-menu', { 'sb-menu-expanded': expanded })}>
         <MenuLink className="sb-menu-brand" to="/">
-          SpeakerBox
+          <img src="/assets/img/logo-inverse.svg" alt="SpeakerBox" height="37" />
         </MenuLink>
         <div className="sb-menu-list" onClick={toggle}>
           {links}
