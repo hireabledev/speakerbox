@@ -1,5 +1,6 @@
 # SpeakerBox
 
+[![CircleCI](https://circleci.com/gh/DasyLabs/speakerbox.svg?style=shield)](https://circleci.com/gh/DasyLabs/speakerbox)
 
 ## Mission
 
