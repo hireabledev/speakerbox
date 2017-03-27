@@ -6,27 +6,27 @@ import MenuLink from 'lib/client/components/menu/menu-link';
 const links = (
   <div>
     <MenuLink className="sb-menu-link" to="/schedule">
-      <Icon name="calendar" label="schedule" fixedWidth />
+      <Icon name="calendar" fixedWidth />
       {' '}
       Schedule
     </MenuLink>
     <MenuLink className="sb-menu-link" to="/stream">
-      <Icon name="list-alt" label="stream" fixedWidth />
+      <Icon name="list-alt" fixedWidth />
       {' '}
       Stream
     </MenuLink>
     <MenuLink className="sb-menu-link" to="/favorites">
-      <Icon name="star" label="favorites" fixedWidth />
+      <Icon name="star" fixedWidth />
       {' '}
       Favorites
     </MenuLink>
     <MenuLink className="sb-menu-link" to="/metrics">
-      <Icon name="line-chart" label="metrics" fixedWidth />
+      <Icon name="line-chart" fixedWidth />
       {' '}
       Metrics
     </MenuLink>
     <MenuLink className="sb-menu-link" to="/settings">
-      <Icon name="cog" label="settings" fixedWidth />
+      <Icon name="cog" fixedWidth />
       {' '}
       Settings
     </MenuLink>
