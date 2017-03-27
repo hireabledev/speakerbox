@@ -7,15 +7,15 @@ import { updateUser } from '../actions/user';
 export function SettingsUserForm(props) {
   return (
     <form onSubmit={props.handleSubmit}>
-      <FormGroup>
+      <FormGroup name="displayName">
         <Label htmlFor="displayName">Name</Label>
         <Input type="text" name="displayName" placeholder="Name" required />
       </FormGroup>
-      <FormGroup>
+      <FormGroup name="email">
         <Label htmlFor="email">Email Address</Label>
         <Input type="email" name="email" placeholder="Email Address" />
       </FormGroup>
-      <FormGroup>
+      <FormGroup name="tel">
         <Label htmlFor="tel">Phone Number</Label>
         <Input type="tel" name="tel" placeholder="Phone Number" />
       </FormGroup>
