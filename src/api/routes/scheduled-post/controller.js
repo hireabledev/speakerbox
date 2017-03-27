@@ -101,7 +101,7 @@ export async function update(req) {
     type: account.type,
   };
 
-  const oldJob = await req.app.removeJob(scheduledPost.jobId);
+  const oldJob = await req.app.removeJob(scheduledPost.jobId) || { data: { data: {} } };
 
   const job = await req.app.addJob({
     type: 'scheduled-post',
