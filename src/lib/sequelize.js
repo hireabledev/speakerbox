@@ -1,15 +1,10 @@
 import os from 'os';
 import mapKeys from 'lodash/mapKeys';
 import Sequelize from 'sequelize';
-import { intersection, startCase } from 'lodash';
+import { intersection, isPlainObject, startCase } from 'lodash';
 import { notFound } from 'boom';
+import sentry from 'lib/sentry';
 import { ENV } from './config';
-
-function toJSON() {
-  return mapKeys(this.get(), (key, value) => (
-    value.charAt(0).toLowerCase() + value.slice(1)
-  ));
-}
 
 const config = require('./config/db')[ENV];
 
@@ -165,7 +160,27 @@ const sequelize = new Sequelize(config.url, {
     },
 
     instanceMethods: {
-      toJSON,
+      toJSON() {
+        const that = this || {}; // possible bug in sequelize
+
+        let values;
+
+        if (typeof that.get === 'function') {
+          values = that.get({ plain: true });
+        } else if (isPlainObject(that.dataValues)) {
+          values = that.dataValues;
+        } else if (isPlainObject(that.values)) {
+          values = that.values;
+        }
+
+        if (typeof values === 'undefined') {
+          sentry.captureException(new Error('Sequelize toJSON has undefined values.'));
+        }
+
+        return mapKeys(values, (key, value) => (
+          value.charAt(0).toLowerCase() + value.slice(1)
+        ));
+      },
     },
   },
 });
