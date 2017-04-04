@@ -10,6 +10,8 @@
   "scripts": {
     "start": "scripts/start.sh",
     "test": "scripts/test.sh",
+    "lint": "scripts/lint.sh",
+    "unit": "scripts/unit.sh",
     "build": "scripts/build.sh",
     "babel": "scripts/babel.sh",
     "webpack": "scripts/webpack.sh",

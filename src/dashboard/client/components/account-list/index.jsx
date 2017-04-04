@@ -68,7 +68,7 @@ AccountList.defaultProps = {
 };
 
 function AccountListItem(props) {
-  const { type, pathname, id, isQueryFiltered, accountVisibility, feedVisibility } = props;
+  const { type, pathname, id, accountVisibility, feedVisibility } = props;
 
   let accounts = { ...accountVisibility };
   let feeds = { ...feedVisibility };
@@ -116,7 +116,6 @@ AccountListItem.propTypes = {
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   checked: PropTypes.bool.isRequired,
-  isQueryFiltered: PropTypes.bool.isRequired,
   accountVisibility: PropTypes.object.isRequired,
   feedVisibility: PropTypes.object.isRequired,
 };

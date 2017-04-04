@@ -1,3 +1,4 @@
 #!/bin/bash
 
-NODE_ENV=test nyc --reporter=lcov --reporter=text mocha --compilers js:babel-register test/index.js "src/**/*.spec.js"
+$(dirname "$0")/unit.sh
+$(dirname "$0")/lint.sh

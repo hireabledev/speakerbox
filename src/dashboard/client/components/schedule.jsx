@@ -76,7 +76,7 @@ export class SchedulePage extends Component {
         }
         sidebarSecondary={<div />}
       >
-        <PostForm 
+        <PostForm
           message={this.props.location.query.message}
           onSuccess={() => (
             this.props.router.replace({
@@ -115,6 +115,9 @@ SchedulePage.propTypes = {
       id: PropTypes.string,
       message: PropTypes.string,
     }).isRequired,
+  }).isRequired,
+  router: PropTypes.shape({
+    replace: PropTypes.func.isRequired,
   }).isRequired,
   accountVisibility: PropTypes.object,
   scheduledPosts: PropTypes.arrayOf(PropTypes.shape({

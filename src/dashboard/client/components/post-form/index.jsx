@@ -141,7 +141,7 @@ PostForm.propTypes = {
   message: PropTypes.string,
 };
 
-PostForm.defaultProps ={
+PostForm.defaultProps = {
   onSuccess() {},
 };
 

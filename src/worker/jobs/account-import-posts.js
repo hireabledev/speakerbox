@@ -44,7 +44,7 @@ export default async function accountImportPostsProcessor(job, done) {
     }
 
     // fetch posts
-    let { body } = await getAccountPosts(account);
+    const { body } = await getAccountPosts(account);
     job.progress(2, PROGRESS_TOTAL, 'Fetched posts');
 
     // save to database
