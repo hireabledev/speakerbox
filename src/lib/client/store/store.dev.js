@@ -1,7 +1,7 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import { routerMiddleware } from 'react-router-redux';
-import createLogger from 'redux-logger';
+import { createLogger } from 'redux-logger';
 import fetchMiddleware from './middleware/fetch';
 import DevTools from '../components/root/dev-tools';
 
