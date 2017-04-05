@@ -22,11 +22,11 @@ const Feed = sequelize.define('Feed', {
                         },
   synced:               {
                           type: Sequelize.DATE,
-                          comment: 'Date feed was last synced.',
+                          comment: 'DEPRECATED: Date feed was last synced.',
                         },
   jobId:                {
                           type: Sequelize.INTEGER,
-                          comment: 'Sync job id.',
+                          comment: 'DEPRECATED: Sync job id.',
                         },
 }, {
   name: {

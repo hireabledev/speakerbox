@@ -54,9 +54,6 @@ export function removeBlueprint(modelName) {
     const instance = await Model
       .scopeForUser(req.user, req.query.user)
       .findByIdOr404(req.params.id);
-    if (instance.jobId) {
-      await req.app.removeJob(instance.jobId);
-    }
     await instance.destroy();
     return instance;
   };

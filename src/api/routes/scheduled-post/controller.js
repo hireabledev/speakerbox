@@ -1,4 +1,5 @@
 import uuid from 'uuid';
+import pick from 'lodash/pick'
 
 export async function index(req, res, next) {
   const ScheduledPost = req.app.models.ScheduledPost;
@@ -50,6 +51,8 @@ export async function create(req) {
 
   const scheduledPost = req.app.models.ScheduledPost.build(body);
 
+  scheduledPost.setAccount(account);
+
   if (req.body.postId) {
     const post = await req.app.models.Post
       .scopeForUserAccountsOrFeeds(req.user, req.query.user)
@@ -64,13 +67,11 @@ export async function create(req) {
     title: `Scheduled Post ${scheduledPost.id}`,
     delay: body.date,
     data: {
+      ...pick(scheduledPost.get({ plain: true }), scheduledPost.attributes),
       ...body,
       accountId: account.id,
     },
   });
-
-  scheduledPost.jobId = job.id;
-  scheduledPost.setAccount(account);
 
   try {
     return await scheduledPost.save();
@@ -99,25 +100,22 @@ export async function update(req) {
     ...req.body,
     date: req.body.date || scheduledPost.date,
     type: account.type,
+    id: scheduledPost.id,
   };
-
-  const oldJob = await req.app.removeJob(scheduledPost.jobId) || { data: { data: {} } };
 
   const job = await req.app.addJob({
     type: 'scheduled-post',
     title: `Scheduled Post ${scheduledPost.id}`,
     delay: body.date,
     data: {
-      ...oldJob.data.data,
+      ...pick(scheduledPost.get({ plain: true }), scheduledPost.attributes),
       ...body,
-      id: scheduledPost.id,
-      accountId: oldJob.data.data.accountId,
-      feedId: oldJob.data.data.feedId,
+      accountId: account.id,
     },
   });
 
   try {
-    return await scheduledPost.update({ ...body, date: body.date, jobId: job.id });
+    return await scheduledPost.update(body);
   } catch (err) {
     await req.app.removeJob(job.id);
     throw err;
@@ -134,7 +132,6 @@ export async function remove(req) {
         as: 'Post',
       }],
     });
-  await req.app.removeJob(scheduledPost.jobId);
   await scheduledPost.destroy();
   return scheduledPost;
 }

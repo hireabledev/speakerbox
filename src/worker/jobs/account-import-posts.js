@@ -1,6 +1,6 @@
 import sentry from 'lib/sentry';
 import { ACCOUNT_FETCH_DELAY } from 'lib/config';
-import { addJob, removeJob } from 'lib/queue';
+import { addJob } from 'lib/queue';
 import { kue as debug } from 'lib/debug';
 import { Account, Post } from 'lib/models';
 import { getAccountPosts } from '../posts';
@@ -13,12 +13,6 @@ export async function schedule(account, immediate) {
     priority: 'low',
     data: { accountId: account.id },
   });
-  if (account.isNewRecord === false) {
-    if (account.jobId) {
-      await removeJob(account.jobId);
-    }
-    await account.update({ jobId: job.id });
-  }
   return job;
 }
 
@@ -46,7 +40,7 @@ export default async function accountImportPostsProcessor(job, done) {
     );
     job.progress(3, PROGRESS_TOTAL, `Created ${posts.length} posts`);
 
-    // schedule next job and remove old one
+    // schedule next job
     await schedule(account);
 
     return done();

@@ -2,7 +2,7 @@ import uuid from 'uuid';
 import sanitizeHtml from 'sanitize-html';
 import sentry from 'lib/sentry';
 import { RSS_FETCH_DELAY } from 'lib/config';
-import { addJob, removeJob } from 'lib/queue';
+import { addJob } from 'lib/queue';
 import { kue as debug } from 'lib/debug';
 import { Feed, Post } from 'lib/models';
 import fetchFeed from 'lib/rss';
@@ -15,12 +15,6 @@ export async function schedule(feed, immediate) {
     priority: 'low',
     data: { feedId: feed.id },
   });
-  if (feed.isNewRecord === false) {
-    if (feed.jobId) {
-      await removeJob(feed.jobId);
-    }
-    await feed.update({ jobId: job.id });
-  }
   return job;
 }
 
@@ -62,11 +56,17 @@ export default async function feedImportPostsProcessor(job, done) {
     );
     job.progress(3, PROGRESS_TOTAL, `Created ${posts.length} posts`);
 
-    // schedule next job and remove old one
+    // schedule next job
     await schedule(feed);
 
     return done();
   } catch (err) {
+    if (err.message === 'Validation error') {
+      job.log(`${err.name}: ${err.message}`);
+      debug.warn(err);
+      await schedule(feed);
+      return done();
+    }
     if (err.name !== 'SequelizeUniqueConstraintError') {
       debug.error(err);
       sentry.captureException(err);

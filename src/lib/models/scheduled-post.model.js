@@ -47,7 +47,7 @@ const ScheduledPost = sequelize.define('ScheduledPost', {
                         },
   jobId:                {
                           type: Sequelize.INTEGER,
-                          comment: 'Kue job ID.',
+                          comment: 'DEPRECATED: Kue job ID.',
                         },
 }, {
   name: {

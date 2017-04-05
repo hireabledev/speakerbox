@@ -37,11 +37,11 @@ const Account = sequelize.define('Account', {
                         },
   synced:               {
                           type: Sequelize.DATE,
-                          comment: 'Date account was last synced.',
+                          comment: 'DEPRECATED: Date account was last synced.',
                         },
   jobId:                {
                           type: Sequelize.INTEGER,
-                          comment: 'Sync job id.',
+                          comment: 'DEPRECATED: Sync job id.',
                         },
 }, {
   name: {
