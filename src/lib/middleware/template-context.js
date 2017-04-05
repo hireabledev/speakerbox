@@ -14,6 +14,20 @@ import {
 
 const LEADING_DOT_REGEXP = /^\./;
 
+function getAssetsFromStats(stats) {
+  const webpackStats = stats.toJson ? stats.toJson() : stats;
+  return mapValues(webpackStats.assetsByChunkName, chunkAssets => {
+    chunkAssets = Array.isArray(chunkAssets) ? chunkAssets : [chunkAssets];
+    chunkAssets = chunkAssets.filter(assetName => {
+      if (assetName.substr(-4) === '.map') {
+        return true;
+      }
+      return chunkAssets.indexOf(`${assetName}.map`) !== -1;
+    });
+    return groupBy(chunkAssets, filePath => path.extname(filePath).replace(LEADING_DOT_REGEXP, ''));
+  });
+}
+
 export default async function templateContextMiddleware(req, res, next) {
   if (req.method === 'GET' && (req.is('text/*') || !req.get('content-type'))) {
     /* eslint no-param-reassign: 0 */
@@ -28,21 +42,11 @@ export default async function templateContextMiddleware(req, res, next) {
     if (PROPELLER_URL) { res.locals.PROPELLER_URL = PROPELLER_URL; }
     if (req.user) { res.locals.user = req.user; }
 
-    const webpackStats = res.locals.webpackStats.toJson
-      ? res.locals.webpackStats.toJson()
-      : res.locals.webpackStats;
+    res.locals.assets = req.app.locals.assets || getAssetsFromStats(res.locals.webpackStats);
 
-    // TODO: cache on prod
-    res.locals.assets = mapValues(webpackStats.assetsByChunkName, chunkAssets => {
-      chunkAssets = Array.isArray(chunkAssets) ? chunkAssets : [chunkAssets];
-      chunkAssets = chunkAssets.filter(assetName => {
-        if (assetName.substr(-4) === '.map') {
-          return true;
-        }
-        return chunkAssets.indexOf(`${assetName}.map`) !== -1;
-      });
-      return groupBy(chunkAssets, filePath => path.extname(filePath).replace(LEADING_DOT_REGEXP, ''));
-    });
+    if (ENV === 'production') {
+      req.app.locals.assets = res.locals.assets;
+    }
 
     res.locals.STATIC_URL = STATIC_URL;
   }
