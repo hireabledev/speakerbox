@@ -1,9 +1,10 @@
 import pick from 'lodash/pick';
+import intersection from 'lodash/intersection';
 import { Account, Post, ScheduledPost } from 'lib/models';
 import { processScheduledPost } from '../posts';
 
 function dataMatches(scheduledPostData, jobData, keys) {
-  const sjData = pick(scheduledPostData, keys);
+  const sjData = pick(scheduledPostData, intersection(keys, Object.keys(jobData)));
   const jsData = pick(jobData, keys);
   return JSON.stringify(sjData) === JSON.stringify(jsData);
 }
