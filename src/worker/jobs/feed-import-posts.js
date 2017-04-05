@@ -6,7 +6,6 @@ import { addJob, removeJob } from 'lib/queue';
 import { kue as debug } from 'lib/debug';
 import { Feed, Post } from 'lib/models';
 import fetchFeed from 'lib/rss';
-import { syncedRecently } from '../utils';
 
 export async function schedule(feed, immediate) {
   const job = await addJob({
@@ -27,7 +26,7 @@ export async function schedule(feed, immediate) {
 
 export default async function feedImportPostsProcessor(job, done) {
   const { feedId } = job.data.data;
-  const PROGRESS_TOTAL = 4;
+  const PROGRESS_TOTAL = 3;
 
   // get feed
   const feed = await Feed.findById(feedId);
@@ -38,13 +37,6 @@ export default async function feedImportPostsProcessor(job, done) {
   job.progress(1, PROGRESS_TOTAL, 'Fetched feed');
 
   try {
-    // check if synced recently
-    if (syncedRecently(feed)) {
-      job.log('Feed synced recently. Re-scheduling.');
-      await schedule(feed);
-      return done();
-    }
-
     // fetch posts
     const { items } = await fetchFeed(feed.url);
     job.progress(2, PROGRESS_TOTAL, 'Fetched rss posts');
@@ -72,10 +64,6 @@ export default async function feedImportPostsProcessor(job, done) {
 
     // schedule next job and remove old one
     await schedule(feed);
-
-    // update feed
-    await feed.update({ synced: new Date() });
-    job.progress(4, PROGRESS_TOTAL, 'Updated feed.');
 
     return done();
   } catch (err) {

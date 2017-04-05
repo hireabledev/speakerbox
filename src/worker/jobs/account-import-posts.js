@@ -3,7 +3,6 @@ import { ACCOUNT_FETCH_DELAY } from 'lib/config';
 import { addJob, removeJob } from 'lib/queue';
 import { kue as debug } from 'lib/debug';
 import { Account, Post } from 'lib/models';
-import { syncedRecently } from '../utils';
 import { getAccountPosts } from '../posts';
 
 export async function schedule(account, immediate) {
@@ -25,7 +24,7 @@ export async function schedule(account, immediate) {
 
 export default async function accountImportPostsProcessor(job, done) {
   const { accountId } = job.data.data;
-  const PROGRESS_TOTAL = 4;
+  const PROGRESS_TOTAL = 3;
 
   // get account
   const account = await Account.findById(accountId);
@@ -36,13 +35,6 @@ export default async function accountImportPostsProcessor(job, done) {
   job.progress(1, PROGRESS_TOTAL, 'Fetched account');
 
   try {
-    // check if synced recently
-    if (syncedRecently(account)) {
-      job.log('Account synced recently. Re-scheduling.');
-      await schedule(account);
-      return done();
-    }
-
     // fetch posts
     const { body } = await getAccountPosts(account);
     job.progress(2, PROGRESS_TOTAL, 'Fetched posts');
@@ -56,10 +48,6 @@ export default async function accountImportPostsProcessor(job, done) {
 
     // schedule next job and remove old one
     await schedule(account);
-
-    // update account
-    await account.update({ synced: new Date() });
-    job.progress(4, PROGRESS_TOTAL, 'Updated account.');
 
     return done();
   } catch (err) {
