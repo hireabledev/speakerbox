@@ -1,5 +1,5 @@
 import uuid from 'uuid';
-import pick from 'lodash/pick'
+import pick from 'lodash/pick';
 
 export async function index(req, res, next) {
   const ScheduledPost = req.app.models.ScheduledPost;
