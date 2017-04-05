@@ -69,7 +69,7 @@ export function cleanupJobsByState(state, minutes = 60) {
 
 export function cleanupJobs() {
   return Promise.all([
-    cleanupJobsByState('complete', 1),
+    cleanupJobsByState('complete', 15),
     cleanupJobsByState('failed', 60 * 24 * 3),
   ]);
 }
