@@ -3,6 +3,7 @@
 @import '../../lib/client/styles/functions-with-variables';
 @import '../../lib/client/styles/mixins';
 
+// TODO: only import parts we need
 @import 'bootstrap/scss/bootstrap';
 
 .navbar > .container {
