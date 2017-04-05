@@ -34,7 +34,7 @@ export function removeJob(jobId) {
       if (err) {
         if (JOB_DOESNT_EXIST_REGEXP.test(err.message)) {
           debug.warn(err.message);
-          return resolve(job);
+          return resolve(null);
         }
         return reject(err);
       }
@@ -57,6 +57,9 @@ export function cleanupJobsByState(state, minutes = 60) {
       return Promise.all(oldJobs.map(oldJob => removeJob(oldJob.id)))
         .then(removedJobs => {
           debug.info(`Removed ${removedJobs.length} ${state} jobs.`);
+          if (removedJobs.length >= KUE_CLEANUP_BATCH_SIZE) {
+            return cleanupJobsByState(state, minutes);
+          }
           return resolve(removedJobs);
         })
         .catch(reject);
@@ -66,7 +69,7 @@ export function cleanupJobsByState(state, minutes = 60) {
 
 export function cleanupJobs() {
   return Promise.all([
-    cleanupJobsByState('completed', 60),
+    cleanupJobsByState('complete', 1),
     cleanupJobsByState('failed', 60 * 24 * 3),
   ]);
 }
