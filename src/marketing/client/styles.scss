@@ -2,6 +2,7 @@
 @import '../../lib/client/styles/variables';
 @import '../../lib/client/styles/functions-with-variables';
 @import '../../lib/client/styles/mixins';
+@import '../../lib/client/styles/nav';
 
 // TODO: only import parts we need
 @import 'bootstrap/scss/bootstrap';
@@ -11,5 +12,152 @@
 }
 
 img {
+  height: auto;
   max-width: 100%;
+}
+
+.sb-marketing .navbar {
+  background-color: $deep-blue !important;
+  background-image: $bg-pattern;
+}
+
+.sb-marketing-header {
+  background-color: $deep-blue;
+  background-image: $bg-pattern;
+  min-height: calc(100vh - #{$navbar-height});
+}
+
+.sb-pricing {
+  background: $brand-primary;
+  color: #fff;
+}
+
+@include media-breakpoint-up(md) {
+  .sb-pricing-table {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.sb-pricing-tier {
+  background: #fff;
+  border-radius: $border-radius;
+  box-shadow: 0 3px 0 shade($brand-primary, 15%);
+  flex-grow: 1;
+  color: $body-color;
+  margin: 1rem auto;
+  max-width: 15rem;
+  text-align: center;
+
+  @include media-breakpoint-up(md) {
+    margin: 1rem;
+  }
+}
+
+.sb-pricing-title,
+.sb-pricing-price {
+  margin: 0;
+  padding: $spacer-y $spacer-x;
+  line-height: 1;
+}
+
+.sb-pricing-title {
+  color: $gray-light;
+  font-size: inherit;
+  text-transform: uppercase;
+}
+
+.sb-pricing-price {
+  color: $brand-primary;
+  font-weight: bold;
+}
+
+.sb-pricing-items {
+  border-bottom: 1px solid $border;
+  font-size: $font-size-sm;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  > li {
+    border-top: 1px solid $border;
+    padding: .75em $spacer-x;
+  }
+}
+
+.sb-open-source {
+  background: #fff;
+  border-top: 1px solid $border;
+  border-bottom: 1px solid $border;
+}
+
+.sb-open-source-code {
+  border: 1px solid $border;
+  box-shadow: 0 2px 0 $border;
+  border-radius: $border-radius;
+  padding: 1rem;
+
+  > pre {
+    margin-bottom: 0;
+  }
+}
+
+.bg-body {
+  background: #fff;
+}
+
+.border-top { border-top: 1px solid $border; }
+.border-bottom { border-bottom: 1px solid $border; }
+
+.sb-mock-feed {
+  &-post {
+    display: flex;
+    background: #fff;
+    border: 1px solid $border;
+    border-radius: $border-radius;
+    box-shadow: 0 3px 0 $border;
+    padding: 1rem;
+
+    &-pic {
+      border: 2px solid $border;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-right: 1rem;
+      font-size: 1.5rem;
+      height: 3rem;
+      width: 3rem;
+    }
+
+    &-body {
+      flex-grow: 1;
+    }
+
+    &-title {
+      height: 1rem;
+      background: $border;
+      margin-bottom: 1rem;
+      width: 50%;
+    }
+
+    &-content {
+      height: 1rem;
+      background: $border;
+    }
+  }
+
+  &-post-twitter .sb-mock-feed-post-pic {
+    border-color: $twitter;
+    color: $twitter;
+  }
+
+  &-post-facebook .sb-mock-feed-post-pic {
+    border-color: $facebook;
+    color: $facebook;
+  }
+
+  &-post-rss .sb-mock-feed-post-pic {
+    border-color: $rss;
+    color: $rss;
+  }
 }
