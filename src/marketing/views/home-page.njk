@@ -4,38 +4,213 @@
 <div class="sb-marketing">
   {% include "common/navbar.njk" %}
 
-  <div class="bg-primary text-white pt-3 pb-5">
+  <div class="sb-marketing-header text-white pt-5" style="overflow: hidden;">
     <div class="container">
       <div class="row">
-        <div class="col-md-4">
-          <h2 class="h3 mb-3">
-            Welcome to SpeakerBox!
+        <div class="col-md-8 offset-md-2 text-center">
+          <h2 class="h1 mb-3">
+            The easier way to share on social media
           </h2>
-          <p>
-            Tune in to your favorite social and rss channels using the Speakerbox app. You can read your stream, schedule posts and retweets, and manage your readership experience.
+          <p class="lead">
+            Read, write, and post to all your accounts from one place.
           </p>
-          <ul class="my-4">
-            <li>
-              Read posts across Twitter, Facebook, and RSS
-            </li>
-            <li>
-              Schedule posts and retweets
-            </li>
-            <li>
-              Customize your readership experience
-            </li>
-          </ul>
-          <a class="btn btn-success my-4" href="/sso">
-            Sign up now!
+          <a class="btn btn-success btn-lg mt-4 mb-5" href="/sso">
+            Sign up for FREE
           </a>
         </div>
-        <div class="col-md-8">
+      </div>
+      <div class="row" style="max-height: 20rem;">
+        <div class="col-md-8 offset-md-2">
           <div class="bg-faded p-2 rounded">
-            <img src="{{ STATIC_URL }}/img/stream-page-view.png" alt="Stream View" />
+            <img src="{{ STATIC_URL }}/img/stream-page-view.png" alt="Stream View" height="1514" width="1976" />
           </div>
         </div>
       </div>
     </div>
   </div>
+
+  <div class="bg-body py-5 border-top border-bottom">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8 offset-md-2">
+          <form class="row">
+            <div class="form-group col-md-8 mb-0">
+              <label class="h5 mr-sm-2 sr-only" for="email">Subscribe to our newsletter</label>
+              <input class="form-control form-control-lg" name="email" id="email" type="email" placeholder="Enter your email" />
+            </div>
+            <div class="col-md-4">
+              <button class="btn btn-outline-primary btn-lg btn-block mt-4 mt-md-0" type="submit">Subscribe</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="py-5 text-center">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8 offset-md-2">
+          <h2 class="h4 mb-3">
+            Import content from Twitter, Facebook, and RSS
+          </h2>
+          <p>
+            It's easier to write when you're not starting from a blank canvas.
+          </p>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-md-8 offset-md-2">
+          <div class="sb-mock-feed">
+            <div class="sb-mock-feed-post sb-mock-feed-post-twitter">
+              <div class="sb-mock-feed-post-pic">
+                <span class="fa fa-twitter" aria-hidden="true"></span>
+              </div>
+              <div class="sb-mock-feed-post-body">
+                <div class="sb-mock-feed-post-title"></div>
+                <div class="sb-mock-feed-post-content"></div>
+              </div>
+            </div>
+            <div class="sb-mock-feed-post sb-mock-feed-post-facebook my-3">
+              <div class="sb-mock-feed-post-pic">
+                <span class="fa fa-facebook" aria-hidden="true"></span>
+              </div>
+              <div class="sb-mock-feed-post-body">
+                <div class="sb-mock-feed-post-title"></div>
+                <div class="sb-mock-feed-post-content"></div>
+              </div>
+            </div>
+            <div class="sb-mock-feed-post sb-mock-feed-post-rss">
+              <div class="sb-mock-feed-post-pic">
+                <span class="fa fa-rss" aria-hidden="true"></span>
+              </div>
+              <div class="sb-mock-feed-post-body">
+                <div class="sb-mock-feed-post-title"></div>
+                <div class="sb-mock-feed-post-content"></div>
+              </div>
+            </div>
+          </div>
+          <a class="btn btn-outline-primary mt-4" href="/dashboard/settings/feeds">
+            Add a Feed
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="bg-body border-top border-bottom py-5">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-4">
+          <h2 class="h4 mb-3">
+            Schedule posts for later
+          </h2>
+          <p>
+            Control when your posts go out down to the minute so you can be active when it matters most.
+          </p>
+          <a class="btn btn-outline-primary mt-3" href="/dashboard/schedule">
+            Schedule a Post
+          </a>
+          <div class="hidden-md-up mb-5"></div>
+        </div>
+        <div class="col-md-8">
+          <div class="bg-faded p-2 rounded">
+            <img src="{{ STATIC_URL }}/img/schedule-page-view.png" alt="Schedule View" height="802" width="2278" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="py-5 text-center">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 offset-md-3">
+          <h2 class="h4 mb-3">
+            Post to all your social media accounts
+          </h2>
+          <p>
+            Share to Twitter, Facebook, LinkedIn, or all at the same time! SpeakerBox makes it easy to stay active wherever your followers are.
+          </p>
+          <a class="btn btn-outline-primary mt-3" href="/dashboard/stream">
+            Share a Post
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sb-pricing py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8 offset-md-2">
+          <div class="text-center">
+            <h2 class="h2 mb-3">
+              Pricing
+            </h2>
+            <p class="lead mb-2">
+              SpeakerBox is free and ad-free while we are in beta.
+            </p>
+            <p class="mt-0 small">
+              We strive to be transparent, so the tentative launch pricing is:
+            </p>
+          </div>
+          <div class="sb-pricing-table mt-4">
+            <div class="sb-pricing-tier">
+              <h3 class="sb-pricing-title">
+                Free
+              </h3>
+              <ul class="sb-pricing-items">
+                <li>ad-supported</li>
+                <li>2 rss feed limit</li>
+                <li>community support</li>
+              </ul>
+              <p class="sb-pricing-price">$0</p>
+            </div>
+            <div class="sb-pricing-tier">
+              <h3 class="sb-pricing-title">
+                Pro
+              </h3>
+              <ul class="sb-pricing-items">
+                <li>no ads</li>
+                <li>no rss feed limit</li>
+                <li>email support</li>
+              </ul>
+              <p class="sb-pricing-price">$5</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sb-open-source pt-5 pb-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <h2 class="h3 mb-3">
+            Open Source
+          </h2>
+          <p>
+            SpeakerBox is open source! Check us out on <a href="https://github.com/DasyLabs/speakerbox" target="_blank" rel="noopener noreferrer">GitHub</a>.
+          </p>
+          <p>
+            <a href="http://www.dasylabs.com" target="_blank" rel="noopener noreferrer">Dasy Labs</a> is committed to open source software.
+          </p>
+        </div>
+        <div class="col-md-6">
+          <div class="sb-open-source-code">
+            <pre>
+for (var i = 1; i <= 100; i++) {
+  var f = i % 3 == 0, b = i % 5 == 0;
+  console.log(f ? b ? "FizzBuzz" : "Fizz" : b ? "Buzz" : i);
+}</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
 {% endblock %}

@@ -1,0 +1,19 @@
+.navbar {
+  .navbar-brand {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .nav-link {
+    padding-top: 0.519em;
+    padding-bottom: 0.519em;
+  }
+
+  .nav-item + .nav-item {
+    margin-left: .5rem;
+  }
+
+  .navbar-nav {
+    flex-direction: row;
+  }
+}
