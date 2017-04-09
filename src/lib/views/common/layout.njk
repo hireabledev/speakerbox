@@ -10,7 +10,7 @@
     {% else %}
       <base href="/{{ APP_DIR }}">
     {% endif %}
-    <title>{% if title %}{{ title }} - {% endif %}Speaker Box</title>
+    <title>{% if title %}{{ title }} - {% endif %}SpeakerBox</title>
     {% include "common/styles.njk" %}
     {% for asset in assets.common.css %}
       <link rel="stylesheet" href="{{ STATIC_URL }}/{{ asset }}">
