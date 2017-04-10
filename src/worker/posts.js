@@ -6,8 +6,18 @@ import linkedinClient from 'lib/linkedin';
 export async function getAccountPosts(account) {
   switch (account.type) {
     case 'facebook': {
+      const lastPost = await Post.findOne({
+        where: { type: 'facebook' },
+        include: [{
+          model: Account,
+          as: 'Account',
+          where: { id: account.id },
+        }],
+        order: [['date', 'DESC']],
+      });
       const facebook = facebookClient({ token: account.accessToken });
-      return facebook.getPosts(null, { since: account.synced });
+      const getOptions = lastPost ? { since: lastPost.date } : {};
+      return facebook.getPosts(null, getOptions);
     }
     case 'twitter': {
       const lastPost = await Post.findOne({
