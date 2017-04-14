@@ -22,6 +22,7 @@ import sentry, { sentryRequestMiddleware, sentryErrorMiddleware } from './lib/se
 import session from './lib/session';
 import passport from './lib/passport';
 import templateContext from './lib/middleware/template-context';
+import analytics from './lib/middleware/analytics';
 import notFound from './lib/middleware/not-found';
 import errorHandler from './lib/middleware/error-handler';
 import forceHttps from './lib/middleware/force-https';
@@ -88,6 +89,7 @@ if (LETS_ENCRYPT_URL && LETS_ENCRYPT_KEY) {
 }
 
 app.use(templateContext);
+app.use(analytics);
 
 app.use('/api', api);
 app.use('/admin', admin);
