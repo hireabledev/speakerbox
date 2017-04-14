@@ -30,6 +30,11 @@ const links = (
       {' '}
       Settings
     </MenuLink>
+    <MenuLink className="sb-menu-link" href="http://speakerbox.freshdesk.com">
+      <Icon name="question-circle" fixedWidth />
+      {' '}
+      Support
+    </MenuLink>
   </div>
 );
 
