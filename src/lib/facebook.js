@@ -1,4 +1,5 @@
 import superFetch from 'lib/fetch';
+import sentry from 'lib/sentry';
 import { FB_API_URL } from './config';
 
 const FEED_FIELDS = 'message,permalink_url,created_time,admin_creator,caption,description,link,from{name,link,picture},to{name,link,picture},object_id,parent_id,picture,place,shares,source,status_type,story';
@@ -23,6 +24,11 @@ function mapPosts(post) {
 }
 
 function fetch(url, options) {
+  sentry.captureBreadcrumb({
+    message: 'facebook fetch',
+    data: { url, options },
+    category: 'worker',
+  });
   return superFetch(FB_API_URL + url, {
     ...options,
     credentials: 'omit',
@@ -37,6 +43,11 @@ export default function getFacebookClient({ token }) {
 
   const client = {
     async getPost(id) {
+      sentry.captureBreadcrumb({
+        message: 'facebook.getPost',
+        data: { id },
+        category: 'worker',
+      });
       return fetch(`/${id}`, {
         query: getQuery({
           fields: 'link',
@@ -44,6 +55,11 @@ export default function getFacebookClient({ token }) {
       });
     },
     async getPhoto(id) {
+      sentry.captureBreadcrumb({
+        message: 'facebook.getPhoto',
+        data: { id },
+        category: 'worker',
+      });
       return fetch(`/${id}`, {
         query: getQuery({
           fields: 'link',
@@ -51,11 +67,21 @@ export default function getFacebookClient({ token }) {
       });
     },
     async getPosts(id, options = {}) {
+      sentry.captureBreadcrumb({
+        message: 'facebook.getPosts',
+        data: { id, options },
+        category: 'worker',
+      });
       const res = await fetch(`/${id || 'me'}/feed`, {
         query: getQuery({
           fields: FEED_FIELDS,
           since: options.since,
         }),
+      });
+      sentry.captureBreadcrumb({
+        message: 'facebook.getPosts',
+        data: res,
+        category: 'worker',
       });
       res.body.posts = res.body.data.map(mapPosts);
       return res;
@@ -73,11 +99,16 @@ export default function getFacebookClient({ token }) {
      * @param {string} options.description  - Link description.
      */
     async publish(id, options) {
+      sentry.captureBreadcrumb({
+        message: 'facebook.publish',
+        data: { id, options },
+        category: 'worker',
+      });
       if (!options.message && !options.link && !options.imgUrl) {
         throw new Error('Message or link required.');
       }
       if (options.imgUrl) {
-        return await fetch(`/${id}/photos`, {
+        return fetch(`/${id}/photos`, {
           method: 'POST',
           query: getQuery({
             fields: 'link',
@@ -88,7 +119,7 @@ export default function getFacebookClient({ token }) {
           },
         });
       }
-      return await fetch(`/${id}/feed`, {
+      return fetch(`/${id}/feed`, {
         method: 'POST',
         query: getQuery({
           fields: 'link',

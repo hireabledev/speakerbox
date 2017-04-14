@@ -35,10 +35,7 @@ export class ListPage extends Component {
     const nextQuery = JSON.stringify(this.props.location.query);
     const differentQuery = prevQuery !== nextQuery;
     if (differentPath || differentQuery) {
-      this.resetItems();
-      setTimeout(() => {
-        this.fetchItems();
-      });
+      this.resetItems(() => this.fetchItems());
     }
   }
 
@@ -74,11 +71,11 @@ export class ListPage extends Component {
     });
   }
 
-  resetItems() {
+  resetItems(done = () => {}) {
     this.setState({
       items: [],
       moreItems: true,
-    });
+    }, done);
   }
 
   render() {

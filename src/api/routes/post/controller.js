@@ -23,7 +23,7 @@ export async function index(req, res, next) {
 }
 
 export async function show(req) {
-  return await req.app.models.Post
+  return req.app.models.Post
     .scopeForUserAccountsOrFeeds(req.user, req.query.user)
     .findByIdOr404(req.params.id);
 }
