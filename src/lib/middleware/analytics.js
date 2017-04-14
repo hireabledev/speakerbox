@@ -28,7 +28,7 @@ function MockVisitor() {
 MockVisitor.prototype.send = () => {};
 
 const mockMiddleware = (req, res, next) => {
-  req.visitor = new MockVisitor();
+  req.visitor = new MockVisitor(); // eslint-disable-line
   next();
 };
 
