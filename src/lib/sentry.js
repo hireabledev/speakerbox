@@ -16,6 +16,8 @@ const mockRaven = {
   config() {},
   install() {},
   captureException(err) { debug.error(err); },
+  captureMessage(message) { debug.error(message); },
+  captureBreadcrumb() {},
   requestHandler() {
     return noopMiddleware;
   },
@@ -48,6 +50,7 @@ Raven.config(SENTRY_DSN, {
   environment: ENV,
   release: VERSION,
   tags,
+  autoBreadcrumbs: true,
   shouldSendCallback(data) {
     if (has(data, 'extra.Error.output.statusCode')) {
       const statusCode = data.extra.Error.output.statusCode;

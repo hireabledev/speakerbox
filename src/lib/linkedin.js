@@ -1,9 +1,15 @@
 import superFetch from 'lib/fetch';
+import sentry from 'lib/sentry';
 import { LINKEDIN_API_URL } from './config';
 
 async function fetch(url, options) {
+  sentry.captureBreadcrumb({
+    message: 'linkedin fetch',
+    data: { url, options },
+    category: 'worker',
+  });
   try {
-    return await superFetch(LINKEDIN_API_URL + url, {
+    return superFetch(LINKEDIN_API_URL + url, {
       ...options,
       credentials: 'omit',
       headers: {
@@ -32,6 +38,11 @@ export default function getLinkedinClient({ token }) {
 
   return {
     async share(id, options) {
+      sentry.captureBreadcrumb({
+        message: 'linkedin.share',
+        data: { id, options },
+        category: 'worker',
+      });
       const url = id ? `/companies/${id}/shares` : '/people/~/shares';
       let contentObject = {};
       if (options.contentTitle && options.contentUrl) {
@@ -44,7 +55,12 @@ export default function getLinkedinClient({ token }) {
           },
         };
       }
-      return await fetch(url, {
+      sentry.captureBreadcrumb({
+        message: 'linkedin.share',
+        data: { url, content: contentObject },
+        category: 'worker',
+      });
+      return fetch(url, {
         method: 'POST',
         headers: getHeaders(),
         body: {

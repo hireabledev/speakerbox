@@ -23,7 +23,7 @@ export function indexBlueprint(modelName) {
 export function showBlueprint(modelName) {
   return async function show(req) {
     const Model = req.app.models[modelName];
-    return await Model
+    return Model
       .scopeForUser(req.user, req.query.user)
       .findByIdOr404(req.params.id);
   };
@@ -34,7 +34,7 @@ export function createBlueprint(modelName) {
     const Model = req.app.models[modelName];
     const instance = Model.build(req.body);
     instance.setUser(req.user);
-    return await instance.save();
+    return instance.save();
   };
 }
 

@@ -16,7 +16,7 @@ export async function create(req) {
   upload.title = req.body.title || file.originalname;
   upload.url = file.location;
   upload.setUser(req.user);
-  return await upload.save();
+  return upload.save();
 }
 
 export async function update(req) {

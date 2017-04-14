@@ -16,7 +16,7 @@ export async function create(req) {
   feed.setUser(req.user);
   await feed.save();
   await schedule(feed, true);
-  return await feed.save();
+  return feed.save();
 }
 
 export const update = updateBlueprint(MODEL_NAME);
