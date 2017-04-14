@@ -1,5 +1,6 @@
 import Twit from 'twit';
 import fetch from 'lib/fetch';
+import sentry from 'lib/sentry';
 import { TWITTER_KEY, TWITTER_SECRET } from './config';
 
 function mapPosts(post) {
@@ -18,18 +19,43 @@ function mapPosts(post) {
 }
 
 async function getPosts(options) {
+  sentry.captureBreadcrumb({
+    message: 'twitter.getPosts',
+    data: options,
+    category: 'worker',
+  });
   const res = await this.get('statuses/home_timeline', {
     since_id: options.sinceId,
   });
-  res.body = { posts: res.data.map(mapPosts) };
+  sentry.captureBreadcrumb({
+    message: 'twitter.getPosts',
+    data: res,
+    category: 'worker',
+  });
+  try {
+    res.body = { posts: res.data.map(mapPosts) };
+  } catch (err) {
+    sentry.captureException(err);
+    res.body = { posts: [] };
+  }
   return res;
 }
 
 async function retweet(id) {
-  return await this.post('statuses/retweet/:id', { id });
+  sentry.captureBreadcrumb({
+    message: 'twitter.retweet',
+    data: { id },
+    category: 'worker',
+  });
+  return this.post('statuses/retweet/:id', { id });
 }
 
 async function update(message, imgUrl) {
+  sentry.captureBreadcrumb({
+    message: 'twitter.update',
+    data: { message, imgUrl },
+    category: 'worker',
+  });
   const body = { status: message };
   if (imgUrl) {
     const { res } = await fetch(imgUrl, { parseJson: false });
@@ -38,7 +64,12 @@ async function update(message, imgUrl) {
     const { data } = await this.post('media/upload', { media_data: media });
     body.media_ids = [data.media_id_string];
   }
-  return await this.post('statuses/update', body);
+  sentry.captureBreadcrumb({
+    message: 'twitter.update',
+    data: body,
+    category: 'worker',
+  });
+  return this.post('statuses/update', body);
 }
 
 export default function getTwitterClient({ token, tokenSecret }) {

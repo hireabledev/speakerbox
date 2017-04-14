@@ -26,7 +26,7 @@ export async function index(req, res, next) {
 }
 
 export async function show(req) {
-  return await req.app.models.ScheduledPost
+  return req.app.models.ScheduledPost
     .scopeForUserAccounts(req.user, req.query.user)
     .findOneOr404({
       where: { id: req.params.id },
@@ -74,7 +74,7 @@ export async function create(req) {
   });
 
   try {
-    return await scheduledPost.save();
+    return scheduledPost.save();
   } catch (err) {
     await req.app.removeJob(job.id);
     throw err;
@@ -115,7 +115,7 @@ export async function update(req) {
   });
 
   try {
-    return await scheduledPost.update(body);
+    return scheduledPost.update(body);
   } catch (err) {
     await req.app.removeJob(job.id);
     throw err;

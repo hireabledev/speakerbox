@@ -19,11 +19,11 @@ export async function index(req, res, next) {
 
 export async function show(req) {
   const id = req.params.id === 'me' ? req.user.id : req.params.id;
-  return await req.app.models.User.findByIdOr404(id);
+  return req.app.models.User.findByIdOr404(id);
 }
 
 export async function create(req) {
-  return await req.app.models.User.create(req.body);
+  return req.app.models.User.create(req.body);
 }
 
 export async function update(req) {
